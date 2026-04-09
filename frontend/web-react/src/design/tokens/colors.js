@@ -11,6 +11,7 @@ const colors = {
   info: "#17A2B8",
 
   background: "#F8F9FA",
+  background_left: "#3F6BAE",
   surface: "#FFFFFF",
 
   textPrimary: "#212529",
