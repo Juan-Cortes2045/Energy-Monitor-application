@@ -1,9 +1,9 @@
-import Navbar from "./design/components/Navbar/Navbar.jsx";
+import Card from "./design/components/Card/Card";
 
 function App() {
   return (
     <>
-      <Navbar />;
+      <Card />
     </>
   );
 }
