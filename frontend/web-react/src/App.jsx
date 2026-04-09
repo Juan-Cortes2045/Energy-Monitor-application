@@ -1,12 +1,11 @@
-
+import Card from "./design/components/Card/Card";
 import AppRoutes from "./routes/AppRoutes";
-import Navbar from "./design/components/Navbar/Navbar.jsx";
 
 
 function App() {
   return (
     <>
-      <Navbar />;
+      <Card />
     </>
   );
 }
