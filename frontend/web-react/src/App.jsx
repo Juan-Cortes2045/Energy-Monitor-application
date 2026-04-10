@@ -1,11 +1,9 @@
-import Card from "./design/components/Card/Card";
-import AppRoutes from "./routes/AppRoutes";
-
+import Spinner from "./design/components/Spinner/Spinner";
 
 function App() {
   return (
     <>
-      <Card />
+      <Spinner />
     </>
   );
 }

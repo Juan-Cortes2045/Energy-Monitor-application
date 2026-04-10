@@ -1,11 +1,11 @@
-import { styles } from "./card.styles";
+import styles from "../../css/Card.module.css";
 
 const Card = ({ title, children }) => {
   return (
-    <div style={styles.container}>
-      {title && <h3 style={styles.title}>{title}</h3>}
+    <div className={styles.container}>
+      {title && <h3 className={styles.title}>{title}</h3>}
 
-      <div style={styles.content}>{children}</div>
+      <div className={styles.content}>{children}</div>
     </div>
   );
 };

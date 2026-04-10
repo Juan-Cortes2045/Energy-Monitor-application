@@ -1,0 +1,33 @@
+.badge {
+  display: inline-block;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  border-radius: 999px;
+  text-align: center;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+/* Tamaños */
+.small {
+  font-size: 10px;
+  padding: 2px 6px;
+}
+
+.medium {
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
+.large {
+  font-size: 14px;
+  padding: 6px 12px;
+}
+
+/* Tipos */
+.filled {
+}
+
+.outline {
+  background-color: transparent;
+}
