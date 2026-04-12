@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-const Input = ({ value, type, placeholder, id, ...props }) => {
-  return <input id={id} type={type} value={value} placeholder={placeholder} {...props} />;
-=======
 import styles from "../../css/Input.module.css";
 
 const Input = ({ value, type, placeholder, id, children }) => {
@@ -20,7 +16,6 @@ const Input = ({ value, type, placeholder, id, children }) => {
       />
     </div>
   );
->>>>>>> feature/System_base
 };
 
 export default Input;
