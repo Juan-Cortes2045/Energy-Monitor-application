@@ -1,67 +1,27 @@
 .button {
   border: none;
-  border-radius: 6px;
   cursor: pointer;
-  font-family: "Inter", sans-serif;
-  font-weight: 500;
   transition: all 0.2s ease;
-  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-/* Tamaños */
-.small {
-  padding: 6px 10px;
-  font-size: 12px;
+.button:hover{
+  filter: brightness(1.05);
 }
 
-.medium {
-  padding: 10px 16px;
-  font-size: 14px;
-}
-
-.large {
-  padding: 14px 20px;
-  font-size: 16px;
-}
-
-/* Variantes */
-.primary {
-  background-color: #0078d7;
-}
-
-.secondary {
-  background-color: #32cd32;
-}
-
-.success {
-  background-color: #2ecc71;
-}
-
-.warning {
-  background-color: #ffd700;
-  color: #000;
-}
-
-.danger {
-  background-color: #e63946;
-}
-
-.info {
-  background-color: #17a2b8;
-}
-
-/* Hover */
-.button:hover {
-  filter: brightness(1.1);
-}
-
-/* Active */
-.button:active {
+.button:active{
   transform: scale(0.98);
 }
 
-/* Disabled */
-.disabled {
+.disabled{
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.icon{
+  width: 18px;
+  height: 18px;
 }
