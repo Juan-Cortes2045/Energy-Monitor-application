@@ -26,9 +26,11 @@ const RegisterForm = () => {
   });
 
   const password = watch("password");
+  const repeatPassword = watch("repeatPassword");
 
   const onSubmit = (data) => {
     console.log("register:", data);
+    mode: "onChange";
   };
 
   return (
@@ -86,9 +88,14 @@ const RegisterForm = () => {
         <div className={styles.options}>
           <label className={styles.terms}>
             <input type="checkbox" {...register("terms")} />
-            Estoy de acuerdo con los <span>Términos de uso</span> y la{" "}
-            <span>Política de privacidad</span>
+            <p>
+              Estoy de acuerdo con los <span>Términos de uso</span> y la{" "}
+              <span>Política de privacidad</span>
+            </p>
           </label>
+          {errors.terms && (
+            <span className={styles.error}>{errors.terms.message}</span>
+          )}
         </div>
 
         {/* BUTTONS */}
