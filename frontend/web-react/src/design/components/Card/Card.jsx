@@ -10,7 +10,7 @@ const Card = ({ title, children }) => {
     <div className={styles.container}
     style={{
       backgroundColor: colors.surface,
-      borderRadius: redius.md,
+      borderRadius: radius.md,
       padding: spacing.lg,
       boxShadow: shadows.lg,
     }}

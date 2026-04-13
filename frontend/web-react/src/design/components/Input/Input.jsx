@@ -13,7 +13,8 @@ const Input = ({
   children,
   onChange,
   icon,
-  onIconClick
+  onIconClick,
+  ...rest
   }) => {
   return (
     <div className={styles.container}>
@@ -44,6 +45,7 @@ const Input = ({
         value={value}
         placeholder={placeholder}
         onChange={onChange}
+        {...rest}
         style={{
           fontSize: typography.sizes.sm,
           color: colors.textPrimary,
@@ -51,11 +53,9 @@ const Input = ({
         }}
       />
       {icon &&(
-        <img src={icon} 
-        alt="icon" 
-        className={styles.icon}
-        onClick={onIconClick}
-        />
+         <span className={styles.icon} onClick={onIconClick}>
+            {icon}
+          </span>
       )}
       </div>
     </div>

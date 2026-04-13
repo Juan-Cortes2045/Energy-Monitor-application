@@ -39,8 +39,8 @@ const Button = ({
       boxShadow: shadows.md,
     },
     google:{
-      backgroundColor: colors.surface,
-      color: colors.textPrimary,
+      backgroundColor: "#6C757D",
+      color: "#fff",
       border: `1px solid ${colors.border}`,
       boxShadow: shadows.sm,
     }
