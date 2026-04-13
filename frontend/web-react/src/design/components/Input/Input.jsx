@@ -1,19 +1,63 @@
 import styles from "../../css/Input.module.css";
+import colors from "../../tokens/colors";
+import typography from "../../tokens/typography";
+import radius from "../../tokens/radius";
+import spacing from "../../tokens/spacing";
+import shadows from "../../tokens/shadows";
 
-const Input = ({ value, type, placeholder, id, children }) => {
+const Input = ({ 
+  value, 
+  type= "text", 
+  placeholder, 
+  id, 
+  children,
+  onChange,
+  icon,
+  onIconClick
+  }) => {
   return (
     <div className={styles.container}>
-      <label className={styles.label} htmlFor={id}>
+      <label className={styles.label} htmlFor={id}
+      style={{
+        fontFamily: typography.fontPrimary,
+        fontSize: typography.sizes.sm,
+        fontWeight: typography.weights.medium,
+        color: colors.textPrimary,
+      }}
+      >
         {children}
       </label>
-
+      <div
+      className={styles.inputWrapper}
+      style={{
+        border: `1px solid ${colors.border}`,
+        borderRadius: radius.sm,
+        boxShadow: shadows.sm,
+        padding: `${spacing.sm} ${spacing.md}`,
+      }}
+      >
+        
       <input
         className={styles.input}
         id={id}
         type={type}
         value={value}
         placeholder={placeholder}
+        onChange={onChange}
+        style={{
+          fontSize: typography.sizes.sm,
+          color: colors.textPrimary,
+          fontFamily: typography.textPrimary,
+        }}
       />
+      {icon &&(
+        <img src={icon} 
+        alt="icon" 
+        className={styles.icon}
+        onClick={onIconClick}
+        />
+      )}
+      </div>
     </div>
   );
 };

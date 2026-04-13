@@ -1,11 +1,24 @@
 .button {
-  border: none;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  width: 100%;
+}
+
+/*Tamaños*/
+.small{
+  height: 32px;
+}
+
+.medium{
+  height: 40px;
+}
+
+.large{
+  height: 48px;
 }
 
 .button:hover{
@@ -24,4 +37,10 @@
 .icon{
   width: 18px;
   height: 18px;
+  object-fit: contain;  
+}
+
+.text{
+  display: flex;
+  align-items: center;
 }
