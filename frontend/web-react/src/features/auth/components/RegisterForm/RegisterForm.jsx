@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "../../validation/loginSchema.js";
-import styles from "../LoginForm/LoginForm.module.css";
+import styles from "./RegisterForm.module.css";
+import { registerSchema } from "../../validation/registerSchema.js";
 
 import googleIcon from "../../../../assets/google_icon.png";
 
@@ -12,35 +12,47 @@ import Card from "../../../../design/components/Card/Card.jsx";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(registerSchema),
   });
 
+  const password = watch("password");
+
   const onSubmit = (data) => {
-    console.log("login:", data);
+    console.log("register:", data);
   };
 
   return (
     <Card>
-      <h2 className={styles.title}>Iniciar sesión</h2>
+      <h2 className={styles.title}>Registro</h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-        {/*EMAIL*/}
+        {/* NAME */}
+        <Input id="name" type="text" placeholder="*" {...register("name")}>
+          Nombre
+        </Input>
+        {errors.name && (
+          <span className={styles.error}>{errors.name.message}</span>
+        )}
+
+        {/* EMAIL */}
         <Input id="email" type="email" placeholder="*" {...register("email")}>
-          Correo Electrónico
+          Correo electrónico
         </Input>
         {errors.email && (
           <span className={styles.error}>{errors.email.message}</span>
         )}
 
-        {/*PASSWORD*/}
+        {/* PASSWORD */}
         <Input
           id="password"
           type={showPassword ? "text" : "password"}
@@ -55,41 +67,53 @@ const LoginForm = () => {
           <span className={styles.error}>{errors.password.message}</span>
         )}
 
-        {/*OPCIONES*/}
-        <div className={styles.options}>
-          <label className={styles.renember}>
-            <input type="checkbox" />
-            Recordar datos
-          </label>
+        {/* REPEAT PASSWORD */}
+        <Input
+          id="repeatPassword"
+          type={showRepeatPassword ? "text" : "password"}
+          placeholder="*"
+          icon={showRepeatPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          onIconClick={() => setShowRepeatPassword(!showRepeatPassword)}
+          {...register("repeatPassword")}
+        >
+          Repetir contraseña
+        </Input>
+        {errors.repeatPassword && (
+          <span className={styles.error}>{errors.repeatPassword.message}</span>
+        )}
 
-          <a href="/recover-password" className={styles.link}>
-            ¿Olvidaste tu contraseña?
-          </a>
+        {/* TERMS */}
+        <div className={styles.options}>
+          <label className={styles.terms}>
+            <input type="checkbox" {...register("terms")} />
+            Estoy de acuerdo con los <span>Términos de uso</span> y la{" "}
+            <span>Política de privacidad</span>
+          </label>
         </div>
 
+        {/* BUTTONS */}
         <div className={styles.buttonsContainer}>
-          {/*BOTON LOGIN*/}
           <Button type="submit" variant="primary">
-            Ingresar
+            Registrarse
           </Button>
 
-          {/*DIVIDER*/}
+          {/* DIVIDER */}
           <div className={styles.divider}>
             <span>__________________________O__________________________</span>
           </div>
 
-          {/*GOOGLE LOGIN*/}
-          <p>Iniciar usando:</p>
+          {/* GOOGLE */}
+          <p>Registrarse usando:</p>
           <Button type="button" variant="google" icon={googleIcon}>
             Google
           </Button>
         </div>
 
-        {/*REGISTER*/}
+        {/* LOGIN */}
         <p className={styles.register}>
-          ¿No tienes una cuenta?{" "}
-          <a href="/register" className={styles.registerLink}>
-            registrate
+          ¿Ya tienes una cuenta?{" "}
+          <a href="/login" className={styles.registerLink}>
+            Inicia sesión
           </a>
         </p>
       </form>
@@ -97,4 +121,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;
