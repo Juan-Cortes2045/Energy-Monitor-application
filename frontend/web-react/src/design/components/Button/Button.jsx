@@ -33,14 +33,16 @@ const Button = ({
 
   const variantStyles ={
     primary:{
+      backgroundColor: colors.primary,
+      color: "#fff",
+      border: "none",
+      boxShadow: shadows.md,
+    },
+    google:{
       backgroundColor: colors.surface,
       color: colors.textPrimary,
       border: `1px solid ${colors.border}`,
-    },
-    google:{
-      backgroundColor: colors.primary,
-      color: colors.textPrimary,
-      border: `1px solid ${colors.border}`,
+      boxShadow: shadows.sm,
     }
   }
 
@@ -51,20 +53,16 @@ const Button = ({
       disabled={disabled}
       className={`
         ${styles.button}
-        ${styles[variant]}
         ${styles[size]}
         ${disabled ? styles.disabled : ""}
       `}
       style={{
-        backgroundColor: variant === "google"
-        ? colors.surface
-        : colors[variant] || colors.primary,
-        color: variant === "google"
-        ? colors.textPrimary
-        : "white",
-        border: variant === "google"
-        ? `1px solid ${colors.border}`
-        : "none",
+        ...sizeStyles[size],
+        ...variantStyles[variant],
+        
+        fontFamily: typography.fontPrimary,
+        fontWeight: typography.weights.medium,
+        borderRadius: radius.sm,
       }}
     >
       {icon && <img src={icon} alt="icon" className={styles.icon} />}

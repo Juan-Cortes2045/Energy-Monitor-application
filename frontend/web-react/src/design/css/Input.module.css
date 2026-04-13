@@ -6,35 +6,46 @@
 }
 
 .label {
-  font-family: "Inter", sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
-  margin-bottom: 4px;
   display: block;
 }
 
-.input {
-  padding: 10px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-  outline: none;
+.inputWrapper{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
   transition: all 0.2s ease;
 }
 
-/* Hover */
-.input:hover {
+.input {
+  border: none;
+  outline: none;
+  width: 100%;
+  background: transparent;
+}
+
+.icon{
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: 0.2s;
+}
+
+.icon:hover{
+  opacity: 1;
+}
+
+
+.inputWrapper:hover{
   border-color: #0078d7;
 }
 
-/* Focus */
-.input:focus {
+.inputWrapper:focus-within{
   border-color: #0078d7;
   box-shadow: 0 0 0 2px rgba(0, 120, 215, 0.2);
 }
 
-/* Placeholder */
 .input::placeholder {
-  color: #999;
+  opacity: 0.6;
 }
