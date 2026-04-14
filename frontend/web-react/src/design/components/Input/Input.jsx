@@ -31,9 +31,7 @@ const Input = ({
       <div
       className={styles.inputWrapper}
       style={{
-        border: `1px solid ${colors.border}`,
         borderRadius: radius.sm,
-        boxShadow: shadows.sm,
         padding: `${spacing.sm} ${spacing.md}`,
       }}
       >
