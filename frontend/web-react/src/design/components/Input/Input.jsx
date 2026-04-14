@@ -22,7 +22,7 @@ const Input = ({
       style={{
         fontFamily: typography.fontPrimary,
         fontSize: typography.sizes.sm,
-        fontWeight: typography.weights.medium,
+        fontWeight: typography.weights.bold,
         color: colors.textPrimary,
       }}
       >

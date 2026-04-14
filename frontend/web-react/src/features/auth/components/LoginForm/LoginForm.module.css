@@ -11,8 +11,7 @@
 
 /*ERRORES*/
 .error{
-    font-size: 12px;
-    color: red;
+    font-size: 16px;
 }
 
 /*OPCIONES*/
@@ -27,12 +26,12 @@
     display: flex;
     align-items: center;
     gap: 6px;
+    font-weight: 500;
 }
 
 .link{
-    color: #32cd32;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .link:hover{
@@ -45,24 +44,17 @@
     content: "";
     flex: 1;
     height: 1px;
-    background: #ccc;
 }
 
 .divider span{
     margin: 0 10px;
     font-size: 12px;
-    color: #6C757D;
     align-items: center;
 }
 
 /*REGISTER*/
 .register{
     text-align:center;
-    font-weight: 500;
-}
-
-.registerLink{
-    color: #32cd32;
     font-weight: 500;
 }
 
