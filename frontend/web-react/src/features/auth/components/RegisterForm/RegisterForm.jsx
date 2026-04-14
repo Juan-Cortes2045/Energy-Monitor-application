@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import styles from "./RegisterForm.module.css";
 import { registerSchema } from "../../validation/registerSchema.js";
+import { useNavigate } from "react-router-dom";
 
 import googleIcon from "../../../../assets/google_icon.png";
 
@@ -23,14 +24,16 @@ const RegisterForm = () => {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(registerSchema),
+    mode: "onChange",
   });
 
   const password = watch("password");
   const repeatPassword = watch("repeatPassword");
 
-  const onSubmit = (data) => {
+  const navigate = useNavigate();
+  const onSubmit = async (data) => {
     console.log("register:", data);
-    mode: "onChange";
+    navigate("/VerifyAccount");
   };
 
   return (
@@ -100,7 +103,11 @@ const RegisterForm = () => {
 
         {/* BUTTONS */}
         <div className={styles.buttonsContainer}>
-          <Button type="submit" variant="primary">
+          <Button
+            onClick={() => navigate("/VerifyAccount")}
+            type="submit"
+            variant="primary"
+          >
             Registrarse
           </Button>
 
