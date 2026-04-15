@@ -32,6 +32,7 @@ const Input = ({
       style={{
         borderRadius: radius.sm,
         padding: `${spacing.sm} ${spacing.md}`,
+        border: `1px solid ${colors.textSecondary}`
       }}
       >
         <input
