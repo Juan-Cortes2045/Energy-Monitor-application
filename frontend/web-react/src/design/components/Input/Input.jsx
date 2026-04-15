@@ -3,7 +3,6 @@ import colors from "../../tokens/colors";
 import typography from "../../tokens/typography";
 import radius from "../../tokens/radius";
 import spacing from "../../tokens/spacing";
-import shadows from "../../tokens/shadows";
 
 const Input = ({
   value,
@@ -18,26 +17,22 @@ const Input = ({
 }) => {
   return (
     <div className={styles.container}>
-      <label
-        className={styles.label}
-        htmlFor={id}
-        style={{
-          fontFamily: typography.fontPrimary,
-          fontSize: typography.sizes.sm,
-          fontWeight: typography.weights.medium,
-          color: colors.textPrimary,
-        }}
+      <label className={styles.label} htmlFor={id}
+      style={{
+        fontFamily: typography.fontPrimary,
+        fontSize: typography.sizes.sm,
+        fontWeight: typography.weights.bold,
+        color: colors.textPrimary,
+      }}
       >
         {children}
       </label>
       <div
-        className={styles.inputWrapper}
-        style={{
-          border: `1px solid ${colors.border}`,
-          borderRadius: radius.sm,
-          boxShadow: shadows.sm,
-          padding: `${spacing.sm} ${spacing.md}`,
-        }}
+      className={styles.inputWrapper}
+      style={{
+        borderRadius: radius.sm,
+        padding: `${spacing.sm} ${spacing.md}`,
+      }}
       >
         <input
           className={styles.input}

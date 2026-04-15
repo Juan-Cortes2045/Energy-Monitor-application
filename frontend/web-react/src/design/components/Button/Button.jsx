@@ -38,11 +38,11 @@ const Button = ({
       border: "none",
       boxShadow: shadows.md,
     },
-    google:{
-      backgroundColor: "#6C757D",
-      color: "#fff",
+    secondary:{
+      backgroundColor: colors.background,
+      color: colors.textPrimary,
       border: `1px solid ${colors.border}`,
-      boxShadow: shadows.sm,
+      boxShadow: shadows.md,
     }
   }
 
