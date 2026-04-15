@@ -3,17 +3,15 @@ import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
 import styles from "./RecoverPassword.module.css";
 
-import useNavigate from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const RvPassword = () => {
   const navigate = useNavigate();
-  const onSubmit = () => {
-    navigate(/VRPassword);
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Enviar código");
+    navigate("/VerifyRecoverPassword");
   };
 
   return (
@@ -38,7 +36,7 @@ const RvPassword = () => {
             />
           </div>
 
-          <Button type="submit" onSubmit={onSubmit} className={styles.button}>
+          <Button type="submit" className={styles.button}>
             Enviar código
           </Button>
         </form>
