@@ -3,7 +3,6 @@ import colors from "../../tokens/colors";
 import typography from "../../tokens/typography";
 import radius from "../../tokens/radius";
 import spacing from "../../tokens/spacing";
-import shadows from "../../tokens/shadows";
 
 const Input = ({ 
   value, 

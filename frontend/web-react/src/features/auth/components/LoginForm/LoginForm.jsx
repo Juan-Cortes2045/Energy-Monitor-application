@@ -100,7 +100,7 @@ const LoginForm= () => {
 
                 {/*GOOGLE LOGIN*/}
                 <p className={styles.startUsing}>Iniciar usando:</p>
-                <Button type="button" variant="google" icon={googleIcon}>
+                <Button type="button" variant="secondary" icon={googleIcon}>
                     Google
                 </Button>
                 </div>

@@ -38,7 +38,7 @@ const Button = ({
       border: "none",
       boxShadow: shadows.md,
     },
-    google:{
+    secondary:{
       backgroundColor: colors.background,
       color: colors.textPrimary,
       border: `1px solid ${colors.border}`,
