@@ -62,7 +62,7 @@ const LoginForm = () => {
             Recordar datos
           </label>
 
-          <a href="/recover-password" className={styles.link}>
+          <a href="/RecoverPassword" className={styles.link}>
             ¿Olvidaste tu contraseña?
           </a>
         </div>
