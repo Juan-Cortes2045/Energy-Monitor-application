@@ -9,6 +9,6 @@
 
 .wrapper {
   position: relative;
-  width: fit-content; /* 🔥 clave */
-  margin: 0 auto; /* centra el bloque */
+  width: fit-content;
+  margin: 0 auto;
 }

@@ -7,22 +7,28 @@ import shadows from "../../tokens/shadows";
 
 const Card = ({ title, children }) => {
   return (
-    <div className={styles.container}
-    style={{
-      backgroundColor: colors.surface,
-      borderRadius: radius.md,
-      padding: spacing.lg,
-      boxShadow: shadows.lg,
-    }}
-    >
-      {title && <h3 className={styles.title}
+    <div
+      className={styles.container}
       style={{
-        fontFamily: typography.fontPrimary,
-        fontSize: typography.sizes.lg,
-        fontWeight: typography.weights.bold,
-        color: colors.textPrimary,
+        backgroundColor: colors.surface,
+        borderRadius: radius.md,
+        padding: spacing.lg,
+        boxShadow: shadows.lg,
       }}
-      >{title}</h3>}
+    >
+      {title && (
+        <h3
+          className={styles.title}
+          style={{
+            fontFamily: typography.fontPrimary,
+            fontSize: typography.sizes.lg,
+            fontWeight: typography.weights.bold,
+            color: colors.textPrimary,
+          }}
+        >
+          {title}
+        </h3>
+      )}
 
       <div className={styles.content}>{children}</div>
     </div>

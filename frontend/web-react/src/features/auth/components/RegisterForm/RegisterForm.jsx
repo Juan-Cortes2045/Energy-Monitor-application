@@ -39,127 +39,139 @@ const RegisterForm = () => {
   };
 
   return (
-    <Card>
+    <div className={styles.wrapper}>
       <BackButton />
+      <Card>
+        <div className={styles.scrollContent}>
+          <h2 className={styles.title}>Registro</h2>
 
-      <h2 className={styles.title}>Registro</h2>
-
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-        {/* NAME */}
-        <Input id="name" type="text" placeholder="*" {...register("name")}>
-          Nombre
-        </Input>
-        {errors.name && (
-          <span className={styles.error} style={{ color: colors.danger }}>
-            {errors.name.message}
-          </span>
-        )}
-
-        {/* EMAIL */}
-        <Input id="email" type="email" placeholder="*" {...register("email")}>
-          Correo electrónico
-        </Input>
-        {errors.email && (
-          <span className={styles.error} style={{ color: colors.danger }}>
-            {errors.email.message}
-          </span>
-        )}
-
-        {/* PASSWORD */}
-        <Input
-          id="password"
-          type={showPassword ? "text" : "password"}
-          placeholder="*"
-          icon={showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-          onIconClick={() => setShowPassword(!showPassword)}
-          {...register("password")}
-        >
-          Contraseña
-        </Input>
-        {errors.password && (
-          <span className={styles.error} style={{ color: colors.danger }}>
-            {errors.password.message}
-          </span>
-        )}
-
-        {/* REPEAT PASSWORD */}
-        <Input
-          id="repeatPassword"
-          type={showRepeatPassword ? "text" : "password"}
-          placeholder="*"
-          icon={showRepeatPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-          onIconClick={() => setShowRepeatPassword(!showRepeatPassword)}
-          {...register("repeatPassword")}
-        >
-          Repetir contraseña
-        </Input>
-        {errors.repeatPassword && (
-          <span className={styles.error} style={{ color: colors.danger }}>
-            {errors.repeatPassword.message}
-          </span>
-        )}
-
-        {/* TERMS */}
-        <div className={styles.options}>
-          <input type="checkbox" {...register("terms")} />
-          <label className={styles.terms}>
-            <p>
-              Estoy de acuerdo con los{" "}
-              <span
-                className={styles.registerLink}
-                style={{ color: colors.secondary }}
-              >
-                Términos de uso
-              </span>{" "}
-              y la{" "}
-              <span
-                className={styles.registerLink}
-                style={{ color: colors.secondary }}
-              >
-                Política de privacidad
+          <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+            {/* NAME */}
+            <Input id="name" type="text" placeholder="*" {...register("name")}>
+              Nombre
+            </Input>
+            {errors.name && (
+              <span className={styles.error} style={{ color: colors.danger }}>
+                {errors.name.message}
               </span>
+            )}
+
+            {/* EMAIL */}
+            <Input
+              id="email"
+              type="email"
+              placeholder="*"
+              {...register("email")}
+            >
+              Correo electrónico
+            </Input>
+            {errors.email && (
+              <span className={styles.error} style={{ color: colors.danger }}>
+                {errors.email.message}
+              </span>
+            )}
+
+            {/* PASSWORD */}
+            <Input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="*"
+              icon={showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              onIconClick={() => setShowPassword(!showPassword)}
+              {...register("password")}
+            >
+              Contraseña
+            </Input>
+            {errors.password && (
+              <span className={styles.error} style={{ color: colors.danger }}>
+                {errors.password.message}
+              </span>
+            )}
+
+            {/* REPEAT PASSWORD */}
+            <Input
+              id="repeatPassword"
+              type={showRepeatPassword ? "text" : "password"}
+              placeholder="*"
+              icon={
+                showRepeatPassword ? <EyeOff size={20} /> : <Eye size={20} />
+              }
+              onIconClick={() => setShowRepeatPassword(!showRepeatPassword)}
+              {...register("repeatPassword")}
+            >
+              Repetir contraseña
+            </Input>
+            {errors.repeatPassword && (
+              <span className={styles.error} style={{ color: colors.danger }}>
+                {errors.repeatPassword.message}
+              </span>
+            )}
+
+            {/* TERMS */}
+            <div className={styles.options}>
+              <input type="checkbox" {...register("terms")} />
+              <label className={styles.terms}>
+                <p>
+                  Estoy de acuerdo con los{" "}
+                  <span
+                    className={styles.registerLink}
+                    style={{ color: colors.secondary }}
+                  >
+                    Términos de uso
+                  </span>{" "}
+                  y la{" "}
+                  <span
+                    className={styles.registerLink}
+                    style={{ color: colors.secondary }}
+                  >
+                    Política de privacidad
+                  </span>
+                </p>
+              </label>
+            </div>
+            <div>
+              {errors.terms && (
+                <span className={styles.error} style={{ color: colors.danger }}>
+                  {errors.terms.message}
+                </span>
+              )}
+            </div>
+
+            {/* BUTTONS */}
+            <div className={styles.buttonsContainer}>
+              <Button type="submit" variant="primary">
+                Registrarse
+              </Button>
+
+              {/* DIVIDER */}
+              <div className={styles.divider}>
+                <span>
+                  __________________________O__________________________
+                </span>
+              </div>
+
+              {/* GOOGLE */}
+              <p>Registrarse usando:</p>
+              <Button type="button" variant="secondary" icon={googleIcon}>
+                Google
+              </Button>
+            </div>
+
+            {/* LOGIN */}
+            <p className={styles.register}>
+              ¿Ya tienes una cuenta?{" "}
+              <a
+                href="/login"
+                style={{ color: colors.secondary }}
+                className={styles.registerLink}
+              >
+                Inicia sesión
+              </a>
             </p>
-          </label>
+          </form>
         </div>
-        <div>
-          {errors.terms && (
-            <span className={styles.error} style={{ color: colors.danger }}>
-              {errors.terms.message}
-            </span>
-          )}
-        </div>
-
-        {/* BUTTONS */}
-        <div className={styles.buttonsContainer}>
-          <Button type="submit" variant="primary">
-            Registrarse
-          </Button>
-
-          {/* DIVIDER */}
-          <div className={styles.divider}>
-            <span>__________________________O__________________________</span>
-          </div>
-
-          {/* GOOGLE */}
-          <p>Registrarse usando:</p>
-          <Button type="button" variant="secondary" icon={googleIcon}>
-            Google
-          </Button>
-        </div>
-
-        {/* LOGIN */}
-        <p className={styles.register}>
-          ¿Ya tienes una cuenta?{" "}
-          <a
-            href="/login"
-            style={{ color: colors.secondary }}
-            className={styles.registerLink}
-          >
-            Inicia sesión
-          </a>
-        </p>
-      </form>
-    </Card>
+      </Card>
+    </div>
   );
 };
 

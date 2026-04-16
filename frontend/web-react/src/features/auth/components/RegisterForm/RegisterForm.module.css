@@ -75,3 +75,15 @@
   gap: 12px;
   margin-top: 16px;
 }
+
+.wrapper {
+  position: relative;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.scrollContent {
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

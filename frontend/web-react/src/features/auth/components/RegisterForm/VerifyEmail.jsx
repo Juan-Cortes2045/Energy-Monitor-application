@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import Card from "../../../../design/components/Card/Card";
+import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
 import styles from "./VerifyAccount.module.css";
 import BackButton from "../BackButton/BackButton";
@@ -45,14 +46,14 @@ const VerifyEmail = () => {
 
           <div className={styles.otpContainer}>
             {code.map((digit, index) => (
-              <input
+              <Input
                 key={index}
                 ref={(el) => (inputsRef.current[index] = el)}
                 value={digit}
                 onChange={(e) => handleChange(e.target.value, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 maxLength={1}
-                className={styles.input}
+                variant="otp"
               />
             ))}
           </div>
