@@ -63,6 +63,8 @@ const Button = ({
         fontFamily: typography.fontPrimary,
         fontWeight: typography.weights.medium,
         borderRadius: radius.sm,
+        whiteSpace: "nowrap",
+        minWidth: "140px",
       }}
     >
       {icon && <img src={icon} alt="icon" className={styles.icon} />}

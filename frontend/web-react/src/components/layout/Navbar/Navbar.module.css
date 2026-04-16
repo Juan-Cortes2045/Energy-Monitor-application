@@ -1,0 +1,37 @@
+.navbar{
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    width: 100%;
+}
+
+.center{
+    display: flex;
+    justify-content: center;
+}
+
+.logo img{
+    height: 60px;
+    object-fit: contain;
+}
+
+.navLinks{
+    display: flex;
+    gap: 30px;
+    list-style: none;
+}
+
+.link{
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.actions{
+    display: flex;
+    gap: 12px;
+}
+
+
+
