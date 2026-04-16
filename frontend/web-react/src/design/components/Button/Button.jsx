@@ -13,6 +13,7 @@ const Button = ({
   variant = "primary",
   size = "medium",
   disabled = false,
+  style={},
 }) => {
   const  sizeStyles ={
     small: {
@@ -59,7 +60,8 @@ const Button = ({
       style={{
         ...sizeStyles[size],
         ...variantStyles[variant],
-        
+        ...style,
+
         fontFamily: typography.fontPrimary,
         fontWeight: typography.weights.medium,
         borderRadius: radius.sm,

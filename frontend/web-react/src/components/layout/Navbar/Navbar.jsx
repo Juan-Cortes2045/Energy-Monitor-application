@@ -40,7 +40,7 @@ const Navbar = () => {
         onClick={()=> navigate("/login")}
         >
           Iniciar Sesión
-        </Button>
+          </Button>
       </div>
     </nav>
   );

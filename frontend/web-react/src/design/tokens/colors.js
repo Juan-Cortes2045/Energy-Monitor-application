@@ -13,6 +13,7 @@ const colors = {
   background: "#F8F9FA",
   background_left: "#3F6BAE",
   surface: "#FFFFFF",
+  gradient: "#E6F0FA",
 
   textPrimary: "#212529",
   textSecondary: "#6C757D",

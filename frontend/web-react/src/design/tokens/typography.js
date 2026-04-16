@@ -9,6 +9,7 @@ const typography = {
     lg: "20px",
     xl: "24px",
     xxl: "32px",
+    xxxl: "60px"
   },
 
   weights: {
