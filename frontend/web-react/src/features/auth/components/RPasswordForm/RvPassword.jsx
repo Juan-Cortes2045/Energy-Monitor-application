@@ -2,8 +2,9 @@ import Card from "../../../../design/components/Card/Card";
 import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
 import styles from "./RecoverPassword.module.css";
+import BackButton from "../BackButton/BackButton";
 
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const RvPassword = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const RvPassword = () => {
   return (
     <div className={styles.container}>
       <Card className={styles.card}>
+        <BackButton />
         <h2 className={styles.title}>Recuperar contraseña</h2>
 
         <p className={styles.description}>
@@ -28,12 +30,9 @@ const RvPassword = () => {
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.field}>
-             <Input id="email" 
-                    type="email" 
-                    placeholder="*"
-                    >
-                    Correo Electrónico
-              </Input>
+            <Input id="email" type="email" placeholder="*">
+              Correo Electrónico
+            </Input>
           </div>
 
           <Button type="submit" onSubmit={onSubmit} className={styles.button}>

@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import Card from "../../../../design/components/Card/Card";
 import Button from "../../../../design/components/Button/Button";
 import styles from "./VerifyAccount.module.css";
+import BackButton from "../BackButton/BackButton";
 
 const VerifyEmail = () => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
@@ -33,6 +34,7 @@ const VerifyEmail = () => {
   return (
     <div className={styles.container}>
       <Card>
+        <BackButton />
         <div className={styles.content}>
           <h2 className={styles.title}>Verificar correo</h2>
 
@@ -55,13 +57,17 @@ const VerifyEmail = () => {
             ))}
           </div>
 
-          <Button className={styles.primaryButton} onClick={handleVerify}>
+          <Button variant="primary" onClick={handleVerify}>
             Confirmar código
           </Button>
 
           <span className={styles.helperText}>¿No te llegó el código?</span>
 
-          <Button variant="secondary" className={styles.secondaryButton}>
+          <Button
+            typr="Button"
+            variant="secondary"
+            className={styles.secondaryButton}
+          >
             Reenviar código
           </Button>
         </div>

@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import styles from "./RegisterForm.module.css";
 import { registerSchema } from "../../validation/registerSchema.js";
 import { useNavigate } from "react-router-dom";
+import colors from "../../../../design/tokens/colors.js";
 
 import googleIcon from "../../../../assets/google_icon.png";
 
@@ -12,6 +13,7 @@ import Card from "../../../../design/components/Card/Card.jsx";
 
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import BackButton from "../BackButton/BackButton";
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -38,6 +40,8 @@ const RegisterForm = () => {
 
   return (
     <Card>
+      <BackButton />
+
       <h2 className={styles.title}>Registro</h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -46,7 +50,9 @@ const RegisterForm = () => {
           Nombre
         </Input>
         {errors.name && (
-          <span className={styles.error}>{errors.name.message}</span>
+          <span className={styles.error} style={{ color: colors.danger }}>
+            {errors.name.message}
+          </span>
         )}
 
         {/* EMAIL */}
@@ -54,7 +60,9 @@ const RegisterForm = () => {
           Correo electrónico
         </Input>
         {errors.email && (
-          <span className={styles.error}>{errors.email.message}</span>
+          <span className={styles.error} style={{ color: colors.danger }}>
+            {errors.email.message}
+          </span>
         )}
 
         {/* PASSWORD */}
@@ -69,7 +77,9 @@ const RegisterForm = () => {
           Contraseña
         </Input>
         {errors.password && (
-          <span className={styles.error}>{errors.password.message}</span>
+          <span className={styles.error} style={{ color: colors.danger }}>
+            {errors.password.message}
+          </span>
         )}
 
         {/* REPEAT PASSWORD */}
@@ -84,30 +94,44 @@ const RegisterForm = () => {
           Repetir contraseña
         </Input>
         {errors.repeatPassword && (
-          <span className={styles.error}>{errors.repeatPassword.message}</span>
+          <span className={styles.error} style={{ color: colors.danger }}>
+            {errors.repeatPassword.message}
+          </span>
         )}
 
         {/* TERMS */}
         <div className={styles.options}>
+          <input type="checkbox" {...register("terms")} />
           <label className={styles.terms}>
-            <input type="checkbox" {...register("terms")} />
             <p>
-              Estoy de acuerdo con los <span>Términos de uso</span> y la{" "}
-              <span>Política de privacidad</span>
+              Estoy de acuerdo con los{" "}
+              <span
+                className={styles.registerLink}
+                style={{ color: colors.secondary }}
+              >
+                Términos de uso
+              </span>{" "}
+              y la{" "}
+              <span
+                className={styles.registerLink}
+                style={{ color: colors.secondary }}
+              >
+                Política de privacidad
+              </span>
             </p>
           </label>
+        </div>
+        <div>
           {errors.terms && (
-            <span className={styles.error}>{errors.terms.message}</span>
+            <span className={styles.error} style={{ color: colors.danger }}>
+              {errors.terms.message}
+            </span>
           )}
         </div>
 
         {/* BUTTONS */}
         <div className={styles.buttonsContainer}>
-          <Button
-            onClick={() => navigate("/VerifyAccount")}
-            type="submit"
-            variant="primary"
-          >
+          <Button type="submit" variant="primary">
             Registrarse
           </Button>
 
@@ -118,7 +142,7 @@ const RegisterForm = () => {
 
           {/* GOOGLE */}
           <p>Registrarse usando:</p>
-          <Button type="button" variant="google" icon={googleIcon}>
+          <Button type="button" variant="secondary" icon={googleIcon}>
             Google
           </Button>
         </div>
@@ -126,7 +150,11 @@ const RegisterForm = () => {
         {/* LOGIN */}
         <p className={styles.register}>
           ¿Ya tienes una cuenta?{" "}
-          <a href="/login" className={styles.registerLink}>
+          <a
+            href="/login"
+            style={{ color: colors.secondary }}
+            className={styles.registerLink}
+          >
             Inicia sesión
           </a>
         </p>

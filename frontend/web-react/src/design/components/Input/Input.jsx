@@ -17,23 +17,25 @@ const Input = ({
 }) => {
   return (
     <div className={styles.container}>
-      <label className={styles.label} htmlFor={id}
-      style={{
-        fontFamily: typography.fontPrimary,
-        fontSize: typography.sizes.sm,
-        fontWeight: typography.weights.bold,
-        color: colors.textPrimary,
-      }}
+      <label
+        className={styles.label}
+        htmlFor={id}
+        style={{
+          fontFamily: typography.fontPrimary,
+          fontSize: typography.sizes.sm,
+          fontWeight: typography.weights.bold,
+          color: colors.textPrimary,
+        }}
       >
         {children}
       </label>
       <div
-      className={styles.inputWrapper}
-      style={{
-        borderRadius: radius.sm,
-        padding: `${spacing.sm} ${spacing.md}`,
-        border: `1px solid ${colors.textSecondary}`
-      }}
+        className={styles.inputWrapper}
+        style={{
+          borderRadius: radius.sm,
+          padding: `${spacing.sm} ${spacing.md}`,
+          border: `1px solid ${colors.textSecondary}`,
+        }}
       >
         <input
           className={styles.input}
