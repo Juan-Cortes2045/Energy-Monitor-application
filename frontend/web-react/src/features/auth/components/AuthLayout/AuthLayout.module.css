@@ -24,4 +24,30 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+}
+
+/*BOTON FLECHA*/
+.backButton{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+    padding: 8px;
+    border-radius: 50%;
+
+    transition: all 0.2s ease;
+}
+
+.backButton:hover{
+    background-color: rgba(0,0,0,0.05);
 }
