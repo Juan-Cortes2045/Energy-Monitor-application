@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import styles from "./VRPassword.module.css";
-
+import BackButton from "../BackButton/BackButton";
 import Card from "../../../../design/components/Card/Card";
 import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
@@ -35,6 +35,7 @@ const VRPassword = () => {
   return (
     <div className={styles.container}>
       <Card className={styles.card}>
+        <BackButton />
         <h2 className={styles.title}>Recuperar contraseña</h2>
 
         <p className={styles.description}>
@@ -44,25 +45,26 @@ const VRPassword = () => {
 
         <div className={styles.otpContainer}>
           {code.map((digit, index) => (
-            <input
+            <Input
               key={index}
               ref={(el) => (inputsRef.current[index] = el)}
               value={digit}
               onChange={(e) => handleChange(e.target.value, index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
               maxLength={1}
-              className={styles.input}
+              variant="otp"
             />
           ))}
         </div>
+        <div className={styles.center}>
+          <Button onClick={handleVerify} variant="primary">
+            Confirmar código
+          </Button>
 
-        <Button onClick={handleVerify} className={styles.confirmButton}>
-          Confirmar código
-        </Button>
+          <p className={styles.text}>¿No te llegó el código?</p>
 
-        <p className={styles.text}>¿No te llegó el código?</p>
-
-        <Button className={styles.resendButton}>Reenviar código</Button>
+          <Button variant="secondary">Reenviar código</Button>
+        </div>
       </Card>
     </div>
   );

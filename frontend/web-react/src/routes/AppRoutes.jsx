@@ -14,6 +14,10 @@ const AppRoutes = () => {
         <Route path="/Register" element={<Register />} />
         <Route path="/VerifyAccount" element={<VerifyAccount />} />
         <Route path="/recover-password" element={<RecoverPassword />} />
+        <Route
+          path="VerifyRecoverPassword"
+          element={<VerifyRecoverPassword />}
+        />
       </Routes>
     </BrowserRouter>
   );

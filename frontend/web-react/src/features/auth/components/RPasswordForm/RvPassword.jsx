@@ -36,7 +36,7 @@ const RvPassword = () => {
             </Input>
           </div>
 
-          <Button type="submit" className={styles.button}>
+          <Button type="submit" variant="primary">
             Enviar código
           </Button>
         </form>
