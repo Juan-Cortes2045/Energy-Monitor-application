@@ -14,7 +14,7 @@ const Button = ({
   size = "medium",
   disabled = false,
 }) => {
-  const  sizeStyles ={
+  const sizeStyles = {
     small: {
       padding: `${spacing.xs} ${spacing.sm}`,
       fontSize: typography.sizes.xs,
@@ -31,20 +31,20 @@ const Button = ({
     },
   };
 
-  const variantStyles ={
-    primary:{
+  const variantStyles = {
+    primary: {
       backgroundColor: colors.primary,
       color: "#fff",
       border: "none",
       boxShadow: shadows.md,
     },
-    google:{
-      backgroundColor: "#6C757D",
-      color: "#fff",
+    secondary: {
+      backgroundColor: colors.background,
+      color: colors.textPrimary,
       border: `1px solid ${colors.border}`,
-      boxShadow: shadows.sm,
-    }
-  }
+      boxShadow: shadows.md,
+    },
+  };
 
   return (
     <button
@@ -59,7 +59,7 @@ const Button = ({
       style={{
         ...sizeStyles[size],
         ...variantStyles[variant],
-        
+
         fontFamily: typography.fontPrimary,
         fontWeight: typography.weights.medium,
         borderRadius: radius.sm,

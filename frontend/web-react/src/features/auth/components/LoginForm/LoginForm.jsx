@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../../validation/loginSchema.js";
 import styles from "../LoginForm/LoginForm.module.css";
+import colors from "../../../../design/tokens/colors.js";
 
 import googleIcon from "../../../../assets/google_icon.png";
 
@@ -37,7 +38,14 @@ const LoginForm = () => {
           Correo Electrónico
         </Input>
         {errors.email && (
-          <span className={styles.error}>{errors.email.message}</span>
+          <span
+            className={styles.error}
+            style={{
+              color: colors.danger,
+            }}
+          >
+            {errors.email.message}
+          </span>
         )}
 
         {/*PASSWORD*/}
@@ -52,7 +60,14 @@ const LoginForm = () => {
           Contraseña
         </Input>
         {errors.password && (
-          <span className={styles.error}>{errors.password.message}</span>
+          <span
+            className={styles.error}
+            style={{
+              color: colors.danger,
+            }}
+          >
+            {errors.password.message}
+          </span>
         )}
 
         {/*OPCIONES*/}
@@ -62,7 +77,13 @@ const LoginForm = () => {
             Recordar datos
           </label>
 
-          <a href="/RecoverPassword" className={styles.link}>
+          <a
+            href="/recover-password"
+            className={styles.link}
+            style={{
+              color: colors.secondary,
+            }}
+          >
             ¿Olvidaste tu contraseña?
           </a>
         </div>
@@ -74,13 +95,18 @@ const LoginForm = () => {
           </Button>
 
           {/*DIVIDER*/}
-          <div className={styles.divider}>
+          <div
+            className={styles.divider}
+            style={{
+              color: colors.textSecondary,
+            }}
+          >
             <span>__________________________O__________________________</span>
           </div>
 
           {/*GOOGLE LOGIN*/}
-          <p>Iniciar usando:</p>
-          <Button type="button" variant="google" icon={googleIcon}>
+          <p className={styles.startUsing}>Iniciar usando:</p>
+          <Button type="button" variant="secondary" icon={googleIcon}>
             Google
           </Button>
         </div>
@@ -88,7 +114,13 @@ const LoginForm = () => {
         {/*REGISTER*/}
         <p className={styles.register}>
           ¿No tienes una cuenta?{" "}
-          <a href="/register" className={styles.registerLink}>
+          <a
+            href="/register"
+            className={styles.link}
+            style={{
+              color: colors.secondary,
+            }}
+          >
             registrate
           </a>
         </p>

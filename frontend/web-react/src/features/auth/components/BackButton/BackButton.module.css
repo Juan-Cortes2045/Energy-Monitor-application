@@ -1,0 +1,14 @@
+.backButton {
+  position: absolute;
+  top: 0;
+  left: -40px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.wrapper {
+  position: relative;
+  width: fit-content;
+  margin: 0 auto;
+}
