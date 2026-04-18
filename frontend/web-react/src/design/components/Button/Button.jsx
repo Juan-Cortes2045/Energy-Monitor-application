@@ -15,7 +15,7 @@ const Button = ({
   disabled = false,
   style={},
 }) => {
-  const  sizeStyles ={
+  const sizeStyles = {
     small: {
       padding: `${spacing.xs} ${spacing.sm}`,
       fontSize: typography.sizes.xs,
@@ -32,20 +32,20 @@ const Button = ({
     },
   };
 
-  const variantStyles ={
-    primary:{
+  const variantStyles = {
+    primary: {
       backgroundColor: colors.primary,
       color: "#fff",
       border: "none",
       boxShadow: shadows.md,
     },
-    secondary:{
+    secondary: {
       backgroundColor: colors.background,
       color: colors.textPrimary,
       border: `1px solid ${colors.border}`,
       boxShadow: shadows.md,
-    }
-  }
+    },
+  };
 
   return (
     <button

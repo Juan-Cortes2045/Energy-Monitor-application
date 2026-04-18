@@ -2,11 +2,9 @@ import logoProyecto from "../../../../assets/logo_proyecto.png";
 import colors from "../../../../design/tokens/colors.js"
 import styles from "./AuthLayout.module.css";
 
-import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import BackButton from "../BackButton/BackButton.jsx";
 
 const AuthLayout = ({children}) => {
-    const navigate= useNavigate();
     return (
         <div className={styles.container}>
 
@@ -19,14 +17,13 @@ const AuthLayout = ({children}) => {
 
             {/*LADO DERECHO*/}
             <div className={styles.right} style={{backgroundColor: colors.background}}>
-                <button
-                onClick={()=> navigate(-1)}
-                className={styles.backButton}
-                >
-                    <ArrowLeft size={22} />
-                </button>
+                <div className={styles.backWrapper}>
+                    <BackButton />
+                </div>  
+                    
+                       
                 {children}
-            </div>
+            </div> 
         </div>
     )
 }

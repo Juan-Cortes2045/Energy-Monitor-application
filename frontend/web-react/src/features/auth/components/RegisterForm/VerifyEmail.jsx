@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import Card from "../../../../design/components/Card/Card";
+import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
 import styles from "./VerifyAccount.module.css";
 
@@ -43,25 +44,29 @@ const VerifyEmail = () => {
 
           <div className={styles.otpContainer}>
             {code.map((digit, index) => (
-              <input
+              <Input
                 key={index}
                 ref={(el) => (inputsRef.current[index] = el)}
                 value={digit}
                 onChange={(e) => handleChange(e.target.value, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 maxLength={1}
-                className={styles.input}
+                variant="otp"
               />
             ))}
           </div>
 
-          <Button className={styles.primaryButton} onClick={handleVerify}>
+          <Button variant="primary" onClick={handleVerify}>
             Confirmar código
           </Button>
 
           <span className={styles.helperText}>¿No te llegó el código?</span>
 
-          <Button variant="secondary" className={styles.secondaryButton}>
+          <Button
+            typr="Button"
+            variant="secondary"
+            className={styles.secondaryButton}
+          >
             Reenviar código
           </Button>
         </div>

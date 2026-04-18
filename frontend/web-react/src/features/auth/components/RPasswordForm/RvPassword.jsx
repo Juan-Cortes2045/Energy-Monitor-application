@@ -3,7 +3,7 @@ import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
 import styles from "./RecoverPassword.module.css";
 
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const RvPassword = () => {
   const navigate = useNavigate();
@@ -28,12 +28,9 @@ const RvPassword = () => {
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.field}>
-             <Input id="email" 
-                    type="email" 
-                    placeholder="*"
-                    >
-                    Correo Electrónico
-              </Input>
+            <Input id="email" type="email" placeholder="*">
+              Correo Electrónico
+            </Input>
           </div>
 
           <Button type="submit" onSubmit={onSubmit} className={styles.button}>
