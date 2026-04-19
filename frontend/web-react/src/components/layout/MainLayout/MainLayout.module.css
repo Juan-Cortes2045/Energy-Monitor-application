@@ -1,0 +1,12 @@
+.container{
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--main-bg, #ffffff);
+}
+
+
+.content{
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--main-padding, 24px);
+}
