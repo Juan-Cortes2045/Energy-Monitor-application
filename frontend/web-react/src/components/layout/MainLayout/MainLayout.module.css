@@ -1,12 +1,13 @@
-.container{
+.container {
     display: flex;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
     background-color: var(--main-bg, #ffffff);
 }
 
-
-.content{
+.content {
     flex: 1;
+    min-height: 0;
     overflow-y: auto;
     padding: var(--main-padding, 24px);
 }

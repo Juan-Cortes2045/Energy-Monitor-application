@@ -1,0 +1,115 @@
+.actionMenu {
+  position: relative;
+  display: inline-block;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--am-radius, 16px);
+  background-color: var(--am-primary, #0078d7);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  font-family: var(--am-font-family, "Inter", sans-serif);
+}
+
+.trigger:hover {
+  background-color: #0066b3;
+  transform: scale(1.05);
+}
+
+.trigger:active {
+  transform: scale(0.98);
+}
+
+.trigger:focus {
+  outline: 2px solid var(--am-primary, #0078d7);
+  outline-offset: 2px;
+}
+
+.menu {
+  position: absolute;
+  background-color: var(--am-surface, #ffffff);
+  border: 1px solid var(--am-border, #e5e7eb);
+  border-radius: var(--am-radius, 16px);
+  box-shadow: var(--am-shadow, 0 4px 6px rgba(0, 0, 0, 0.1));
+  padding: var(--am-spacing, 8px);
+  min-width: 200px;
+  z-index: 1000;
+}
+
+.menu.bottom-right {
+  top: calc(100% + var(--am-spacing, 8px));
+  right: 0;
+}
+
+.menu.bottom-left {
+  top: calc(100% + var(--am-spacing, 8px));
+  left: 0;
+}
+
+.menu.top-right {
+  bottom: calc(100% + var(--am-spacing, 8px));
+  right: 0;
+}
+
+.menu.top-left {
+  bottom: calc(100% + var(--am-spacing, 8px));
+  left: 0;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: var(--am-spacing-md, 16px);
+  width: 100%;
+  padding: var(--am-spacing-md, 16px);
+  border: none;
+  background: none;
+  color: var(--am-text-primary, #212529);
+  text-align: left;
+  cursor: pointer;
+  border-radius: calc(var(--am-radius, 16px) - 4px);
+  transition: background-color 0.2s ease;
+  font-family: var(--am-font-family, "Inter", sans-serif);
+  font-size: var(--am-font-size, 14px);
+  font-weight: var(--am-font-weight, 400);
+}
+
+.menuItem:hover {
+  background-color: rgba(0, 120, 215, 0.1);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: var(--am-text-secondary, #6c757d);
+}
+
+.label {
+  flex: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .trigger {
+    width: 36px;
+    height: 36px;
+  }
+
+  .menu {
+    min-width: 180px;
+  }
+
+  .menuItem {
+    padding: var(--am-spacing, 8px) var(--am-spacing-md, 16px);
+  }
+}
