@@ -7,7 +7,7 @@ import RecoverPassword from "../features/auth/pages/RecoverPassword";
 import Profile from "../features/auth/pages/Profile";
 
 import MainLayout from "../components/layout/MainLayout/MainLayout";
-import DashboarPage from "../features/dashboard/pages/DashboardPage"
+import DashboarPage from "../features/dashboard/pages/DashboardPage";
 const AppRoutes = () => {
   return (
     <BrowserRouter>
@@ -18,16 +18,12 @@ const AppRoutes = () => {
         <Route path="/Register" element={<Register />} />
         <Route path="/VerifyAccount" element={<VerifyAccount />} />
         <Route path="/recover-password" element={<RecoverPassword />} />
-<<<<<<< HEAD
 
         <Route>
-          <Route element={<MainLayout/>}>
-              <Route path="/dashboard" element={<DashboarPage/>}></Route>
+          <Route element={<MainLayout />}>
+            <Route path="/dashboard" element={<DashboarPage />}></Route>
           </Route>
         </Route>
-=======
-        <Route path="/Profile" element={<Profile />} />
->>>>>>> feature/userProfile
       </Routes>
     </BrowserRouter>
   );
