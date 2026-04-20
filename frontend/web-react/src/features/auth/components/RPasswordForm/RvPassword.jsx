@@ -14,6 +14,7 @@ const RvPassword = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Enviar código");
+    navigate("/VerifyRecoverPassword");
   };
 
   return (
@@ -33,7 +34,7 @@ const RvPassword = () => {
             </Input>
           </div>
 
-          <Button type="submit" onSubmit={onSubmit} className={styles.button}>
+          <Button type="submit" variant="primary">
             Enviar código
           </Button>
         </form>
