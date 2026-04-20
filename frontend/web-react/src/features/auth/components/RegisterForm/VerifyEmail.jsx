@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "../../../../design/components/Card/Card";
 import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
@@ -7,6 +8,7 @@ import styles from "./VerifyAccount.module.css";
 const VerifyEmail = () => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputsRef = useRef([]);
+  const navigate = useNavigate();
 
   const handleChange = (value, index) => {
     if (!/^[0-9]?$/.test(value)) return;
@@ -26,9 +28,11 @@ const VerifyEmail = () => {
     }
   };
 
-  const handleVerify = () => {
+  const handleVerify = (e) => {
+    e.preventDefault();
     const finalCode = code.join("");
     console.log("Código:", finalCode);
+    navigate("/login");
   };
 
   return (
