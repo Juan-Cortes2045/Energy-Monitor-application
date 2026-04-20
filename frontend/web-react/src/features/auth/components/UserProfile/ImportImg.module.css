@@ -1,0 +1,30 @@
+.img {
+  width: 90px;
+  height: 90px;
+}
+
+.constainer {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  padding: 10px;
+  color: #6c757d;
+
+  width: 110px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: "Poppins", sans-serif;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+}
+
+.container {
+  margin: auto;
+}
