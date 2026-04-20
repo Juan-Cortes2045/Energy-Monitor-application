@@ -9,100 +9,97 @@ import ImportImg from "./ImportImg";
 
 const UserProfile = () => {
   return (
-    <div className={styles.container}>
-      <div
-        className={styles.containerElements}
-        style={{
-          border: `1px solid ${colors.textSecondary}`,
-          borderRadius: radius.lg,
-          boxShadow: shadows.lg,
-          background: colors.background,
-          width: "600px",
-        }}
+    <div
+      className={styles.containerElements}
+      style={{
+        border: `1px solid ${colors.textSecondary}`,
+        borderRadius: radius.lg,
+        boxShadow: shadows.lg,
+        background: colors.background,
+        width: "600px",
+      }}
+    >
+      <h2
+        className={styles.title}
+        style={{ fontFamily: typography.fontPrimary }}
       >
-        <h2
-          className={styles.title}
-          style={{ fontFamily: typography.fontPrimary }}
+        Mi cuenta
+      </h2>
+
+      <div className={styles.avatarContainer}>
+        <ImportImg />
+      </div>
+
+      <div className={styles.form}>
+        <div
+          className={styles.row}
+          style={{
+            background: colors.background,
+            border: `1px solid ${colors.textSecondary}`,
+            borderRadius: radius.sm,
+            padding: "10px 12px",
+          }}
         >
-          Mi cuenta
-        </h2>
-
-        <div className={styles.avatarContainer}>
-          <ImportImg />
+          <label style={{ fontFamily: typography.fontPrimary }}>Nombre</label>
+          <p className={styles.text}>Usuario001</p>
+          <Button variant="primary">Editar</Button>
         </div>
 
-        <div className={styles.form}>
-          <div
-            className={styles.row}
-            style={{
-              background: colors.background,
-              border: `1px solid ${colors.textSecondary}`,
-              borderRadius: radius.sm,
-              padding: "10px 12px",
-            }}
-          >
-            <label style={{ fontFamily: typography.fontPrimary }}>Nombre</label>
-            <p className={styles.text}>Usuario001</p>
-            <Button variant="primary">Editar</Button>
-          </div>
-
-          <div
-            className={styles.row}
-            style={{
-              background: colors.background,
-              border: `1px solid ${colors.textSecondary}`,
-              borderRadius: radius.sm,
-              padding: "10px 12px",
-            }}
-          >
-            <label style={{ fontFamily: typography.fontPrimary }}>Correo</label>
-            <p className={styles.text}>Usuario001@email.com</p>
-            <Button variant="primary">Cambiar</Button>
-          </div>
-
-          <div
-            className={styles.row}
-            style={{
-              background: colors.background,
-              border: `1px solid ${colors.textSecondary}`,
-              borderRadius: radius.sm,
-              padding: "10px 12px",
-            }}
-          >
-            <label style={{ fontFamily: typography.fontPrimary }}>
-              Teléfono
-            </label>
-            <p className={styles.text}>No tienes en el momento</p>
-            <Button variant="primary">Vincular</Button>
-          </div>
-
-          <div
-            className={styles.row}
-            style={{
-              background: colors.background,
-              border: `1px solid ${colors.textSecondary}`,
-              borderRadius: radius.sm,
-              padding: "10px 12px",
-            }}
-          >
-            <label style={{ fontFamily: typography.fontPrimary }}>
-              Contraseña
-            </label>
-            <div></div>
-            <Button variant="primary">Actualizar</Button>
-          </div>
+        <div
+          className={styles.row}
+          style={{
+            background: colors.background,
+            border: `1px solid ${colors.textSecondary}`,
+            borderRadius: radius.sm,
+            padding: "10px 12px",
+          }}
+        >
+          <label style={{ fontFamily: typography.fontPrimary }}>Correo</label>
+          <p className={styles.text}>Usuario001@email.com</p>
+          <Button variant="primary">Cambiar</Button>
         </div>
 
-        <div className={styles.deleteButton}>
-          <p
-            style={{
-              fontFamily: typography.fontSecondary,
-              fontWeight: typography.weights.bold,
-            }}
-          >
-            ¿Deseas eliminar tu cuenta?
-          </p>
+        <div
+          className={styles.row}
+          style={{
+            background: colors.background,
+            border: `1px solid ${colors.textSecondary}`,
+            borderRadius: radius.sm,
+            padding: "10px 12px",
+          }}
+        >
+          <label style={{ fontFamily: typography.fontPrimary }}>Teléfono</label>
+          <p className={styles.text}>No tienes en el momento</p>
+          <Button variant="primary">Vincular</Button>
+        </div>
 
+        <div
+          className={styles.row}
+          style={{
+            background: colors.background,
+            border: `1px solid ${colors.textSecondary}`,
+            borderRadius: radius.sm,
+            padding: "10px 12px",
+          }}
+        >
+          <label style={{ fontFamily: typography.fontPrimary }}>
+            Contraseña
+          </label>
+          <div></div>
+          <Button variant="primary">Actualizar</Button>
+        </div>
+      </div>
+
+      <div className={styles.deleteButton}>
+        <p
+          style={{
+            fontFamily: typography.fontSecondary,
+            fontWeight: typography.weights.bold,
+          }}
+        >
+          ¿Deseas eliminar tu cuenta?
+        </p>
+        <div className={styles.width}>
           <Button
             variant="secondary"
             style={{

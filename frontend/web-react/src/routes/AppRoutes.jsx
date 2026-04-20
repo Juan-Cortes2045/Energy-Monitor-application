@@ -18,7 +18,7 @@ const AppRoutes = () => {
         <Route path="/Register" element={<Register />} />
         <Route path="/VerifyAccount" element={<VerifyAccount />} />
         <Route path="/recover-password" element={<RecoverPassword />} />
-
+        <Route path="/Profile" element={<Profile />} />|
         <Route>
           <Route element={<MainLayout />}>
             <Route path="/dashboard" element={<DashboarPage />}></Route>
