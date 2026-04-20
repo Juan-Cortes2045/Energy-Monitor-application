@@ -1,13 +1,13 @@
-import Card from "../../../../design/components/Card/Card";
-import Button from "../../../../design/components/Button/Button";
-import styles from "./UserProfile.module.css";
-import typography from "../../../../design/tokens/typography";
-import colors from "../../../../design/tokens/colors";
-import radius from "../../../../design/tokens/radius";
-import shadows from "../../../../design/tokens/shadows";
+import Card from "../../design/components/Card/Card";
+import Button from "../../design/components/Button/Button";
+import styles from "./Account.module.css";
+import typography from "../../design/tokens/typography";
+import colors from "../../design/tokens/colors";
+import radius from "../../design/tokens/radius";
+import shadows from "../../design/tokens/shadows";
 import ImportImg from "./ImportImg";
 
-const UserProfile = () => {
+const Account = () => {
   return (
     <div
       className={styles.containerElements}
@@ -115,4 +115,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default Account;

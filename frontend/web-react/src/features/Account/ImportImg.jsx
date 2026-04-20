@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import perfil from "../../../../assets/perfil.png";
+import perfil from "../../assets/perfil.png";
 import styles from "./ImportImg.module.css";
 
 const ImportImg = () => {

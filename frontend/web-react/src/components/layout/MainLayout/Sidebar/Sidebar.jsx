@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from "react";
 import styles from "../Sidebar/Sidebar.module.css";
 import logoClaro from "../../../../assets/Logo_proyecto_Vclara.png";
 import NavProjects from "./NavProjects";
-import UserProfile from "../../../../features/auth/components/UserProfile/UserProfile";
 
 import {
   Menu,
@@ -23,7 +22,9 @@ import Button from "../../../../design/components/Button/Button";
 
 import colors from "../../../../design/tokens/colors";
 import spacing from "../../../../design/tokens/spacing";
+
 import typography from "../../../../design/tokens/typography";
+import Account from "../../../../features/Account/Account";
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -100,7 +101,10 @@ const Sidebar = () => {
       <div className={styles.profile} ref={dropdownRef}>
         <div
           className={styles.profileInfo}
-          onClick={() => navigate("/account")}
+          onClick={() => {
+            setShowProfile(true);
+            setOpenMenu(false);
+          }}
           style={{ cursor: "pointer" }}
         >
           <img
@@ -171,7 +175,7 @@ const Sidebar = () => {
           onClick={() => setShowProfile(false)}
         >
           <div onClick={(e) => e.stopPropagation()}>
-            <UserProfile />
+            <Account />
           </div>
         </div>
       )}
