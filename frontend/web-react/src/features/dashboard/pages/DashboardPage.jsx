@@ -5,49 +5,13 @@ import ActionMenu from "../../../design/components/ActionMenu/ActionMenu";
 import EmptyState from "../components/EmptyState/EmptyState";
 import ProjectCard from "../components/ProjectCard/ProjectCard";
 import Consumption from "../../DetailProject/Consumption";
+import CreateProjectModal from "../../DetailProject/CreateProjectModal";
 import { FolderPlus, Users } from "lucide-react";
 
 const DashboardPage = () => {
   const [projects, setProjects] = useState([]);
-  // null = lista  |  objeto proyecto = detalle
   const [selectedProject, setSelectedProject] = useState(null);
-
-  /* ── Acciones del menú ─────────────────────────────────────────────── */
-  const handleMenuItemClick = (item) => {
-    const projectId = Date.now();
-
-    if (item.action === "create-project") {
-      setProjects((prev) => [
-        {
-          id: projectId,
-          name: "Proyecto creado",
-          userResponsible: "Tú",
-          address: "Calle 123, Ciudad",
-          description: "Proyecto creado por el usuario con acceso completo.",
-          variant: "owned",
-          favorite: false,
-        },
-        ...prev,
-      ]);
-      return;
-    }
-
-    if (item.action === "join-project") {
-      setProjects((prev) => [
-        {
-          id: projectId,
-          name: "Te has unido",
-          userResponsible: "Responsable del proyecto",
-          address: "Av. Central 45, Oficina 3",
-          description: "Proyecto en el que te has unido como usuario regular.",
-          variant: "joined",
-          favorite: false,
-        },
-        ...prev,
-      ]);
-      return;
-    }
-  };
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   const breadcrumbItems = selectedProject
     ? [
@@ -70,9 +34,46 @@ const DashboardPage = () => {
     },
   ];
 
+  const handleMenuItemClick = (item) => {
+    if (item.action === "create-project") {
+      setShowCreateModal(true);
+      return;
+    }
+    if (item.action === "join-project") {
+      setProjects((prev) => [
+        {
+          id: Date.now(),
+          name: "Proyecto unido",
+          userResponsible: "Responsable del proyecto",
+          address: "Av. Central 45, Oficina 3",
+          description: "Proyecto en el que te has unido como usuario regular.",
+          variant: "joined",
+          favorite: false,
+        },
+        ...prev,
+      ]);
+    }
+  };
+
+  const handleProjectCreated = (formData) => {
+    setProjects((prev) => [
+      {
+        id: Date.now(),
+        name: formData.name,
+        address: formData.address,
+        description: formData.description,
+        projectTypeId: formData.projectTypeId,
+        otherProjectType: formData.otherProjectType,
+        userResponsible: "Tú",
+        variant: "owned",
+        favorite: false,
+      },
+      ...prev,
+    ]);
+  };
+
   return (
     <div>
-      {/* El Header siempre visible — breadcrumb cambia según el estado */}
       <Header breadcrumbItems={breadcrumbItems}>
         <ActionMenu
           items={actionMenuItems}
@@ -81,20 +82,17 @@ const DashboardPage = () => {
         />
       </Header>
 
-      {/* ── Vista detalle del proyecto ── */}
+      {/* ── Vista detalle del proyecto ──────────────────────────────── */}
       {selectedProject ? (
         <Consumption
           project={selectedProject}
           onBack={() => setSelectedProject(null)}
         />
       ) : (
-        /* ── Lista de proyectos ── */
         <>
           {projects.length === 0 ? (
             <EmptyState
-              onCreateProject={() =>
-                handleMenuItemClick({ action: "create-project" })
-              }
+              onCreateProject={() => setShowCreateModal(true)}
               onJoinProject={() =>
                 handleMenuItemClick({ action: "join-project" })
               }
@@ -119,6 +117,14 @@ const DashboardPage = () => {
             </div>
           )}
         </>
+      )}
+
+      {/* ── Modal — fuera del flujo para no afectar el layout ──────── */}
+      {showCreateModal && (
+        <CreateProjectModal
+          onClose={() => setShowCreateModal(false)}
+          onSubmit={handleProjectCreated}
+        />
       )}
     </div>
   );
