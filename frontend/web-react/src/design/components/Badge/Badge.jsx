@@ -4,7 +4,7 @@ import colors from "../../tokens/colors";
 const Badge = ({
   children,
   variant = "primary",
-  type = "filled", // filled | outline
+  type = "filled", 
   size = "medium",
 }) => {
   return (

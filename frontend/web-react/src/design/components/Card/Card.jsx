@@ -5,7 +5,7 @@ import radius from "../../tokens/radius";
 import spacing from "../../tokens/spacing";
 import shadows from "../../tokens/shadows";
 
-const Card = ({ title, children }) => {
+const Card = ({ title, children, style={} }) => {
   return (
     <div
       className={styles.container}
@@ -14,6 +14,7 @@ const Card = ({ title, children }) => {
         borderRadius: radius.md,
         padding: spacing.lg,
         boxShadow: shadows.lg,
+        ...style,
       }}
     >
       {title && (

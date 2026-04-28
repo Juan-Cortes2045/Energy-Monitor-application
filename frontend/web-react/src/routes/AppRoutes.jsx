@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "../features/landingPage/pages/Home";
+import HowItWorksPage from "../features/landingPage/pages/HowItWorksPage";
 import Login from "../features/auth/pages/Login";
 import Register from "../features/auth/pages/Register";
 import VerifyAccount from "../features/auth/pages/VerifyAccount";
@@ -14,6 +15,7 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/home" element={<Home/>} />
+        <Route path="/how-it-works" element={<HowItWorksPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
         <Route path="/VerifyAccount" element={<VerifyAccount />} />
