@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../../validation/loginSchema.js";
 import styles from "../LoginForm/LoginForm.module.css";
@@ -15,6 +16,7 @@ import { useState } from "react";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -26,6 +28,7 @@ const LoginForm = () => {
 
   const onSubmit = (data) => {
     console.log("login:", data);
+    navigate("/dashboard");
   };
 
   return (
