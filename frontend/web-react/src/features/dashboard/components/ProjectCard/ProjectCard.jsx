@@ -9,22 +9,29 @@ import typography from "../../../../design/tokens/typography";
 import radius from "../../../../design/tokens/radius";
 import shadows from "../../../../design/tokens/shadows";
 
-const ProjectCard = ({ project }) => {
+// ─── onClick viene de DashboardPage → setSelectedProject(project) ─────────────
+const ProjectCard = ({ project, onClick }) => {
   const [favorite, setFavorite] = useState(project.favorite || false);
 
   const headerColor = project.color
     ? project.color
     : project.variant === "joined"
-    ? colors.secondary
-    : colors.primary;
+      ? colors.secondary
+      : colors.primary;
 
-  const toggleFavorite = () => {
+  const toggleFavorite = (e) => {
+    e.stopPropagation(); // evita disparar onClick de la card al tocar favorito
     setFavorite((prev) => !prev);
   };
 
   return (
     <div
       className={styles.container}
+      onClick={onClick} // ← conexión del prop
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === "Enter" && onClick?.()}
+      aria-label={`Abrir proyecto ${project.name}`}
       style={{
         "--pc-spacing": spacing.md,
         "--pc-radius": radius.lg,
@@ -33,9 +40,13 @@ const ProjectCard = ({ project }) => {
         "--pc-secondary": colors.secondary,
         "--pc-text": colors.textPrimary,
         "--pc-muted": colors.textSecondary,
+        cursor: "pointer",
       }}
     >
-      <div className={styles.cardHeader} style={{ backgroundColor: headerColor }}>
+      <div
+        className={styles.cardHeader}
+        style={{ backgroundColor: headerColor }}
+      >
         <div className={styles.headerText}>
           <h3 className={styles.title}>{project.name}</h3>
           <p className={styles.responsible}>{project.userResponsible}</p>

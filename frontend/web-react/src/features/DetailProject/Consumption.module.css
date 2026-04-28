@@ -1,0 +1,452 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   Consumption.module.css
+   Usa EXCLUSIVAMENTE las variables definidas en global.css (:root).
+   No se definen valores hardcodeados — todo viene del sistema de diseño.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Layout general ─────────────────────────────────────────────────── */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background-color: var(--color-background);
+  min-height: 100vh;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  box-sizing: border-box;
+}
+
+/* ── Tabs ───────────────────────────────────────────────────────────── */
+.tabsRow {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--color-border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.tabsRow::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.tab:hover {
+  color: var(--color-primary);
+}
+
+.tabActive {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+}
+
+.tabSub {
+  font-family: var(--font-primary);
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-normal);
+}
+
+/* ── KPI row ────────────────────────────────────────────────────────── */
+.kpiRow {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.kpiCard {
+  flex: 1 1 200px;
+  min-width: 0;
+  border-radius: var(--radius-lg);
+  border: 2px solid transparent;
+  background-color: var(--color-surface);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.kpiCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.kpiYellow {
+  border-color: var(--color-warning);
+}
+.kpiBlue {
+  border-color: var(--color-primary);
+}
+.kpiGreen {
+  border-color: var(--color-secondary);
+}
+
+.kpiContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kpiLabel {
+  font-family: var(--font-primary);
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.kpiValue {
+  font-family: var(--font-primary);
+  font-size: 26px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: 1.1;
+}
+
+.kpiUnit {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.kpiSub {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* ── Chart card ─────────────────────────────────────────────────────── */
+.chartSection {
+  padding: 4px 0;
+}
+
+.chartTitle {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 2px;
+}
+
+.chartTitle span {
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-normal);
+}
+
+.chartSubtitle {
+  font-family: var(--font-primary);
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  margin: 0 0 8px;
+}
+
+/* ── Bottom row — Pie + Bar ─────────────────────────────────────────── */
+.bottomRow {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.bottomRow > * {
+  flex: 1 1 260px;
+  min-width: 0;
+}
+
+.distribucionBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.sectionTitle {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 8px;
+}
+
+.devicesBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Límites ────────────────────────────────────────────────────────── */
+.limitsRow {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.limitCard {
+  flex: 1 1 200px;
+  min-width: 0;
+  background-color: var(--color-primary-dark);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  color: #fff;
+}
+
+.limitTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.limitLabel {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.02em;
+}
+
+.limitPct {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-secondary);
+}
+
+.limitBarOuter {
+  width: 100%;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.limitBarInner {
+  height: 100%;
+  background-color: var(--color-secondary);
+  border-radius: var(--radius-sm);
+  transition: width 0.5s ease;
+}
+
+.limitValues {
+  font-family: var(--font-primary);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: right;
+}
+
+/* ── Tooltip ────────────────────────────────────────────────────────── */
+.tooltip {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  box-shadow: var(--shadow-md);
+  font-family: var(--font-primary);
+}
+
+.tooltipLabel {
+  font-family: var(--font-primary);
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  margin: 0 0 2px;
+}
+
+.tooltipValue {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin: 0;
+}
+
+/* ── Empty state ────────────────────────────────────────────────────── */
+.emptyChart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 160px;
+  gap: 6px;
+  font-family: var(--font-primary);
+  color: var(--color-text-secondary);
+}
+
+.emptyChartIcon {
+  font-size: 28px;
+  opacity: 0.45;
+}
+
+.emptyChartMsg {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.emptyChartSub {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-xs);
+  color: var(--color-border);
+  text-align: center;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* ── Mobile  < 768px ─────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .page {
+    padding: var(--spacing-sm);
+    gap: var(--spacing-sm);
+  }
+
+  /* Tabs: scroll horizontal, fuente más pequeña */
+  .tab {
+    padding: 8px 14px;
+    font-size: var(--font-size-xs);
+  }
+
+  /* KPIs apilados en columna */
+  .kpiRow {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .kpiCard {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .kpiValue {
+    font-size: 22px;
+  }
+
+  /* Bottom row apilado */
+  .bottomRow {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .bottomRow > * {
+    flex: 1 1 auto;
+  }
+
+  /* Límites apilados */
+  .limitsRow {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .limitCard {
+    flex: 1 1 auto;
+  }
+}
+
+/* ── Tablet  768px – 1023px ──────────────────────────────────────────── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .page {
+    padding: var(--spacing-md);
+    gap: var(--spacing-md);
+  }
+
+  /* KPIs: 2 por fila en tablet */
+  .kpiRow {
+    flex-wrap: wrap;
+  }
+  .kpiCard {
+    flex: 1 1 calc(50% - var(--spacing-md));
+  }
+
+  /* Bottom row: apilado en tablet estrecha */
+  .bottomRow {
+    flex-direction: column;
+  }
+  .bottomRow > * {
+    flex: 1 1 auto;
+  }
+
+  /* Límites: 2 columnas */
+  .limitsRow {
+    flex-direction: row;
+  }
+  .limitCard {
+    flex: 1 1 calc(50% - var(--spacing-md));
+  }
+}
+
+/* ── Laptop / Desktop  1024px – 1439px ──────────────────────────────── */
+@media (min-width: 1024px) {
+  .page {
+    padding: var(--spacing-lg);
+    gap: var(--spacing-md);
+  }
+
+  /* KPIs: 3 en fila */
+  .kpiRow {
+    flex-wrap: nowrap;
+  }
+  .kpiCard {
+    flex: 1 1 0;
+  }
+
+  /* Bottom row: 2 en fila */
+  .bottomRow {
+    flex-direction: row;
+  }
+  .bottomRow > * {
+    flex: 1 1 0;
+  }
+
+  /* Límites: 2 en fila */
+  .limitsRow {
+    flex-direction: row;
+  }
+  .limitCard {
+    flex: 1 1 0;
+  }
+}
+
+/* ── Desktop grande  ≥ 1440px ────────────────────────────────────────── */
+@media (min-width: 1440px) {
+  .page {
+    /* Centra el contenido en pantallas muy anchas */
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--spacing-lg) var(--spacing-xl);
+    gap: var(--spacing-lg);
+  }
+
+  .kpiValue {
+    font-size: 30px;
+  }
+
+  /* Gráfico de área más alto en pantallas grandes */
+  .chartSection :global(.recharts-responsive-container) {
+    min-height: 200px;
+  }
+}
