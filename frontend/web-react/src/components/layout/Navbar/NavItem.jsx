@@ -4,12 +4,13 @@ import {Link} from "react-router-dom"
 import colors from "../../../design/tokens/colors";
 import typography from "../../../design/tokens/typography";
 
-const NavItem = ({ path, text }) => {
+const NavItem = ({ path, text, setOpen }) => {
   return (
     <li>
       <Link 
       className={styles.link}
       to={path}
+      onClick={() => setOpen && setOpen(false)}
       style={{
         color: colors.textSecondary,
         fontFamily: typography.fontPrimary,
