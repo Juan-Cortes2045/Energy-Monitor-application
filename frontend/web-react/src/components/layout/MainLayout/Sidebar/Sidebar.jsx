@@ -169,13 +169,14 @@ const Sidebar = () => {
           </div>
         )}
       </div>
+
       {showProfile && (
         <div
           className={styles.modalOverlay}
           onClick={() => setShowProfile(false)}
         >
           <div onClick={(e) => e.stopPropagation()}>
-            <Account />
+            <Account onClose={() => setShowProfile(false)} />
           </div>
         </div>
       )}

@@ -1,46 +1,278 @@
-.containerElements {
-  padding: 24px;
+/* ── Página — centra la card ────────────────────────────────── */
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
+/* ── Contenido interno de la Card ───────────────────────────── */
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+  width: 100%;
+}
+
+/* ── Título ─────────────────────────────────────────────────── */
 .title {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
   text-align: center;
-  margin-bottom: 16px;
+  margin: 0;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.row {
-  display: grid;
-  grid-template-columns: 120px 1fr auto;
-  align-items: center;
-  gap: 12px;
-}
-
-.deleteButton {
+/* ── Avatar ─────────────────────────────────────────────────── */
+.avatarWrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.text {
-  display: flex;
-  justify-content: flex-end;
-  font-family: "Poppins", sans-serif;
-  color: #6c757d;
 }
 
 .avatarContainer {
   display: flex;
-  justify-content: flex-start;
-  position: relative;
-  margin-bottom: 16px;
+  height: 100px;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  cursor: pointer;
+  overflow: hidden;
+  border: 2px solid var(--color-text-secondary);
+  padding: var(--spacing-sm);
+  border-radius: 50%;
+  transition: background 0.15s;
 }
 
-.width {
-  width: 120px;
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarContainer:hover {
+  background: var(--color-gradient);
+}
+
+.icon {
+  font-size: 5em;
+  color: var(--color-text-secondary);
+  transition: color 0.15s;
+}
+
+.avatarContainer:hover .icon {
+  color: var(--color-primary);
+}
+
+/* ── Dropdown de avatar ─────────────────────────────────────── */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  min-width: 160px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  list-style: none;
+  padding: var(--spacing-xs) 0;
+  animation: dropIn 0.12s ease;
+}
+
+@keyframes dropIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.dropdown li {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.dropdown li:hover {
+  background-color: var(--color-border);
+}
+
+.dropdownDanger {
+  color: var(--color-danger) !important;
+}
+
+.dropdownDanger:hover {
+  background-color: #fdecea !important;
+}
+
+/* ── Formulario de datos ────────────────────────────────────── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  width: 100%;
+}
+
+/* ── Fila de campo ──────────────────────────────────────────── */
+.row {
+  display: grid;
+  grid-template-columns: 110px 1fr auto;
+  align-items: center;
+  gap: var(--spacing-md);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  transition: border-color 0.15s;
+}
+
+.row:hover {
+  border-color: var(--color-primary);
+}
+
+.label {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.value {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Sección eliminar cuenta ────────────────────────────────── */
+.deleteSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-border);
+  width: 100%;
+}
+
+.deleteQuestion {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin: 0;
+}
+
+.btnClose {
+  color: var(--color-danger);
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ── Mobile  < 768px ────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .page {
+    padding: var(--spacing-sm);
+    align-items: flex-start;
+  }
+
+  /* Card ocupa todo el ancho */
+  .page > * {
+    width: 100%;
+  }
+
+  .title {
+    font-size: var(--font-size-lg);
+  }
+
+  .avatarContainer {
+    height: 80px;
+    width: 80px;
+  }
+
+  .icon {
+    font-size: 4em;
+  }
+
+  /* Filas apiladas en columna */
+  .row {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xs);
+  }
+
+  /* Botón al ancho completo en mobile */
+  .row > button {
+    width: 100%;
+  }
+
+  .value {
+    white-space: normal;
+  }
+}
+
+/* ── Tablet  768px – 1023px ─────────────────────────────────── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .page {
+    padding: var(--spacing-lg);
+    justify-content: center;
+  }
+
+  /* Card con ancho fijo cómodo */
+  .page > * {
+    width: 100%;
+    max-width: 560px;
+  }
+
+  .row {
+    grid-template-columns: 110px 1fr auto;
+  }
+}
+
+/* ── Laptop / Desktop  ≥ 1024px ─────────────────────────────── */
+@media (min-width: 1024px) {
+  .page {
+    padding: var(--spacing-xl);
+    justify-content: center;
+  }
+
+  .page > * {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .row {
+    grid-template-columns: 120px 1fr auto;
+  }
+}
+
+/* ── Desktop grande  ≥ 1440px ───────────────────────────────── */
+@media (min-width: 1440px) {
+  .page > * {
+    max-width: 640px;
+  }
+
+  .title {
+    font-size: var(--font-size-xl);
+  }
+
+  .icon {
+    font-size: 84px;
+  }
 }

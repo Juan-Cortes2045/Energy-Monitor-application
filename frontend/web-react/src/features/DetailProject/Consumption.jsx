@@ -136,11 +136,11 @@ const Consumption = () => {
             {activeTab === tab && (
               <span className={styles.tabSub}>
                 {tab === "Consumo"
-                  ? "Potencia"
+                  ? ""
                   : tab === "Historial"
                     ? "Consumo"
                     : tab === "Dispositivos"
-                      ? "Dispositivos"
+                      ? ""
                       : ""}
               </span>
             )}
