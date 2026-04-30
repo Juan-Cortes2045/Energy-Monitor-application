@@ -99,6 +99,38 @@
 
 }
 
+/* TABLET */
+@media (max-width:1024px){
+        .navbar{
+        padding: 0 20px;
+        height: 65px;
+    }
+
+    .logo img{
+        height: 50px;
+    }
+
+    .center{
+        gap: 20px;
+    }
+
+    .navLinks{
+        gap: 20px;
+    }
+
+    .link{
+        font-size: 14px;
+    }
+
+    .actions{
+        gap: 8px;
+    }
+
+    .actions button{
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+}
 
 
 
