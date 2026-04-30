@@ -283,7 +283,7 @@
     z-index: 998;
   }
 
-  /* SIDEBAR */
+
   .sidebar {
     position: fixed;
     top: 0;
@@ -311,7 +311,6 @@
     transform: translateX(-100%);
   }
 
-  /* HEADER */
   .top {
     justify-content: flex-start;
     margin-bottom: 10px;
@@ -321,7 +320,6 @@
     display: block !important;
   }
 
-  /* NAV */
   .nav {
     flex: 1;
     display: flex;
