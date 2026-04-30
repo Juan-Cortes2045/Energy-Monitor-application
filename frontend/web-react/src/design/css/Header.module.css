@@ -1,5 +1,6 @@
 .header {
-  height: 44px;
+  min-height: 44px;
+  height: auto;
   background-color: var(--header-bg, #ffffff);
   border-bottom: 1px solid var(--header-border, #e5e7eb);
   padding: 0 var(--header-spacing-sm, 16px);
@@ -20,6 +21,8 @@
   flex: 1;
   min-width: 0;
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .actionsWrapper {
@@ -40,7 +43,9 @@
   color: white;
   border: none;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
   flex-shrink: 0;
   font-family: var(--header-font-family, "Inter", sans-serif);
 }

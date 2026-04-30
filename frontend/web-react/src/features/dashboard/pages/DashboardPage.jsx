@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Header from "../../../design/components/Header/Header";
 import ActionMenu from "../../../design/components/ActionMenu/ActionMenu";
@@ -10,16 +11,10 @@ import { FolderPlus, Users } from "lucide-react";
 
 const DashboardPage = () => {
   const [projects, setProjects] = useState([]);
-  const [selectedProject, setSelectedProject] = useState(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const navigate = useNavigate();
 
-  const breadcrumbItems = selectedProject
-    ? [
-        { label: "Inicio", onClick: () => setSelectedProject(null) },
-        { label: "Proyectos", onClick: () => setSelectedProject(null) },
-        { label: selectedProject.name },
-      ]
-    : [{ label: "Inicio" }];
+  const breadcrumbItems = [{ label: "Inicio" }];
 
   const actionMenuItems = [
     {
@@ -82,41 +77,29 @@ const DashboardPage = () => {
         />
       </Header>
 
-      {/* ── Vista detalle del proyecto ──────────────────────────────── */}
-      {selectedProject ? (
-        <Consumption
-          project={selectedProject}
-          onBack={() => setSelectedProject(null)}
+      {projects.length === 0 ? (
+        <EmptyState
+          onCreateProject={() => setShowCreateModal(true)}
+          onJoinProject={() => handleMenuItemClick({ action: "join-project" })}
         />
       ) : (
-        <>
-          {projects.length === 0 ? (
-            <EmptyState
-              onCreateProject={() => setShowCreateModal(true)}
-              onJoinProject={() =>
-                handleMenuItemClick({ action: "join-project" })
-              }
+        <div
+          style={{
+            padding: "24px",
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "20px",
+            alignItems: "flex-start",
+          }}
+        >
+          {projects.map((project) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              onClick={() => navigate("/Consumption")}
             />
-          ) : (
-            <div
-              style={{
-                padding: "24px",
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "20px",
-                alignItems: "flex-start",
-              }}
-            >
-              {projects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  onClick={() => setSelectedProject(project)}
-                />
-              ))}
-            </div>
-          )}
-        </>
+          ))}
+        </div>
       )}
 
       {/* ── Modal — fuera del flujo para no afectar el layout ──────── */}
