@@ -12,22 +12,6 @@
   box-sizing: border-box;
 }
 
-.ajust {
-  display: flex;
-  flex-direction: row;
-}
-
-.sidebarWrapper {
-  height: 100vh;
-  position: sticky;
-  top: 0;
-}
-
-.consumption {
-  flex: 1;
-  overflow-y: auto;
-}
-
 /* ── Tabs ───────────────────────────────────────────────────────────── */
 .tabsRow {
   display: flex;

@@ -70,6 +70,7 @@
 @media (max-width: 768px) {
   .header {
     padding: var(--header-spacing-sm, 16px);
+    margin-left: 15%;
   }
 
   .headerContent {

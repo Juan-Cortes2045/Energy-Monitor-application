@@ -69,7 +69,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <div>
+    <div className={styles.content}>
       <div className={styles.header}>
         <Header breadcrumbItems={breadcrumbItems}>
           <ActionMenu
