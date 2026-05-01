@@ -107,7 +107,7 @@ const RegisterForm = () => {
 
             {/* TERMS */}
             <div className={styles.options}>
-              <input type="checkbox" {...register("terms")} />
+              <input type="checkbox" className={styles.checkbox}{...register("terms")} />
               <label className={styles.terms}>
                 <p>
                   Estoy de acuerdo con los{" "}
@@ -143,9 +143,7 @@ const RegisterForm = () => {
 
               {/* DIVIDER */}
               <div className={styles.divider}>
-                <span>
-                  __________________________O__________________________
-                </span>
+                <span>O</span>
               </div>
 
               {/* GOOGLE */}
@@ -157,7 +155,7 @@ const RegisterForm = () => {
 
             {/* LOGIN */}
             <p className={styles.register}>
-              ¿Ya tienes una cuenta?{" "}
+              ¿Ya tienes una cuenta?.{" "}
               <a
                 href="/login"
                 style={{ color: colors.secondary }}

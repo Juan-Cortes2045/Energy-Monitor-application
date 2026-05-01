@@ -54,10 +54,9 @@ const Hero= ()=>{
             </p>
 
             {/*BOTON*/}
-            <div style={{marginTop: spacing.md}}>
+            <div  className={styles.buttonWrapper} style={{marginTop: spacing.md}}>
                 <Button  
                 variant="primary" 
-                style={{width: "80px"}}
                 onClick={()=> navigate("/login")}
                 >
                     Comenzar ahora

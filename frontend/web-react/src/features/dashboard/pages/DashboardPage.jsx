@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "./DashboardPage";
 
 import Header from "../../../design/components/Header/Header";
 import ActionMenu from "../../../design/components/ActionMenu/ActionMenu";
@@ -69,46 +70,50 @@ const DashboardPage = () => {
 
   return (
     <div>
-      <Header breadcrumbItems={breadcrumbItems}>
-        <ActionMenu
-          items={actionMenuItems}
-          onItemClick={handleMenuItemClick}
-          position="bottom-right"
-        />
-      </Header>
+      <div className={styles.header}>
+        <Header breadcrumbItems={breadcrumbItems}>
+          <ActionMenu
+            items={actionMenuItems}
+            onItemClick={handleMenuItemClick}
+            position="bottom-right"
+          />
+        </Header>
 
-      {projects.length === 0 ? (
-        <EmptyState
-          onCreateProject={() => setShowCreateModal(true)}
-          onJoinProject={() => handleMenuItemClick({ action: "join-project" })}
-        />
-      ) : (
-        <div
-          style={{
-            padding: "24px",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "20px",
-            alignItems: "flex-start",
-          }}
-        >
-          {projects.map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              onClick={() => navigate("/Consumption")}
-            />
-          ))}
-        </div>
-      )}
+        {projects.length === 0 ? (
+          <EmptyState
+            onCreateProject={() => setShowCreateModal(true)}
+            onJoinProject={() =>
+              handleMenuItemClick({ action: "join-project" })
+            }
+          />
+        ) : (
+          <div
+            style={{
+              padding: "24px",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "20px",
+              alignItems: "flex-start",
+            }}
+          >
+            {projects.map((project) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                onClick={() => navigate("/Consumption")}
+              />
+            ))}
+          </div>
+        )}
 
-      {/* ── Modal — fuera del flujo para no afectar el layout ──────── */}
-      {showCreateModal && (
-        <CreateProjectModal
-          onClose={() => setShowCreateModal(false)}
-          onSubmit={handleProjectCreated}
-        />
-      )}
+        {/* ── Modal — fuera del flujo para no afectar el layout ──────── */}
+        {showCreateModal && (
+          <CreateProjectModal
+            onClose={() => setShowCreateModal(false)}
+            onSubmit={handleProjectCreated}
+          />
+        )}
+      </div>
     </div>
   );
 };

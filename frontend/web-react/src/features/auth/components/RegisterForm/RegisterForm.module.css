@@ -6,7 +6,8 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
+  width: 100%;
 }
 
 /*ERRORES*/
@@ -17,9 +18,9 @@
 .terms {
   display: flex;
   align-items: flex-start;
-  justify-content: center;
-  gap: 8px;
+  gap: 6px;
   font-size: 14px;
+  line-height: 1.4;
 }
 
 /*OPCIONES*/
@@ -28,10 +29,10 @@
   font-size: 14px;
 }
 
-.renember {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.checkbox{
+  transform: scale(1.5);
+  margin: 10px;
+  cursor: pointer;
 }
 
 .link {
@@ -44,22 +45,36 @@
 }
 
 /*DIVIDER*/
-.divider::before .divider::afer {
+.divider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-size: 12px;
+}
+
+.divider::before,
+.divider::after {
   content: "";
   flex: 1;
   height: 1px;
+  background: currentColor;
 }
 
 .divider span {
   margin: 0 10px;
+  white-space: nowrap;
+}
+
+.divider span {
   font-size: 12px;
-  align-items: center;
+  white-space: nowrap;
 }
 
 /*REGISTER*/
 .register {
   text-align: center;
   font-weight: 500;
+  font-size: 14px;
 }
 
 .registerLink {
@@ -74,11 +89,12 @@
   align-items: center;
   gap: 12px;
   margin-top: 16px;
+  width: 100%;
 }
 
 .wrapper {
-  position: relative;
-  width: fit-content;
+  width: 100%;
+  max-width: 420px;
   margin: 0 auto;
 }
 
@@ -86,4 +102,69 @@
   max-height: 90vh;
   overflow-y: auto;
   overflow-x: hidden;
+  padding-right: 6px;
+}
+
+.scrollContent::-webkit-scrollbar {
+  display: none;
+}
+
+/* TABLET */
+@media (max-width: 1024px) {
+  .wrapper {
+    max-width: 380px;
+  }
+
+  .form {
+    gap: 12px;
+  }
+}
+
+/*  MOBILE */
+@media (max-width: 768px) {
+  .wrapper {
+    max-width: 100%;
+    padding: 0 16px;
+  }
+
+  .scrollContent {
+    max-height: none; 
+    padding-right: 0;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .form {
+    gap: 10px;
+  }
+
+  .options {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .terms {
+    font-size: 13px;
+  }
+
+  .divider span {
+    font-size: 11px;
+  }
+}
+
+/*  MOBILE PEQUEÑO */
+@media (max-width: 480px) {
+  .title {
+    font-size: 18px;
+  }
+
+  .terms {
+    font-size: 12px;
+  }
+
+  .register {
+    font-size: 13px;
+  }
 }

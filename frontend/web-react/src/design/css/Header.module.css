@@ -6,7 +6,9 @@
   padding: 0 var(--header-spacing-sm, 16px);
   box-shadow: var(--header-shadow, 0 1px 2px rgba(0, 0, 0, 0.05));
   display: flex;
+  margin: 4%;
   align-items: center;
+  border-radius: 8px;
 }
 
 .headerContent {

@@ -27,6 +27,7 @@ import typography from "../../../../design/tokens/typography";
 import Account from "../../../../features/Account/Account";
 
 const Sidebar = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -45,8 +46,19 @@ const Sidebar = () => {
     };
   }, []);
   return (
+  <>
+  <button 
+  className={styles.triggerMobile}
+  onClick={() => setIsOpen(prev => !prev)}
+  >
+    <Menu size={24} />
+  </button>
     <aside
-      className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""}`}
+    className={`
+      ${styles.sidebar} 
+      ${collapsed ? styles.collapsed : ""} 
+      ${isOpen ? styles.open : ""}
+   `}
       style={{
         backgroundColor: colors.background_left,
         padding: spacing.md,
@@ -70,6 +82,7 @@ const Sidebar = () => {
           icon={<Home size={24} />}
           label="Inicio"
           collapsed={collapsed}
+          onClick={()=> setIsOpen(false)}
         />
         <div className={styles.navGroup}>
           <NavProjects
@@ -181,6 +194,13 @@ const Sidebar = () => {
         </div>
       )}
     </aside>
+    {isOpen && (
+    <div 
+      className={styles.overlay}
+      onClick={() => setIsOpen(false)}
+    />
+    )}
+    </>
   );
 };
 

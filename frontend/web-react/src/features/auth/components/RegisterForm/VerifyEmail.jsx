@@ -37,7 +37,7 @@ const VerifyEmail = () => {
 
   return (
     <div className={styles.container}>
-      <Card>
+      <Card className={styles.card}>
         <div className={styles.content}>
           <h2 className={styles.title}>Verificar correo</h2>
 
@@ -67,13 +67,12 @@ const VerifyEmail = () => {
           <span className={styles.helperText}>¿No te llegó el código?</span>
 
           <Button
-            typr="Button"
+            type="button" 
             variant="secondary"
-            className={styles.secondaryButton}
           >
             Reenviar código
           </Button>
-        </div>
+          </div>
       </Card>
     </div>
   );

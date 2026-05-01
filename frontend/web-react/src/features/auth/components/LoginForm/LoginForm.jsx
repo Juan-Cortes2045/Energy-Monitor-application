@@ -104,7 +104,7 @@ const LoginForm = () => {
               color: colors.textSecondary,
             }}
           >
-            <span>__________________________O__________________________</span>
+            <span>O</span>
           </div>
 
           {/*GOOGLE LOGIN*/}
@@ -116,7 +116,7 @@ const LoginForm = () => {
 
         {/*REGISTER*/}
         <p className={styles.register}>
-          ¿No tienes una cuenta?{" "}
+          ¿No tienes una cuenta?.{" "}
           <a
             href="/register"
             className={styles.link}
