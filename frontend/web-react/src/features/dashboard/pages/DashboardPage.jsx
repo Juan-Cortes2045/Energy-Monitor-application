@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import styles from "../pages/DashboardPage.module.css"
 import Header from "../../../design/components/Header/Header";
 import ActionMenu from "../../../design/components/ActionMenu/ActionMenu";
 import EmptyState from "../components/EmptyState/EmptyState";
@@ -12,6 +12,7 @@ import { FolderPlus, Users } from "lucide-react";
 const DashboardPage = () => {
   const [projects, setProjects] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
   const navigate = useNavigate();
 
   const breadcrumbItems = [{ label: "Inicio" }];
@@ -69,18 +70,24 @@ const DashboardPage = () => {
 
   return (
     <div>
-      <Header breadcrumbItems={breadcrumbItems}>
-        <ActionMenu
-          items={actionMenuItems}
-          onItemClick={handleMenuItemClick}
-          position="bottom-right"
-        />
-      </Header>
-
+      <div className={styles.header}>
+        <Header breadcrumbItems={breadcrumbItems}>
+          <ActionMenu
+            items={actionMenuItems}
+            onItemClick={handleMenuItemClick}
+            position="bottom-right"
+          />
+        </Header>
+      </div>
       {projects.length === 0 ? (
         <EmptyState
           onCreateProject={() => setShowCreateModal(true)}
           onJoinProject={() => handleMenuItemClick({ action: "join-project" })}
+        />
+      ) : selectedProject ? (
+        <Consumption
+          project={selectedProject}
+          onBack={() => setSelectedProject(null)}
         />
       ) : (
         <div
@@ -96,7 +103,7 @@ const DashboardPage = () => {
             <ProjectCard
               key={project.id}
               project={project}
-              onClick={() => navigate("/Consumption")}
+              onClick={() => setSelectedProject(project)}
             />
           ))}
         </div>

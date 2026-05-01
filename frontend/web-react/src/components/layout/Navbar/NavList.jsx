@@ -1,7 +1,7 @@
 import NavItem from "./NavItem";
 import styles from "./Navbar.module.css"
 
-const NavList = () => {
+const NavList = ({setOpen}) => {
   return (
     <ul className={styles.navLinks}>
       <NavItem text="Inicio" path="/" />

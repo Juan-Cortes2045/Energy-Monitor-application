@@ -3,37 +3,51 @@
     align-items: center;
     justify-content: space-between;
     min-height: calc(100vh - 70px);
-    padding-left: 40px;
+    padding: 40px;
+    gap: 40px;
 }
 
+/* TEXTO */
 .left{
-    max-width: 650px;
+    max-width: 600px;
 }
 
+/* FEATURES */
 .features{
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
 }
 
+/* IMAGEN CONTENEDOR */
 .right{
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.right img{
-    width: 500px;
-    max-width: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease, box-shadow 0.3 ease;
+.buttonWrapper{
+    margin-top: 16px;
 }
 
+/* IMAGEN */
+.right img{
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* HOVER */
 .right img:hover{
     transform: translateY(-8px) scale(1.02);
-    box-shadow: 0px 30px 60px rgba(0,0,0,0,2);
-} 
+    box-shadow: 0px 30px 60px rgba(0,0,0,0.2);
+}
 
+/* ANIMACIONES */
 .fadeUp{
     opacity: 0;
     transform: translateY(20px);
@@ -51,5 +65,40 @@
     to{
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+
+/* TABLET */
+@media (max-width: 1024px){
+    .container{
+        flex-direction: column;
+        text-align: center;
+        min-height: calc(100vh - 70px); 
+        justify-content: center;        
+        
+        padding: 30px;
+    }
+
+    .left{
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center; 
+    }
+
+    .buttonWrapper{
+        display: flex;
+        justify-content: center; 
+        width: 100%;
+    }
+
+    .right img{
+        width: 100%;
+        max-width: 380px;
+    }
+
+    .features{
+        justify-content: center;
     }
 }

@@ -13,29 +13,29 @@ const steps = [
     number: 1,
     title: "Regístrate o inicia sesión",
     description:
-      "Crea tu cuenta fácilmente o accede con redes sociales para comenzar a usar la plataforma.",
-    icon: <User size={20} />,
+      "Crea tu cuenta fácilmente o accede con tu cuenta de google para comenzar a usar la plataforma de forma segura. ",
+    icon: <User size={42} />,
   },
   {
     number: 2,
     title: "Crea y configura tu proyecto",
     description:
-      "Registra tu hogar, vincula dispositivos eléctricos y define límites personalizados.",
-    icon: <Settings size={20} />,
+      "Registra tu hogar, vincula dispositivos eléctricos y define límites de consumo personalizados.",
+    icon: <Settings size={42} />,
   },
   {
     number: 3,
     title: "Visualiza y analiza",
     description:
       "Consulta tu consumo en tiempo real con gráficos claros y detallados.",
-    icon: <BarChart3 size={20} />,
+    icon: <BarChart3 size={42} />,
   },
   {
     number: 4,
     title: "Recibe alertas inteligentes",
     description:
-      "Obtén notificaciones y recomendaciones para optimizar tu consumo.",
-    icon: <AlertTriangle size={20} />,
+      "Obtén notificaciones automáticas y recomendaciones para optimizar tu consumo energético.  ",
+    icon: <AlertTriangle size={42} />,
   },
 ];
 
@@ -74,9 +74,9 @@ const HowItWorks = () => {
       {/* PASOS */}
       <div className={styles.steps}>
         {steps.map((step, index) => (
-          <div key={index} className={styles.stepWrapper}>
-            <Card style={{ maxWidth: "300px" }}>
-              <div className={styles.stepContent}>
+          <div key={index}>
+            <Card style={{ maxWidth: "300px", margin: "0 auto", height: "100%", flexDirection: "column"}}>
+              <div className={styles.stepContent} style={{fontFamily: typography.fontSecondary, fontSize: typography.sizes.sm}}>
                 <div className={styles.stepHeader}>
                   <div className={styles.number}>{step.number}</div>
                   <h4>{step.title}</h4>
@@ -84,14 +84,9 @@ const HowItWorks = () => {
 
                 <p>{step.description}</p>
 
-                <div className={styles.icon}>{step.icon}</div>
+                <div className={styles.icon} style={{color: colors.textSecondary}}>{step.icon}</div>
               </div>
             </Card>
-
-            {/* FLECHA */}
-            {index < steps.length - 1 && (
-              <div className={styles.arrow}>→</div>
-            )}
           </div>
         ))}
       </div>

@@ -66,15 +66,24 @@
   stroke-linejoin: round;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
+ @media (max-width: 768px) {
   .breadcrumbList {
-    gap: 4px;
+    gap: 3px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none; 
   }
 
-  .separator {
-    padding: 0 4px;
+  .breadcrumbList::-webkit-scrollbar {
+    display: none; 
   }
+
+  .breadcrumbItem:not(:first-child):not(:last-child) {
+    display: none;
+  }
+}
 }
 
 @media (max-width: 480px) {
