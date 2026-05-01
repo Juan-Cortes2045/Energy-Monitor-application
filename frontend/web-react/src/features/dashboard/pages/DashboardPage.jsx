@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import styles from "../pages/DashboardPage.module.css"
 import Header from "../../../design/components/Header/Header";
 import ActionMenu from "../../../design/components/ActionMenu/ActionMenu";
 import EmptyState from "../components/EmptyState/EmptyState";
@@ -74,6 +74,7 @@ const DashboardPage = () => {
 
   return (
     <div>
+      <div className={styles.header}>
       <Header breadcrumbItems={breadcrumbItems}>
         <ActionMenu
           items={actionMenuItems}
@@ -81,7 +82,7 @@ const DashboardPage = () => {
           position="bottom-right"
         />
       </Header>
-
+      </div>
       {/* ── Vista detalle del proyecto ──────────────────────────────── */}
       {selectedProject ? (
         <Consumption

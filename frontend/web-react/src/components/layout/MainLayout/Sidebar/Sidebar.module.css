@@ -257,7 +257,10 @@
     background: #3F6BAE;
     color: white;
     border: none;
-    padding: 10px;
+    padding-top: 20px;
+    padding-left: 10px;
+    padding-bottom: 20px;
+    padding-right: 10px;
     border-radius: 10px;
     cursor: pointer;
     transition: opacity 0.3s ease;
@@ -273,7 +276,9 @@
   }
 
   .logo{
+    height: 50px;
     padding-left: 45px;
+    padding-top: 10px;
   }
   .overlay {
     display: block;
