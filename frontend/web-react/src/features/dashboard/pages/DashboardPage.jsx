@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "../pages/DashboardPage.module.css"
+import styles from "./DashboardPage";
+
 import Header from "../../../design/components/Header/Header";
 import ActionMenu from "../../../design/components/ActionMenu/ActionMenu";
 import EmptyState from "../components/EmptyState/EmptyState";
@@ -69,7 +70,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <div>
+    <div className={styles.content}>
       <div className={styles.header}>
         <Header breadcrumbItems={breadcrumbItems}>
           <ActionMenu
@@ -78,44 +79,42 @@ const DashboardPage = () => {
             position="bottom-right"
           />
         </Header>
-      </div>
-      {projects.length === 0 ? (
-        <EmptyState
-          onCreateProject={() => setShowCreateModal(true)}
-          onJoinProject={() => handleMenuItemClick({ action: "join-project" })}
-        />
-      ) : selectedProject ? (
-        <Consumption
-          project={selectedProject}
-          onBack={() => setSelectedProject(null)}
-        />
-      ) : (
-        <div
-          style={{
-            padding: "24px",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "20px",
-            alignItems: "flex-start",
-          }}
-        >
-          {projects.map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              onClick={() => setSelectedProject(project)}
-            />
-          ))}
-        </div>
-      )}
 
-      {/* ── Modal — fuera del flujo para no afectar el layout ──────── */}
-      {showCreateModal && (
-        <CreateProjectModal
-          onClose={() => setShowCreateModal(false)}
-          onSubmit={handleProjectCreated}
-        />
-      )}
+        {projects.length === 0 ? (
+          <EmptyState
+            onCreateProject={() => setShowCreateModal(true)}
+            onJoinProject={() =>
+              handleMenuItemClick({ action: "join-project" })
+            }
+          />
+        ) : (
+          <div
+            style={{
+              padding: "24px",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "20px",
+              alignItems: "flex-start",
+            }}
+          >
+            {projects.map((project) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                onClick={() => navigate("/Consumption")}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* ── Modal — fuera del flujo para no afectar el layout ──────── */}
+        {showCreateModal && (
+          <CreateProjectModal
+            onClose={() => setShowCreateModal(false)}
+            onSubmit={handleProjectCreated}
+          />
+        )}
+      </div>
     </div>
   );
 };

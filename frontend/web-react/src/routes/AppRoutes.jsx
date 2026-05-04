@@ -16,18 +16,17 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
-
-        <Route path="/home" element={<Home/>} />
+        <Route path="/home" element={<Home />} />
         <Route path="/how-it-works" element={<HowItWorksPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
         <Route path="/VerifyAccount" element={<VerifyAccount />} />
         <Route path="/recover-password" element={<RecoverPassword />} />
         <Route path="/Account" element={<Account />} />|
-        <Route path="/Consumption" element={<Consumption />} />
         <Route>
           <Route element={<MainLayout />}>
             <Route path="/dashboard" element={<DashboarPage />}></Route>
+            <Route path="/Consumption" element={<Consumption />} />
           </Route>
         </Route>
         <Route
