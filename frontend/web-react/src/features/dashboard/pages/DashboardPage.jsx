@@ -69,6 +69,14 @@ const DashboardPage = () => {
     ]);
   };
 
+  const handleCardClick = (project) => {
+    navigate("/Consumption", {
+      state: {
+        project,
+        isOwner: project.variant === "owned",
+      },
+    });
+  };
   return (
     <div className={styles.content}>
       <div className={styles.header}>
@@ -101,7 +109,7 @@ const DashboardPage = () => {
               <ProjectCard
                 key={project.id}
                 project={project}
-                onClick={() => navigate("/Consumption")}
+                onClick={() => handleCardClick(project)}
               />
             ))}
           </div>
