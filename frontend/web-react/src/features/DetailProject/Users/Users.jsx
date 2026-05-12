@@ -79,19 +79,17 @@ const Users = ({ project, isOwner = false }) => {
       return setInviteError("Este usuario ya es miembro.");
     if (pending.some((p) => p.email === email))
       return setInviteError("Ya se envió una invitación a este correo.");
-    // TODO: POST /projects/:id/invitations { email }
+
     setPending((prev) => [...prev, { id: Date.now(), email }]);
     setInviteEmail("");
     setInviteError("");
   };
 
   const handleCancelInvite = (id) => {
-    // TODO: DELETE /projects/:id/invitations/:id
     setPending((prev) => prev.filter((p) => p.id !== id));
   };
 
   const handleRemove = (userId) => {
-    // TODO: DELETE /projects/:id/users/:userId
     setUsers((prev) => prev.filter((u) => u.id !== userId));
   };
 

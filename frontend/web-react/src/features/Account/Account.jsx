@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { VscAccount } from "react-icons/vsc";
+import { FiEdit3 } from "react-icons/fi";
 
 import Card from "../../design/components/Card/Card";
 import Button from "../../design/components/Button/Button";
@@ -100,32 +101,32 @@ const Account = ({ onClose }) => {
             <div className={styles.row}>
               <label className={styles.label}>Nombre</label>
               <p className={styles.value}>Usuario001</p>
-              <Button variant="primary" size="small">
-                Editar
+              <Button variant="primary" className={styles.btnEdit}>
+                <FiEdit3 />
               </Button>
             </div>
 
             <div className={styles.row}>
               <label className={styles.label}>Correo</label>
               <p className={styles.value}>Usuario001@email.com</p>
-              <Button variant="primary" size="small">
-                Cambiar
+              <Button variant="primary" className={styles.btnEdit}>
+                <FiEdit3 />
               </Button>
             </div>
 
             <div className={styles.row}>
               <label className={styles.label}>Teléfono</label>
               <p className={styles.value}>No tienes en el momento</p>
-              <Button variant="primary" size="small">
-                Vincular
+              <Button variant="primary" className={styles.btnEdit}>
+                <FiEdit3 />
               </Button>
             </div>
 
             <div className={styles.row}>
               <label className={styles.label}>Contraseña</label>
               <p className={styles.value}>••••••••</p>
-              <Button variant="primary" size="small">
-                Actualizar
+              <Button variant="primary" className={styles.btnEdit}>
+                <FiEdit3 />
               </Button>
             </div>
           </div>
@@ -135,7 +136,6 @@ const Account = ({ onClose }) => {
             <p className={styles.deleteQuestion}>¿Deseas eliminar tu cuenta?</p>
             <Button
               variant="secondary"
-              size="medium"
               style={{ color: "var(--color-danger)" }}
             >
               Eliminar cuenta
