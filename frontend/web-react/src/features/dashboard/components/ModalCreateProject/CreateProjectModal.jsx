@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import Button from "../../design/components/Button/Button";
-import Input from "../../design/components/Input/Input";
+import Button from "../../../../design/components/Button/Button";
+import Input from "../../../../design/components/Input/Input";
 import styles from "./CreateProjectModal.module.css";
 
 const PROJECT_TYPES = [
