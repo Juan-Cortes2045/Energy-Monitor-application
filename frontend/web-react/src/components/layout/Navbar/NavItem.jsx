@@ -14,7 +14,6 @@ const NavItem = ({ path, text, setOpen }) => {
       style={{
         color: colors.textSecondary,
         fontFamily: typography.fontPrimary,
-        fontSize: typography.sizes.sm,
         fontWeight: typography.weights.medium,
       }}
       onMouseEnter={(e)=>

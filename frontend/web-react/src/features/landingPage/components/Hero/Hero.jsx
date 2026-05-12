@@ -13,19 +13,14 @@ import shadows from "../../../../design/tokens/shadows"
 const Hero= ()=>{
     const navigate= useNavigate();
     return(
+        <div className={styles.heroWrapper}>
         <section
-        className={styles.container}
-        style={{
-            background: `linear-gradient(90deg, ${colors.background} 50%,${colors.gradient} 100%)`,
-            padding: `${spacing.xl}`,
-        }}
-        >
+        className={styles.container}>
         
         {/*IZQUIERDA*/}
         <div className={`${styles.left} ${styles.fadeUp}`}>
             <h1
             style={{
-                fontSize: typography.sizes.xxxl,
                 fontWeight: typography.weights.bold,
                 fontFamily: typography.fontPrimary,
                 color: colors.textPrimary,
@@ -91,6 +86,7 @@ const Hero= ()=>{
             />
         </div>
         </section>
+        </div>
     )
 }
 
