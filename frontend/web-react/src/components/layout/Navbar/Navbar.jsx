@@ -32,7 +32,6 @@ const Navbar = () => {
         <Button 
         variant="secondary" 
         onClick={()=> navigate("/register")}
-        size="small"
         >
           Registrate
         </Button>
@@ -40,7 +39,6 @@ const Navbar = () => {
         <Button 
         variant="primary" 
         onClick={()=> navigate("/login")}
-        size="small"
         >
           Iniciar Sesión
           </Button>

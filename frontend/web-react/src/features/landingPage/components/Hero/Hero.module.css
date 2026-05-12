@@ -1,14 +1,31 @@
+.heroWrapper{
+    width: 100%;
+    background: linear-gradient(90deg, #f8fafc 50%, #eaf3ff 100%);
+}
+
+
 .container{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+
     min-height: calc(100vh - 70px);
-    padding: 40px;
-    gap: 40px;
+
+    width: 100%;
+    max-width: 1440px;
+
+    margin: 0 auto;
+
+    padding: 40px 80px;
+    gap: 80px;
+
+    box-sizing: border-box;
 }
 
-/* TEXTO */
+/* TEXTO  Y BOTON */
 .left{
+    flex:1;
+    font-size: 32px;
     max-width: 600px;
 }
 
@@ -21,7 +38,7 @@
 
 /* IMAGEN CONTENEDOR */
 .right{
-    width: 100%;
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -34,11 +51,16 @@
 /* IMAGEN */
 .right img{
     width: 100%;
-    max-width: 420px;
+    max-width: 520px;
     height: auto;
-    object-fit: cover;
+
+    object-fit: contain;
+
     display: block;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 /* HOVER */
@@ -68,6 +90,13 @@
     }
 }
 
+/* MOBILE */
+@media (max-width: 768px){
+    .left{
+        padding: 20px;
+        font-size: 20px;
+    }
+}
 
 /* TABLET */
 @media (max-width: 1024px){
@@ -81,6 +110,7 @@
     }
 
     .left{
+        padding: 20px;
         max-width: 100%;
         display: flex;
         flex-direction: column;
@@ -95,10 +125,32 @@
 
     .right img{
         width: 100%;
-        max-width: 380px;
+        max-width: 500px;
     }
 
     .features{
         justify-content: center;
+    }
+}
+
+/* BIG SCREENS */
+@media (min-width: 1440px){
+
+    .container{
+        max-width: 1600px;
+        gap: 120px;
+    }
+
+    .left{
+        max-width: 700px;
+    }
+
+    .left h1{
+        font-size: 72px;
+        line-height: 1.1;
+    }
+
+    .right img{
+        max-width: 1000px;
     }
 }

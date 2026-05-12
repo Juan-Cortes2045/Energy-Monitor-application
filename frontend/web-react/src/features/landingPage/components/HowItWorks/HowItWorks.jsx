@@ -84,7 +84,7 @@ const HowItWorks = () => {
 
                 <p>{step.description}</p>
 
-                <div className={styles.icon} style={{color: colors.textSecondary}}>{step.icon}</div>
+                <div className={styles.icon} style={{color: colors.secondary}}>{step.icon}</div>
               </div>
             </Card>
           </div>

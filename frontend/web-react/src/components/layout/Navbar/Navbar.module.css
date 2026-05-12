@@ -27,6 +27,7 @@
 .link{
     text-decoration: none;
     transition: 0.2s ease;
+    font-size: 16px;
 }
 
 .actions{
@@ -132,5 +133,26 @@
     }
 }
 
+
+@media(min-width:1440px){
+    .navbar{
+        height: 100px;
+    }
+
+    .link{
+        font-size: 20px;
+    }
+
+    .actions button{
+        font-size: 24px;
+        height: 40px;
+    }
+
+
+    .logo img{
+        height: 70px;
+    }
+    
+}
 
 
