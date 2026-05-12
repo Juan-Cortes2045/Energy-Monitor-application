@@ -6,6 +6,7 @@ import spacing from "../../tokens/spacing";
 import shadows from "../../tokens/shadows";
 
 const Button = ({
+  className = {},
   children,
   type = "button",
   icon,
@@ -13,7 +14,7 @@ const Button = ({
   variant = "primary",
   size = "medium",
   disabled = false,
-  style={},
+  style = {},
 }) => {
   const sizeStyles = {
     small: {
@@ -45,6 +46,13 @@ const Button = ({
       border: `1px solid ${colors.border}`,
       boxShadow: shadows.md,
     },
+    Danger: {
+      backgroundColor: colors.background,
+      color: colors.danger,
+      border: `1px solid ${colors.danger}`,
+      boxShadow: shadows.md,
+      fontSize: typography.xl,
+    },
   };
 
   return (
@@ -66,7 +74,6 @@ const Button = ({
         fontWeight: typography.weights.medium,
         borderRadius: radius.sm,
         whiteSpace: "nowrap",
-        minWidth: "140px",
       }}
     >
       {icon && <img src={icon} alt="icon" className={styles.icon} />}

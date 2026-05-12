@@ -20,6 +20,7 @@ import {
 import Card from "../../design/components/Card/Card";
 import Header from "../../design/components/Header/Header";
 import Users from "./Users/Users";
+import Project from "./Project/Project";
 import styles from "./Consumption.module.css";
 
 import colors from "../../design/tokens/colors";
@@ -403,7 +404,12 @@ const Consumption = () => {
           <EmptyChart mensaje="Dispositivos en desarrollo" />
         )}
         {activeTab === "Proyecto" && (
-          <EmptyChart mensaje="Configuración del proyecto en desarrollo" />
+          <Project
+            project={project}
+            isOwner={isOwner}
+            onLeave={() => navigate("/dashboard")}
+            onDelete={() => navigate("/dashboard")}
+          />
         )}
       </div>
     </div>
