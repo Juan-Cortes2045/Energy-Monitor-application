@@ -17,15 +17,16 @@ import {
   Legend,
 } from "recharts";
 
-import Card from "../../design/components/Card/Card";
-import Header from "../../design/components/Header/Header";
-import Users from "./Users/Users";
-import Project from "./Project/Project";
+import Card from "../../../design/components/Card/Card";
+import Header from "../../../design/components/Header/Header";
+import Users from "../Users/Users";
+import Project from "../Project/Project";
+import ConsumptionHistory from "../ConsumptionHistory/ComsumptionHistory";
 import styles from "./Consumption.module.css";
 
-import colors from "../../design/tokens/colors";
-import typography from "../../design/tokens/typography";
-import radius from "../../design/tokens/radius";
+import colors from "../../../design/tokens/colors";
+import typography from "../../../design/tokens/typography";
+import radius from "../../../design/tokens/radius";
 
 const emptyProjectData = {
   potencia: null,
@@ -398,7 +399,7 @@ const Consumption = () => {
         )}
 
         {activeTab === "Historial" && (
-          <EmptyChart mensaje="Historial en desarrollo" />
+          <ConsumptionHistory />
         )}
         {activeTab === "Dispositivos" && (
           <EmptyChart mensaje="Dispositivos en desarrollo" />

@@ -1,11 +1,10 @@
 .container {
   width: 100%;
-  max-width: 380px;
   display: flex;
   flex-direction: column;
   gap: 16px;
   transition: all 0.2s ease;
-}
+}                                                                                                                             
 
 .container:hover {
   transform: translateY(-2px);

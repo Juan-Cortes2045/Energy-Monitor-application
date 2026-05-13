@@ -7,7 +7,7 @@ import VerifyAccount from "../features/auth/pages/VerifyAccount";
 import RecoverPassword from "../features/auth/pages/RecoverPassword";
 import VerifyRecoverPassword from "../features/auth/pages/VerifyRecoverPassword";
 import Account from "../features/Account/Account";
-import Consumption from "../features/DetailProject/Consumption";
+import Consumption from "../features/DetailProject/Consumption/Consumption";
 
 import MainLayout from "../components/layout/MainLayout/MainLayout";
 import DashboarPage from "../features/dashboard/pages/DashboardPage";

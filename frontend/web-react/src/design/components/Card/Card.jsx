@@ -14,6 +14,7 @@ const Card = ({ title, children, style={} }) => {
         borderRadius: radius.md,
         padding: spacing.lg,
         boxShadow: shadows.lg,
+        maxWidth: "380px",
         ...style,
       }}
     >
