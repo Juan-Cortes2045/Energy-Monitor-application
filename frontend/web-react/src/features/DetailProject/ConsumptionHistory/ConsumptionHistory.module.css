@@ -1,19 +1,21 @@
 .page{
   width:100%;
+  max-width:1440px;
+  margin:0 auto;
+  padding:0 24px;
+
   display:flex;
   flex-direction:column;
   gap:32px;
 }
 
-/* =========================
-   TOP BAR
-========================= */
+/* TOP */
 
 .topBar{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:var(--spacing-md);
+  gap:16px;
   flex-wrap:wrap;
 }
 
@@ -21,22 +23,38 @@
   display:flex;
   align-items:center;
   gap:6px;
+
   background:white;
   border:1px solid var(--color-border);
+
   border-radius:14px;
   padding:6px;
+
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+
+.filters::-webkit-scrollbar{
+  display:none;
 }
 
 .filters button{
   border:none;
   background:none;
+
   padding:12px 18px;
+
   border-radius:10px;
   cursor:pointer;
+
   transition:0.2s;
+
   color:var(--color-text-secondary);
+
   font-size:14px;
   font-weight:500;
+
+  flex-shrink:0;
 }
 
 .filters button:hover{
@@ -44,8 +62,8 @@
 }
 
 .active{
-  background:var(--color-primary) !important;
-  color:white !important;
+  background:var(--color-primary)!important;
+  color:white!important;
 }
 
 .date{
@@ -53,9 +71,7 @@
   color:var(--color-text-secondary);
 }
 
-/* =========================
-   CHART
-========================= */
+/* CHART */
 
 .chartBlock{
   width:100%;
@@ -65,89 +81,123 @@
   gap:24px;
 }
 
+.chartWrapper{
+  width:100%;
+  overflow-x:auto;
+  overflow-y:hidden;
+
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+
+  padding-bottom:8px;
+}
+
+.chartInner{
+  min-width:100%;
+  height:100%;
+}
+
 .title{
   text-align:center;
   font-size:18px;
   font-weight:700;
-  letter-spacing:0.4px;
 }
 
-/* =========================
-   BOTTOM LAYOUT
-========================= */
+/* BOTTOM */
 
 .bottom{
   width:100%;
 
   display:grid;
   grid-template-columns:
-    minmax(0, 1fr)
+    minmax(0,1fr)
     340px;
 
   gap:28px;
   align-items:start;
+
+  min-width:0;
 }
 
-/* =========================
-   RANKING
-========================= */
+.bottom > *{
+  min-width:0;
+}
+
+/* RANKING */
 
 .ranking{
   display:flex;
   flex-direction:column;
   gap:24px;
 
+  min-width:0;
+}
+
+.table{
+  width:100%;
+  min-width:0;
+
   overflow-x:auto;
+  overflow-y:hidden;
+
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+}
+
+.tableContent{
+  min-width:100%;
 }
 
 .header,
 .row{
-  min-width:760px;
+  min-width:680px;
 
   display:grid;
   grid-template-columns:
     50px
     minmax(180px,1fr)
-    160px
-    220px;
+    140px
+    180px;
 
   gap:20px;
   align-items:center;
 }
 
 .header{
+  padding-bottom:12px;
+
+  border-bottom:
+    1px solid var(--color-border);
+
   font-size:14px;
   font-weight:700;
+
   color:var(--color-text-secondary);
-  padding-bottom:10px;
-  border-bottom:1px solid var(--color-border);
 }
 
 .row{
-  font-size:16px;
-  padding:6px 0;
+  padding:10px 0;
+  font-size:15px;
 }
 
 .percent{
   display:flex;
   align-items:center;
-  gap:14px;
+  gap:10px;
 }
 
 .bar{
-  height:10px;
+  height:8px;
+  min-width:40px;
   border-radius:999px;
-  min-width:60px;
 }
 
 .percent span{
-  font-size:14px;
+  font-size:13px;
   font-weight:600;
 }
 
-/* =========================
-   STATS
-========================= */
+/* STATS */
 
 .stats{
   display:flex;
@@ -156,15 +206,15 @@
 }
 
 .stat{
+  min-height:170px;
+
   display:flex;
   flex-direction:column;
+
   align-items:center;
   justify-content:center;
 
   text-align:center;
-
-  min-height:170px;
-
   gap:10px;
 }
 
@@ -175,7 +225,7 @@
 }
 
 .stat h3{
-  font-size:38px;
+  font-size:34px;
   font-weight:700;
   line-height:1;
 }
@@ -185,11 +235,9 @@
   color:var(--color-secondary);
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* TABLET */
 
-@media (max-width: 1200px){
+@media (max-width:1024px){
 
   .bottom{
     grid-template-columns:1fr;
@@ -197,30 +245,120 @@
 
   .stats{
     display:grid;
-    grid-template-columns:repeat(3, 1fr);
+    grid-template-columns:
+      repeat(3,1fr);
   }
 
 }
 
-@media (max-width: 768px){
+/* MOBILE */
+
+@media (max-width:768px){
+
+  .page{
+    padding:0 0px;
+    gap: 14px;
+
+    overflow-x:hidden;
+  }
 
   .topBar{
     flex-direction:column;
-    align-items:flex-start;
+    align-items:stretch;
+  }
+
+  .date{
+    font-size:12px;
   }
 
   .filters{
     width:100%;
-    overflow:auto;
   }
+
+  .filters button{
+    padding:10px 14px;
+    font-size:12px;
+  }
+
+  .title{
+    font-size:15px;
+    line-height:1.4;
+  }
+
+  /* CHART */
+
+  .chartBlock{
+    gap:18px;
+  }
+
+  /* TABLE */
+
+  .header,
+  .row{
+    min-width:480px;
+
+    grid-template-columns:
+      30px
+      140px
+      80px
+      110px;
+
+    gap:10px;
+}
+
+  .header{
+    font-size:12px;
+  }
+
+  .row{
+    font-size:13px;
+  }
+
+  .percent{
+    gap:8px;
+  }
+
+  .percent span{
+    font-size:11px;
+  }
+
+  .bar{
+    min-width:28px;
+    height:6px;
+  }
+
+  /* STATS */
 
   .stats{
     grid-template-columns:1fr;
   }
 
-  .header,
+  .stat{
+    min-height:130px;
+    padding:16px;
+  }
+
+  .stat h3{
+    font-size:28px;
+  }
+
+}
+
+/* MOBILE PEQUEÑO */
+
+@media (max-width:480px){
+
+ .header,
   .row{
-    min-width:680px;
+    min-width:460px;
+  }
+
+  .title{
+    font-size:14px;
+  }
+
+  .stat h3{
+    font-size:24px;
   }
 
 }

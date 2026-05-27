@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 import {
   ResponsiveContainer,
@@ -86,6 +86,21 @@ const dateLabels = {
 const ConsumptionHistory = () => {
   const [activeFilter, setActiveFilter] = useState("Mes");
 
+  const [isMobile, setIsMobile] = useState(
+    window.innerWidth < 768
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () =>
+      window.removeEventListener("resize", handleResize);
+  }, []);
+
   const chartData = mockData[activeFilter];
 
   const devices = useMemo(() => {
@@ -106,7 +121,8 @@ const ConsumptionHistory = () => {
       return {
         nombre: device,
         total,
-        color: DEVICE_COLORS[index % DEVICE_COLORS.length],
+        color:
+          DEVICE_COLORS[index % DEVICE_COLORS.length],
       };
     });
   }, [chartData, devices]);
@@ -124,7 +140,9 @@ const ConsumptionHistory = () => {
           {FILTERS.map((filter) => (
             <button
               key={filter}
-              onClick={() => setActiveFilter(filter)}
+              onClick={() =>
+                setActiveFilter(filter)
+              }
               className={
                 activeFilter === filter
                   ? styles.active
@@ -142,54 +160,89 @@ const ConsumptionHistory = () => {
       </div>
 
       {/* CHART */}
-       <Card
+      <Card
         style={{
-          maxWidth: "100%",
           width: "100%",
+          maxWidth: "100%",
+          overflow: "hidden",
+          padding: isMobile ? "16px 14px" : "24px",
         }}
       >
         <div className={styles.chartBlock}>
           <p className={styles.title}>
-            DISTRIBUCIÓN DE CONSUMO POR DISPOSITIVO
+            DISTRIBUCIÓN DE CONSUMO POR
+            DISPOSITIVO
           </p>
 
-          <ResponsiveContainer width="100%" height={430}>
-            <BarChart data={chartData}>
-              <CartesianGrid
-                strokeDasharray="3 3"
-                vertical={false}
-                stroke={colors.border}
-              />
+          <div className={styles.chartWrapper}>
+            <div
+              className={styles.chartInner}
+              style={{
+                width: isMobile
+                  ? `${chartData.length * 55}px`
+                  : "100%",
+              }}
+            >
+              <ResponsiveContainer
+                width="100%"
+                height={isMobile ? 280 : 430}
+              >
+                <BarChart data={chartData}>
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    vertical={false}
+                    stroke={colors.border}
+                  />
 
-              <XAxis
-                dataKey="label"
-                axisLine={false}
-                tickLine={false}
-              />
+                  <XAxis
+                    dataKey="label"
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{
+                      fontSize: isMobile ? 10 : 12,
+                    }}
+                  />
 
-              <YAxis
-                axisLine={false}
-                tickLine={false}
-              />
+                  <YAxis
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{
+                      fontSize: isMobile ? 10 : 12,
+                    }}
+                    width={isMobile ? 28 : 40}
+                  />
 
-              <Tooltip />
+                  <Tooltip />
 
-              <Legend iconType="circle" />
+                  <Legend
+                    iconType="circle"
+                    wrapperStyle={{
+                      fontSize: isMobile
+                        ? "10px"
+                        : "12px",
+                    }}
+                  />
 
-              {devices.map((device, index) => (
-                <Bar
-                  key={device}
-                  dataKey={device}
-                  fill={
-                    DEVICE_COLORS[
-                      index % DEVICE_COLORS.length
-                    ]
-                  }
-                  radius={[4, 4, 0, 0]}
-                />
-              ))}
-            </BarChart>
-          </ResponsiveContainer>
+                  {devices.map((device, index) => (
+                    <Bar
+                      key={device}
+                      dataKey={device}
+                      fill={
+                        DEVICE_COLORS[
+                          index %
+                            DEVICE_COLORS.length
+                        ]
+                      }
+                      radius={[4, 4, 0, 0]}
+                      maxBarSize={
+                        isMobile ? 18 : 28
+                      }
+                    />
+                  ))}
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
         </div>
       </Card>
 
@@ -198,9 +251,11 @@ const ConsumptionHistory = () => {
         {/* RANKING */}
         <Card
           style={{
-            maxWidth: "100%",
             width: "100%",
-            padding: "20px",
+            maxWidth: "100%",
+            minWidth: 0,
+            overflow: "hidden",
+            padding: isMobile ? "16px 14px" : "24px",
           }}
         >
           <div className={styles.ranking}>
@@ -208,52 +263,68 @@ const ConsumptionHistory = () => {
               RANKING DE CONSUMO
             </p>
 
-            <div className={styles.header}>
-              <span>#</span>
-              <span>DISPOSITIVO</span>
-              <span>TOTAL(kWh)</span>
-              <span>% DEL TOTAL</span>
-            </div>
+            <div className={styles.table}>
+              <div className={styles.tableContent}>
+                <div className={styles.header}>
+                <span>#</span>
+                <span>DISPOSITIVO</span>
+                <span>TOTAL</span>
+                <span>%</span>
+              </div>
 
-            {rankingData.map((item, index) => {
-              const pct = (
-                (item.total / totalPeriodo) *
-                100
-              ).toFixed(1);
+              {rankingData.map((item, index) => {
+                const pct = (
+                  (item.total / totalPeriodo) *
+                  100
+                ).toFixed(1);
 
-              return (
-                <div
-                  key={item.nombre}
-                  className={styles.row}
-                >
-                  <span>{index + 1}</span>
+                return (
+                  <div
+                    key={item.nombre}
+                    className={styles.row}
+                  >
+                    <span>{index + 1}</span>
 
-                  <span>{item.nombre}</span>
+                    <span>{item.nombre}</span>
 
-                  <span>{item.total.toFixed(1)}</span>
+                    <span>
+                      {item.total.toFixed(1)}
+                    </span>
 
-                  <div className={styles.percent}>
                     <div
-                      className={styles.bar}
-                      style={{
-                        width: `${pct}%`,
-                        background: item.color,
-                      }}
-                    />
+                      className={styles.percent}
+                    >
+                      <div
+                        className={styles.bar}
+                        style={{
+                          width: `${pct}%`,
+                          background:
+                            item.color,
+                        }}
+                      />
 
-                    <span>{pct}%</span>
+                      <span>{pct}%</span>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+              </div>
+            </div>
           </div>
         </Card>
 
         {/* STATS */}
         <div className={styles.stats}>
-          <Card>
+          <Card
+            style={{
+              minWidth: 0,
+              padding: isMobile ? "16px 14px" : "24px",
+            }}
+          >
             <div className={styles.stat}>
-              <p>CONSUMO TOTAL PERIODO</p>
+              <p>
+                CONSUMO TOTAL PERIODO
+              </p>
 
               <h3>
                 {totalPeriodo.toFixed(1)} kWh
@@ -265,13 +336,19 @@ const ConsumptionHistory = () => {
             </div>
           </Card>
 
-          <Card>
+          <Card
+            style={{
+              minWidth: 0,
+              padding: isMobile ? "16px 14px" : "24px",
+            }}
+          >
             <div className={styles.stat}>
               <p>PROMEDIO</p>
 
               <h3>
                 {(
-                  totalPeriodo / chartData.length
+                  totalPeriodo /
+                  chartData.length
                 ).toFixed(1)}{" "}
                 kWh
               </h3>
@@ -282,14 +359,23 @@ const ConsumptionHistory = () => {
             </div>
           </Card>
 
-          <Card>
+         <Card
+            style={{
+              minWidth: 0,
+              padding: isMobile ? "16px 14px" : "24px",
+            }}
+          >
             <div className={styles.stat}>
               <p>MAYOR CONSUMIDOR</p>
 
-              <h3>{rankingData[0]?.nombre}</h3>
+              <h3>
+                {rankingData[0]?.nombre}
+              </h3>
 
               <span>
-                {rankingData[0]?.total.toFixed(1)}{" "}
+                {rankingData[0]?.total.toFixed(
+                  1
+                )}{" "}
                 kWh
               </span>
             </div>
