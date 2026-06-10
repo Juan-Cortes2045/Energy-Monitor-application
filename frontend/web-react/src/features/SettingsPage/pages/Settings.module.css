@@ -5,17 +5,13 @@
   gap:24px;
 }
 
-.content{
-  padding:0 16px;
-}
+.placeholder {
+  min-height: 200px;
 
-.placeholder{
-  min-height:200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  font-size:14px;
-  color:var(--color-text-secondary);
+  font-size: 14px;
+  color: var(--color-text-secondary);
 }

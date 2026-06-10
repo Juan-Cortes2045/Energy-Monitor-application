@@ -4,6 +4,8 @@ import Card from "../../../design/components/Card/Card";
 
 import styles from "../pages/Settings.module.css"
 
+import LanguageSettings  from "../components/LanguageSettings/LanguageSettings.jsx"
+
 const Settings = () => {
   const handleSave = () => {
     console.log("Guardar");
@@ -28,7 +30,7 @@ const Settings = () => {
       > 
         <Button
           variant="secondary"
-          size="small"
+          size="medium"
           onClick={handleDiscard}
           style={{
             width: "auto",
@@ -39,7 +41,7 @@ const Settings = () => {
 
         <Button
           variant="primary"
-          size="small"
+          size="medium"
           onClick={handleSave}
           style={{
             width: "auto",
@@ -51,13 +53,7 @@ const Settings = () => {
         
       </Header>
 
-      <div className={styles.content}>
-        <Card>
-          <div className={styles.placeholder}>
-            Próximamente configuraciones del sistema
-          </div>
-        </Card>
-      </div>
+        <LanguageSettings />
     </div>
   );
 };
