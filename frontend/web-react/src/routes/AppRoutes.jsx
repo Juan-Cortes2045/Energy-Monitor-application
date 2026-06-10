@@ -11,6 +11,7 @@ import Consumption from "../features/DetailProject/Consumption/Consumption";
 
 import MainLayout from "../components/layout/MainLayout/MainLayout";
 import DashboarPage from "../features/dashboard/pages/DashboardPage";
+import Settings from "../features/SettingsPage/pages/Settings";
 const AppRoutes = () => {
   return (
     <BrowserRouter>
@@ -27,6 +28,7 @@ const AppRoutes = () => {
           <Route element={<MainLayout />}>
             <Route path="/dashboard" element={<DashboarPage />}></Route>
             <Route path="/Consumption" element={<Consumption />} />
+            <Route path="/Settings" element={<Settings/>} />
           </Route>
         </Route>
         <Route
