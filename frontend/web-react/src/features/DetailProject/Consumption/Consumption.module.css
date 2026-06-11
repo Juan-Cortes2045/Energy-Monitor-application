@@ -62,6 +62,18 @@
   font-weight: var(--font-weight-normal);
 }
 
+/* Icono del tab — visible solo en móvil/tablet */
+.tabIcon {
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Etiqueta del tab — visible siempre en desktop */
+.tabLabel {
+  display: block;
+}
+
 /* ── KPI row ────────────────────────────────────────────────────────── */
 .kpiRow {
   display: flex;
@@ -313,18 +325,50 @@
 @media (max-width: 767px) {
   .page {
     padding: var(--spacing-sm);
+    padding-bottom: calc(
+      var(--spacing-sm) + 68px
+    ); /* espacio para el menú fijo */
     gap: var(--spacing-sm);
   }
 
+  /* Menú fijo en la parte inferior */
   .tabsRow {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-around;
+    overflow-x: auto;
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-bottom: none;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+    padding-bottom: env(safe-area-inset-bottom, 0px); /* soporte notch iOS */
   }
 
-  /* Tabs: scroll horizontal, fuente más pequeña */
   .tab {
-    padding: 8px 14px;
-    font-size: var(--font-size-xs);
+    padding: 10px 16px;
+    flex-direction: column;
+    gap: 3px;
+    border-bottom: none;
+    border-top: 2px solid transparent;
+  }
+
+  .tabActive {
+    border-bottom-color: transparent;
+    border-top-color: var(--color-primary);
+  }
+
+  /* Ocultar texto, mostrar solo icono en móvil */
+  .tabLabel {
+    display: none;
+  }
+
+  .tabIcon {
+    display: flex;
   }
 
   /* KPIs apilados en columna */
@@ -367,7 +411,47 @@
 @media (min-width: 768px) and (max-width: 1023px) {
   .page {
     padding: var(--spacing-md);
+    padding-bottom: calc(
+      var(--spacing-md) + 72px
+    ); /* espacio para el menú fijo */
     gap: var(--spacing-md);
+  }
+
+  /* Menú fijo en la parte inferior */
+  .tabsRow {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    flex-direction: row;
+    overflow-x: auto;
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-bottom: none;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .tab {
+    flex-direction: column;
+    gap: 3px;
+    padding: 10px 18px;
+    border-bottom: none;
+    border-top: 2px solid transparent;
+  }
+
+  .tabActive {
+    border-bottom-color: transparent;
+    border-top-color: var(--color-primary);
+  }
+
+  .tabLabel {
+    font-size: 10px;
+    display: block;
+  }
+
+  .tabIcon {
+    display: flex;
   }
 
   /* KPIs: 2 por fila en tablet */

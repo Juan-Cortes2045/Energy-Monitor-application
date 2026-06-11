@@ -40,7 +40,111 @@ const emptyProjectData = {
   distribucion: [],
 };
 
-const TABS = ["Consumo", "Historial", "Usuarios", "Dispositivos", "Proyecto"];
+const TABS = [
+  {
+    id: "Consumo",
+    label: "Consumo",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+      </svg>
+    ),
+  },
+  {
+    id: "Historial",
+    label: "Historial",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="12 6 12 12 16 14" />
+      </svg>
+    ),
+  },
+  {
+    id: "Usuarios",
+    label: "Usuarios",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      </svg>
+    ),
+  },
+  {
+    id: "Dispositivos",
+    label: "Dispositivos",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M5 12.55a11 11 0 0 1 14.08 0" />
+        <path d="M1.42 9a16 16 0 0 1 21.16 0" />
+        <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+        <circle cx="12" cy="20" r="1" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    id: "Proyecto",
+    label: "Proyecto",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" />
+        <polyline points="9 21 9 12 15 12 15 21" />
+      </svg>
+    ),
+  },
+];
 
 const CHART_COLORS = [
   colors.primary,
@@ -122,13 +226,14 @@ const Consumption = () => {
       <div className={styles.page}>
         {/* TABS */}
         <div className={styles.tabsRow}>
-          {TABS.map((tab) => (
+          {TABS.map(({ id, label, icon }) => (
             <button
-              key={tab}
-              className={`${styles.tab} ${activeTab === tab ? styles.tabActive : ""}`}
-              onClick={() => setActiveTab(tab)}
+              key={id}
+              className={`${styles.tab} ${activeTab === id ? styles.tabActive : ""}`}
+              onClick={() => setActiveTab(id)}
             >
-              {tab}
+              <span className={styles.tabIcon}>{icon}</span>
+              <span className={styles.tabLabel}>{label}</span>
             </button>
           ))}
         </div>
@@ -398,9 +503,7 @@ const Consumption = () => {
           </>
         )}
 
-        {activeTab === "Historial" && (
-          <ConsumptionHistory />
-        )}
+        {activeTab === "Historial" && <ConsumptionHistory />}
         {activeTab === "Dispositivos" && (
           <EmptyChart mensaje="Dispositivos en desarrollo" />
         )}
