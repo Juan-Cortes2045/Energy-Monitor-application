@@ -1,0 +1,243 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--color-border);
+}
+.info {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+}
+.icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #E8F3FF;
+    color: var(--color-primary);
+    flex-shrink: 0;
+}
+.info h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+.info p {
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+}
+.current {
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #E8F3FF;
+    color: var(--color-primary);
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.section {
+    padding-top: 24px;
+}
+.section + .section {
+    padding-top: 24px;
+}
+.sectionLabel {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+}
+.sectionLabelRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+.sectionLabelRow .sectionLabel {
+    margin-bottom: 0;
+}
+.section > .sectionLabel {
+    display: block;
+    margin-bottom: 14px;
+}
+.badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #B45309;
+    background: #FEF3C7;
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+
+.themesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.themeCard {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    background: #FFFFFF;
+    cursor: pointer;
+    padding: 12px;
+    transition: 0.2s;
+    overflow: hidden;
+}
+.themeCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+.themeCard.active {
+    border-color: var(--color-primary);
+    background: #F7FBFF;
+}
+.darkCard.active {
+    background: #0B1220;
+    border-color: var(--color-primary);
+}
+.darkCard {
+    background: #0F1115;
+    border-color: #1E293B;
+}
+
+.checkBadge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.preview {
+    display: flex;
+    width: 100%;
+    height: 110px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+}
+.darkCard .preview {
+    border-color: #1E293B;
+}
+
+.previewSidebar {
+    width: 28%;
+    height: 100%;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 8px;
+}
+
+.sidebarLine {
+    display: block;
+    height: 5px;
+    border-radius: 3px;
+}
+
+.previewTopRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.previewAccent {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.previewContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+}
+
+.previewBar {
+    height: 14px;
+    border-radius: 4px;
+}
+
+.previewLineGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.previewLine {
+    display: block;
+    height: 6px;
+    border-radius: 3px;
+}
+
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+}
+
+.cardInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.cardName {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
+}
+.darkCard .cardName {
+    color: #F1F5F9;
+}
+
+.cardSubtitle {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    margin-top: 2px;
+}
+.darkCard .cardSubtitle {
+    color: #94A3B8;
+}
+
+.dots {
+    display: flex;
+    gap: 6px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}

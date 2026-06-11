@@ -1,10 +1,10 @@
 import Header from "../../../design/components/Header/Header";
 import Button from "../../../design/components/Button/Button";
-import Card from "../../../design/components/Card/Card";
 
 import styles from "../pages/Settings.module.css"
 
 import LanguageSettings  from "../components/LanguageSettings/LanguageSettings.jsx"
+import ThemeSettings from "../components/ThemeSettings/ThemeSettings.jsx";
 
 const Settings = () => {
   const handleSave = () => {
@@ -54,6 +54,8 @@ const Settings = () => {
       </Header>
 
         <LanguageSettings />
+        <ThemeSettings />
+
     </div>
   );
 };
