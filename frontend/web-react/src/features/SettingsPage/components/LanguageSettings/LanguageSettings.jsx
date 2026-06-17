@@ -1,4 +1,7 @@
-import { Globe } from "lucide-react";
+import {
+  Globe,
+  Check
+} from "lucide-react";
 import { useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 
@@ -85,10 +88,13 @@ const LanguageSettings = () => {
                                 setSelected(language.id)
                             }
                         >
-                            {selected === language.id && (
-                                <div
-                                    className={styles.check}
+                           {selected === language.id && (
+                            <div className={styles.check}>
+                                <Check
+                                size={12}
+                                strokeWidth={3}
                                 />
+                            </div>
                             )}
 
                             <div className={styles.flag}>

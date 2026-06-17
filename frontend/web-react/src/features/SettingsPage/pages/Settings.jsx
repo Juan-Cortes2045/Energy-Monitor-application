@@ -5,6 +5,7 @@ import styles from "../pages/Settings.module.css"
 
 import LanguageSettings  from "../components/LanguageSettings/LanguageSettings.jsx"
 import ThemeSettings from "../components/ThemeSettings/ThemeSettings.jsx";
+import NotificationSettings from "../components/NotificationSettings/NotificationSettings.jsx";
 
 const Settings = () => {
   const handleSave = () => {
@@ -55,6 +56,8 @@ const Settings = () => {
 
         <LanguageSettings />
         <ThemeSettings />
+
+        <NotificationSettings/>
 
     </div>
   );
