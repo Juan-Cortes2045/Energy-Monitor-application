@@ -8,7 +8,7 @@ import RecoverPassword from "../features/auth/pages/RecoverPassword";
 import VerifyRecoverPassword from "../features/auth/pages/VerifyRecoverPassword";
 import Account from "../features/Account/Account";
 import Consumption from "../features/DetailProject/Consumption/Consumption";
-
+import Favorites from "../features/Favorites/Favorites";
 import MainLayout from "../components/layout/MainLayout/MainLayout";
 import DashboarPage from "../features/dashboard/pages/DashboardPage";
 const AppRoutes = () => {
@@ -27,6 +27,7 @@ const AppRoutes = () => {
           <Route element={<MainLayout />}>
             <Route path="/dashboard" element={<DashboarPage />}></Route>
             <Route path="/Consumption" element={<Consumption />} />
+            <Route path="/Favorites" element={<Favorites />} />
           </Route>
         </Route>
         <Route
