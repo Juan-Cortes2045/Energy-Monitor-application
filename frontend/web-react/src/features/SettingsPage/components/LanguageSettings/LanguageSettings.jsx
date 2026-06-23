@@ -56,7 +56,7 @@ const LanguageSettings = () => {
                 <div className={styles.header}>
                     <div className={styles.info}>
                         <div className={styles.icon}>
-                            <Globe size={18} />
+                            <Globe size={24} />
                         </div>
 
                         <div>

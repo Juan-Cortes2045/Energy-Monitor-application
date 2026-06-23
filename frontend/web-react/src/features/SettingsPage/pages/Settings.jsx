@@ -1,11 +1,17 @@
 import Header from "../../../design/components/Header/Header";
 import Button from "../../../design/components/Button/Button";
 
-import styles from "../pages/Settings.module.css"
+import styles from "../pages/Settings.module.css";
 
-import LanguageSettings  from "../components/LanguageSettings/LanguageSettings.jsx"
+import LanguageSettings from "../components/LanguageSettings/LanguageSettings.jsx";
 import ThemeSettings from "../components/ThemeSettings/ThemeSettings.jsx";
 import NotificationSettings from "../components/NotificationSettings/NotificationSettings.jsx";
+import HelpCenter from "../components/HelpCenter/HelpCenter.jsx";
+
+import {
+  Save,
+  X
+} from "lucide-react";
 
 const Settings = () => {
   const handleSave = () => {
@@ -28,7 +34,7 @@ const Settings = () => {
             label: "Ajustes",
           },
         ]}
-      > 
+      >
         <Button
           variant="secondary"
           size="medium"
@@ -37,7 +43,13 @@ const Settings = () => {
             width: "auto",
           }}
         >
-          Descartar
+          <span className={styles.desktopText}>
+            Descartar
+          </span>
+
+          <span className={styles.mobileIcon}>
+            <X size={18} />
+          </span>
         </Button>
 
         <Button
@@ -48,17 +60,20 @@ const Settings = () => {
             width: "auto",
           }}
         >
-          Guardar
+          <span className={styles.desktopText}>
+            Guardar
+          </span>
+
+          <span className={styles.mobileIcon}>
+            <Save size={18} />
+          </span>
         </Button>
-        
-        
       </Header>
 
-        <LanguageSettings />
-        <ThemeSettings />
-
-        <NotificationSettings/>
-
+      <LanguageSettings />
+      <ThemeSettings />
+      <NotificationSettings />
+      <HelpCenter />
     </div>
   );
 };

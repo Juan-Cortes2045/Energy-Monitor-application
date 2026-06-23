@@ -1,0 +1,187 @@
+.container{
+  display:grid;
+  grid-template-columns:
+    repeat(auto-fit,minmax(240px,1fr));
+
+  gap:20px;
+}
+
+.helpCard{
+  border:1px solid var(--color-border);
+  border-radius:12px;
+
+  padding:20px;
+
+  background:white;
+
+  transition:.2s;
+
+  display:flex;
+  flex-direction:column;
+
+  gap:14px;
+}
+
+.helpCard:hover{
+  transform:translateY(-2px);
+}
+
+.icon{
+  width:40px;
+  height:40px;
+
+  border-radius:10px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.docs{
+  background:#EEF2FF;
+  color:#6366F1;
+}
+
+.support{
+  background:#FFF1F2;
+  color:#EF4444;
+}
+
+.updates{
+  background:#ECFDF5;
+  color:#22C55E;
+}
+
+.helpCard h3{
+  margin:0;
+
+  font-size:18px;
+  font-weight:600;
+}
+
+.helpCard p{
+  margin:0;
+
+  line-height:1.6;
+
+  font-size:16px;
+
+  color:var(--color-text-secondary);
+}
+
+.link{
+  margin-top:auto;
+
+  border:none;
+  background:none;
+
+  display:flex;
+  align-items:center;
+  gap:6px;
+
+  padding:0;
+
+  cursor:pointer;
+
+  font-size:16px;
+  font-weight:600;
+
+  color:var(--color-primary);
+}
+
+.link:hover{
+  opacity:.8;
+}
+
+/*TABLET*/
+@media (max-width: 1024px){
+
+  .container{
+    gap:16px;
+  }
+
+  .helpCard{
+    padding:18px;
+  }
+
+  .icon{
+    width:38px;
+    height:38px;
+  }
+
+  .helpCard h3{
+    font-size:16px;
+  }
+
+  .helpCard p{
+    font-size:14px;
+    line-height:1.5;
+  }
+
+  .link{
+    font-size:14px;
+  }
+}
+
+/*MOBILE*/
+@media (max-width: 768px){
+
+  .container{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+
+  .helpCard{
+    padding:16px;
+    gap:12px;
+  }
+
+  .icon{
+    width:36px;
+    height:36px;
+  }
+
+  .helpCard h3{
+    font-size:15px;
+  }
+
+  .helpCard p{
+    font-size:13px;
+    line-height:1.5;
+  }
+
+  .link{
+    font-size:13px;
+    gap:4px;
+  }
+
+  .link svg{
+    width:12px;
+    height:12px;
+  }
+}
+
+/*MOBILE PEQUEÑO*/
+@media (max-width: 480px){
+
+  .helpCard{
+    padding:14px;
+  }
+
+  .icon{
+    width:34px;
+    height:34px;
+  }
+
+  .helpCard h3{
+    font-size:14px;
+  }
+
+  .helpCard p{
+    font-size:12px;
+  }
+
+  .link{
+    font-size:12px;
+  }
+}

@@ -27,12 +27,12 @@
 }
 .info h3 {
     margin: 0;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
 }
 .info p {
     margin-top: 4px;
-    font-size: 13px;
+    font-size: 16px;
     color: var(--color-text-secondary);
 }
 .current {
@@ -40,7 +40,7 @@
     border-radius: 8px;
     background: #E8F3FF;
     color: var(--color-primary);
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 600;
     white-space: nowrap;
 }
@@ -52,7 +52,7 @@
     padding-top: 24px;
 }
 .sectionLabel {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -72,7 +72,7 @@
     margin-bottom: 14px;
 }
 .badge {
-    font-size: 10px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -213,7 +213,7 @@
 }
 
 .cardName {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     color: var(--color-text);
 }
@@ -222,7 +222,7 @@
 }
 
 .cardSubtitle {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--color-text-secondary);
     margin-top: 2px;
 }
@@ -240,4 +240,173 @@
     height: 12px;
     border-radius: 50%;
     border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/*TABLET*/
+@media (max-width: 1024px){
+
+  .themesGrid{
+    grid-template-columns:
+      repeat(2, minmax(220px,1fr));
+  }
+
+  .preview{
+    height:100px;
+  }
+
+  .cardName{
+    font-size:15px;
+  }
+
+  .cardSubtitle{
+    font-size:13px;
+  }
+
+  .info h3{
+    font-size:17px;
+  }
+
+  .info p{
+    font-size:14px;
+  }
+
+  .current{
+    font-size:14px;
+  }
+
+}
+
+
+/*MOBILE*/
+@media (max-width: 768px){
+
+  .header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:16px;
+  }
+
+  .current{
+    align-self:flex-end;
+  }
+
+  .themesGrid{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+
+  .themeCard{
+    padding:10px;
+  }
+
+  .preview{
+    height:90px;
+  }
+
+  .previewSidebar{
+    padding:10px 6px;
+    gap:6px;
+  }
+
+  .previewContent{
+    padding:10px;
+    gap:8px;
+  }
+
+  .previewBar{
+    height:12px;
+  }
+
+  .previewAccent{
+    width:12px;
+    height:12px;
+  }
+
+  .cardName{
+    font-size:15px;
+  }
+
+  .cardSubtitle{
+    font-size:12px;
+  }
+
+  .sectionLabel{
+    font-size:12px;
+  }
+
+  .badge{
+    font-size:11px;
+  }
+
+  .info h3{
+    font-size:16px;
+  }
+
+  .info p{
+    font-size:13px;
+  }
+
+  .current{
+    font-size:13px;
+    padding:6px 10px;
+  }
+
+  .icon{
+    width:34px;
+    height:34px;
+  }
+
+  .icon svg{
+    width:18px;
+    height:18px;
+  }
+
+}
+
+/*MOBILE PEQUEÑO*/
+@media (max-width: 480px){
+
+  .section{
+    padding-top:18px;
+  }
+
+  .preview{
+    height:80px;
+  }
+
+  .themeCard{
+    padding:8px;
+  }
+
+  .checkBadge{
+    width:20px;
+    height:20px;
+  }
+
+  .checkBadge svg{
+    width:10px;
+    height:10px;
+  }
+
+  .cardFooter{
+    gap:10px;
+  }
+
+  .dots{
+    gap:4px;
+  }
+
+  .dot{
+    width:10px;
+    height:10px;
+  }
+
+  .cardName{
+    font-size:14px;
+  }
+
+  .cardSubtitle{
+    font-size:11px;
+  }
+
 }

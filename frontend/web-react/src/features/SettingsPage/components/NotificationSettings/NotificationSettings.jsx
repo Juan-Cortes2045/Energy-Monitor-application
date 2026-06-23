@@ -55,7 +55,7 @@ const NotificationSettings = () => {
         <div className={styles.header}>
           <div className={styles.info}>
             <div className={styles.icon}>
-              <Bell size={18} />
+              <Bell size={24} />
             </div>
 
             <div>
@@ -75,7 +75,7 @@ const NotificationSettings = () => {
 
         <div className={styles.options}>
           <NotificationRow
-            icon={<Mail size={18} />}
+            icon={<Mail size={20} />}
             title="Correo electrónico"
             description="Alertas enviadas al correo registrado"
             enabled={settings.email}
@@ -85,7 +85,7 @@ const NotificationSettings = () => {
           />
 
           <NotificationRow
-            icon={<Smartphone size={18} />}
+            icon={<Smartphone size={20} />}
             title="Notificaciones push"
             description="Alertas dentro de la plataforma"
             enabled={settings.push}
@@ -95,7 +95,7 @@ const NotificationSettings = () => {
           />
 
           <NotificationRow
-            icon={<CheckCheck size={18} />}
+            icon={<CheckCheck size={20} />}
             title="Modo combinado"
             description="Activa ambos canales simultáneamente"
             enabled={settings.combined}

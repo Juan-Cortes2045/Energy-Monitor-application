@@ -172,7 +172,7 @@ const ThemeSettings = () => {
                 <div className={styles.header}>
                     <div className={styles.info}>
                         <div className={styles.icon}>
-                            <Palette size={18} />
+                            <Palette size={24} />
                         </div>
                         <div>
                             <h3>Temas del sistema</h3>

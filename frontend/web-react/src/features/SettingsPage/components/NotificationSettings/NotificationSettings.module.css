@@ -34,13 +34,13 @@
 
 .info h3{
   margin:0;
-  font-size:16px;
+  font-size:18px;
   font-weight:600;
 }
 
 .info p{
   margin-top:4px;
-  font-size:13px;
+  font-size:16px;
   color:var(--color-text-secondary);
 }
 
@@ -52,7 +52,7 @@
   background:#DCFCE7;
   color:#16A34A;
 
-  font-size:13px;
+  font-size:16px;
   font-weight:600;
 }
 
@@ -97,13 +97,13 @@
 
 .rowLeft h4{
   margin:0;
-  font-size:15px;
+  font-size:18px;
   font-weight:600;
 }
 
 .rowLeft p{
   margin-top:4px;
-  font-size:13px;
+  font-size:16px;
   color:var(--color-text-secondary);
 }
 
@@ -118,7 +118,7 @@
 
   border-radius:999px;
 
-  font-size:12px;
+  font-size:14px;
   font-weight:600;
 }
 
@@ -170,15 +170,137 @@
   transform:translateX(22px);
 }
 
-@media (max-width:768px){
 
-  .row{
-    gap:16px;
-    align-items:flex-start;
+/*TABLET*/
+@media (max-width: 1024px) {
+
+  .header {
+    gap: 16px;
   }
 
-  .rowRight{
-    flex-direction:column;
-    align-items:flex-end;
+  .info h3 {
+    font-size: 16px;
+  }
+
+  .info p {
+    font-size: 14px;
+  }
+
+  .counter {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+
+  .rowLeft h4 {
+    font-size: 16px;
+  }
+
+  .rowLeft p {
+    font-size: 14px;
+  }
+
+  .rowIcon {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/*MOBILE*/
+@media (max-width: 768px) {
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .counter {
+    align-self: flex-start;
+  }
+
+  .info {
+    width: 100%;
+  }
+
+  .info h3 {
+    font-size: 15px;
+  }
+
+  .info p {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .options {
+    gap: 4px;
+  }
+
+  .row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 16px 0;
+  }
+
+  .rowLeft {
+    align-items: flex-start;
+  }
+
+  .rowLeft h4 {
+    font-size: 15px;
+  }
+
+  .rowLeft p {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .rowRight {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .status {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  .switch {
+    width: 46px;
+    height: 26px;
+  }
+
+  .thumb {
+    width: 20px;
+    height: 20px;
+  }
+
+  .switchOn .thumb {
+    transform: translateX(20px);
+  }
+}
+
+/*MOBILE PEQUEÑO*/
+@media (max-width: 480px) {
+
+  .rowIcon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .info h3,
+  .rowLeft h4 {
+    font-size: 14px;
+  }
+
+  .info p,
+  .rowLeft p {
+    font-size: 12px;
+  }
+
+  .counter {
+    font-size: 12px;
   }
 }
