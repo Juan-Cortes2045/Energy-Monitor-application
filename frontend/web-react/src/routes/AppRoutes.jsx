@@ -11,6 +11,7 @@ import Consumption from "../features/DetailProject/Consumption/Consumption";
 import Favorites from "../features/Favorites/Favorites";
 import MainLayout from "../components/layout/MainLayout/MainLayout";
 import DashboarPage from "../features/dashboard/pages/DashboardPage";
+import Settings from "../features/SettingsPage/pages/Settings";
 const AppRoutes = () => {
   return (
     <BrowserRouter>
@@ -19,19 +20,23 @@ const AppRoutes = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/how-it-works" element={<HowItWorksPage />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/Register" element={<Register />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/VerifyAccount" element={<VerifyAccount />} />
         <Route path="/recover-password" element={<RecoverPassword />} />
-        <Route path="/Account" element={<Account />} />|
+        <Route path="/account" element={<Account />} />|
         <Route>
           <Route element={<MainLayout />}>
             <Route path="/dashboard" element={<DashboarPage />}></Route>
-            <Route path="/Consumption" element={<Consumption />} />
-            <Route path="/Favorites" element={<Favorites />} />
+            <Route path="/consumption" element={<Consumption />} />
+
+            <Route path="/favorites" element={<Favorites />} />
+
+            <Route path="/settings" element={<Settings/>} />
+
           </Route>
         </Route>
         <Route
-          path="VerifyRecoverPassword"
+          path="/verifyRecoverPassword"
           element={<VerifyRecoverPassword />}
         />
       </Routes>
