@@ -1,55 +1,57 @@
 import { Palette, Check } from "lucide-react";
-import { useState } from "react";
 import Card from "../../../../design/components/Card/Card.jsx";
 import styles from "./ThemeSettings.module.css";
 
-const THEMES = [
-    {
-        id: "energy-light",
-        name: "EnergyMonitor",
-        subtitle: "Claro · Predeterminado",
-        mode: "light",
-        sidebar: "#3F6BAE",
-        main: "#0078D7",
-        indicators: ["#0078D7", "#32CD32", "#E2E8F0"],
-    },
-    {
-        id: "eco-light",
-        name: "Eco Hogar",
-        subtitle: "Claro · Tema 2",
-        mode: "light",
-        sidebar: "#2E7D32",
-        main: "#32CD32",
-        indicators: ["#1B5E20", "#2ECC71", "#A5D6A7"],
-    },
-    {
-        id: "energy-dark",
-        name: "EnergyMonitor Dark",
-        subtitle: "Oscuro · Tema 1",
-        mode: "dark",
-        sidebar: "#0F172A",
-        main: "#1E293B",
-        indicators: ["#0078D7", "#32CD32", "#64748B"],
-    },
-    {
-        id: "eco-dark",
-        name: "Eco Dark",
-        subtitle: "Oscuro · Tema 2",
-        mode: "dark",
-        sidebar: "#102A1A",
-        main: "#183321",
-        indicators: ["#32CD32", "#2ECC71", "#1E4029"],
-    },
-];
+const themes = {
+  "energy-light": {
+    "--color-primary": "#0078d7",
+    "--color-primary-hover": "#3399ff",
+    "--color-background": "#f8f9fa",
+    "--color-surface": "#ffffff",
+    "--color-text-primary": "#212529",
+    "--color-text-secondary": "#6c757d",
+    "--color-border": "#e5e7eb",
+  },
+
+  "eco-light": {
+    "--color-primary": "#32cd32",
+    "--color-primary-hover": "#2ecc71",
+    "--color-background": "#f4fff4",
+    "--color-surface": "#ffffff",
+    "--color-text-primary": "#1b4332",
+    "--color-text-secondary": "#52796f",
+    "--color-border": "#d8f3dc",
+  },
+
+  "energy-dark": {
+    "--color-primary": "#0078d7",
+    "--color-background": "#0f172a",
+    "--color-surface": "#1e293b",
+    "--color-text-primary": "#f8fafc",
+    "--color-text-secondary": "#94a3b8",
+    "--color-border": "#334155",
+  },
+
+  "eco-dark": {
+    "--color-primary": "#32cd32",
+    "--color-background": "#102a1a",
+    "--color-surface": "#183321",
+    "--color-text-primary": "#f0fff4",
+    "--color-text-secondary": "#a7c4a0",
+    "--color-border": "#29523b",
+  },
+};
 
 const lightThemes = THEMES.filter((t) => t.mode === "light");
 const darkThemes = THEMES.filter((t) => t.mode === "dark");
 
-const ThemeSettings = () => {
-    const [selected, setSelected] = useState("energy-light");
+const ThemeSettings = ({
+    value,
+    onChange
+}) => {
 
     const renderThemeCard = (theme) => {
-        const isActive = selected === theme.id;
+        const isActive = value === theme.id;
         const isDark = theme.mode === "dark";
 
         return (
@@ -58,7 +60,7 @@ const ThemeSettings = () => {
                 className={`${styles.themeCard} ${isDark ? styles.darkCard : ""} ${
                     isActive ? styles.active : ""
                 }`}
-                onClick={() => setSelected(theme.id)}
+                onClick={() => onChange(theme.id)}
             >
                 {isActive && (
                     <div className={styles.checkBadge}>
@@ -158,7 +160,7 @@ const ThemeSettings = () => {
         );
     };
 
-    const currentTheme = THEMES.find((t) => t.id === selected);
+    const currentTheme = THEMES.find((t) => t.id === value);
 
     return (
         <Card

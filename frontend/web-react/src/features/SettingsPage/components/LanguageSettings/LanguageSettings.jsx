@@ -2,7 +2,6 @@ import {
   Globe,
   Check
 } from "lucide-react";
-import { useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 
 import Card from "../../../../design/components/Card/Card.jsx"
@@ -36,13 +35,15 @@ const LANGUAGES = [
     },
 ];
 
-const LanguageSettings = () => {
-    const [selected, setSelected] = useState("es");
+const LanguageSettings = ({
+    value,
+    onChange
+}) => {
 
     const currentLanguage =
         LANGUAGES.find(
-            (language) => language.id === selected
-        );
+            (language) => language.id === value
+        ) || LANGUAGES[0];
 
     return (
         <Card
@@ -80,15 +81,15 @@ const LanguageSettings = () => {
                             key={language.id}
                             className={`${styles.languageCard}
               ${
-                                selected === language.id
+                                value === language.id
                                     ? styles.active
                                     : ""
                             }`}
                             onClick={() =>
-                                setSelected(language.id)
+                                onChange(language.id)
                             }
                         >
-                           {selected === language.id && (
+                           {value === language.id && (
                             <div className={styles.check}>
                                 <Check
                                 size={12}

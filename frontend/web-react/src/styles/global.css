@@ -19,6 +19,9 @@
   --color-text-secondary: #6c757d;
   --color-border: #e5e7eb;
 
+  --color-card-soft: #e8f3ff;
+  --color-card-selected: #f7fbff;
+
   --font-primary: "Inter", sans-serif;
   --font-secondary: "Poppins", sans-serif;
 

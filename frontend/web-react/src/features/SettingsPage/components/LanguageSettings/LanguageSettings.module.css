@@ -30,7 +30,7 @@
 
   border-radius:50%;
 
-  background:#E8F3FF;
+  background: var(--color-card-soft);
   color:var(--color-primary);
 }
 
@@ -51,7 +51,7 @@
 
   border-radius:8px;
 
-  background:#E8F3FF;
+  background: var(--color-card-soft);
 
   color:var(--color-primary);
 
@@ -77,7 +77,7 @@
   border:1px solid var(--color-border);
   border-radius:12px;
 
-  background:white;
+  background:var(--color-surface);
 
   cursor:pointer;
 
@@ -98,7 +98,7 @@
 
 .active{
   border-color:var(--color-primary);
-  background:#F7FBFF;
+  background: var(--color-card-selected);
 }
 
 .check{
@@ -118,7 +118,7 @@
   align-items:center;
   justify-content:center;
 
-  color:white;
+  color:var(--color-surface);
 
   box-shadow:
     0 2px 8px rgba(0,0,0,.15);
@@ -137,7 +137,7 @@
 
   border:2px solid #f1f5f9;
 
-  background:white;
+  background:var(--color-surface);
 }
 
 .flag span{
