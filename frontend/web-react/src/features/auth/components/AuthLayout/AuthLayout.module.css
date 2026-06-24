@@ -1,72 +1,206 @@
+/* ─── Contenedor ───────────────────────────────────────── */
 .container {
   display: flex;
   height: 100vh;
+  overflow: hidden;
 }
 
-/*LADO IZQUIERDO*/
+/* ─── PANEL IZQUIERDO ──────────────────────────────────── */
 .left {
+  flex: 1;
+  background: linear-gradient(
+    145deg,
+    var(--color-primary-dark)    0%,
+    var(--color-background-left) 55%,
+    var(--color-primary-dark)    100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--spacing-xl) 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Arcos decorativos */
+.decorSvg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Logo ── */
+.brand {
+  position: relative;
+  z-index: 1;
+}
+
+/* Tarjeta frosted: ícono a la izquierda + nombre a la derecha */
+.brandBackdrop {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* Ícono — ahora es solo la imagen recortada sin texto */
+.brandBackdrop img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0, 120, 215, 0.40));
+  flex-shrink: 0;
+}
+
+/* Nombre de la app en blanco */
+.brandName {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-surface);
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+
+/* ── Zona central ── */
+.leftMiddle {
+  position: relative;
+  z-index: 1;
+}
+
+.headline {
+  font-size: var(--font-size-xxl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-surface);
+  line-height: 1.22;
+  margin: 0 0 var(--spacing-md);
+  letter-spacing: -0.4px;
+}
+
+.accentText {
+  color: var(--color-secondary);
+}
+
+.subtext {
+  font-size: var(--font-size-sm);
+  color: rgba(255, 255, 255, 0.52);
+  line-height: 1.7;
+  max-width: 300px;
+  margin: 0 0 var(--spacing-lg);
+}
+
+/* ── Pills ── */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.pillBlue,
+.pillGreen,
+.pillGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px var(--spacing-md);
+  border-radius: 20px;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.pillBlue {
+  background: rgba(0, 120, 215, 0.18);
+  border: 1px solid rgba(0, 120, 215, 0.38);
+}
+
+.pillGreen {
+  background: rgba(50, 205, 50, 0.14);
+  border: 1px solid rgba(50, 205, 50, 0.30);
+}
+
+.pillGhost {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* ── Copyright ── */
+.copyright {
+  font-size: var(--font-size-xs);
+  color: rgba(255, 255, 255, 0.28);
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── PANEL DERECHO ────────────────────────────────────── */
+.right {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  padding: var(--spacing-xl);
 }
 
-/*LOGO*/
-.brand img{
-    width: 400px;
-    max-width: 80%;
-    height: auto;
+.backWrapper {
+  position: absolute;
+  top: var(--spacing-md);
+  left: var(--spacing-md);
 }
 
-/*LADO DERECHO*/
-.right{
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    padding: 40px;
-}
-
-/* BOTON ATRAS*/
-.backWrapper{
-    position: absolute;
-    top: 20px;
-    left: 20px;
-}
-
-/* TABLET */
-@media (max-width: 1024px){
-  .brand img{
-    width: 300px;
+/* ─── RESPONSIVE ───────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .left {
+    padding: var(--spacing-xl);
   }
 
-  .right{
-    padding: 30px;
+  .brandBackdrop img {
+    width: 44px;
+    height: 44px;
+  }
+
+  .brandName {
+    font-size: var(--font-size-md);
+  }
+
+  .headline {
+    font-size: var(--font-size-xl);
+  }
+
+  .right {
+    padding: var(--spacing-lg);
   }
 }
 
-/* MOBILE */
-@media (max-width:768px){
-  .container{
+@media (max-width: 768px) {
+  .container {
     flex-direction: column;
     height: auto;
     min-height: 100vh;
   }
 
-  .left{
+  .left {
     display: none;
   }
 
-  .right{
+  .right {
     width: 100%;
-    padding: 20px;
+    padding: var(--spacing-md);
     align-items: center;
     justify-content: center;
   }
 
-  .backWrapper{
-    top: 10px;
-    left: 10px;
+  .backWrapper {
+    top: var(--spacing-sm);
+    left: var(--spacing-sm);
   }
 }
