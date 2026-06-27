@@ -13,9 +13,24 @@
     gap: 32px
 }
 
-.logo img{
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
     height: 60px;
     object-fit: contain;
+}
+
+.logoText {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    font-family: var(--font-primary);
+    white-space: nowrap;
+    letter-spacing: -0.5px;
 }
 
 .navLinks{

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 
 import styles from "../Sidebar/Sidebar.module.css";
-import logoClaro from "../../../../assets/Logo_proyecto_Vclara.png";
+import logoProyecto from "../../../../assets/logo_proyecto.png";
 import NavProjects from "./NavProjects";
 
 import {
@@ -72,7 +72,8 @@ const Sidebar = () => {
         >
           <Menu size={24} />
         </button>
-        <img src={logoClaro} alt="EnergyMonitor" className={styles.logo} />
+        <img src={logoProyecto} alt="EnergyMonitor" className={styles.logo} />
+        <h1 className={styles.title}>EnergyMonitor</h1>
       </div>
 
       {/*NAV*/}
