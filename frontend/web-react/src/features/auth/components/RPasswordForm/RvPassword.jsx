@@ -3,7 +3,6 @@ import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
 import styles from "./RecoverPassword.module.css";
 
-import colors from "../../../../design/tokens/colors";
 import { useNavigate } from "react-router-dom";
 
 const RvPassword = () => {
@@ -26,7 +25,7 @@ const RvPassword = () => {
       }}>
         <h2 className={styles.title}>Recuperar contraseña</h2>
 
-        <p className={styles.description} style={{color: colors.textSecondary}}>
+        <p className={styles.description}>
           Te enviaremos un correo con código de verificación de 6 dígitos para
           poder recuperar tu cuenta. A continuación digita tu correo
         </p>

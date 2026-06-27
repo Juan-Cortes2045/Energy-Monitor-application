@@ -6,7 +6,6 @@ import Header from "../../../design/components/Header/Header";
 import ActionMenu from "../../../design/components/ActionMenu/ActionMenu";
 import EmptyState from "../components/EmptyState/EmptyState";
 import ProjectCard from "../components/ProjectCard/ProjectCard";
-import Consumption from "../../DetailProject/Consumption/Consumption";
 import CreateProjectModal from "../components/ModalCreateProject/CreateProjectModal";
 import { FolderPlus, Users } from "lucide-react";
 

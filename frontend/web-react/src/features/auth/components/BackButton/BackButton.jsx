@@ -1,7 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import styles from "./BackButton.module.css";
-import colors from "../../../../design/tokens/colors";
 
 const BackButton = ({ to, className }) => {
   const navigate = useNavigate();
@@ -18,9 +17,6 @@ const BackButton = ({ to, className }) => {
     <button
       onClick={handleClick}
       className={`${styles.backButton} ${className || ""}`}
-      style={{
-        color: colors.textPrimary,
-      }}
     >
       <ArrowLeft size={24} />
     </button>

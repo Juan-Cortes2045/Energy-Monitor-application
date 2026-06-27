@@ -27,12 +27,13 @@
   font-size: 22px;
   font-weight: 600;
   text-align: center;
+  color: var(--color-text-primary);
 }
 
 /* DESCRIPCIÓN */
 .description {
   font-size: 14px;
-  color: #6C757D;
+  color: var(--color-text-secondary);
   text-align: center;
   line-height: 1.5;
 }
@@ -57,6 +58,7 @@
 .helperText {
   font-size: 13px;
   text-align: center;
+  color: var(--color-text-secondary);
 }
 
 /* MOBILE */

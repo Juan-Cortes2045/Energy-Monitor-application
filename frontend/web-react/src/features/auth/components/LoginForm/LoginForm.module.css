@@ -1,6 +1,7 @@
 .title {
   text-align: center;
   margin-bottom: 10px;
+  color: var(--color-text-primary);
 }
 
 .form {
@@ -13,6 +14,7 @@
 /*ERRORES*/
 .error {
   font-size: 14px;
+  color: var(--color-danger);
 }
 
 /*OPCIONES*/
@@ -34,6 +36,7 @@
 .link {
   text-decoration: none;
   font-weight: 600;
+  color: var(--color-secondary);
 }
 
 .link:hover {
@@ -46,6 +49,7 @@
   align-items: center;
   width: 100%;
   font-size: 12px;
+  color: var(--color-text-secondary);
 }
 
 .divider::before,
@@ -66,6 +70,7 @@
   text-align: center;
   font-weight: 500;
   font-size: 14px;
+  color: var(--color-text-primary);
 }
 
 .register a{

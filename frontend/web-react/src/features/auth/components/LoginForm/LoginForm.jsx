@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../../validation/loginSchema.js";
 import styles from "../LoginForm/LoginForm.module.css";
-import colors from "../../../../design/tokens/colors.js";
 
 import googleIcon from "../../../../assets/google_icon.png";
 
@@ -44,12 +43,7 @@ const LoginForm = () => {
           Correo Electrónico
         </Input>
         {errors.email && (
-          <span
-            className={styles.error}
-            style={{
-              color: colors.danger,
-            }}
-          >
+          <span className={styles.error}>
             {errors.email.message}
           </span>
         )}
@@ -66,12 +60,7 @@ const LoginForm = () => {
           Contraseña
         </Input>
         {errors.password && (
-          <span
-            className={styles.error}
-            style={{
-              color: colors.danger,
-            }}
-          >
+          <span className={styles.error}>
             {errors.password.message}
           </span>
         )}
@@ -83,13 +72,7 @@ const LoginForm = () => {
             Recordar datos
           </label>
 
-          <a
-            href="/recover-password"
-            className={styles.link}
-            style={{
-              color: colors.secondary,
-            }}
-          >
+          <a href="/recover-password" className={styles.link}>
             ¿Olvidaste tu contraseña?
           </a>
         </div>
@@ -101,12 +84,7 @@ const LoginForm = () => {
           </Button>
 
           {/*DIVIDER*/}
-          <div
-            className={styles.divider}
-            style={{
-              color: colors.textSecondary,
-            }}
-          >
+          <div className={styles.divider}>
             <span>O</span>
           </div>
 
@@ -120,13 +98,7 @@ const LoginForm = () => {
         {/*REGISTER*/}
         <p className={styles.register}>
           ¿No tienes una cuenta?.{" "}
-          <a
-            href="/register"
-            className={styles.link}
-            style={{
-              color: colors.secondary,
-            }}
-          >
+          <a href="/register" className={styles.link}>
             registrate
           </a>
         </p>

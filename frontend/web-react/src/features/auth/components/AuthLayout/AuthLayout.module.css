@@ -20,6 +20,7 @@
   padding: var(--spacing-xl) 48px;
   position: relative;
   overflow: hidden;
+  color: #ffffff;
 }
 
 /* Arcos decorativos */
@@ -57,15 +58,16 @@
   width: 52px;
   height: 52px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 8px rgba(0, 120, 215, 0.40));
+  filter: drop-shadow(0 2px 8px color-mix(in srgb, var(--color-primary) 40%, transparent));
   flex-shrink: 0;
 }
 
-/* Nombre de la app en blanco */
+/* Nombre de la app — texto claro sobre el panel oscuro */
 .brandName {
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
-  color: var(--color-surface);
+  color: #ffffff;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
   letter-spacing: -0.3px;
   white-space: nowrap;
 }
@@ -79,10 +81,15 @@
 .headline {
   font-size: var(--font-size-xxl);
   font-weight: var(--font-weight-bold);
-  color: var(--color-surface);
+  color: #ffffff;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
   line-height: 1.22;
   margin: 0 0 var(--spacing-md);
   letter-spacing: -0.4px;
+}
+
+.headlineMain {
+  color: #ffffff;
 }
 
 .accentText {
@@ -91,7 +98,7 @@
 
 .subtext {
   font-size: var(--font-size-sm);
-  color: rgba(255, 255, 255, 0.52);
+  color: rgba(255, 255, 255, 0.72);
   line-height: 1.7;
   max-width: 300px;
   margin: 0 0 var(--spacing-lg);
@@ -118,13 +125,13 @@
 }
 
 .pillBlue {
-  background: rgba(0, 120, 215, 0.18);
-  border: 1px solid rgba(0, 120, 215, 0.38);
+  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 38%, transparent);
 }
 
 .pillGreen {
-  background: rgba(50, 205, 50, 0.14);
-  border: 1px solid rgba(50, 205, 50, 0.30);
+  background: color-mix(in srgb, var(--color-secondary) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-secondary) 30%, transparent);
 }
 
 .pillGhost {
@@ -135,7 +142,7 @@
 /* ── Copyright ── */
 .copyright {
   font-size: var(--font-size-xs);
-  color: rgba(255, 255, 255, 0.28);
+  color: rgba(255, 255, 255, 0.45);
   margin: 0;
   position: relative;
   z-index: 1;
@@ -149,6 +156,7 @@
   justify-content: center;
   position: relative;
   padding: var(--spacing-xl);
+  background-color: var(--color-background);
 }
 
 .backWrapper {

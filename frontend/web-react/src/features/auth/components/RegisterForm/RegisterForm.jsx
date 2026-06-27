@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import styles from "./RegisterForm.module.css";
 import { registerSchema } from "../../validation/registerSchema.js";
 import { useNavigate } from "react-router-dom";
-import colors from "../../../../design/tokens/colors.js";
 
 import googleIcon from "../../../../assets/google_icon.png";
 
@@ -49,7 +48,7 @@ const RegisterForm = () => {
               Nombre
             </Input>
             {errors.name && (
-              <span className={styles.error} style={{ color: colors.danger }}>
+              <span className={styles.error}>
                 {errors.name.message}
               </span>
             )}
@@ -64,7 +63,7 @@ const RegisterForm = () => {
               Correo electrónico
             </Input>
             {errors.email && (
-              <span className={styles.error} style={{ color: colors.danger }}>
+              <span className={styles.error}>
                 {errors.email.message}
               </span>
             )}
@@ -81,7 +80,7 @@ const RegisterForm = () => {
               Contraseña
             </Input>
             {errors.password && (
-              <span className={styles.error} style={{ color: colors.danger }}>
+              <span className={styles.error}>
                 {errors.password.message}
               </span>
             )}
@@ -100,7 +99,7 @@ const RegisterForm = () => {
               Repetir contraseña
             </Input>
             {errors.repeatPassword && (
-              <span className={styles.error} style={{ color: colors.danger }}>
+              <span className={styles.error}>
                 {errors.repeatPassword.message}
               </span>
             )}
@@ -111,17 +110,11 @@ const RegisterForm = () => {
               <label className={styles.terms}>
                 <p>
                   Estoy de acuerdo con los{" "}
-                  <span
-                    className={styles.registerLink}
-                    style={{ color: colors.secondary }}
-                  >
+                  <span className={styles.registerLink}>
                     Términos de uso
                   </span>{" "}
                   y la{" "}
-                  <span
-                    className={styles.registerLink}
-                    style={{ color: colors.secondary }}
-                  >
+                  <span className={styles.registerLink}>
                     Política de privacidad
                   </span>
                 </p>
@@ -129,7 +122,7 @@ const RegisterForm = () => {
             </div>
             <div>
               {errors.terms && (
-                <span className={styles.error} style={{ color: colors.danger }}>
+                <span className={styles.error}>
                   {errors.terms.message}
                 </span>
               )}
@@ -156,11 +149,7 @@ const RegisterForm = () => {
             {/* LOGIN */}
             <p className={styles.register}>
               ¿Ya tienes una cuenta?.{" "}
-              <a
-                href="/login"
-                style={{ color: colors.secondary }}
-                className={styles.registerLink}
-              >
+              <a href="/login" className={styles.registerLink}>
                 Inicia sesión
               </a>
             </p>
