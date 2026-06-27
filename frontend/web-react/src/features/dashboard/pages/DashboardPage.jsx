@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./DashboardPage";
+import styles from "../pages/DashboardPage.module.css";
 
 import Header from "../../../design/components/Header/Header";
 import ActionMenu from "../../../design/components/ActionMenu/ActionMenu";

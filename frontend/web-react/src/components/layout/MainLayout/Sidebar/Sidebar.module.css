@@ -10,7 +10,7 @@
 }
 
 .collapsed {
-  width: 80px;
+  width: 75px;
 }
 
 .sidebar.collapsed .logo        { display: none; }
@@ -41,7 +41,7 @@
   background: rgba(255, 255, 255, 0.1);
   border: none;
   cursor: pointer;
-  color: white;
+  color: var(--color-surface);
 }
 
 .nav {

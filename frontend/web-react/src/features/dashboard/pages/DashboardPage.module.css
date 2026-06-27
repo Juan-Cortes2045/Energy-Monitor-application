@@ -1,6 +1,49 @@
-@media (max-width: 768px) {
+.content {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.header {
+  width: 100%;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* TABLET */
+@media (max-width: 1024px) {
   .header {
-    padding-left: 42px;
-    padding-top: 0px;
+    padding: 16px;
   }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .content {
+    width: 100vw;
+    overflow-x: hidden;
+  }
+
+  .header {
+    width: 100%;
+    padding: 12px;
+    padding-top: 70px; /* espacio para botón hamburguesa */
+    margin-left: 0;
+  }
+
+  .main {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .emptyState {
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.emptyState img {
+  max-width: 100%;
+  height: auto;
+}
 }

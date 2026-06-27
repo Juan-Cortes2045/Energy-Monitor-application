@@ -91,10 +91,9 @@
   .header{
     padding:16px;
 
-    /* más separación respecto al menú */
-    margin-left: 72px;
+    margin-left:40px;
 
-    width: calc(100% - 88px);
+    width: 320px;
   }
 
   .headerContent{

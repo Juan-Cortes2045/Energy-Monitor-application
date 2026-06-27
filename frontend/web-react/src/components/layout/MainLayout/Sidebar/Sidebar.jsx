@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 
 import styles from "../Sidebar/Sidebar.module.css";
-import logoClaro from "../../../../assets/Logo_proyecto_Vclara.png";
+import logoProyecto from "../../../../assets/logo_proyecto.png";
 import NavProjects from "./NavProjects";
 
 import {

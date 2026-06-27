@@ -22,9 +22,14 @@ const Navbar = () => {
       boxShadow: shadows.md,
       borderBottom: `1px solid ${colors.border}`,
     }}>
-      <div className={styles.logo}>
+      
+    <div className={styles.logo}>
         <img src={LogoProyecto} alt="EnergyMonitor" />
-      </div>
+
+        <div className={styles.logoText}>
+          EnergyMonitor
+        </div>
+    </div>
       
       <div className={`${styles.center} ${open ? styles.open : ""}`}>
         <NavList setOpen={setOpen}/>
