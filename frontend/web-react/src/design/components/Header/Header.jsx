@@ -2,7 +2,6 @@ import { Plus } from "lucide-react";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
 import styles from "../../css/Header.module.css";
 
-import colors from "../../tokens/colors";
 import spacing from "../../tokens/spacing";
 import typography from "../../tokens/typography";
 import radius from "../../tokens/radius";
@@ -12,21 +11,21 @@ const Header = ({
   breadcrumbItems = [],
   onActionClick = null,
   actionLabel = "Añadir",
-  children
+  children,
 }) => {
   return (
     <header
       className={styles.header}
       style={{
-        "--header-bg": colors.surface,
-        "--header-border": colors.border,
-        "--header-spacing": spacing.lg,
-        "--header-spacing-sm": spacing.md,
-        "--header-radius": radius.lg,
-        "--header-shadow": shadows.sm,
-        "--header-text-color": colors.textSecondary,
-        "--header-action-color": colors.primary,
-        "--header-font-family": typography.fontPrimary,
+        "--header-bg":           "var(--color-surface)",
+        "--header-border":       "var(--color-border)",
+        "--header-spacing":      spacing.lg,
+        "--header-spacing-sm":   spacing.md,
+        "--header-radius":       radius.lg,
+        "--header-shadow":       shadows.sm,
+        "--header-text-color":   "var(--color-text-secondary)",
+        "--header-action-color": "var(--color-primary)",
+        "--header-font-family":  typography.fontPrimary,
       }}
     >
       <div className={styles.headerContent}>
@@ -54,4 +53,3 @@ const Header = ({
 };
 
 export default Header;
-

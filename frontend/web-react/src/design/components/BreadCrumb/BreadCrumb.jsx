@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import styles from "../../css/BreadCrumb.module.css";
 
-import colors from "../../tokens/colors";
 import spacing from "../../tokens/spacing";
 import typography from "../../tokens/typography";
 
@@ -13,13 +12,10 @@ const BreadCrumb = ({ items = [] }) => {
     <nav
       className={styles.breadcrumb}
       style={{
-        "--bc-spacing": spacing.md,
-        "--bc-spacing-sm": spacing.sm,
-        "--bc-text-color": colors.textSecondary,
-        "--bc-link-color": colors.primary,
-        "--bc-font-size": typography.sizes.sm,
+        "--bc-spacing":     spacing.md,
+        "--bc-spacing-sm":  spacing.sm,
+        "--bc-font-size":   typography.sizes.sm,
         "--bc-font-family": typography.fontPrimary,
-        "--bc-icon-color": colors.textSecondary,
       }}
     >
       <ol className={styles.breadcrumbList}>

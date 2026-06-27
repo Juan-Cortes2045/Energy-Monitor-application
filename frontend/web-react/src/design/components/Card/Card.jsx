@@ -1,16 +1,15 @@
 import styles from "../../css/Card.module.css";
-import colors from "../../tokens/colors";
 import typography from "../../tokens/typography";
 import radius from "../../tokens/radius";
 import spacing from "../../tokens/spacing";
 import shadows from "../../tokens/shadows";
 
-const Card = ({ title, children, style={}, maxWidth = "100%",}) => {
+const Card = ({ title, children, style = {}, maxWidth = "100%" }) => {
   return (
     <div
       className={styles.container}
       style={{
-        backgroundColor: colors.surface,
+        backgroundColor: "var(--color-surface)",
         borderRadius: radius.md,
         padding: spacing.lg,
         boxShadow: shadows.lg,
@@ -25,7 +24,7 @@ const Card = ({ title, children, style={}, maxWidth = "100%",}) => {
             fontFamily: typography.fontPrimary,
             fontSize: typography.sizes.lg,
             fontWeight: typography.weights.bold,
-            color: colors.textPrimary,
+            color: "var(--color-text-primary)",
           }}
         >
           {title}

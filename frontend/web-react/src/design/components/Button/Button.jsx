@@ -1,5 +1,4 @@
 import styles from "../../css/Button.module.css";
-import colors from "../../tokens/colors";
 import typography from "../../tokens/typography";
 import radius from "../../tokens/radius";
 import spacing from "../../tokens/spacing";
@@ -21,12 +20,10 @@ const Button = ({
       padding: `${spacing.xs} ${spacing.sm}`,
       fontSize: typography.sizes.xs,
     },
-
     medium: {
       padding: `${spacing.sm} ${spacing.md}`,
       fontSize: typography.sizes.sm,
     },
-
     large: {
       padding: `${spacing.md} ${spacing.lg}`,
       fontSize: typography.sizes.md,
@@ -35,23 +32,23 @@ const Button = ({
 
   const variantStyles = {
     primary: {
-      backgroundColor: colors.primary,
+      backgroundColor: "var(--color-primary)",
       color: "#fff",
       border: "none",
       boxShadow: shadows.md,
     },
     secondary: {
-      backgroundColor: colors.background,
-      color: colors.textPrimary,
-      border: `1px solid ${colors.border}`,
+      backgroundColor: "var(--color-background)",
+      color: "var(--color-text-primary)",
+      border: "1px solid var(--color-border)",
       boxShadow: shadows.md,
     },
     Danger: {
-      backgroundColor: colors.background,
-      color: colors.danger,
-      border: `1px solid ${colors.danger}`,
+      backgroundColor: "var(--color-background)",
+      color: "var(--color-danger)",
+      border: "1px solid var(--color-danger)",
       boxShadow: shadows.md,
-      fontSize: typography.xl,
+      fontSize: typography.sizes.xl,
     },
   };
 
@@ -69,7 +66,6 @@ const Button = ({
         ...sizeStyles[size],
         ...variantStyles[variant],
         ...style,
-
         fontFamily: typography.fontPrimary,
         fontWeight: typography.weights.medium,
         borderRadius: radius.sm,

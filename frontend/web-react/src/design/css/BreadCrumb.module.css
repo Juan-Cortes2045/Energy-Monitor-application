@@ -1,7 +1,7 @@
 .breadcrumb {
   font-family: var(--bc-font-family, "Inter", sans-serif);
   font-size: var(--bc-font-size, 14px);
-  color: var(--bc-text-color, #6c757d);
+  color: var(--color-text-secondary);
 }
 
 .breadcrumbList {
@@ -21,7 +21,7 @@
 }
 
 .breadcrumbLink {
-  color: var(--bc-link-color, #0078d7);
+  color: var(--color-primary);
   text-decoration: none;
   transition: color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
   font-weight: 500;
@@ -32,8 +32,7 @@
 }
 
 .breadcrumbLink:hover {
-  color: var(--bc-link-color, #0078d7);
-  background-color: rgba(0, 120, 215, 0.15);
+  background-color: rgba(0, 0, 0, 0.06);
   text-decoration: underline;
   opacity: 0.8;
 }
@@ -43,7 +42,7 @@
 }
 
 .breadcrumbCurrent {
-  color: var(--bc-text-color, #6c757d);
+  color: var(--color-text-secondary);
   font-weight: 600;
   padding: 4px 8px;
   cursor: default;
@@ -53,9 +52,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin: 0 var(--bc-spacing-sm, 8px);
   flex-shrink: 0;
-  color: var(--bc-icon-color, #6c757d);
+  color: var(--color-text-secondary);
 }
 
 .separator svg {
@@ -66,26 +64,25 @@
   stroke-linejoin: round;
 }
 
-
+/* MOBILE */
 @media (max-width: 768px) {
- @media (max-width: 768px) {
   .breadcrumbList {
     gap: 3px;
     flex-wrap: nowrap;
     overflow-x: auto;
-    scrollbar-width: none; 
+    scrollbar-width: none;
   }
 
   .breadcrumbList::-webkit-scrollbar {
-    display: none; 
+    display: none;
   }
 
   .breadcrumbItem:not(:first-child):not(:last-child) {
     display: none;
   }
 }
-}
 
+/* MOBILE PEQUEÑO */
 @media (max-width: 480px) {
   .breadcrumb {
     font-size: 12px;
