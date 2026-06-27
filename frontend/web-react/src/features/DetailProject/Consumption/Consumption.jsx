@@ -24,10 +24,6 @@ import Project from "../Project/Project";
 import ConsumptionHistory from "../ConsumptionHistory/ComsumptionHistory";
 import styles from "./Consumption.module.css";
 
-import colors from "../../../design/tokens/colors";
-import typography from "../../../design/tokens/typography";
-import radius from "../../../design/tokens/radius";
-
 const emptyProjectData = {
   potencia: null,
   nivelPotencia: "—",
@@ -45,17 +41,7 @@ const TABS = [
     id: "Consumo",
     label: "Consumo",
     icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
       </svg>
     ),
@@ -64,17 +50,7 @@ const TABS = [
     id: "Historial",
     label: "Historial",
     icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10" />
         <polyline points="12 6 12 12 16 14" />
       </svg>
@@ -84,17 +60,7 @@ const TABS = [
     id: "Usuarios",
     label: "Usuarios",
     icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
         <circle cx="9" cy="7" r="4" />
         <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
@@ -106,17 +72,7 @@ const TABS = [
     id: "Dispositivos",
     label: "Dispositivos",
     icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M5 12.55a11 11 0 0 1 14.08 0" />
         <path d="M1.42 9a16 16 0 0 1 21.16 0" />
         <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
@@ -128,17 +84,7 @@ const TABS = [
     id: "Proyecto",
     label: "Proyecto",
     icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" />
         <polyline points="9 21 9 12 15 12 15 21" />
       </svg>
@@ -147,10 +93,10 @@ const TABS = [
 ];
 
 const CHART_COLORS = [
-  colors.primary,
-  colors.warning,
-  colors.secondary,
-  colors.danger,
+  "var(--color-primary)",
+  "var(--color-warning)",
+  "var(--color-secondary)",
+  "var(--color-danger)",
   "#9B59B6",
   "#E67E22",
 ];
@@ -215,7 +161,6 @@ const Consumption = () => {
 
   const breadcrumbItems = [
     { label: "Inicio", onClick: onBack },
-    { label: "Proyectos", onClick: onBack },
     { label: project?.name ?? "Proyecto" },
   ];
 
@@ -310,47 +255,25 @@ const Consumption = () => {
                       margin={{ top: 5, right: 10, left: -20, bottom: 0 }}
                     >
                       <defs>
-                        <linearGradient
-                          id="gradConsumo"
-                          x1="0"
-                          y1="0"
-                          x2="0"
-                          y2="1"
-                        >
-                          <stop
-                            offset="5%"
-                            stopColor={colors.primary}
-                            stopOpacity={0.15}
-                          />
-                          <stop
-                            offset="95%"
-                            stopColor={colors.primary}
-                            stopOpacity={0}
-                          />
+                        <linearGradient id="gradConsumo" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="var(--color-primary)" stopOpacity={0.15} />
+                          <stop offset="95%" stopColor="var(--color-primary)" stopOpacity={0} />
                         </linearGradient>
                       </defs>
                       <CartesianGrid
                         strokeDasharray="3 3"
-                        stroke={colors.border}
+                        stroke="var(--color-border)"
                         vertical={false}
                       />
                       <XAxis
                         dataKey="hora"
-                        tick={{
-                          fontSize: 10,
-                          fill: colors.textSecondary,
-                          fontFamily: typography.fontPrimary,
-                        }}
+                        tick={{ fontSize: 10, fill: "var(--color-text-secondary)", fontFamily: "var(--font-primary)" }}
                         axisLine={false}
                         tickLine={false}
                         interval={3}
                       />
                       <YAxis
-                        tick={{
-                          fontSize: 10,
-                          fill: colors.textSecondary,
-                          fontFamily: typography.fontPrimary,
-                        }}
+                        tick={{ fontSize: 10, fill: "var(--color-text-secondary)", fontFamily: "var(--font-primary)" }}
                         axisLine={false}
                         tickLine={false}
                         unit=" kW"
@@ -359,7 +282,7 @@ const Consumption = () => {
                       <Area
                         type="monotone"
                         dataKey="kw"
-                        stroke={colors.primary}
+                        stroke="var(--color-primary)"
                         strokeWidth={2}
                         fill="url(#gradConsumo)"
                         dot={false}
@@ -391,10 +314,7 @@ const Consumption = () => {
                           nameKey="nombre"
                         >
                           {data.distribucion.map((_, i) => (
-                            <Cell
-                              key={i}
-                              fill={CHART_COLORS[i % CHART_COLORS.length]}
-                            />
+                            <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
                           ))}
                         </Pie>
                         <Tooltip content={<CustomPieTooltip />} />
@@ -402,15 +322,7 @@ const Consumption = () => {
                           iconType="circle"
                           iconSize={8}
                           formatter={(v) => (
-                            <span
-                              style={{
-                                fontSize: 11,
-                                color: colors.textPrimary,
-                                fontFamily: typography.fontPrimary,
-                              }}
-                            >
-                              {v}
-                            </span>
+                            <span className={styles.legendLabel}>{v}</span>
                           )}
                         />
                       </PieChart>
@@ -435,16 +347,12 @@ const Consumption = () => {
                         <CartesianGrid
                           strokeDasharray="3 3"
                           horizontal={false}
-                          stroke={colors.border}
+                          stroke="var(--color-border)"
                         />
                         <XAxis
                           type="number"
                           unit=" kW"
-                          tick={{
-                            fontSize: 10,
-                            fill: colors.textSecondary,
-                            fontFamily: typography.fontPrimary,
-                          }}
+                          tick={{ fontSize: 10, fill: "var(--color-text-secondary)", fontFamily: "var(--font-primary)" }}
                           axisLine={false}
                           tickLine={false}
                         />
@@ -452,33 +360,22 @@ const Consumption = () => {
                           type="category"
                           dataKey="nombre"
                           width={85}
-                          tick={{
-                            fontSize: 11,
-                            fill: colors.textPrimary,
-                            fontFamily: typography.fontPrimary,
-                          }}
+                          tick={{ fontSize: 11, fill: "var(--color-text-primary)", fontFamily: "var(--font-primary)" }}
                           axisLine={false}
                           tickLine={false}
                         />
                         <Tooltip
                           formatter={(v) => [`${v} kW`, "Consumo"]}
                           contentStyle={{
-                            borderRadius: radius.md,
-                            border: `1px solid ${colors.border}`,
+                            borderRadius: "var(--radius-md)",
+                            border: "1px solid var(--color-border)",
                             fontSize: 12,
-                            fontFamily: typography.fontPrimary,
+                            fontFamily: "var(--font-primary)",
                           }}
                         />
-                        <Bar
-                          dataKey="consumo"
-                          radius={[0, 4, 4, 0]}
-                          maxBarSize={14}
-                        >
+                        <Bar dataKey="consumo" radius={[0, 4, 4, 0]} maxBarSize={14}>
                           {data.distribucion.map((_, i) => (
-                            <Cell
-                              key={i}
-                              fill={CHART_COLORS[i % CHART_COLORS.length]}
-                            />
+                            <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
                           ))}
                         </Bar>
                       </BarChart>

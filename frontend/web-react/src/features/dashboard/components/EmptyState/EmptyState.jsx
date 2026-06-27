@@ -2,33 +2,17 @@ import styles from "../EmptyState/EmptyState.module.css";
 import emptyImg from "../../../../assets/empty_image.png";
 
 import Button from "../../../../design/components/Button/Button";
-import colors from "../../../../design/tokens/colors";
-import spacing from "../../../../design/tokens/spacing";
-import typography from "../../../../design/tokens/typography";
 
 const EmptyState = ({ onCreateProject, onJoinProject }) => {
   return (
     <div className={styles.container}>
       <img className={styles.emptyImg} src={emptyImg} alt="empty" />
 
-      <h2
-        style={{
-          color: colors.textSecondary,
-          fontFamily: typography.fontSecondary,
-          fontWeight: typography.weights.bold,
-          fontSize: typography.sizes.xl,
-        }}
-      >
+      <h2 className={styles.title}>
         Añade un proyecto para empezar
       </h2>
 
-      <div
-        className={styles.buttonsContainer}
-        style={{
-          marginTop: spacing.md,
-          gap: spacing.sm,
-        }}
-      >
+      <div className={styles.buttonsContainer}>
         <Button variant="secondary" onClick={onCreateProject}>
           Crear Proyecto
         </Button>

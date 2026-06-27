@@ -4,7 +4,10 @@ import ProjectCard from "../dashboard/components/ProjectCard/ProjectCard";
 import { Heart } from "lucide-react";
 
 const Favorites = ({ projects = [], onToggleFavorite, onCardClick }) => {
-  const breadcrumbItems = [{ label: "Inicio" }, { label: "Favoritos" }];
+  const breadcrumbItems = [
+    { label: "Inicio", path: "/dashboard" },
+    { label: "Favoritos" },
+  ];
 
   const favoriteProjects = projects.filter((p) => p.favorite);
 

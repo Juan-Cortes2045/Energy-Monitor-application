@@ -3,45 +3,29 @@ import { Heart } from "lucide-react";
 import Card from "../../../../design/components/Card/Card";
 import styles from "../ProjectCard/ProjectCard.module.css";
 
-import colors from "../../../../design/tokens/colors";
-import spacing from "../../../../design/tokens/spacing";
-import typography from "../../../../design/tokens/typography";
-import radius from "../../../../design/tokens/radius";
-import shadows from "../../../../design/tokens/shadows";
-
-// ─── onClick viene de DashboardPage → setSelectedProject(project) ─────────────
 const ProjectCard = ({ project, onClick }) => {
   const [favorite, setFavorite] = useState(project.favorite || false);
 
   const headerColor = project.color
     ? project.color
     : project.variant === "joined"
-      ? colors.secondary
-      : colors.primary;
+      ? "var(--color-secondary)"
+      : "var(--color-primary)";
 
   const toggleFavorite = (e) => {
-    e.stopPropagation(); // evita disparar onClick de la card al tocar favorito
+    e.stopPropagation();
     setFavorite((prev) => !prev);
   };
 
   return (
     <div
       className={styles.container}
-      onClick={onClick} // ← conexión del prop
+      onClick={onClick}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === "Enter" && onClick?.()}
       aria-label={`Abrir proyecto ${project.name}`}
-      style={{
-        "--pc-spacing": spacing.md,
-        "--pc-radius": radius.lg,
-        "--pc-shadow": shadows.md,
-        "--pc-primary": colors.primary,
-        "--pc-secondary": colors.secondary,
-        "--pc-text": colors.textPrimary,
-        "--pc-muted": colors.textSecondary,
-        cursor: "pointer",
-      }}
+      style={{ cursor: "pointer" }}
     >
       <div
         className={styles.cardHeader}

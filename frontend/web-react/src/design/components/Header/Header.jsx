@@ -2,11 +2,6 @@ import { Plus } from "lucide-react";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
 import styles from "../../css/Header.module.css";
 
-import spacing from "../../tokens/spacing";
-import typography from "../../tokens/typography";
-import radius from "../../tokens/radius";
-import shadows from "../../tokens/shadows";
-
 const Header = ({
   breadcrumbItems = [],
   onActionClick = null,
@@ -14,20 +9,7 @@ const Header = ({
   children,
 }) => {
   return (
-    <header
-      className={styles.header}
-      style={{
-        "--header-bg":           "var(--color-surface)",
-        "--header-border":       "var(--color-border)",
-        "--header-spacing":      spacing.lg,
-        "--header-spacing-sm":   spacing.md,
-        "--header-radius":       radius.lg,
-        "--header-shadow":       shadows.sm,
-        "--header-text-color":   "var(--color-text-secondary)",
-        "--header-action-color": "var(--color-primary)",
-        "--header-font-family":  typography.fontPrimary,
-      }}
-    >
+    <header className={styles.header}>
       <div className={styles.headerContent}>
         <div className={styles.breadcrumbWrapper}>
           <BreadCrumb items={breadcrumbItems} />

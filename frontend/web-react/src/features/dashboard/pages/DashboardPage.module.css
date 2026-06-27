@@ -47,3 +47,11 @@
   height: auto;
 }
 }
+/* ── Projects grid ────────────────────────────────────────────────── */
+.projectsGrid {
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+  align-items: flex-start;
+}

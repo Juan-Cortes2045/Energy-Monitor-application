@@ -61,7 +61,10 @@ const Sidebar = () => {
           <button onClick={() => setCollapsed(!collapsed)} className={styles.toggle}>
             <Menu size={24} />
           </button>
-          <img src={logoClaro} alt="EnergyMonitor" className={styles.logo} />
+          <img src={logoProyecto} alt="EnergyMonitor" className={styles.logo} />
+          {!collapsed && (
+            <span className={styles.brandName}>EnergyMonitor</span>
+          )}
         </div>
 
         {/* NAV */}

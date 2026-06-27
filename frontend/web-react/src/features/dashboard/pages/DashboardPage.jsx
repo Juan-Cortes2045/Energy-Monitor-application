@@ -96,15 +96,7 @@ const DashboardPage = () => {
             }
           />
         ) : (
-          <div
-            style={{
-              padding: "24px",
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "20px",
-              alignItems: "flex-start",
-            }}
-          >
+          <div className={styles.projectsGrid}>
             {projects.map((project) => (
               <ProjectCard
                 key={project.id}
