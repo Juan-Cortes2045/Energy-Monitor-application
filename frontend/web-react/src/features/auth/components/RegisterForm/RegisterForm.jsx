@@ -52,7 +52,7 @@ const RegisterForm = () => {
               {t("register.name")}
             </Input>
             {errors.name && (
-              <span className={styles.error} style={{ color: colors.danger }}>
+              <span className={styles.error}>
                 {errors.name.message}
               </span>
             )}
@@ -67,7 +67,7 @@ const RegisterForm = () => {
               {t("register.email")}
             </Input>
             {errors.email && (
-              <span className={styles.error} style={{ color: colors.danger }}>
+              <span className={styles.error}>
                 {errors.email.message}
               </span>
             )}
@@ -84,7 +84,7 @@ const RegisterForm = () => {
               {t("register.password")}
             </Input>
             {errors.password && (
-              <span className={styles.error} style={{ color: colors.danger }}>
+              <span className={styles.error}>
                 {errors.password.message}
               </span>
             )}
@@ -103,7 +103,7 @@ const RegisterForm = () => {
               {t("register.repeatPassword")}
             </Input>
             {errors.repeatPassword && (
-              <span className={styles.error} style={{ color: colors.danger }}>
+              <span className={styles.error}>
                 {errors.repeatPassword.message}
               </span>
             )}
@@ -136,7 +136,7 @@ const RegisterForm = () => {
             </div>
             <div>
               {errors.terms && (
-                <span className={styles.error} style={{ color: colors.danger }}>
+                <span className={styles.error}>
                   {errors.terms.message}
                 </span>
               )}

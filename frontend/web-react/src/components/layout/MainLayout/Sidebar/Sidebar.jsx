@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
+
 import styles from "../Sidebar/Sidebar.module.css";
 import logoProyecto from "../../../../assets/logo_proyecto.png";
 import NavProjects from "./NavProjects";
@@ -20,11 +21,6 @@ import {
 
 import NavItem from "./NavItem";
 import Button from "../../../../design/components/Button/Button";
-
-import colors from "../../../../design/tokens/colors";
-import spacing from "../../../../design/tokens/spacing";
-
-import typography from "../../../../design/tokens/typography";
 import Account from "../../../../features/Account/Account";
 
 const Sidebar = () => {
@@ -33,9 +29,9 @@ const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -43,10 +39,9 @@ const Sidebar = () => {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
   return (
     <>
       <button
@@ -55,18 +50,11 @@ const Sidebar = () => {
       >
         <Menu size={24} />
       </button>
+
       <aside
-        className={`
-      ${styles.sidebar} 
-      ${collapsed ? styles.collapsed : ""} 
-      ${isOpen ? styles.open : ""}
-   `}
-        style={{
-          backgroundColor: colors.background_left,
-          padding: spacing.md,
-        }}
+        className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""} ${isOpen ? styles.open : ""}`}
       >
-        {/*HEADER*/}
+        {/* HEADER */}
         <div className={styles.top}>
           <button
             onClick={() => setCollapsed(!collapsed)}
@@ -78,7 +66,7 @@ const Sidebar = () => {
           <h1 className={styles.title}>EnergyMonitor</h1>
         </div>
 
-        {/*NAV*/}
+        {/* NAV */}
         <nav className={styles.nav}>
           <NavItem
             to="/dashboard"
@@ -114,13 +102,11 @@ const Sidebar = () => {
           />
         </nav>
 
+        {/* PERFIL */}
         <div className={styles.profile} ref={dropdownRef}>
           <div
             className={styles.profileInfo}
-            onClick={() => {
-              setShowProfile(true);
-              setOpenMenu(false);
-            }}
+            onClick={() => { setShowProfile(true); setOpenMenu(false); }}
             style={{ cursor: "pointer" }}
           >
             <img
@@ -130,38 +116,23 @@ const Sidebar = () => {
             />
 
             {!collapsed && (
-              <span
-                style={{
-                  fontFamily: typography.fontPrimary,
-                  fontSize: typography.sizes.md,
-                  color: colors.surface,
-                }}
-              >
-                User001
-              </span>
+              <span className={styles.profileName}>User001</span>
             )}
 
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setOpenMenu(!openMenu);
-              }}
+              onClick={(e) => { e.stopPropagation(); setOpenMenu(!openMenu); }}
               className={styles.menuBtn}
             >
               <MoreHorizontal size={20} />
             </button>
           </div>
 
-          {/*DROPDOWN*/}
-
+          {/* DROPDOWN */}
           {openMenu && (
             <div className={styles.dropdown}>
               <div
                 className={styles.item}
-                onClick={() => {
-                  setShowProfile(true);
-                  setOpenMenu(false);
-                }}
+                onClick={() => { setShowProfile(true); setOpenMenu(false); }}
               >
                 <User size={24} /> {t("profile.myAccount")}
               </div>
@@ -170,7 +141,7 @@ const Sidebar = () => {
                 <Plus size={24} /> {t("profile.addAccount")}
               </div>
 
-              <div className={styles.divider}></div>
+              <div className={styles.divider} />
 
               <div className={styles.item}>
                 <Button
@@ -197,6 +168,7 @@ const Sidebar = () => {
           </div>
         )}
       </aside>
+
       {isOpen && (
         <div className={styles.overlay} onClick={() => setIsOpen(false)} />
       )}

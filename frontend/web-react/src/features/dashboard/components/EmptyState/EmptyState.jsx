@@ -24,13 +24,7 @@ const EmptyState = ({ onCreateProject, onJoinProject }) => {
         {t("title")}
       </h2>
 
-      <div
-        className={styles.buttonsContainer}
-        style={{
-          marginTop: spacing.md,
-          gap: spacing.sm,
-        }}
-      >
+      <div className={styles.buttonsContainer}>
         <Button variant="secondary" onClick={onCreateProject}>
           {t("createProject")}
         </Button>

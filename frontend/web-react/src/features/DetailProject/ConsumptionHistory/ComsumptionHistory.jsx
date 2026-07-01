@@ -19,10 +19,10 @@ import colors from "../../../design/tokens/colors";
 const FILTERS = ["day", "week", "month", "year"];
 
 const DEVICE_COLORS = [
-  colors.primary,
-  colors.warning,
-  colors.secondary,
-  colors.danger,
+  "var(--color-primary)",
+  "var(--color-warning)",
+  "var(--color-secondary)",
+  "var(--color-danger)",
   "#8B5CF6",
   "#F97316",
   "#06B6D4",
@@ -83,10 +83,7 @@ const ConsumptionHistory = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -101,7 +98,6 @@ const ConsumptionHistory = () => {
   const rankingData = useMemo(() => {
     return devices.map((device, index) => {
       const total = chartData.reduce((acc, item) => acc + item[device], 0);
-
       return {
         nombre: device,
         total,
@@ -155,7 +151,7 @@ const ConsumptionHistory = () => {
                   <CartesianGrid
                     strokeDasharray="3 3"
                     vertical={false}
-                    stroke={colors.border}
+                    stroke="var(--color-border)"
                   />
 
                   <XAxis dataKey="label" />
@@ -169,6 +165,8 @@ const ConsumptionHistory = () => {
                       key={device}
                       dataKey={device}
                       fill={DEVICE_COLORS[index % DEVICE_COLORS.length]}
+                      radius={[4, 4, 0, 0]}
+                      maxBarSize={isMobile ? 18 : 28}
                     />
                   ))}
                 </BarChart>
@@ -209,14 +207,10 @@ const ConsumptionHistory = () => {
                       <span>{index + 1}</span>
                       <span>{item.nombre}</span>
                       <span>{item.total.toFixed(1)}</span>
-
                       <div className={styles.percent}>
                         <div
                           className={styles.bar}
-                          style={{
-                            width: `${pct}%`,
-                            background: item.color,
-                          }}
+                          style={{ width: `${pct}%`, background: item.color }}
                         />
                         <span>{pct}%</span>
                       </div>

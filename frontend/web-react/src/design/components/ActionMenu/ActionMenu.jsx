@@ -2,12 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { Plus } from "lucide-react";
 import styles from "../../css/ActionMenu.module.css";
 
-import colors from "../../../design/tokens/colors";
-import spacing from "../../../design/tokens/spacing";
-import typography from "../../../design/tokens/typography";
-import radius from "../../../design/tokens/radius";
-import shadows from "../../../design/tokens/shadows";
-
 const ActionMenu = ({
   trigger = "plus",
   items = [],
@@ -43,24 +37,7 @@ const ActionMenu = ({
   };
 
   return (
-    <div
-      className={styles.actionMenu}
-      ref={menuRef}
-      style={{
-        "--am-spacing": spacing.sm,
-        "--am-spacing-md": spacing.md,
-        "--am-radius": radius.lg,
-        "--am-shadow": shadows.md,
-        "--am-primary": colors.primary,
-        "--am-surface": colors.surface,
-        "--am-border": colors.border,
-        "--am-text-primary": colors.textPrimary,
-        "--am-text-secondary": colors.textSecondary,
-        "--am-font-family": typography.fontPrimary,
-        "--am-font-size": typography.sizes.sm,
-        "--am-font-weight": typography.weights.normal,
-      }}
-    >
+    <div className={styles.actionMenu} ref={menuRef}>
       <button
         className={styles.trigger}
         onClick={() => setIsOpen(!isOpen)}

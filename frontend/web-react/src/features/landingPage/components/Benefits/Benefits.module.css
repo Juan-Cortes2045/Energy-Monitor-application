@@ -4,11 +4,27 @@
   align-items: center;
   gap: var(--spacing-lg);
   width: 100%;
+  background: var(--color-background);
+  padding: var(--spacing-xl);
 }
 
 .header {
   text-align: center;
   max-width: 600px;
+}
+
+.title {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.subtitle {
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-md);
+  margin-bottom: 0;
 }
 
 /* MOBILE FIRST: 1 columna por defecto (<768px) */
@@ -32,6 +48,8 @@
   text-align: center;
   height: 100%;
   flex: 1;
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-sm);
 }
 
 .cardContent h4 {
@@ -50,6 +68,7 @@
   height: 56px;
   border-radius: 50%;
   background: var(--color-gradient);
+  color: var(--color-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,7 +82,7 @@
   }
 
   .container {
-    padding: var(--spacing-lg) !important;
+    padding: var(--spacing-lg);
   }
 }
 
@@ -75,7 +94,7 @@
   }
 }
 
-/* DESKTOP GRANDE: >= 1440px -> mas aire entre tarjetas */
+/* DESKTOP GRANDE: >= 1440px */
 @media (min-width: 1440px) {
   .grid {
     gap: var(--spacing-xl);
@@ -83,14 +102,14 @@
   }
 
   .container {
-    padding: var(--spacing-xl) !important;
+    padding: var(--spacing-xl);
   }
 }
 
-/* MOBILE: <= 767px, ajustes finos */
+/* MOBILE: <= 767px */
 @media (max-width: 767px) {
   .container {
-    padding: var(--spacing-md) !important;
+    padding: var(--spacing-md);
   }
 
   .header {

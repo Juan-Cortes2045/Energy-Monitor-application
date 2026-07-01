@@ -2,7 +2,97 @@
   "hash": "0d0d2aff",
   "configHash": "a33a99a1",
   "lockfileHash": "b7856d6b",
-  "browserHash": "26c243be",
-  "optimized": {},
-  "chunks": {}
+  "browserHash": "fe7adf39",
+  "optimized": {
+    "@hookform/resolvers/zod": {
+      "src": "../../node_modules/@hookform/resolvers/zod/dist/zod.mjs",
+      "file": "@hookform_resolvers_zod.js",
+      "fileHash": "a29469d6",
+      "needsInterop": false
+    },
+    "lucide-react": {
+      "src": "../../node_modules/lucide-react/dist/esm/lucide-react.mjs",
+      "file": "lucide-react.js",
+      "fileHash": "72125a44",
+      "needsInterop": false
+    },
+    "react-country-flag": {
+      "src": "../../node_modules/react-country-flag/dist/react-country-flag.esm.js",
+      "file": "react-country-flag.js",
+      "fileHash": "13d89825",
+      "needsInterop": false
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "7fba8f18",
+      "needsInterop": true
+    },
+    "react-hook-form": {
+      "src": "../../node_modules/react-hook-form/dist/index.esm.mjs",
+      "file": "react-hook-form.js",
+      "fileHash": "67e3a179",
+      "needsInterop": false
+    },
+    "react-icons/fi": {
+      "src": "../../node_modules/react-icons/fi/index.mjs",
+      "file": "react-icons_fi.js",
+      "fileHash": "1516f9dc",
+      "needsInterop": false
+    },
+    "react-icons/vsc": {
+      "src": "../../node_modules/react-icons/vsc/index.mjs",
+      "file": "react-icons_vsc.js",
+      "fileHash": "be3b579a",
+      "needsInterop": false
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.mjs",
+      "file": "react-router-dom.js",
+      "fileHash": "a6d1373e",
+      "needsInterop": false
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "7ebf6a4b",
+      "needsInterop": true
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "6361f8f5",
+      "needsInterop": true
+    },
+    "recharts": {
+      "src": "../../node_modules/recharts/es6/index.js",
+      "file": "recharts.js",
+      "fileHash": "54ba4608",
+      "needsInterop": false
+    },
+    "zod": {
+      "src": "../../node_modules/zod/index.js",
+      "file": "zod.js",
+      "fileHash": "af7b6d4c",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-B-1-B7_t": {
+      "file": "chunk-B-1-B7_t.js",
+      "isDynamicEntry": false
+    },
+    "core-D_QZK_Gx": {
+      "file": "core-D_QZK_Gx.js",
+      "isDynamicEntry": false
+    },
+    "iconBase-C7p8B3nZ": {
+      "file": "iconBase-C7p8B3nZ.js",
+      "isDynamicEntry": false
+    },
+    "react-dom-Br2l1Z8p": {
+      "file": "react-dom-Br2l1Z8p.js",
+      "isDynamicEntry": false
+    }
+  }
 }

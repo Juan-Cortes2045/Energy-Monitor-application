@@ -39,7 +39,10 @@ const VerifyEmail = () => {
 
   return (
     <div className={styles.container}>
-      <Card className={styles.card}>
+      <Card className={styles.card}
+      style={{
+        width: "400px",
+      }}>
         <div className={styles.content}>
           <h2 className={styles.title}>{t("verify.title")}</h2>
 

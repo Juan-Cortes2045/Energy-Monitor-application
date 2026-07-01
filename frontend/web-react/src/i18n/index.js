@@ -74,7 +74,7 @@ import ptAuth from "./locales/pt/auth.json";
 import ptNavbar from "./locales/pt/navbar.json";
 import ptSidebar from "./locales/pt/sidebar.json";
 import ptHero from "./locales/pt/hero.json";
-import ptHowItWorks from "./locales/pt/howItWorks.json";
+import ptHowItWorks from "./locales/pt/HowItWorks.json";
 import ptRecoverPassword from "./locales/pt/recoverPassword.json";
 import ptDashboard from "./locales/pt/dashboard.json";
 import ptCreateProjectModal from "./locales/pt/createProjectModal.json";

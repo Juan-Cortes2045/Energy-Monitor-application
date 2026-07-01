@@ -71,16 +71,6 @@
     display: block;
     margin-bottom: 14px;
 }
-.badge {
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: #B45309;
-    background: #FEF3C7;
-    padding: 2px 8px;
-    border-radius: 999px;
-}
 
 .themesGrid {
     display: grid;

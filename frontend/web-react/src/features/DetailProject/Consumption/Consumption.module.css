@@ -530,3 +530,10 @@
     min-height: 200px;
   }
 }
+
+/* ── Legend label (Pie chart) ───────────────────────────────────────── */
+.legendLabel {
+  font-size: 11px;
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+}
