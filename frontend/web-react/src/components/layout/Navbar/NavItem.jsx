@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./Navbar.module.css";
 
-import typography from "../../../design/tokens/typography";
-
 const NavItem = ({ path, text, setOpen }) => {
   return (
     <li>
@@ -10,10 +8,6 @@ const NavItem = ({ path, text, setOpen }) => {
         to={path}
         className={styles.link}
         onClick={() => setOpen?.(false)}
-        style={{
-          fontFamily: typography.fontPrimary,
-          fontWeight: typography.weights.medium,
-        }}
       >
         {text}
       </Link>

@@ -1,221 +1,234 @@
-.navbar{
-    display:grid;
-    grid-template-columns:auto 1fr auto;
-    align-items:center;
-
-    width:100%;
-    height:70px;
-
-    transition:
-        background-color .3s,
-        border-color .3s,
-        color .3s;
+/* ── Base ─────────────────────────────────────────────────────────── */
+.navbar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  width: 100%;
+  height: 70px;
+  padding: 0 var(--spacing-lg);
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 }
 
-.center{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:32px;
+/* ── Logo ─────────────────────────────────────────────────────────── */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.logo{
-    display:flex;
-    align-items:center;
-    gap:10px;
+.logo img {
+  height: 60px;
+  object-fit: contain;
 }
 
-.logo img{
-    height:60px;
-    object-fit:contain;
+.logoText {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+  transition: color 0.3s;
 }
 
-.logoText{
-    font-family:var(--font-primary);
-    font-size:var(--font-size-lg);
-    font-weight:700;
-    color:var(--color-text-primary);
-    letter-spacing:-0.5px;
-    white-space:nowrap;
-
-    transition:color .3s;
+/* ── Centro ───────────────────────────────────────────────────────── */
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
 }
 
-.navLinks{
-    display:flex;
-    gap:30px;
-    list-style:none;
+/* ── Links ────────────────────────────────────────────────────────── */
+.navLinks {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.link{
-    text-decoration:none;
-    font-size:16px;
-    font-family:var(--font-primary);
-    font-weight:500;
-
-    color:var(--color-text-secondary);
-
-    transition:
-        color .25s,
-        transform .25s;
+.link {
+  text-decoration: none;
+  font-size: var(--font-size-md);
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  transition: color 0.25s;
 }
 
-.link:hover{
-    color:var(--color-primary);
+.link:hover {
+  color: var(--color-primary);
 }
 
-.actions{
-    display:flex;
-    align-items:center;
-    gap:12px;
+/* ── Acciones ─────────────────────────────────────────────────────── */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.menuBtn{
-    display:none;
-
-    background:none;
-    border:none;
-    cursor:pointer;
-
-    color:var(--color-text-primary);
+/* ── Botones icono (tema / idioma) ────────────────────────────────── */
+.iconBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 
-/* ================= TABLET ================= */
-
-@media(max-width:1024px){
-
-    .navbar{
-        padding:0 20px;
-        height:65px;
-    }
-
-    .logo img{
-        height:50px;
-    }
-
-    .logoText{
-        font-size:var(--font-size-md);
-    }
-
-    .center{
-        gap:20px;
-    }
-
-    .navLinks{
-        gap:20px;
-    }
-
-    .link{
-        font-size:14px;
-    }
-
-    .actions{
-        gap:8px;
-    }
-
-    .actions button{
-        font-size:14px;
-    }
-
+.iconBtn:hover {
+  background-color: var(--color-gradient);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
-/* ================= MOBILE ================= */
-
-@media(max-width:768px){
-
-    .navbar{
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        position:relative;
-    }
-
-    .center{
-
-        position:absolute;
-
-        top:70px;
-        left:0;
-
-        width:100%;
-
-        background:var(--color-surface);
-
-        border-bottom:1px solid var(--color-border);
-
-        display:flex;
-        flex-direction:column;
-
-        align-items:center;
-        justify-content:center;
-
-        padding:20px 0;
-
-        transform:translateY(-200%);
-        transition:transform .3s ease;
-
-        z-index:100;
-    }
-
-    .open{
-        transform:translateY(0);
-    }
-
-    .navLinks{
-        flex-direction:column;
-        align-items:center;
-        gap:20px;
-    }
-
-    .actions{
-        flex-direction:column;
-        width:100%;
-        padding:8px 20px;
-    }
-
-    .actions button{
-        width:100%;
-    }
-
-    .menuBtn{
-        display:flex;
-        align-items:center;
-        justify-content:center;
-    }
-
-    .logo img{
-        height:48px;
-    }
-
-    .logoText{
-        font-size:18px;
-    }
-
+.langFlag {
+  font-size: 16px;
+  line-height: 1;
 }
 
-/* ================= DESKTOP XL ================= */
+/* ── Dropdown idioma ──────────────────────────────────────────────── */
+.langWrapper {
+  position: relative;
+}
 
-@media(min-width:1440px){
+.langDropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  z-index: 200;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
 
-    .navbar{
-        height:100px;
-    }
+.langOption {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  transition: background-color 0.15s;
+}
 
-    .logo img{
-        height:70px;
-    }
+.langOption:hover {
+  background-color: var(--color-gradient);
+}
 
-    .logoText{
-        font-size:30px;
-    }
+.langActive {
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+}
 
-    .link{
-        font-size:20px;
-    }
+/* ── Hamburguesa ──────────────────────────────────────────────────── */
+.menuBtn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-primary);
+}
 
-    .actions button{
-        font-size:22px;
-        height:42px;
-    }
+/* ── TABLET ───────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 0 20px;
+    height: 65px;
+  }
 
+  .logo img { height: 50px; }
+  .logoText { font-size: var(--font-size-md); }
+  .center { gap: 20px; }
+  .navLinks { gap: 20px; }
+  .link { font-size: 14px; }
+  .actions { gap: 8px; }
+}
+
+/* ── MOBILE ───────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+
+  .center {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    transform: translateY(-200%);
+    transition: transform 0.3s ease;
+    z-index: 100;
+  }
+
+  .open { transform: translateY(0); }
+
+  .navLinks {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .actions {
+    flex-direction: column;
+    width: 100%;
+    padding: 8px 20px;
+  }
+
+  .actions button { width: 100%; }
+
+  .langDropdown {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .menuBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo img { height: 48px; }
+  .logoText { font-size: 18px; }
+}
+
+/* ── DESKTOP XL ───────────────────────────────────────────────────── */
+@media (min-width: 1440px) {
+  .navbar { height: 100px; }
+  .logo img { height: 70px; }
+  .logoText { font-size: 30px; }
+  .link { font-size: 20px; }
 }
