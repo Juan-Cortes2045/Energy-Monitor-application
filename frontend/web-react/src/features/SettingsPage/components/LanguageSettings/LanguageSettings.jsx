@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import ReactCountryFlag from "react-country-flag";
 import Card from "../../../../design/components/Card/Card.jsx";
 import styles from "./LanguageSettings.module.css";
+import i18n from "../../../../i18n";
 
 const LANGUAGES = [
     { id: "es", name: "Español",   locale: "es-CO", countryCode: "CO" },
@@ -11,9 +12,15 @@ const LANGUAGES = [
     { id: "fr", name: "Français",  locale: "fr-FR", countryCode: "FR" },
 ];
 
-const LanguageSettings = ({ language, setLanguage }) => {
+const LanguageSettings = () => {
   const { t } = useTranslation("settings");
-  const currentLanguage = LANGUAGES.find((lang) => lang.id === language) || LANGUAGES[0];
+  const currentId = i18n.language;
+  const currentLanguage = LANGUAGES.find((lang) => lang.id === currentId) ?? LANGUAGES[0];
+
+  const handleSelect = (code) => {
+    i18n.changeLanguage(code);
+    localStorage.setItem("lang", code);
+  };
 
   return (
     <Card
@@ -38,10 +45,10 @@ const LanguageSettings = ({ language, setLanguage }) => {
           {LANGUAGES.map((lang) => (
             <button
               key={lang.id}
-              className={`${styles.languageCard} ${language === lang.id ? styles.active : ""}`}
-              onClick={() => setLanguage(lang.id)}
+              className={`${styles.languageCard} ${currentId === lang.id ? styles.active : ""}`}
+              onClick={() => handleSelect(lang.id)}
             >
-              {language === lang.id && (
+              {currentId === lang.id && (
                 <div className={styles.check}>
                   <Check size={12} strokeWidth={3} />
                 </div>
