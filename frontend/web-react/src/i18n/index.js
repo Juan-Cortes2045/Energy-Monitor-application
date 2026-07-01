@@ -11,6 +11,7 @@ import esHero from "./locales/es/hero.json";
 import esHowItWorks from "./locales/es/howItWorks.json";
 import esRecoverPassword from "./locales/es/recoverPassword.json";
 import esDashboard from "./locales/es/dashboard.json";
+import esJoinProjectModal from "./locales/es/JoinProjectModal.json";
 import esCreateProjectModal from "./locales/es/createProjectModal.json";
 import esProjectCard from "./locales/es/projectCard.json";
 import esEmptyState from "./locales/es/emptyState.json";
@@ -33,6 +34,7 @@ import enHero from "./locales/en/hero.json";
 import enHowItWorks from "./locales/en/howItWorks.json";
 import enRecoverPassword from "./locales/en/recoverPassword.json";
 import enDashboard from "./locales/en/dashboard.json";
+import enJoinProjectModal from "./locales/en/JoinProjectModal.json";
 import enCreateProjectModal from "./locales/en/createProjectModal.json";
 import enProjectCard from "./locales/en/projectCard.json";
 import enEmptyState from "./locales/en/emptyState.json";
@@ -55,6 +57,7 @@ import frHero from "./locales/fr/hero.json";
 import frHowItWorks from "./locales/fr/howItWorks.json";
 import frRecoverPassword from "./locales/fr/recoverPassword.json";
 import frDashboard from "./locales/fr/dashboard.json";
+import frJoinProjectModal from "./locales/fr/JoinProjectModal.json";
 import frCreateProjectModal from "./locales/fr/createProjectModal.json";
 import frProjectCard from "./locales/fr/projectCard.json";
 import frEmptyState from "./locales/fr/emptyState.json";
@@ -77,6 +80,7 @@ import ptHero from "./locales/pt/hero.json";
 import ptHowItWorks from "./locales/pt/HowItWorks.json";
 import ptRecoverPassword from "./locales/pt/recoverPassword.json";
 import ptDashboard from "./locales/pt/dashboard.json";
+import ptJoinProjectModal from "./locales/pt/JoinProjectModal.json";
 import ptCreateProjectModal from "./locales/pt/createProjectModal.json";
 import ptProjectCard from "./locales/pt/projectCard.json";
 import ptEmptyState from "./locales/pt/emptyState.json";
@@ -104,6 +108,7 @@ i18n.use(initReactI18next).init({
       howItWorks: esHowItWorks,
       recoverPassword: esRecoverPassword,
       dashboard: esDashboard,
+      joinProjectModal: esJoinProjectModal,
       createProjectModal: esCreateProjectModal,
       projectCard: esProjectCard,
       emptyState: esEmptyState,
@@ -125,6 +130,7 @@ i18n.use(initReactI18next).init({
       howItWorks: enHowItWorks,
       recoverPassword: enRecoverPassword,
       dashboard: enDashboard,
+      joinProjectModal: enJoinProjectModal,
       createProjectModal: enCreateProjectModal,
       projectCard: enProjectCard,
       emptyState: enEmptyState,
@@ -146,6 +152,7 @@ i18n.use(initReactI18next).init({
       howItWorks: frHowItWorks,
       recoverPassword: frRecoverPassword,
       dashboard: frDashboard,
+      joinProjectModal: frJoinProjectModal,
       createProjectModal: frCreateProjectModal,
       projectCard: frProjectCard,
       emptyState: frEmptyState,
@@ -167,6 +174,7 @@ i18n.use(initReactI18next).init({
       howItWorks: ptHowItWorks,
       recoverPassword: ptRecoverPassword,
       dashboard: ptDashboard,
+      joinProjectModal: ptJoinProjectModal,
       createProjectModal: ptCreateProjectModal,
       projectCard: ptProjectCard,
       emptyState: ptEmptyState,

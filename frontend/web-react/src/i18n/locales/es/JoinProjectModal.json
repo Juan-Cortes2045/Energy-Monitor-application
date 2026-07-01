@@ -1,0 +1,15 @@
+{
+  "title": "Unirse a proyecto",
+  "close": "Cerrar",
+  "description": "Ingresa el código alfanumérico que te compartió el responsable del proyecto.",
+  "label": "Código de acceso",
+  "placeholder": "Ej: AB12CD34",
+  "hint": "El código tiene 8 caracteres entre letras mayúsculas y números.",
+  "cancel": "Cancelar",
+  "join": "Unirme",
+  "joining": "Uniéndome...",
+  "errors": {
+    "required": "Ingresa el código de acceso.",
+    "invalid": "El código debe tener 8 caracteres (letras y números)."
+  }
+}

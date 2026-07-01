@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./DashboardPage";
+import styles from "./DashboardPage.module.css";
 import { useTranslation } from "react-i18next";
 
 import Header from "../../../design/components/Header/Header";
@@ -8,13 +8,15 @@ import ActionMenu from "../../../design/components/ActionMenu/ActionMenu";
 import EmptyState from "../components/EmptyState/EmptyState";
 import ProjectCard from "../components/ProjectCard/ProjectCard";
 import CreateProjectModal from "../components/ModalCreateProject/CreateProjectModal";
+import JoinProjectModal from "../components/ModalJoinProject/JoinProjectModal";
 import { FolderPlus, Users } from "lucide-react";
+import { useProjects } from "../../../context/ProjectContext";
 
 const DashboardPage = () => {
   const { t } = useTranslation("dashboard");
-  const [projects, setProjects] = useState([]);
+  const { projects, addProject } = useProjects();
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [showJoinModal, setShowJoinModal] = useState(false);
   const navigate = useNavigate();
 
   const breadcrumbItems = [{ label: t("breadcrumb.home") }];
@@ -38,36 +40,35 @@ const DashboardPage = () => {
       return;
     }
     if (item.action === "join-project") {
-      setProjects((prev) => [
-        {
-          id: Date.now(),
-          name: t("project.joinedName"),
-          userResponsible: t("project.responsible"),
-          address: "Av. Central 45, Oficina 3",
-          description: t("project.joinedDescription"),
-          variant: t("project.you"),
-          favorite: false,
-        },
-        ...prev,
-      ]);
+      setShowJoinModal(true);
     }
   };
 
+  const handleJoinProject = (code) => {
+    // TODO: GET /projects?code=CODE para buscar el proyecto real
+    addProject({
+      id: Date.now(),
+      name: t("project.joinedName"),
+      userResponsible: t("project.responsible"),
+      address: "Av. Central 45, Oficina 3",
+      description: t("project.joinedDescription"),
+      variant: "joined",
+      favorite: false,
+    });
+  };
+
   const handleProjectCreated = (formData) => {
-    setProjects((prev) => [
-      {
-        id: Date.now(),
-        name: formData.name,
-        address: formData.address,
-        description: formData.description,
-        projectTypeId: formData.projectTypeId,
-        otherProjectType: formData.otherProjectType,
-        userResponsible: "Tú",
-        variant: "owned",
-        favorite: false,
-      },
-      ...prev,
-    ]);
+    addProject({
+      id: Date.now(),
+      name: formData.name,
+      address: formData.address,
+      description: formData.description,
+      projectTypeId: formData.projectTypeId,
+      otherProjectType: formData.otherProjectType,
+      userResponsible: "Tú",
+      variant: "owned",
+      favorite: false,
+    });
   };
 
   const handleCardClick = (project) => {
@@ -78,6 +79,7 @@ const DashboardPage = () => {
       },
     });
   };
+
   return (
     <div className={styles.content}>
       <div className={styles.header}>
@@ -92,9 +94,7 @@ const DashboardPage = () => {
         {projects.length === 0 ? (
           <EmptyState
             onCreateProject={() => setShowCreateModal(true)}
-            onJoinProject={() =>
-              handleMenuItemClick({ action: "join-project" })
-            }
+            onJoinProject={() => setShowJoinModal(true)}
           />
         ) : (
           <div className={styles.projectsGrid}>
@@ -108,11 +108,17 @@ const DashboardPage = () => {
           </div>
         )}
 
-        {/* ── Modal — fuera del flujo para no afectar el layout ──────── */}
         {showCreateModal && (
           <CreateProjectModal
             onClose={() => setShowCreateModal(false)}
             onSubmit={handleProjectCreated}
+          />
+        )}
+
+        {showJoinModal && (
+          <JoinProjectModal
+            onClose={() => setShowJoinModal(false)}
+            onSubmit={handleJoinProject}
           />
         )}
       </div>

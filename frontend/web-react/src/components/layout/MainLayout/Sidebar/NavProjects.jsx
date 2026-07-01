@@ -3,15 +3,12 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import styles from "../Sidebar/Sidebar.module.css";
-
-const mockProjects = [
-  { id: 1, name: "Casa de Usuario001" },
-  { id: 2, name: "Casa de Usuario002" },
-];
+import { useProjects } from "../../../../context/ProjectContext";
 
 const NavProjects = ({ icon, label, collapsed }) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { projects } = useProjects();
 
   return (
     <div>
@@ -36,21 +33,27 @@ const NavProjects = ({ icon, label, collapsed }) => {
       {/* LISTA */}
       {open && !collapsed && (
         <div className={`${styles.projectList} ${styles.projectListOpen}`}>
-          {mockProjects.map((p) => (
-            <div
-              key={p.id}
-              className={styles.projectItem}
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate(`/projects/${p.id}`);
-              }}
-            >
-              <div className={styles.projectAvatar}>
-                {p.name.charAt(0)}
+          {projects.length === 0 ? (
+            <p className={styles.noProjects}>Sin proyectos</p>
+          ) : (
+            projects.map((p) => (
+              <div
+                key={p.id}
+                className={styles.projectItem}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("/Consumption", {
+                    state: { project: p, isOwner: p.variant === "owned" },
+                  });
+                }}
+              >
+                <div className={styles.projectAvatar}>
+                  {p.name.charAt(0).toUpperCase()}
+                </div>
+                <span>{p.name}</span>
               </div>
-              <span>{p.name}</span>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       )}
     </div>
