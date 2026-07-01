@@ -1,0 +1,22 @@
+{
+  "title": "Why choose EnergyMonitor?",
+  "subtitle": "Everything you need to take control of your energy consumption.",
+  "items": {
+    "item1": {
+      "title": "Save on your bill",
+      "description": "Identify unnecessary consumption patterns and reduce your electricity costs by up to 30%."
+    },
+    "item2": {
+      "title": "Real-time alerts",
+      "description": "Receive instant notifications about consumption spikes or unusual activity."
+    },
+    "item3": {
+      "title": "Reduce your footprint",
+      "description": "Lower your environmental impact with smarter and more efficient energy usage."
+    },
+    "item4": {
+      "title": "Simple and secure setup",
+      "description": "Connect your devices in minutes with bank-level security and no technical knowledge required."
+    }
+  }
+}

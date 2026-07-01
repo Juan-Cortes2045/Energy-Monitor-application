@@ -12,6 +12,7 @@ import Favorites from "../features/Favorites/Favorites";
 import MainLayout from "../components/layout/MainLayout/MainLayout";
 import DashboarPage from "../features/dashboard/pages/DashboardPage";
 import Settings from "../features/SettingsPage/pages/Settings";
+import BenefitsI from "../features/landingPage/pages/BenefitsI";
 const AppRoutes = () => {
   return (
     <BrowserRouter>
@@ -19,6 +20,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/home" element={<Home />} />
         <Route path="/how-it-works" element={<HowItWorksPage />} />
+        <Route path="/benefits" element={<BenefitsI />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/VerifyAccount" element={<VerifyAccount />} />
@@ -31,8 +33,7 @@ const AppRoutes = () => {
 
             <Route path="/favorites" element={<Favorites />} />
 
-            <Route path="/settings" element={<Settings/>} />
-
+            <Route path="/settings" element={<Settings />} />
           </Route>
         </Route>
         <Route

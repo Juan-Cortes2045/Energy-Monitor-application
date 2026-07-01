@@ -1,0 +1,22 @@
+{
+  "title": "Por que escolher o EnergyMonitor?",
+  "subtitle": "Tudo o que você precisa para controlar o seu consumo de energia.",
+  "items": {
+    "item1": {
+      "title": "Economize na sua conta",
+      "description": "Identifique padrões de consumo desnecessários e reduza seus custos de energia em até 30%."
+    },
+    "item2": {
+      "title": "Alertas em tempo real",
+      "description": "Receba notificações instantâneas sobre picos de consumo ou atividades incomuns."
+    },
+    "item3": {
+      "title": "Reduza sua pegada",
+      "description": "Diminua seu impacto ambiental com um uso de energia mais inteligente e eficiente."
+    },
+    "item4": {
+      "title": "Configuração simples e segura",
+      "description": "Conecte seus dispositivos em minutos com segurança de nível bancário e sem necessidade de conhecimento técnico."
+    }
+  }
+}

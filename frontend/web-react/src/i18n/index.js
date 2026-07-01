@@ -21,6 +21,7 @@ import esConsumption from "./locales/es/consumption.json";
 import esProject from "./locales/es/project.json";
 import esUsers from "./locales/es/users.json";
 import esHistory from "./locales/es/history.json";
+import esBenefits from "./locales/es/benefits.json";
 
 // Inglés
 
@@ -42,6 +43,7 @@ import enConsumption from "./locales/en/consumption.json";
 import enProject from "./locales/en/project.json";
 import enUsers from "./locales/en/users.json";
 import enHistory from "./locales/en/history.json";
+import enBenefits from "./locales/en/benefits.json";
 
 // Frances
 
@@ -63,6 +65,7 @@ import frConsumption from "./locales/fr/consumption.json";
 import frProject from "./locales/fr/project.json";
 import frUsers from "./locales/fr/users.json";
 import frHistory from "./locales/fr/history.json";
+import frBenefits from "./locales/fr/benefits.json";
 
 // Portugués
 
@@ -84,6 +87,7 @@ import ptConsumption from "./locales/pt/consumption.json";
 import ptProject from "./locales/pt/project.json";
 import ptUsers from "./locales/pt/users.json";
 import ptHistory from "./locales/pt/history.json";
+import ptBenefits from "./locales/pt/benefits.json";
 
 // Configuración de i18next
 i18n.use(initReactI18next).init({
@@ -110,6 +114,7 @@ i18n.use(initReactI18next).init({
       project: esProject,
       users: esUsers,
       history: esHistory,
+      benefits: esBenefits,
     },
     en: {
       account: enAccount,
@@ -130,6 +135,7 @@ i18n.use(initReactI18next).init({
       project: enProject,
       users: enUsers,
       history: enHistory,
+      benefits: enBenefits,
     },
     fr: {
       account: frAccount,
@@ -150,6 +156,7 @@ i18n.use(initReactI18next).init({
       project: frProject,
       users: frUsers,
       history: frHistory,
+      benefits: frBenefits,
     },
     pt: {
       account: ptAccount,
@@ -170,6 +177,7 @@ i18n.use(initReactI18next).init({
       project: ptProject,
       users: ptUsers,
       history: ptHistory,
+      benefits: ptBenefits,
     },
   },
 });
