@@ -1,0 +1,57 @@
+{
+  "hero": {
+    "title": "Comment pouvons-nous vous aider ?",
+    "subtitle": "Trouvez des réponses rapides ou contactez directement notre équipe.",
+    "searchPlaceholder": "Rechercher par mot-clé, ex : supprimer, code, limite...",
+    "searchNoResults": "Aucun résultat pour \"{{query}}\"",
+    "searchResults": "{{count}} résultat{{plural}} pour \"{{query}}\""
+  },
+  "topics": {
+    "title": "Sujets populaires",
+    "items": {
+      "1": {
+        "title": "Premiers pas",
+        "description": "Créez votre premier projet, connectez des appareils et commencez à surveiller votre consommation."
+      },
+      "2": {
+        "title": "Lecture des graphiques",
+        "description": "Comprenez les indicateurs de puissance, la consommation quotidienne et la répartition par appareil."
+      },
+      "3": {
+        "title": "Gestion des utilisateurs",
+        "description": "Invitez des membres, attribuez des rôles et gérez les permissions."
+      },
+      "4": {
+        "title": "Alertes et limites",
+        "description": "Définissez des limites de consommation pour recevoir des notifications."
+      },
+      "5": {
+        "title": "Code d'accès",
+        "description": "Comment partager le code de votre projet pour permettre à d'autres de rejoindre."
+      },
+      "6": {
+        "title": "Paramètres",
+        "description": "Modifiez les données du projet et les préférences du compte."
+      }
+    }
+  },
+  "faq": {
+    "title": "Questions fréquentes",
+    "empty": "Aucun résultat pour \"{{query}}\"",
+    "showAll": "Voir toutes les questions",
+    "items": {}
+  },
+  "contact": {
+    "title": "Contact direct",
+    "whatsapp": {
+      "title": "WhatsApp",
+      "description": "Réponse en moins de 2 heures pendant les heures ouvrables.",
+      "button": "Écrire maintenant"
+    },
+    "email": {
+      "title": "Email",
+      "description": "Envoyez-nous un message et nous répondrons sous 24 heures.",
+      "button": "Envoyer un message"
+    }
+  }
+}

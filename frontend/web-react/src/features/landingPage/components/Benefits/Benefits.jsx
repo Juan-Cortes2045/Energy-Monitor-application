@@ -38,7 +38,6 @@ const Benefits = () => {
     <section
       className={styles.container}
       style={{
-        background: colors.background,
         padding: spacing.xl,
       }}
     >

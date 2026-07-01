@@ -1,0 +1,78 @@
+{
+  "hero": {
+    "title": "¿En qué podemos ayudarte?",
+    "subtitle": "Encuentra respuestas rápidas o contacta directamente con nuestro equipo.",
+    "searchPlaceholder": "Buscar por palabra, ej: eliminar, código, límite...",
+    "searchNoResults": "Sin resultados para \"{{query}}\"",
+    "searchResults": "{{count}} resultado{{plural}} para \"{{query}}\""
+  },
+  "topics": {
+    "title": "Temas populares",
+    "items": {
+      "1": {
+        "title": "Primeros pasos",
+        "description": "Crea tu primer proyecto, conecta dispositivos y empieza a monitorear tu consumo."
+      },
+      "2": {
+        "title": "Lectura de gráficas",
+        "description": "Entiende los indicadores de potencia, consumo diario y distribución por dispositivo."
+      },
+      "3": {
+        "title": "Gestión de usuarios",
+        "description": "Invita miembros, asigna roles y administra los permisos dentro de tu proyecto."
+      },
+      "4": {
+        "title": "Alertas y límites",
+        "description": "Configura límites de consumo diario y mensual para recibir notificaciones a tiempo."
+      },
+      "5": {
+        "title": "Código de acceso",
+        "description": "Cómo compartir el código de tu proyecto para que otros usuarios puedan unirse."
+      },
+      "6": {
+        "title": "Configuración",
+        "description": "Edita los datos de tu proyecto, tipo de propiedad y preferencias de cuenta."
+      }
+    }
+  },
+  "faq": {
+    "title": "Preguntas frecuentes",
+    "empty": "Sin resultados para \"{{query}}\"",
+    "showAll": "Ver todas las preguntas",
+    "items": {
+      "1": {
+        "question": "¿Cómo creo un proyecto nuevo?",
+        "answer": "Desde el panel principal haz clic en el botón \"+\" y selecciona \"Crear Proyecto\". Completa el nombre, dirección y tipo de propiedad."
+      },
+      "2": {
+        "question": "¿Qué diferencia hay entre responsable y miembro?",
+        "answer": "El responsable puede ver el código de acceso, invitar usuarios, eliminar miembros y borrar el proyecto. El miembro solo puede consultar la información y salirse del proyecto."
+      },
+      "3": {
+        "question": "¿Por qué no veo el código de acceso?",
+        "answer": "El código de acceso solo es visible para el usuario responsable. Si eres miembro, solicita el código al responsable."
+      },
+      "4": {
+        "question": "¿Cómo configuro un límite de consumo?",
+        "answer": "Ve al apartado \"Proyecto\" dentro del panel y busca la sección de límites. Allí defines el límite diario y mensual en kWh."
+      },
+      "5": {
+        "question": "¿Puedo eliminar un proyecto?",
+        "answer": "Sí, pero solo si eres el responsable. Ve al tab \"Proyecto\" y usa el botón \"Eliminar proyecto\". Esta acción es irreversible."
+      }
+    }
+  },
+  "contact": {
+    "title": "Contacto directo",
+    "whatsapp": {
+      "title": "WhatsApp",
+      "description": "Respuesta en menos de 2 horas en horario laboral.",
+      "button": "Escribir ahora"
+    },
+    "email": {
+      "title": "Correo electrónico",
+      "description": "Envíanos un mensaje y respondemos en máximo 24 horas.",
+      "button": "Enviar mensaje"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "hero": {
+    "title": "Como podemos te ajudar?",
+    "subtitle": "Encontre respostas rápidas ou entre em contato com nossa equipe.",
+    "searchPlaceholder": "Buscar por palavra, ex: excluir, código, limite...",
+    "searchNoResults": "Sem resultados para \"{{query}}\"",
+    "searchResults": "{{count}} resultado{{plural}} para \"{{query}}\""
+  },
+  "topics": {
+    "title": "Tópicos populares",
+    "items": {
+      "1": {
+        "title": "Primeiros passos",
+        "description": "Crie seu primeiro projeto, conecte dispositivos e comece a monitorar seu consumo."
+      }
+    }
+  },
+  "faq": {
+    "title": "Perguntas frequentes",
+    "empty": "Sem resultados para \"{{query}}\"",
+    "showAll": "Ver todas as perguntas",
+    "items": {}
+  },
+  "contact": {
+    "title": "Contato direto",
+    "whatsapp": {
+      "title": "WhatsApp",
+      "description": "Resposta em menos de 2 horas em horário comercial.",
+      "button": "Escrever agora"
+    },
+    "email": {
+      "title": "Email",
+      "description": "Envie uma mensagem e responderemos em até 24 horas.",
+      "button": "Enviar mensagem"
+    }
+  }
+}

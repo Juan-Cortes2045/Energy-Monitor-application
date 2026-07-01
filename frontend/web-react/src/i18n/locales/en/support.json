@@ -1,0 +1,78 @@
+{
+  "hero": {
+    "title": "How can we help you?",
+    "subtitle": "Find quick answers or contact our team directly.",
+    "searchPlaceholder": "Search by keyword, e.g: delete, code, limit...",
+    "searchNoResults": "No results for \"{{query}}\"",
+    "searchResults": "{{count}} result{{plural}} for \"{{query}}\""
+  },
+  "topics": {
+    "title": "Popular topics",
+    "items": {
+      "1": {
+        "title": "Getting started",
+        "description": "Create your first project, connect devices, and start monitoring your consumption."
+      },
+      "2": {
+        "title": "Reading charts",
+        "description": "Understand power indicators, daily consumption, and device distribution."
+      },
+      "3": {
+        "title": "User management",
+        "description": "Invite members, assign roles, and manage permissions in your project."
+      },
+      "4": {
+        "title": "Alerts and limits",
+        "description": "Set daily and monthly consumption limits to receive notifications."
+      },
+      "5": {
+        "title": "Access code",
+        "description": "How to share your project code so others can join."
+      },
+      "6": {
+        "title": "Settings",
+        "description": "Edit project data, property type, and account preferences."
+      }
+    }
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "empty": "No results for \"{{query}}\"",
+    "showAll": "View all questions",
+    "items": {
+      "1": {
+        "question": "How do I create a new project?",
+        "answer": "From the main dashboard click the \"+\" button and select \"Create Project\". Fill in the name, address, and property type."
+      },
+      "2": {
+        "question": "What is the difference between owner and member?",
+        "answer": "The owner can see the access code, invite users, remove members, and delete the project. Members can only view information and leave the project."
+      },
+      "3": {
+        "question": "Why can't I see the access code?",
+        "answer": "The access code is only visible to the project owner. If you are a member, request it from the owner."
+      },
+      "4": {
+        "question": "How do I set a consumption limit?",
+        "answer": "Go to the \"Project\" section and find the limits area. There you can set daily and monthly limits in kWh."
+      },
+      "5": {
+        "question": "Can I delete a project?",
+        "answer": "Yes, but only if you are the owner. Go to the \"Project\" tab and use the \"Delete project\" button. This action is irreversible."
+      }
+    }
+  },
+  "contact": {
+    "title": "Direct contact",
+    "whatsapp": {
+      "title": "WhatsApp",
+      "description": "Response within 2 hours during business hours.",
+      "button": "Message now"
+    },
+    "email": {
+      "title": "Email",
+      "description": "Send us a message and we will respond within 24 hours.",
+      "button": "Send message"
+    }
+  }
+}
