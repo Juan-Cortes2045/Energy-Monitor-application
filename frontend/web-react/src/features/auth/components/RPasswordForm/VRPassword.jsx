@@ -36,7 +36,12 @@ const VRPassword = () => {
 
   return (
     <div className={styles.container}>
-      <Card className={styles.card}>
+      <Card
+        className={styles.card}
+        style={{
+          width: "400px",
+        }}
+      >
         <h2 className={styles.title}>{t("title")}</h2>
 
         <p className={styles.description}>{t("verifyDescription")}</p>

@@ -35,7 +35,11 @@ const LoginForm = () => {
   };
 
   return (
-    <Card>
+    <Card
+      style={{
+        width: "400px",
+      }}
+    >
       <h2 className={styles.title}>{t("login.title")}</h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>

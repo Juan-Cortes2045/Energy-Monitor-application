@@ -28,6 +28,8 @@ const Navbar = () => {
     >
       <div className={styles.logo}>
         <img src={LogoProyecto} alt="EnergyMonitor" />
+
+        <div className={styles.logoText}>EnergyMonitor</div>
       </div>
 
       <div className={`${styles.center} ${open ? styles.open : ""}`}>
