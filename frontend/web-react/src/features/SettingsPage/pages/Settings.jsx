@@ -1,20 +1,26 @@
 import Header from "../../../design/components/Header/Header";
 import Button from "../../../design/components/Button/Button";
+import { useTranslation } from "react-i18next";
 
 import styles from "../pages/Settings.module.css";
+
+import { useState } from "react";
+import i18n from "../../../i18n";
 
 import LanguageSettings from "../components/LanguageSettings/LanguageSettings.jsx";
 import ThemeSettings from "../components/ThemeSettings/ThemeSettings.jsx";
 import NotificationSettings from "../components/NotificationSettings/NotificationSettings.jsx";
 import HelpCenter from "../components/HelpCenter/HelpCenter.jsx";
 
-import {
-  Save,
-  X
-} from "lucide-react";
+import { Save, X } from "lucide-react";
 
 const Settings = () => {
+  const { t } = useTranslation("settings");
+  const [language, setLanguage] = useState("es");
+
   const handleSave = () => {
+    i18n.changeLanguage(language);
+    localStorage.setItem("lang", language);
     console.log("Guardar");
   };
 
@@ -27,11 +33,11 @@ const Settings = () => {
       <Header
         breadcrumbItems={[
           {
-            label: "Inicio",
+            label: t("header.home"),
             path: "/dashboard",
           },
           {
-            label: "Ajustes",
+            label: t("header.settings"),
           },
         ]}
       >
@@ -43,9 +49,7 @@ const Settings = () => {
             width: "auto",
           }}
         >
-          <span className={styles.desktopText}>
-            Descartar
-          </span>
+          <span className={styles.desktopText}>{t("header.discard")}</span>
 
           <span className={styles.mobileIcon}>
             <X size={18} />
@@ -60,9 +64,7 @@ const Settings = () => {
             width: "auto",
           }}
         >
-          <span className={styles.desktopText}>
-            Guardar
-          </span>
+          <span className={styles.desktopText}>{t("header.save")}</span>
 
           <span className={styles.mobileIcon}>
             <Save size={18} />
@@ -70,7 +72,7 @@ const Settings = () => {
         </Button>
       </Header>
 
-      <LanguageSettings />
+      <LanguageSettings language={language} setLanguage={setLanguage} />
       <ThemeSettings />
       <NotificationSettings />
       <HelpCenter />

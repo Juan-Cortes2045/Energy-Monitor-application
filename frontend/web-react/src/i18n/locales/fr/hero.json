@@ -1,0 +1,14 @@
+{
+  "title": {
+    "part1": "Contrôlez votre",
+    "highlight1": "consommation électrique",
+    "highlight2": "en temps réel"
+  },
+  "description": "Réduisez les coûts, évitez le gaspillage et prenez des décisions intelligentes depuis chez vous.",
+  "cta": "Commencer",
+  "features": {
+    "noCost": "Sans coûts initiaux ✔️",
+    "easy": "Facile à utiliser ⚡",
+    "realtime": "Données en temps réel 📊"
+  }
+}

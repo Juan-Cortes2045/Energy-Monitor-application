@@ -1,4 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import {
   ResponsiveContainer,
@@ -12,12 +13,10 @@ import {
 } from "recharts";
 
 import Card from "../../../design/components/Card/Card";
-
 import styles from "./ConsumptionHistory.module.css";
-
 import colors from "../../../design/tokens/colors";
 
-const FILTERS = ["Día", "Semana", "Mes", "Año"];
+const FILTERS = ["day", "week", "month", "year"];
 
 const DEVICE_COLORS = [
   colors.primary,
@@ -30,7 +29,7 @@ const DEVICE_COLORS = [
 ];
 
 const mockData = {
-  Día: Array.from({ length: 24 }, (_, i) => ({
+  day: Array.from({ length: 24 }, (_, i) => ({
     label: `${i}:00`,
     Nevera: Math.floor(Math.random() * 8) + 18,
     Iluminación: Math.floor(Math.random() * 6) + 10,
@@ -38,7 +37,7 @@ const mockData = {
     Lavadora: Math.floor(Math.random() * 5),
   })),
 
-  Semana: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"].map((d) => ({
+  week: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"].map((d) => ({
     label: d,
     Nevera: Math.floor(Math.random() * 20) + 20,
     Iluminación: Math.floor(Math.random() * 12) + 10,
@@ -46,7 +45,7 @@ const mockData = {
     Lavadora: Math.floor(Math.random() * 6),
   })),
 
-  Mes: Array.from({ length: 30 }, (_, i) => ({
+  month: Array.from({ length: 30 }, (_, i) => ({
     label: String(i + 1).padStart(2, "0"),
     Nevera: Math.floor(Math.random() * 10) + 20,
     Iluminación: Math.floor(Math.random() * 10) + 15,
@@ -54,7 +53,7 @@ const mockData = {
     Lavadora: Math.floor(Math.random() * 5),
   })),
 
-  Año: [
+  year: [
     "Ene",
     "Feb",
     "Mar",
@@ -76,19 +75,12 @@ const mockData = {
   })),
 };
 
-const dateLabels = {
-  Día: "Últimas 24 horas",
-  Semana: "Últimos 7 días",
-  Mes: "Abril 01, 2026 - Abril 30, 2026",
-  Año: "Enero 2026 - Diciembre 2026",
-};
-
 const ConsumptionHistory = () => {
-  const [activeFilter, setActiveFilter] = useState("Mes");
+  const { t } = useTranslation("history");
 
-  const [isMobile, setIsMobile] = useState(
-    window.innerWidth < 768
-  );
+  const [activeFilter, setActiveFilter] = useState("month");
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
     const handleResize = () => {
@@ -96,41 +88,29 @@ const ConsumptionHistory = () => {
     };
 
     window.addEventListener("resize", handleResize);
-
-    return () =>
-      window.removeEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const chartData = mockData[activeFilter];
 
   const devices = useMemo(() => {
     if (!chartData.length) return [];
-
-    return Object.keys(chartData[0]).filter(
-      (key) => key !== "label"
-    );
+    return Object.keys(chartData[0]).filter((key) => key !== "label");
   }, [chartData]);
 
   const rankingData = useMemo(() => {
     return devices.map((device, index) => {
-      const total = chartData.reduce(
-        (acc, item) => acc + item[device],
-        0
-      );
+      const total = chartData.reduce((acc, item) => acc + item[device], 0);
 
       return {
         nombre: device,
         total,
-        color:
-          DEVICE_COLORS[index % DEVICE_COLORS.length],
+        color: DEVICE_COLORS[index % DEVICE_COLORS.length],
       };
     });
   }, [chartData, devices]);
 
-  const totalPeriodo = rankingData.reduce(
-    (acc, item) => acc + item.total,
-    0
-  );
+  const totalPeriodo = rankingData.reduce((acc, item) => acc + item.total, 0);
 
   return (
     <div className={styles.page}>
@@ -140,23 +120,15 @@ const ConsumptionHistory = () => {
           {FILTERS.map((filter) => (
             <button
               key={filter}
-              onClick={() =>
-                setActiveFilter(filter)
-              }
-              className={
-                activeFilter === filter
-                  ? styles.active
-                  : ""
-              }
+              onClick={() => setActiveFilter(filter)}
+              className={activeFilter === filter ? styles.active : ""}
             >
-              {filter}
+              {t(`filters.${filter}`)}
             </button>
           ))}
         </div>
 
-        <p className={styles.date}>
-          {dateLabels[activeFilter]}
-        </p>
+        <p className={styles.date}>{t(`dates.${activeFilter}`)}</p>
       </div>
 
       {/* CHART */}
@@ -169,24 +141,16 @@ const ConsumptionHistory = () => {
         }}
       >
         <div className={styles.chartBlock}>
-          <p className={styles.title}>
-            DISTRIBUCIÓN DE CONSUMO POR
-            DISPOSITIVO
-          </p>
+          <p className={styles.title}>{t("chart.title")}</p>
 
           <div className={styles.chartWrapper}>
             <div
               className={styles.chartInner}
               style={{
-                width: isMobile
-                  ? `${chartData.length * 55}px`
-                  : "100%",
+                width: isMobile ? `${chartData.length * 55}px` : "100%",
               }}
             >
-              <ResponsiveContainer
-                width="100%"
-                height={isMobile ? 280 : 430}
-              >
+              <ResponsiveContainer width="100%" height={isMobile ? 280 : 430}>
                 <BarChart data={chartData}>
                   <CartesianGrid
                     strokeDasharray="3 3"
@@ -194,49 +158,17 @@ const ConsumptionHistory = () => {
                     stroke={colors.border}
                   />
 
-                  <XAxis
-                    dataKey="label"
-                    axisLine={false}
-                    tickLine={false}
-                    tick={{
-                      fontSize: isMobile ? 10 : 12,
-                    }}
-                  />
-
-                  <YAxis
-                    axisLine={false}
-                    tickLine={false}
-                    tick={{
-                      fontSize: isMobile ? 10 : 12,
-                    }}
-                    width={isMobile ? 28 : 40}
-                  />
+                  <XAxis dataKey="label" />
+                  <YAxis />
 
                   <Tooltip />
-
-                  <Legend
-                    iconType="circle"
-                    wrapperStyle={{
-                      fontSize: isMobile
-                        ? "10px"
-                        : "12px",
-                    }}
-                  />
+                  <Legend />
 
                   {devices.map((device, index) => (
                     <Bar
                       key={device}
                       dataKey={device}
-                      fill={
-                        DEVICE_COLORS[
-                          index %
-                            DEVICE_COLORS.length
-                        ]
-                      }
-                      radius={[4, 4, 0, 0]}
-                      maxBarSize={
-                        isMobile ? 18 : 28
-                      }
+                      fill={DEVICE_COLORS[index % DEVICE_COLORS.length]}
                     />
                   ))}
                 </BarChart>
@@ -248,7 +180,6 @@ const ConsumptionHistory = () => {
 
       {/* BOTTOM */}
       <div className={styles.bottom}>
-        {/* RANKING */}
         <Card
           style={{
             width: "100%",
@@ -259,55 +190,39 @@ const ConsumptionHistory = () => {
           }}
         >
           <div className={styles.ranking}>
-            <p className={styles.title}>
-              RANKING DE CONSUMO
-            </p>
+            <p className={styles.title}>{t("ranking.title")}</p>
 
             <div className={styles.table}>
               <div className={styles.tableContent}>
                 <div className={styles.header}>
-                <span>#</span>
-                <span>DISPOSITIVO</span>
-                <span>TOTAL</span>
-                <span>%</span>
-              </div>
+                  <span>{t("ranking.headers.position")}</span>
+                  <span>{t("ranking.headers.device")}</span>
+                  <span>{t("ranking.headers.total")}</span>
+                  <span>{t("ranking.headers.percentage")}</span>
+                </div>
 
-              {rankingData.map((item, index) => {
-                const pct = (
-                  (item.total / totalPeriodo) *
-                  100
-                ).toFixed(1);
+                {rankingData.map((item, index) => {
+                  const pct = ((item.total / totalPeriodo) * 100).toFixed(1);
 
-                return (
-                  <div
-                    key={item.nombre}
-                    className={styles.row}
-                  >
-                    <span>{index + 1}</span>
+                  return (
+                    <div key={item.nombre} className={styles.row}>
+                      <span>{index + 1}</span>
+                      <span>{item.nombre}</span>
+                      <span>{item.total.toFixed(1)}</span>
 
-                    <span>{item.nombre}</span>
-
-                    <span>
-                      {item.total.toFixed(1)}
-                    </span>
-
-                    <div
-                      className={styles.percent}
-                    >
-                      <div
-                        className={styles.bar}
-                        style={{
-                          width: `${pct}%`,
-                          background:
-                            item.color,
-                        }}
-                      />
-
-                      <span>{pct}%</span>
+                      <div className={styles.percent}>
+                        <div
+                          className={styles.bar}
+                          style={{
+                            width: `${pct}%`,
+                            background: item.color,
+                          }}
+                        />
+                        <span>{pct}%</span>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -315,69 +230,27 @@ const ConsumptionHistory = () => {
 
         {/* STATS */}
         <div className={styles.stats}>
-          <Card
-            style={{
-              minWidth: 0,
-              padding: isMobile ? "16px 14px" : "24px",
-            }}
-          >
+          <Card>
             <div className={styles.stat}>
-              <p>
-                CONSUMO TOTAL PERIODO
-              </p>
-
-              <h3>
-                {totalPeriodo.toFixed(1)} kWh
-              </h3>
-
-              <span>
-                ↑ 10% vs periodo anterior
-              </span>
+              <p>{t("stats.totalConsumption")}</p>
+              <h3>{totalPeriodo.toFixed(1)} kWh</h3>
+              <span>{t("stats.vsPrevious")}</span>
             </div>
           </Card>
 
-          <Card
-            style={{
-              minWidth: 0,
-              padding: isMobile ? "16px 14px" : "24px",
-            }}
-          >
+          <Card>
             <div className={styles.stat}>
-              <p>PROMEDIO</p>
-
-              <h3>
-                {(
-                  totalPeriodo /
-                  chartData.length
-                ).toFixed(1)}{" "}
-                kWh
-              </h3>
-
-              <span>
-                Promedio del periodo
-              </span>
+              <p>{t("stats.average")}</p>
+              <h3>{(totalPeriodo / chartData.length).toFixed(1)} kWh</h3>
+              <span>{t("stats.periodAverage")}</span>
             </div>
           </Card>
 
-         <Card
-            style={{
-              minWidth: 0,
-              padding: isMobile ? "16px 14px" : "24px",
-            }}
-          >
+          <Card>
             <div className={styles.stat}>
-              <p>MAYOR CONSUMIDOR</p>
-
-              <h3>
-                {rankingData[0]?.nombre}
-              </h3>
-
-              <span>
-                {rankingData[0]?.total.toFixed(
-                  1
-                )}{" "}
-                kWh
-              </span>
+              <p>{t("stats.topConsumer")}</p>
+              <h3>{rankingData[0]?.nombre}</h3>
+              <span>{rankingData[0]?.total.toFixed(1)} kWh</span>
             </div>
           </Card>
         </div>

@@ -1,6 +1,7 @@
-import { z } from "zod"
+import { z } from "zod";
 
-export const loginSchema= z.object({
-    email: z.string().email("Correo invalido"),
-    password: z.string().min(6, "Mínimo 8 caracteres"),
-});
+export const loginSchema = (t) =>
+  z.object({
+    email: z.string().email(t("errors.invalidEmail")),
+    password: z.string().min(6, t("errors.passwordMin")),
+  });

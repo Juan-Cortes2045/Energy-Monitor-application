@@ -1,93 +1,93 @@
-import styles from "../Hero/Hero.module.css"
+import styles from "../Hero/Hero.module.css";
 
-import { useNavigate } from "react-router-dom"
-import Button from "../../../../design/components/Button/Button"
-import heroImg from "../../../../assets/hero_img.jpeg"
+import { useNavigate } from "react-router-dom";
+import Button from "../../../../design/components/Button/Button";
+import heroImg from "../../../../assets/hero_img.jpeg";
+import { useTranslation } from "react-i18next";
 
-import colors from "../../../../design/tokens/colors"
-import spacing from "../../../../design/tokens/spacing"
-import typography from "../../../../design/tokens/typography"
-import radius from "../../../../design/tokens/radius"
-import shadows from "../../../../design/tokens/shadows"
+import colors from "../../../../design/tokens/colors";
+import spacing from "../../../../design/tokens/spacing";
+import typography from "../../../../design/tokens/typography";
+import radius from "../../../../design/tokens/radius";
+import shadows from "../../../../design/tokens/shadows";
 
-const Hero= ()=>{
-    const navigate= useNavigate();
-    return(
-        <div className={styles.heroWrapper}>
-        <section
-        className={styles.container}>
-        
+const Hero = () => {
+  const { t } = useTranslation("hero");
+  const navigate = useNavigate();
+  return (
+    <div className={styles.heroWrapper}>
+      <section className={styles.container}>
         {/*IZQUIERDA*/}
         <div className={`${styles.left} ${styles.fadeUp}`}>
-            <h1
+          <h1
             style={{
-                fontWeight: typography.weights.bold,
-                fontFamily: typography.fontPrimary,
-                color: colors.textPrimary,
-                lineHeight: "1.2",
+              fontWeight: typography.weights.bold,
+              fontFamily: typography.fontPrimary,
+              color: colors.textPrimary,
+              lineHeight: "1.2",
             }}
-            >
-                Controla tu{" "}
-                <span style={{color: colors.secondary}}>
-                    consumo eléctrico
-                </span>{" "}
-                <span style={{color:colors.primary}}>
-                    en tiempo real
-                </span>
-            </h1>
+          >
+            {t("title.part1")}{" "}
+            <span style={{ color: colors.secondary }}>
+              {t("title.highlight1")}
+            </span>{" "}
+            <span style={{ color: colors.primary }}>
+              {t("title.highlight2")}
+            </span>
+          </h1>
 
-            <p
+          <p
             style={{
-                marginTop: spacing.md,
-                color: colors.textSecondary,
-                fontSize: typography.sizes.lg,
-                fontWeight: typography.weights.bold,
-                maxWidth: "450px"
+              marginTop: spacing.md,
+              color: colors.textSecondary,
+              fontSize: typography.sizes.lg,
+              fontWeight: typography.weights.bold,
+              maxWidth: "450px",
             }}
-            >
-                Reduce costos, evita desperdicios y toma decisiones inteligentes desde tu hogar.
-            </p>
+          >
+            {t("description")}
+          </p>
 
-            {/*BOTON*/}
-            <div  className={styles.buttonWrapper} style={{marginTop: spacing.md}}>
-                <Button  
-                variant="primary" 
-                onClick={()=> navigate("/login")}
-                >
-                    Comenzar ahora
-                </Button>
-            </div>
+          {/*BOTON*/}
+          <div
+            className={styles.buttonWrapper}
+            style={{ marginTop: spacing.md }}
+          >
+            <Button variant="primary" onClick={() => navigate("/login")}>
+              {t("cta")}
+            </Button>
+          </div>
 
-            {/*FUNCIONALIDADES*/}
-            <div 
+          {/*FUNCIONALIDADES*/}
+          <div
             className={styles.features}
             style={{
-                marginTop: spacing.md,
-                color: colors.textSecondary,
-                fontSize: typography.sizes.md,
-                fontWeight: typography.weights.medium
+              marginTop: spacing.md,
+              color: colors.textSecondary,
+              fontSize: typography.sizes.md,
+              fontWeight: typography.weights.medium,
             }}
-            >
-                <span>Sin costos iniciales ✔️</span>
-                <span>Fácil de usar ⚡</span>
-                <span>Datos en tiempo real 📊</span>
-            </div>
+          >
+            <span>{t("features.noCost")}</span>
+            <span>{t("features.easy")}</span>
+            <span>{t("features.realtime")}</span>
+          </div>
         </div>
 
         {/*DERECHA*/}
         <div className={`${styles.right} ${styles.fadeUpDelay}`}>
-            <img 
-            src={heroImg} 
-            alt="Energy System" 
+          <img
+            src={heroImg}
+            alt="Energy System"
             style={{
-                borderRadius:radius.md,
-                boxShadow: shadows.lg,
+              borderRadius: radius.md,
+              boxShadow: shadows.lg,
             }}
-            />
+          />
         </div>
-        </section>
-        </div>
-    )
-}
+      </section>
+    </div>
+  );
+};
 
 export default Hero;

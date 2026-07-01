@@ -1,0 +1,33 @@
+{
+  "filters": {
+    "day": "Day",
+    "week": "Week",
+    "month": "Month",
+    "year": "Year"
+  },
+  "dates": {
+    "day": "Last 24 hours",
+    "week": "Last 7 days",
+    "month": "April 01, 2026 - April 30, 2026",
+    "year": "January 2026 - December 2026"
+  },
+  "chart": {
+    "title": "CONSUMPTION DISTRIBUTION BY DEVICE"
+  },
+  "ranking": {
+    "title": "CONSUMPTION RANKING",
+    "headers": {
+      "position": "#",
+      "device": "DEVICE",
+      "total": "TOTAL",
+      "percentage": "%"
+    }
+  },
+  "stats": {
+    "totalConsumption": "TOTAL CONSUMPTION PERIOD",
+    "average": "AVERAGE",
+    "topConsumer": "TOP CONSUMER",
+    "vsPrevious": "↑ 10% vs previous period",
+    "periodAverage": "Period average"
+  }
+}

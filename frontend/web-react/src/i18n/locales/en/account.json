@@ -1,0 +1,14 @@
+{
+  "title": "My account",
+  "photoOptions": "Photo options",
+  "addPhoto": "Add photo",
+  "viewPhoto": "View photo",
+  "delete": "Delete",
+  "name": "Name",
+  "email": "Email",
+  "phone": "Phone",
+  "noPhone": "You don't have one at the moment",
+  "password": "Password",
+  "deleteQuestion": "Do you want to delete your account?",
+  "deleteAccount": "Delete account"
+}

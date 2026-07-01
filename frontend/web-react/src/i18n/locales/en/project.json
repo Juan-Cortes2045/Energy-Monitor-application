@@ -1,0 +1,35 @@
+{
+  "title": {
+    "projectInfo": "Project Information",
+    "accessCode": "Access Code",
+    "owner": "Responsible User"
+  },
+  "fields": {
+    "name": "Name",
+    "projectType": "Project Type",
+    "address": "Address",
+    "description": "Description",
+    "creationDate": "Creation Date",
+    "email": "Email",
+    "phone": "Phone"
+  },
+  "placeholders": {
+    "empty": "—",
+    "noCode": "——————"
+  },
+  "hints": {
+    "accessCode": "Share this code so other users can join."
+  },
+  "buttons": {
+    "copy": "Copy access code",
+    "deleteProject": "Delete project",
+    "leaveProject": "Leave project"
+  },
+  "status": {
+    "responsible": "Responsible"
+  },
+  "confirm": {
+    "leave": "Are you sure you want to leave this project?",
+    "delete": "Delete this project? This action cannot be undone."
+  }
+}

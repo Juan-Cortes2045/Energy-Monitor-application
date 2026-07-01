@@ -1,0 +1,15 @@
+{
+  "breadcrumb": {
+    "home": "Início"
+  },
+  "actions": {
+    "joinProject": "Entrar em um projeto",
+    "createProject": "Criar projeto"
+  },
+  "project": {
+    "joinedName": "Projeto ingressado",
+    "responsible": "Responsável pelo projeto",
+    "joinedDescription": "Projeto no qual você entrou como usuário comum.",
+    "you": "Você"
+  }
+}

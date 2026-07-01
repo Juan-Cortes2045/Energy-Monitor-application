@@ -1,0 +1,14 @@
+{
+  "title": "Mi cuenta",
+  "photoOptions": "Opciones de foto",
+  "addPhoto": "Agregar foto",
+  "viewPhoto": "Ver foto",
+  "delete": "Eliminar",
+  "name": "Nombre",
+  "email": "Correo",
+  "phone": "Teléfono",
+  "noPhone": "No tienes en el momento",
+  "password": "Contraseña",
+  "deleteQuestion": "¿Deseas eliminar tu cuenta?",
+  "deleteAccount": "Eliminar cuenta"
+}

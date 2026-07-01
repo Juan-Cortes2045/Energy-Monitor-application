@@ -1,0 +1,14 @@
+{
+  "favorites": {
+    "breadcrumb": {
+      "home": "Início",
+      "current": "Favoritos"
+    },
+    "title": "Favoritos",
+    "subtitle": "Seus projetos favoritos aparecem aqui para que você os encontre rapidamente.",
+    "empty": {
+      "title": "Nenhum favorito ainda",
+      "description": "Marque o coração em qualquer projeto para vê-lo aqui."
+    }
+  }
+}

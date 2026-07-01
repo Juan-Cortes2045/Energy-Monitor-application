@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../../validation/loginSchema.js";
 import styles from "../LoginForm/LoginForm.module.css";
 import colors from "../../../../design/tokens/colors.js";
+import { useTranslation } from "react-i18next";
 
 import googleIcon from "../../../../assets/google_icon.png";
 
@@ -15,6 +16,8 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
 const LoginForm = () => {
+  const { t: v } = useTranslation("validations");
+  const { t } = useTranslation("auth");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -23,7 +26,7 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(loginSchema(v)),
   });
 
   const onSubmit = (data) => {
@@ -33,12 +36,12 @@ const LoginForm = () => {
 
   return (
     <Card>
-      <h2 className={styles.title}>Iniciar sesión</h2>
+      <h2 className={styles.title}>{t("login.title")}</h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         {/*EMAIL*/}
         <Input id="email" type="email" placeholder="*" {...register("email")}>
-          Correo Electrónico
+          {t("login.email")}
         </Input>
         {errors.email && (
           <span
@@ -60,7 +63,7 @@ const LoginForm = () => {
           onIconClick={() => setShowPassword(!showPassword)}
           {...register("password")}
         >
-          Contraseña
+          {t("login.password")}
         </Input>
         {errors.password && (
           <span
@@ -77,7 +80,7 @@ const LoginForm = () => {
         <div className={styles.options}>
           <label className={styles.renember}>
             <input type="checkbox" />
-            Recordar datos
+            {t("login.remember")}
           </label>
 
           <a
@@ -87,14 +90,14 @@ const LoginForm = () => {
               color: colors.secondary,
             }}
           >
-            ¿Olvidaste tu contraseña?
+            {t("login.forgotPassword")}
           </a>
         </div>
 
         <div className={styles.buttonsContainer}>
           {/*BOTON LOGIN*/}
           <Button type="submit" variant="primary">
-            Ingresar
+            {t("login.submit")}
           </Button>
 
           {/*DIVIDER*/}
@@ -104,19 +107,19 @@ const LoginForm = () => {
               color: colors.textSecondary,
             }}
           >
-            <span>O</span>
+            <span>{t("login.divider")}</span>
           </div>
 
           {/*GOOGLE LOGIN*/}
-          <p className={styles.startUsing}>Iniciar usando:</p>
+          <p className={styles.startUsing}>{t("login.loginWith")}</p>
           <Button type="button" variant="secondary" icon={googleIcon}>
-            Google
+            {t("login.google")}
           </Button>
         </div>
 
         {/*REGISTER*/}
         <p className={styles.register}>
-          ¿No tienes una cuenta?.{" "}
+          {t("login.noAccount")}.{" "}
           <a
             href="/register"
             className={styles.link}
@@ -124,7 +127,7 @@ const LoginForm = () => {
               color: colors.secondary,
             }}
           >
-            registrate
+            {t("login.register")}
           </a>
         </p>
       </form>

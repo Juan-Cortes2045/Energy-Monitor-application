@@ -1,0 +1,65 @@
+{
+  "header": {
+    "home": "Home",
+    "settings": "Settings",
+    "save": "Save",
+    "discard": "Discard"
+  },
+  "language": {
+    "title": "System language",
+    "description": "Defines the interface language and generated reports"
+  },
+  "theme": {
+    "title": "System themes",
+    "description": "Visual appearance of the system for all users",
+    "light": "Light themes",
+    "dark": "Dark themes",
+    "new": "New",
+    "modes": {
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "energyLight": "Light · Default",
+    "ecoLight": "Light · Theme 2",
+    "energyDark": "Dark · Theme 1",
+    "ecoDark": "Dark · Theme 2"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "description": "Configure how you want to receive alerts and system events",
+    "active": "active",
+    "email": {
+      "title": "Email",
+      "description": "Alerts sent to the registered email"
+    },
+    "push": {
+      "title": "Push notifications",
+      "description": "Alerts within the platform"
+    },
+    "combined": {
+      "title": "Combined mode",
+      "description": "Enable both channels simultaneously"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    }
+  },
+  "help": {
+    "docs": {
+      "title": "Documentation",
+      "description": "User guides, feature references, and step-by-step tutorials",
+      "action": "Open documentation"
+    },
+    "support": {
+      "title": "Technical support",
+      "description": "Contact the support team to resolve issues",
+      "action": "Create ticket"
+    },
+    "updates": {
+      "title": "What's new",
+      "description": "Latest updates, improvements, and bug fixes",
+      "action": "View changelog"
+    }
+  }
+}

@@ -4,8 +4,10 @@ import Card from "../../../../design/components/Card/Card";
 import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
 import styles from "./VerifyAccount.module.css";
+import { useTranslation } from "react-i18next";
 
 const VerifyEmail = () => {
+  const { t } = useTranslation("auth");
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputsRef = useRef([]);
   const navigate = useNavigate();
@@ -39,12 +41,9 @@ const VerifyEmail = () => {
     <div className={styles.container}>
       <Card className={styles.card}>
         <div className={styles.content}>
-          <h2 className={styles.title}>Verificar correo</h2>
+          <h2 className={styles.title}>{t("verify.title")}</h2>
 
-          <p className={styles.description}>
-            Te enviamos un código de 6 dígitos a tu correo. Ingresa el código
-            para verificar tu cuenta.
-          </p>
+          <p className={styles.description}>{t("verify.description")}</p>
 
           <div className={styles.otpContainer}>
             {code.map((digit, index) => (
@@ -61,18 +60,15 @@ const VerifyEmail = () => {
           </div>
 
           <Button variant="primary" onClick={handleVerify}>
-            Confirmar código
+            {t("verify.confirm")}
           </Button>
 
-          <span className={styles.helperText}>¿No te llegó el código?</span>
+          <span className={styles.helperText}>{t("verify.notReceived")}</span>
 
-          <Button
-            type="button" 
-            variant="secondary"
-          >
-            Reenviar código
+          <Button type="button" variant="secondary">
+            {t("verify.resend")}
           </Button>
-          </div>
+        </div>
       </Card>
     </div>
   );

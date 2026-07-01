@@ -5,8 +5,10 @@ import Button from "../../../../design/components/Button/Button";
 import colors from "../../../../design/tokens/colors";
 import spacing from "../../../../design/tokens/spacing";
 import typography from "../../../../design/tokens/typography";
+import { useTranslation } from "react-i18next";
 
 const EmptyState = ({ onCreateProject, onJoinProject }) => {
+  const { t } = useTranslation("emptyState");
   return (
     <div className={styles.container}>
       <img className={styles.emptyImg} src={emptyImg} alt="empty" />
@@ -19,7 +21,7 @@ const EmptyState = ({ onCreateProject, onJoinProject }) => {
           fontSize: typography.sizes.xl,
         }}
       >
-        Añade un proyecto para empezar
+        {t("title")}
       </h2>
 
       <div
@@ -30,10 +32,10 @@ const EmptyState = ({ onCreateProject, onJoinProject }) => {
         }}
       >
         <Button variant="secondary" onClick={onCreateProject}>
-          Crear Proyecto
+          {t("createProject")}
         </Button>
         <Button variant="primary" onClick={onJoinProject}>
-          Ingresar a Proyecto
+          {t("joinProject")}
         </Button>
       </div>
     </div>

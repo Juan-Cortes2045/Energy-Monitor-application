@@ -1,14 +1,16 @@
 import NavItem from "./NavItem";
-import styles from "./Navbar.module.css"
+import styles from "./Navbar.module.css";
+import { useTranslation } from "react-i18next";
 
-const NavList = ({setOpen}) => {
+const NavList = ({ setOpen }) => {
+  const { t } = useTranslation("navbar");
   return (
     <ul className={styles.navLinks}>
-      <NavItem text="Inicio" path="/" />
-      <NavItem text="Como funciona" path="/how-it-works" />
-      <NavItem text="Beneficios" path="/benefics" />
-      <NavItem text="Sobre nosotros" path="/about" />
-      <NavItem text="Soporte" path="/support" />
+      <NavItem text={t("menu.home")} path="/" />
+      <NavItem text={t("menu.howItWorks")} path="/how-it-works" />
+      <NavItem text={t("menu.benefits")} path="/benefics" />
+      <NavItem text={t("menu.about")} path="/about" />
+      <NavItem text={t("menu.support")} path="/support" />
     </ul>
   );
 };

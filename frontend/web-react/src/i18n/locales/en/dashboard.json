@@ -1,0 +1,15 @@
+{
+  "breadcrumb": {
+    "home": "Home"
+  },
+  "actions": {
+    "joinProject": "Join project",
+    "createProject": "Create project"
+  },
+  "project": {
+    "joinedName": "Joined project",
+    "responsible": "Project manager",
+    "joinedDescription": "Project you joined as a regular user.",
+    "you": "You"
+  }
+}

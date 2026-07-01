@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useTransition } from "react";
 
 import {
   AreaChart,
@@ -27,6 +28,7 @@ import styles from "./Consumption.module.css";
 import colors from "../../../design/tokens/colors";
 import typography from "../../../design/tokens/typography";
 import radius from "../../../design/tokens/radius";
+import { useTranslation } from "react-i18next";
 
 const emptyProjectData = {
   potencia: null,
@@ -39,112 +41,6 @@ const emptyProjectData = {
   consumoHoras: [],
   distribucion: [],
 };
-
-const TABS = [
-  {
-    id: "Consumo",
-    label: "Consumo",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-      </svg>
-    ),
-  },
-  {
-    id: "Historial",
-    label: "Historial",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <circle cx="12" cy="12" r="10" />
-        <polyline points="12 6 12 12 16 14" />
-      </svg>
-    ),
-  },
-  {
-    id: "Usuarios",
-    label: "Usuarios",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-      </svg>
-    ),
-  },
-  {
-    id: "Dispositivos",
-    label: "Dispositivos",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M5 12.55a11 11 0 0 1 14.08 0" />
-        <path d="M1.42 9a16 16 0 0 1 21.16 0" />
-        <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
-        <circle cx="12" cy="20" r="1" fill="currentColor" />
-      </svg>
-    ),
-  },
-  {
-    id: "Proyecto",
-    label: "Proyecto",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" />
-        <polyline points="9 21 9 12 15 12 15 21" />
-      </svg>
-    ),
-  },
-];
 
 const CHART_COLORS = [
   colors.primary,
@@ -185,26 +81,8 @@ const EmptyChart = ({ mensaje = "Sin datos disponibles" }) => (
   </div>
 );
 
-const LimitBar = ({ label, usado, limite }) => {
-  const sinDatos = !limite;
-  const pct = sinDatos ? 0 : Math.min(Math.round((usado / limite) * 100), 100);
-  return (
-    <div className={styles.limitCard}>
-      <div className={styles.limitTop}>
-        <span className={styles.limitLabel}>{label}</span>
-        <span className={styles.limitPct}>{sinDatos ? "—" : `${pct}%`}</span>
-      </div>
-      <div className={styles.limitBarOuter}>
-        <div className={styles.limitBarInner} style={{ width: `${pct}%` }} />
-      </div>
-      <div className={styles.limitValues}>
-        {sinDatos ? "Sin datos" : `${usado} / ${limite} kWh`}
-      </div>
-    </div>
-  );
-};
-
 const Consumption = () => {
+  const { t } = useTranslation("consumption");
   const location = useLocation();
   const navigate = useNavigate();
   const { project, isOwner = false } = location.state ?? {};
@@ -213,10 +91,137 @@ const Consumption = () => {
 
   const data = emptyProjectData;
 
+  const LimitBar = ({ label, usado, limite }) => {
+    const sinDatos = !limite;
+    const pct = sinDatos
+      ? 0
+      : Math.min(Math.round((usado / limite) * 100), 100);
+    return (
+      <div className={styles.limitCard}>
+        <div className={styles.limitTop}>
+          <span className={styles.limitLabel}>{label}</span>
+          <span className={styles.limitPct}>{sinDatos ? "—" : `${pct}%`}</span>
+        </div>
+        <div className={styles.limitBarOuter}>
+          <div className={styles.limitBarInner} style={{ width: `${pct}%` }} />
+        </div>
+        <div className={styles.limitValues}>
+          {sinDatos ? t("kpi.noData") : `${usado} / ${limite} kWh`}
+        </div>
+      </div>
+    );
+  };
+
+  const TABS = [
+    {
+      id: "Consumo",
+      label: t("tabs.consumption"),
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+        </svg>
+      ),
+    },
+    {
+      id: "Historial",
+      label: t("tabs.history"),
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </svg>
+      ),
+    },
+    {
+      id: "Usuarios",
+      label: t("tabs.users"),
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+      ),
+    },
+    {
+      id: "Dispositivos",
+      label: t("tabs.devices"),
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M5 12.55a11 11 0 0 1 14.08 0" />
+          <path d="M1.42 9a16 16 0 0 1 21.16 0" />
+          <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+          <circle cx="12" cy="20" r="1" fill="currentColor" />
+        </svg>
+      ),
+    },
+    {
+      id: "Proyecto",
+      label: t("tabs.project"),
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" />
+          <polyline points="9 21 9 12 15 12 15 21" />
+        </svg>
+      ),
+    },
+  ];
+
   const breadcrumbItems = [
-    { label: "Inicio", onClick: onBack },
-    { label: "Proyectos", onClick: onBack },
-    { label: project?.name ?? "Proyecto" },
+    { label: t("breadcrumb.home"), onClick: onBack },
+    { label: t("breadcrumb.projects"), onClick: onBack },
+    { label: project?.name ?? t("breadcrumb.projectFallback") },
   ];
 
   return (
@@ -249,19 +254,21 @@ const Consumption = () => {
             <div className={styles.kpiRow}>
               <div className={`${styles.kpiCard} ${styles.kpiYellow}`}>
                 <div className={styles.kpiContent}>
-                  <p className={styles.kpiLabel}>POTENCIA ACTUAL ⚡</p>
+                  <p className={styles.kpiLabel}>{t("kpi.currentPower")}</p>
                   <p className={styles.kpiValue}>
                     {data.potencia ?? "—"}
                     <span className={styles.kpiUnit}>
                       {data.potencia != null ? " kW" : ""}
                     </span>
                   </p>
-                  <p className={styles.kpiSub}>Nivel: {data.nivelPotencia}</p>
+                  <p className={styles.kpiSub}>
+                    {t("kpi.level")} {data.nivelPotencia}
+                  </p>
                 </div>
               </div>
               <div className={`${styles.kpiCard} ${styles.kpiBlue}`}>
                 <div className={styles.kpiContent}>
-                  <p className={styles.kpiLabel}>CONSUMO HOY 📊</p>
+                  <p className={styles.kpiLabel}>{t("kpi.todayConsumption")}</p>
                   <p className={styles.kpiValue}>
                     {data.consumoHoy ?? "—"}
                     <span className={styles.kpiUnit}>
@@ -270,14 +277,14 @@ const Consumption = () => {
                   </p>
                   <p className={styles.kpiSub}>
                     {data.limiteConsumo != null
-                      ? `Límite actual: ${data.limiteConsumo} kWh`
-                      : "Sin límite configurado"}
+                      ? `t("kpi.currentLimit") ${data.limiteConsumo} kWh`
+                      : t("kpi.noLimit")}
                   </p>
                 </div>
               </div>
               <div className={`${styles.kpiCard} ${styles.kpiGreen}`}>
                 <div className={styles.kpiContent}>
-                  <p className={styles.kpiLabel}>DISPOSITIVOS 🔌</p>
+                  <p className={styles.kpiLabel}>{t("kpi.devices")}</p>
                   <p className={styles.kpiValue}>
                     {data.dispositivos.activos ?? "—"}
                     <span className={styles.kpiUnit}>
@@ -288,8 +295,8 @@ const Consumption = () => {
                   </p>
                   <p className={styles.kpiSub}>
                     {data.dispositivos.activos != null
-                      ? "Todos operativos"
-                      : "Sin datos"}
+                      ? t("kpi.allOperational")
+                      : t("kpi.noData")}
                   </p>
                 </div>
               </div>
@@ -298,11 +305,14 @@ const Consumption = () => {
             <Card>
               <div className={styles.chartSection}>
                 <p className={styles.chartTitle}>
-                  Consumo Global — <span>Últimas 24 horas</span>
+                  {t("charts.globalConsumption")}{" "}
+                  <span>{t("charts.last24h")}</span>
                 </p>
-                <p className={styles.chartSubtitle}>Potencia activa en kW</p>
+                <p className={styles.chartSubtitle}>
+                  {t("charts.activePower")}
+                </p>
                 {data.consumoHoras.length === 0 ? (
-                  <EmptyChart mensaje="Historial de consumo no disponible" />
+                  <EmptyChart mensaje={t("charts.historyUnavailable")} />
                 ) : (
                   <ResponsiveContainer width="100%" height={160}>
                     <AreaChart
@@ -374,9 +384,11 @@ const Consumption = () => {
             <div className={styles.bottomRow}>
               <Card>
                 <div className={styles.distribucionBlock}>
-                  <p className={styles.sectionTitle}>Distribución actual</p>
+                  <p className={styles.sectionTitle}>
+                    {t("charts.currentDistribution")}
+                  </p>
                   {data.distribucion.length === 0 ? (
-                    <EmptyChart mensaje="Distribución no disponible" />
+                    <EmptyChart mensaje={t("charts.distributionUnavailable")} />
                   ) : (
                     <ResponsiveContainer width="100%" height={200}>
                       <PieChart>
@@ -421,10 +433,12 @@ const Consumption = () => {
               <Card>
                 <div className={styles.devicesBlock}>
                   <p className={styles.sectionTitle}>
-                    Consumo por dispositivo (ahora)
+                    {t("charts.deviceConsumption")}
                   </p>
                   {data.distribucion.length === 0 ? (
-                    <EmptyChart mensaje="Consumo por dispositivo no disponible" />
+                    <EmptyChart
+                      mensaje={t("charts.deviceConsumptionUnavailable")}
+                    />
                   ) : (
                     <ResponsiveContainer width="100%" height={200}>
                       <BarChart
@@ -461,7 +475,10 @@ const Consumption = () => {
                           tickLine={false}
                         />
                         <Tooltip
-                          formatter={(v) => [`${v} kW`, "Consumo"]}
+                          formatter={(v) => [
+                            `${v} kW`,
+                            t("tooltip.consumption"),
+                          ]}
                           contentStyle={{
                             borderRadius: radius.md,
                             border: `1px solid ${colors.border}`,
@@ -490,12 +507,12 @@ const Consumption = () => {
 
             <div className={styles.limitsRow}>
               <LimitBar
-                label="Límite diario"
+                label={t("limits.daily")}
                 usado={data.limitesDiario.usado}
                 limite={data.limitesDiario.limite}
               />
               <LimitBar
-                label="Límite mensual"
+                label={t("limits.monthly")}
                 usado={data.limiteMensual.usado}
                 limite={data.limiteMensual.limite}
               />

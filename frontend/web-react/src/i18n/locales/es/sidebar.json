@@ -1,0 +1,13 @@
+{
+  "home": "Inicio",
+  "projects": "Proyectos",
+  "favorites": "Favoritos",
+  "notifications": "Notificaciones",
+  "settings": "Ajustes",
+
+  "profile": {
+    "myAccount": "Mi cuenta",
+    "addAccount": "Añadir cuenta",
+    "logout": "Cerrar sesión"
+  }
+}

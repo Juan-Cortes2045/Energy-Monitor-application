@@ -1,0 +1,34 @@
+{
+  "header": {
+    "title": "Utilisateurs",
+    "membersCount_one": "{{count}} membre dans ce projet",
+    "membersCount_other": "{{count}} membres dans ce projet"
+  },
+  "roles": {
+    "owner": "Responsable",
+    "member": "Membre"
+  },
+  "members": {
+    "title": "Membres du projet"
+  },
+  "invite": {
+    "title": "Inviter un utilisateur par e-mail",
+    "placeholder": "email@exemple.com",
+    "button": "Inviter",
+    "errors": {
+      "empty": "Saisissez un e-mail.",
+      "invalid": "E-mail invalide.",
+      "alreadyMember": "Cet utilisateur est déjà membre.",
+      "alreadyInvited": "Une invitation a déjà été envoyée à cet e-mail."
+    }
+  },
+  "pending": {
+    "title": "Invitations en attente",
+    "empty": "Aucune invitation en attente",
+    "sent": "Invitation envoyée",
+    "cancel": "Annuler"
+  },
+  "actions": {
+    "removeUser": "Supprimer {{name}}"
+  }
+}

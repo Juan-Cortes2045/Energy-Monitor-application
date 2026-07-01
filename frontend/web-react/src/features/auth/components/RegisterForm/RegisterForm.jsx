@@ -4,6 +4,7 @@ import styles from "./RegisterForm.module.css";
 import { registerSchema } from "../../validation/registerSchema.js";
 import { useNavigate } from "react-router-dom";
 import colors from "../../../../design/tokens/colors.js";
+import { useTranslation } from "react-i18next";
 
 import googleIcon from "../../../../assets/google_icon.png";
 
@@ -15,6 +16,8 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
 const RegisterForm = () => {
+  const { t: v } = useTranslation("validations");
+  const { t } = useTranslation("auth");
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
@@ -24,7 +27,7 @@ const RegisterForm = () => {
     watch,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(registerSchema),
+    resolver: zodResolver(registerSchema(v)),
     mode: "onChange",
   });
 
@@ -41,12 +44,12 @@ const RegisterForm = () => {
     <div className={styles.wrapper}>
       <Card>
         <div className={styles.scrollContent}>
-          <h2 className={styles.title}>Registro</h2>
+          <h2 className={styles.title}>{t("register.title")}</h2>
 
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
             {/* NAME */}
             <Input id="name" type="text" placeholder="*" {...register("name")}>
-              Nombre
+              {t("register.name")}
             </Input>
             {errors.name && (
               <span className={styles.error} style={{ color: colors.danger }}>
@@ -61,7 +64,7 @@ const RegisterForm = () => {
               placeholder="*"
               {...register("email")}
             >
-              Correo electrónico
+              {t("register.email")}
             </Input>
             {errors.email && (
               <span className={styles.error} style={{ color: colors.danger }}>
@@ -78,7 +81,7 @@ const RegisterForm = () => {
               onIconClick={() => setShowPassword(!showPassword)}
               {...register("password")}
             >
-              Contraseña
+              {t("register.password")}
             </Input>
             {errors.password && (
               <span className={styles.error} style={{ color: colors.danger }}>
@@ -97,7 +100,7 @@ const RegisterForm = () => {
               onIconClick={() => setShowRepeatPassword(!showRepeatPassword)}
               {...register("repeatPassword")}
             >
-              Repetir contraseña
+              {t("register.repeatPassword")}
             </Input>
             {errors.repeatPassword && (
               <span className={styles.error} style={{ color: colors.danger }}>
@@ -107,22 +110,26 @@ const RegisterForm = () => {
 
             {/* TERMS */}
             <div className={styles.options}>
-              <input type="checkbox" className={styles.checkbox}{...register("terms")} />
+              <input
+                type="checkbox"
+                className={styles.checkbox}
+                {...register("terms")}
+              />
               <label className={styles.terms}>
                 <p>
-                  Estoy de acuerdo con los{" "}
+                  {t("register.termsPrefix")}{" "}
                   <span
                     className={styles.registerLink}
                     style={{ color: colors.secondary }}
                   >
-                    Términos de uso
+                    {t("register.terms")}
                   </span>{" "}
                   y la{" "}
                   <span
                     className={styles.registerLink}
                     style={{ color: colors.secondary }}
                   >
-                    Política de privacidad
+                    {t("register.privacy")}
                   </span>
                 </p>
               </label>
@@ -138,30 +145,30 @@ const RegisterForm = () => {
             {/* BUTTONS */}
             <div className={styles.buttonsContainer}>
               <Button type="submit" variant="primary">
-                Registrarse
+                {t("register.submit")}
               </Button>
 
               {/* DIVIDER */}
               <div className={styles.divider}>
-                <span>O</span>
+                <span>{t("register.divider")}</span>
               </div>
 
               {/* GOOGLE */}
-              <p>Registrarse usando:</p>
+              <p>{t("register.registerWith")}</p>
               <Button type="button" variant="secondary" icon={googleIcon}>
-                Google
+                {t("register.google")}
               </Button>
             </div>
 
             {/* LOGIN */}
             <p className={styles.register}>
-              ¿Ya tienes una cuenta?.{" "}
+              {t("register.haveAccount")}.{" "}
               <a
                 href="/login"
                 style={{ color: colors.secondary }}
                 className={styles.registerLink}
               >
-                Inicia sesión
+                {t("register.login")}
               </a>
             </p>
           </form>

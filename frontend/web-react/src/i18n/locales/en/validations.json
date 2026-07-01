@@ -1,0 +1,14 @@
+{
+  "errors": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email",
+    "passwordMin": "Minimum 8 characters",
+    "passwordUpper": "Must contain one uppercase letter",
+    "passwordLower": "Must contain at least 3 lowercase letters",
+    "passwordNumber": "Must contain at least 3 numbers",
+    "passwordSpecial": "Must contain a special character",
+    "repeatPassword": "Confirm your password",
+    "terms": "You must accept the terms and conditions",
+    "passwordMatch": "Passwords do not match"
+  }
+}

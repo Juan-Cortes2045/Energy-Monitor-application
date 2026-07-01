@@ -1,0 +1,69 @@
+{
+  "header": {
+    "home": "Inicio",
+    "settings": "Ajustes",
+    "save": "Guardar",
+    "discard": "Descartar"
+  },
+
+  "language": {
+    "title": "Idioma del sistema",
+    "description": "Define el idioma de la interfaz y los reportes generados"
+  },
+
+  "theme": {
+    "title": "Temas del sistema",
+    "description": "Apariencia visual del sistema para todos los usuarios",
+    "light": "Temas claros",
+    "dark": "Temas oscuros",
+    "new": "Nuevo",
+    "modes": {
+      "light": "Claro",
+      "dark": "Oscuro"
+    },
+    "energyLight": "Claro · Predeterminado",
+    "ecoLight": "Claro · Tema 2",
+    "energyDark": "Oscuro · Tema 1",
+    "ecoDark": "Oscuro · Tema 2"
+  },
+
+  "notifications": {
+    "title": "Notificaciones",
+    "description": "Configura cómo deseas recibir alertas y eventos del sistema",
+    "active": "activas",
+    "email": {
+      "title": "Correo electrónico",
+      "description": "Alertas enviadas al correo registrado"
+    },
+    "push": {
+      "title": "Notificaciones push",
+      "description": "Alertas dentro de la plataforma"
+    },
+    "combined": {
+      "title": "Modo combinado",
+      "description": "Activa ambos canales simultáneamente"
+    },
+    "status": {
+      "active": "Activo",
+      "inactive": "Inactivo"
+    }
+  },
+
+  "help": {
+    "docs": {
+      "title": "Documentación",
+      "description": "Guías de uso, referencia de funciones y tutoriales paso a paso",
+      "action": "Abrir documentación"
+    },
+    "support": {
+      "title": "Soporte técnico",
+      "description": "Comunícate con el equipo de soporte para resolver incidencias",
+      "action": "Crear ticket"
+    },
+    "updates": {
+      "title": "Novedades",
+      "description": "Últimas actualizaciones, mejoras y correcciones del sistema",
+      "action": "Ver registro de cambios"
+    }
+  }
+}

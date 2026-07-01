@@ -1,0 +1,11 @@
+{
+  "register": "Sign up",
+  "login": "Log in",
+  "menu": {
+    "home": "Home",
+    "howItWorks": "How it works",
+    "benefits": "Benefits",
+    "about": "About us",
+    "support": "Support"
+  }
+}

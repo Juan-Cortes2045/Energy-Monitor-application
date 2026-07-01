@@ -1,0 +1,13 @@
+{
+  "home": "Home",
+  "projects": "Projects",
+  "favorites": "Favorites",
+  "notifications": "Notifications",
+  "settings": "Settings",
+
+  "profile": {
+    "myAccount": "My account",
+    "addAccount": "Add account",
+    "logout": "Log out"
+  }
+}

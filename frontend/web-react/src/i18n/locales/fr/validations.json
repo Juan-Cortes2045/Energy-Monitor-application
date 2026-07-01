@@ -1,0 +1,14 @@
+{
+  "errors": {
+    "required": "Ce champ est obligatoire",
+    "invalidEmail": "Email invalide",
+    "passwordMin": "Minimum 8 caractères",
+    "passwordUpper": "Doit contenir une majuscule",
+    "passwordLower": "Doit contenir au moins 3 minuscules",
+    "passwordNumber": "Doit contenir au moins 3 chiffres",
+    "passwordSpecial": "Doit contenir un caractère spécial",
+    "repeatPassword": "Confirmez votre mot de passe",
+    "terms": "Vous devez accepter les conditions",
+    "passwordMatch": "Les mots de passe ne correspondent pas"
+  }
+}

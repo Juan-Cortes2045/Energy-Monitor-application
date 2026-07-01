@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./DashboardPage";
+import { useTranslation } from "react-i18next";
 
 import Header from "../../../design/components/Header/Header";
 import ActionMenu from "../../../design/components/ActionMenu/ActionMenu";
@@ -11,21 +12,22 @@ import CreateProjectModal from "../components/ModalCreateProject/CreateProjectMo
 import { FolderPlus, Users } from "lucide-react";
 
 const DashboardPage = () => {
+  const { t } = useTranslation("dashboard");
   const [projects, setProjects] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const navigate = useNavigate();
 
-  const breadcrumbItems = [{ label: "Inicio" }];
+  const breadcrumbItems = [{ label: t("breadcrumb.home") }];
 
   const actionMenuItems = [
     {
-      label: "Unirme a Proyecto",
+      label: t("actions.joinProject"),
       icon: <Users size={20} />,
       action: "join-project",
     },
     {
-      label: "Crear Proyecto",
+      label: t("actions.createProject"),
       icon: <FolderPlus size={20} />,
       action: "create-project",
     },
@@ -40,11 +42,11 @@ const DashboardPage = () => {
       setProjects((prev) => [
         {
           id: Date.now(),
-          name: "Proyecto unido",
-          userResponsible: "Responsable del proyecto",
+          name: t("project.joinedName"),
+          userResponsible: t("project.responsible"),
           address: "Av. Central 45, Oficina 3",
-          description: "Proyecto en el que te has unido como usuario regular.",
-          variant: "joined",
+          description: t("project.joinedDescription"),
+          variant: t("project.you"),
           favorite: false,
         },
         ...prev,

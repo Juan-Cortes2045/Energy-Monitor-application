@@ -1,42 +1,36 @@
-import {
-  BookOpen,
-  Headphones,
-  Sparkles,
-  ExternalLink,
-} from "lucide-react";
+import { BookOpen, Headphones, Sparkles, ExternalLink } from "lucide-react";
 
 import Card from "../../../../design/components/Card/Card";
 
 import styles from "./HelpCenter.module.css";
-
-const ITEMS = [
-  {
-    title: "Documentación",
-    description:
-      "Guías de uso, referencia de funciones y tutoriales paso a paso",
-    action: "Abrir documentación",
-    icon: <BookOpen size={20} />,
-    type: "docs",
-  },
-  {
-    title: "Soporte técnico",
-    description:
-      "Comunícate con el equipo de soporte para resolver incidencias",
-    action: "Crear ticket",
-    icon: <Headphones size={20} />,
-    type: "support",
-  },
-  {
-    title: "Novedades",
-    description:
-      "Últimas actualizaciones, mejoras y correcciones del sistema",
-    action: "Ver registro de cambios",
-    icon: <Sparkles size={20} />,
-    type: "updates",
-  },
-];
+import { useTranslation } from "react-i18next";
 
 const HelpCenter = () => {
+  const { t } = useTranslation("settings");
+
+  const ITEMS = [
+    {
+      title: t("help.docs.title"),
+      description: t("help.docs.description"),
+      action: t("help.docs.action"),
+      icon: <BookOpen size={20} />,
+      type: "docs",
+    },
+    {
+      title: t("help.support.title"),
+      description: t("help.support.description"),
+      action: t("help.support.action"),
+      icon: <Headphones size={20} />,
+      type: "support",
+    },
+    {
+      title: t("help.updates.title"),
+      description: t("help.updates.description"),
+      action: t("help.updates.action"),
+      icon: <Sparkles size={20} />,
+      type: "updates",
+    },
+  ];
   return (
     <Card
       maxWidth="100%"
@@ -47,10 +41,7 @@ const HelpCenter = () => {
     >
       <div className={styles.container}>
         {ITEMS.map((item) => (
-          <div
-            key={item.title}
-            className={styles.helpCard}
-          >
+          <div key={item.title} className={styles.helpCard}>
             <div
               className={`${styles.icon}
               ${styles[item.type]}`}

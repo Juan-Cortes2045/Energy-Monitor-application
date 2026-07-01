@@ -1,0 +1,34 @@
+{
+  "header": {
+    "title": "Usuarios",
+    "membersCount_one": "{{count}} miembro en este proyecto",
+    "membersCount_other": "{{count}} miembros en este proyecto"
+  },
+  "roles": {
+    "owner": "Responsable",
+    "member": "Miembro"
+  },
+  "members": {
+    "title": "Miembros del proyecto"
+  },
+  "invite": {
+    "title": "Invitar usuario por correo",
+    "placeholder": "correo@ejemplo.com",
+    "button": "Invitar",
+    "errors": {
+      "empty": "Ingresa un correo electrónico.",
+      "invalid": "Correo electrónico inválido.",
+      "alreadyMember": "Este usuario ya es miembro.",
+      "alreadyInvited": "Ya se envió una invitación a este correo."
+    }
+  },
+  "pending": {
+    "title": "Invitaciones pendientes",
+    "empty": "Sin invitaciones pendientes",
+    "sent": "Invitación enviada",
+    "cancel": "Cancelar"
+  },
+  "actions": {
+    "removeUser": "Eliminar a {{name}}"
+  }
+}

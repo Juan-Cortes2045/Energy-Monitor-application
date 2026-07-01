@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import styles from "../Sidebar/Sidebar.module.css";
 import logoClaro from "../../../../assets/Logo_proyecto_Vclara.png";
@@ -27,6 +28,7 @@ import typography from "../../../../design/tokens/typography";
 import Account from "../../../../features/Account/Account";
 
 const Sidebar = () => {
+  const { t } = useTranslation("sidebar");
   const [isOpen, setIsOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
@@ -46,160 +48,157 @@ const Sidebar = () => {
     };
   }, []);
   return (
-  <>
-  <button 
-  className={styles.triggerMobile}
-  onClick={() => setIsOpen(prev => !prev)}
-  >
-    <Menu size={24} />
-  </button>
-    <aside
-    className={`
+    <>
+      <button
+        className={styles.triggerMobile}
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
+        <Menu size={24} />
+      </button>
+      <aside
+        className={`
       ${styles.sidebar} 
       ${collapsed ? styles.collapsed : ""} 
       ${isOpen ? styles.open : ""}
    `}
-      style={{
-        backgroundColor: colors.background_left,
-        padding: spacing.md,
-      }}
-    >
-      {/*HEADER*/}
-      <div className={styles.top}>
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className={styles.toggle}
-        >
-          <Menu size={24} />
-        </button>
-        <img src={logoClaro} alt="EnergyMonitor" className={styles.logo} />
-      </div>
+        style={{
+          backgroundColor: colors.background_left,
+          padding: spacing.md,
+        }}
+      >
+        {/*HEADER*/}
+        <div className={styles.top}>
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className={styles.toggle}
+          >
+            <Menu size={24} />
+          </button>
+          <img src={logoClaro} alt="EnergyMonitor" className={styles.logo} />
+        </div>
 
-      {/*NAV*/}
-      <nav className={styles.nav}>
-        <NavItem
-          to="/dashboard"
-          icon={<Home size={24} />}
-          label="Inicio"
-          collapsed={collapsed}
-          onClick={()=> setIsOpen(false)}
-        />
-        <div className={styles.navGroup}>
-          <NavProjects
-            icon={<CloudLightning size={24} />}
-            label="Proyectos"
+        {/*NAV*/}
+        <nav className={styles.nav}>
+          <NavItem
+            to="/dashboard"
+            icon={<Home size={24} />}
+            label={t("home")}
+            collapsed={collapsed}
+            onClick={() => setIsOpen(false)}
+          />
+          <div className={styles.navGroup}>
+            <NavProjects
+              icon={<CloudLightning size={24} />}
+              label={t("projects")}
+              collapsed={collapsed}
+            />
+          </div>
+          <NavItem
+            to="/favorites"
+            icon={<Heart size={24} />}
+            label={t("favorites")}
             collapsed={collapsed}
           />
-        </div>
-        <NavItem
-          to="/favorites"
-          icon={<Heart size={24} />}
-          label="Favoritos"
-          collapsed={collapsed}
-        />
-        <NavItem
-          to="/notifications"
-          icon={<Bell size={24} />}
-          label="Notificaciones"
-          collapsed={collapsed}
-        />
-        <NavItem
-          to="/settings"
-          icon={<Settings size={24} />}
-          label="Ajustes"
-          collapsed={collapsed}
-        />
-      </nav>
-
-      <div className={styles.profile} ref={dropdownRef}>
-        <div
-          className={styles.profileInfo}
-          onClick={() => {
-            setShowProfile(true);
-            setOpenMenu(false);
-          }}
-          style={{ cursor: "pointer" }}
-        >
-          <img
-            src="https://i.pravatar.cc/40"
-            alt="user"
-            className={styles.avatar}
+          <NavItem
+            to="/notifications"
+            icon={<Bell size={24} />}
+            label={t("notifications")}
+            collapsed={collapsed}
           />
+          <NavItem
+            to="/settings"
+            icon={<Settings size={24} />}
+            label={t("settings")}
+            collapsed={collapsed}
+          />
+        </nav>
 
-          {!collapsed && (
-            <span
-              style={{
-                fontFamily: typography.fontPrimary,
-                fontSize: typography.sizes.md,
-                color: colors.surface,
-              }}
-            >
-              User001
-            </span>
-          )}
-
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setOpenMenu(!openMenu);
+        <div className={styles.profile} ref={dropdownRef}>
+          <div
+            className={styles.profileInfo}
+            onClick={() => {
+              setShowProfile(true);
+              setOpenMenu(false);
             }}
-            className={styles.menuBtn}
+            style={{ cursor: "pointer" }}
           >
-            <MoreHorizontal size={20} />
-          </button>
+            <img
+              src="https://i.pravatar.cc/40"
+              alt="user"
+              className={styles.avatar}
+            />
+
+            {!collapsed && (
+              <span
+                style={{
+                  fontFamily: typography.fontPrimary,
+                  fontSize: typography.sizes.md,
+                  color: colors.surface,
+                }}
+              >
+                User001
+              </span>
+            )}
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpenMenu(!openMenu);
+              }}
+              className={styles.menuBtn}
+            >
+              <MoreHorizontal size={20} />
+            </button>
+          </div>
+
+          {/*DROPDOWN*/}
+
+          {openMenu && (
+            <div className={styles.dropdown}>
+              <div
+                className={styles.item}
+                onClick={() => {
+                  setShowProfile(true);
+                  setOpenMenu(false);
+                }}
+              >
+                <User size={24} /> {t("profile.myAccount")}
+              </div>
+
+              <div className={styles.item}>
+                <Plus size={24} /> {t("profile.addAccount")}
+              </div>
+
+              <div className={styles.divider}></div>
+
+              <div className={styles.item}>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  onClick={() => navigate("/home")}
+                  style={{ width: "100%" }}
+                >
+                  {t("profile.logout")}
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/*DROPDOWN*/}
-
-        {openMenu && (
-          <div className={styles.dropdown}>
-            <div
-              className={styles.item}
-              onClick={() => {
-                setShowProfile(true);
-                setOpenMenu(false);
-              }}
-            >
-              <User size={24} /> Mi cuenta
-            </div>
-
-            <div className={styles.item}>
-              <Plus size={24} /> Añadir cuenta
-            </div>
-
-            <div className={styles.divider}></div>
-
-            <div className={styles.item}>
-              <Button
-                type="submit"
-                variant="primary"
-                onClick={() => navigate("/home")}
-                style={{ width: "100%" }}
-              >
-                Cerrar sesión
-              </Button>
+        {showProfile && (
+          <div
+            className={styles.modalOverlay}
+            onClick={() => setShowProfile(false)}
+          >
+            <div onClick={(e) => e.stopPropagation()}>
+              <Account onClose={() => setShowProfile(false)} />
             </div>
           </div>
         )}
-      </div>
-
-      {showProfile && (
-        <div
-          className={styles.modalOverlay}
-          onClick={() => setShowProfile(false)}
-        >
-          <div onClick={(e) => e.stopPropagation()}>
-            <Account onClose={() => setShowProfile(false)} />
-          </div>
-        </div>
+      </aside>
+      {isOpen && (
+        <div className={styles.overlay} onClick={() => setIsOpen(false)} />
       )}
-    </aside>
-    {isOpen && (
-    <div 
-      className={styles.overlay}
-      onClick={() => setIsOpen(false)}
-    />
-    )}
     </>
   );
 };

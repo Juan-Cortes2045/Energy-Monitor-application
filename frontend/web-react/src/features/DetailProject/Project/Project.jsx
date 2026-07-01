@@ -14,13 +14,14 @@ import {
 import Card from "../../../design/components/Card/Card";
 import Button from "../../../design/components/Button/Button";
 import styles from "./Project.module.css";
+import { useTranslation } from "react-i18next";
 
 const emptyProject = {
   project_code: "",
   name: "",
   address: "",
-  projectType: "", // ProjectType.name
-  access_code: "", // visible solo para RESPONSIBLE
+  projectType: "",
+  access_code: "",
   description: "",
   creation_date: null,
   responsible: { name: "", email: "", cellphone: "" },
@@ -59,6 +60,7 @@ const Field = ({ label, fullWidth = false, children }) => (
 );
 
 const Project = ({ project, isOwner = false, onLeave, onDelete }) => {
+  const { t } = useTranslation("project");
   const [copied, setCopied] = useState(false);
 
   const data = emptyProject;
@@ -72,18 +74,14 @@ const Project = ({ project, isOwner = false, onLeave, onDelete }) => {
   };
 
   const handleLeave = () => {
-    if (window.confirm("¿Seguro que deseas salirte de este proyecto?")) {
-      onLeave?.(); // TODO: DELETE /projects/:id/users/me
+    if (window.confirm(t("confirm.leave"))) {
+      onLeave?.();
     }
   };
 
   const handleDelete = () => {
-    if (
-      window.confirm(
-        "¿Eliminar este proyecto? Esta acción no se puede deshacer.",
-      )
-    ) {
-      onDelete?.(); // TODO: DELETE /projects/:id
+    if (window.confirm(t("confirm.delete"))) {
+      onDelete?.();
     }
   };
 
@@ -91,19 +89,17 @@ const Project = ({ project, isOwner = false, onLeave, onDelete }) => {
     <div className={styles.page}>
       <Card>
         <div className={styles.cardInner}>
-          {/* Título de sección */}
           <p className={styles.cardTitle}>
             <Building2 size={14} aria-hidden="true" />
-            Información del proyecto
+            {t("title.projectInfo")}
           </p>
 
-          {/* Grid de campos */}
           <div className={styles.fieldGrid}>
-            <Field label="Nombre">
-              <span>{data.name || "—"}</span>
+            <Field label={t("fields.name")}>
+              <span>{data.name || t("placeholders.empty")}</span>
             </Field>
 
-            <Field label="Tipo de proyecto">
+            <Field label={t("fields.projectType")}>
               {data.projectType ? (
                 <span className={styles.typeBadge}>
                   {PROJECT_TYPE_ICONS[data.projectType] ?? (
@@ -112,21 +108,21 @@ const Project = ({ project, isOwner = false, onLeave, onDelete }) => {
                   {data.projectType}
                 </span>
               ) : (
-                <span>—</span>
+                <span>{t("placeholders.empty")}</span>
               )}
             </Field>
 
-            <Field label="Dirección" fullWidth>
-              <span>{data.address || "—"}</span>
+            <Field label={t("fields.address")} fullWidth>
+              <span>{data.address || t("placeholders.empty")}</span>
             </Field>
 
-            <Field label="Descripción" fullWidth>
+            <Field label={t("fields.description")} fullWidth>
               <span className={styles.textMuted}>
-                {data.description || "—"}
+                {data.description || t("placeholders.empty")}
               </span>
             </Field>
 
-            <Field label="Fecha de creación">
+            <Field label={t("fields.creationDate")}>
               <span className={styles.textMuted}>
                 {formatDate(data.creation_date)}
               </span>
@@ -135,57 +131,54 @@ const Project = ({ project, isOwner = false, onLeave, onDelete }) => {
 
           <div className={styles.divider} />
 
-          {/* Código de acceso */}
           <div className={styles.accessSection}>
             {isOwner ? (
               <>
                 <p className={styles.sectionSubtitle}>
                   <Key size={13} aria-hidden="true" />
-                  Código de acceso
+                  {t("title.accessCode")}
                 </p>
-                <p className={styles.hint}>
-                  Comparte este código para que otros usuarios puedan unirse.
-                </p>
+                <p className={styles.hint}>{t("hints.accessCode")}</p>
+
                 <div className={styles.codeBox}>
                   <span className={styles.codeText}>
-                    {data.access_code || "——————"}
+                    {data.access_code || t("placeholders.noCode")}
                   </span>
                   <button
                     type="button"
                     className={`${styles.copyBtn} ${copied ? styles.copyBtnOk : ""}`}
                     onClick={handleCopy}
                     disabled={!data.access_code}
-                    aria-label="Copiar código de acceso"
+                    aria-label={t("buttons.copy")}
                   >
                     {copied ? <Check size={13} /> : <Copy size={13} />}
                   </button>
                 </div>
               </>
-            ) : /* El miembro común no ve el código */
-            null}
+            ) : null}
           </div>
 
-          {/* Botón de acción — dentro de la card */}
           <div className={styles.actionRow}>
             {isOwner ? (
               <Button variant="Danger" onClick={handleDelete}>
                 <Trash2 size={15} className={styles.icon} />
-                Eliminar proyecto
+                {t("buttons.deleteProject")}
               </Button>
             ) : (
               <Button variant="Danger" onClick={handleLeave}>
                 <LogOut size={15} className={styles.icon} />
-                Salirse del proyecto
+                {t("buttons.leaveProject")}
               </Button>
             )}
           </div>
         </div>
       </Card>
+
       <Card>
         <div className={styles.cardInner}>
           <p className={styles.cardTitle}>
             <User size={14} aria-hidden="true" />
-            Usuario responsable
+            {t("title.owner")}
           </p>
 
           <div className={styles.ownerRow}>
@@ -194,25 +187,27 @@ const Project = ({ project, isOwner = false, onLeave, onDelete }) => {
             </div>
             <div className={styles.ownerMeta}>
               <span className={styles.ownerName}>
-                {data.responsible.name || "—"}
+                {data.responsible.name || t("placeholders.empty")}
               </span>
-              <span className={styles.ownerBadge}>Responsable</span>
+              <span className={styles.ownerBadge}>
+                {t("status.responsible")}
+              </span>
             </div>
           </div>
 
           <div className={styles.divider} />
 
           <div className={styles.fieldGrid}>
-            <Field label="Correo">
+            <Field label={t("fields.email")}>
               <span className={styles.fieldValueWithIcon}>
                 <Mail size={12} aria-hidden="true" />
-                {data.responsible.email || "—"}
+                {data.responsible.email || t("placeholders.empty")}
               </span>
             </Field>
-            <Field label="Teléfono">
+            <Field label={t("fields.phone")}>
               <span className={styles.fieldValueWithIcon}>
                 <Phone size={12} aria-hidden="true" />
-                {data.responsible.cellphone || "—"}
+                {data.responsible.cellphone || t("placeholders.empty")}
               </span>
             </Field>
           </div>

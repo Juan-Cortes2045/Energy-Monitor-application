@@ -1,0 +1,34 @@
+{
+  "header": {
+    "title": "Users",
+    "membersCount_one": "{{count}} member in this project",
+    "membersCount_other": "{{count}} members in this project"
+  },
+  "roles": {
+    "owner": "Owner",
+    "member": "Member"
+  },
+  "members": {
+    "title": "Project members"
+  },
+  "invite": {
+    "title": "Invite user by email",
+    "placeholder": "email@example.com",
+    "button": "Invite",
+    "errors": {
+      "empty": "Enter an email address.",
+      "invalid": "Invalid email address.",
+      "alreadyMember": "This user is already a member.",
+      "alreadyInvited": "An invitation has already been sent to this email."
+    }
+  },
+  "pending": {
+    "title": "Pending invitations",
+    "empty": "No pending invitations",
+    "sent": "Invitation sent",
+    "cancel": "Cancel"
+  },
+  "actions": {
+    "removeUser": "Remove {{name}}"
+  }
+}

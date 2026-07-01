@@ -1,17 +1,14 @@
 import { useState } from "react";
 
-import {
-  Bell,
-  Mail,
-  Smartphone,
-  CheckCheck,
-} from "lucide-react";
+import { Bell, Mail, Smartphone, CheckCheck } from "lucide-react";
 
 import Card from "../../../../../src/design/components/Card/Card";
 
 import styles from "./NotificationSettings.module.css";
+import { useTranslation } from "react-i18next";
 
 const NotificationSettings = () => {
+  const { t } = useTranslation("settings");
   const [settings, setSettings] = useState({
     email: true,
     push: true,
@@ -19,35 +16,30 @@ const NotificationSettings = () => {
   });
 
   const toggleSetting = (key) => {
-  setSettings((prev) => {
+    setSettings((prev) => {
+      if (key === "combined") {
+        const newValue = !prev.combined;
 
-    if (key === "combined") {
-      const newValue = !prev.combined;
+        return {
+          email: newValue,
+          push: newValue,
+          combined: newValue,
+        };
+      }
+
+      const updated = {
+        ...prev,
+        [key]: !prev[key],
+      };
 
       return {
-        email: newValue,
-        push: newValue,
-        combined: newValue,
+        ...updated,
+        combined: updated.email && updated.push,
       };
-    }
+    });
+  };
 
-    const updated = {
-      ...prev,
-      [key]: !prev[key],
-    };
-
-    return {
-      ...updated,
-      combined:
-        updated.email && updated.push,
-        };
-        });
-    };
-
-  const activeCount = [
-    settings.email,
-    settings.push,
-    ].filter(Boolean).length;
+  const activeCount = [settings.email, settings.push].filter(Boolean).length;
 
   return (
     <Card maxWidth="100%">
@@ -59,49 +51,43 @@ const NotificationSettings = () => {
             </div>
 
             <div>
-              <h3>Notificaciones</h3>
+              <h3>{t("notifications.title")}</h3>
 
-              <p>
-                Configura cómo deseas recibir
-                alertas y eventos del sistema
-              </p>
+              <p>{t("notifications.description")}</p>
             </div>
           </div>
 
           <span className={styles.counter}>
-            {activeCount} activas
+            {activeCount} {t("notifications.active")}
           </span>
         </div>
 
         <div className={styles.options}>
           <NotificationRow
             icon={<Mail size={20} />}
-            title="Correo electrónico"
-            description="Alertas enviadas al correo registrado"
+            title={t("notifications.email.title")}
+            description={t("notifications.email.description")}
             enabled={settings.email}
-            onToggle={() =>
-              toggleSetting("email")
-            }
+            onToggle={() => toggleSetting("email")}
+            t={t}
           />
 
           <NotificationRow
             icon={<Smartphone size={20} />}
-            title="Notificaciones push"
-            description="Alertas dentro de la plataforma"
+            title={t("notifications.push.title")}
+            description={t("notifications.push.title")}
             enabled={settings.push}
-            onToggle={() =>
-              toggleSetting("push")
-            }
+            onToggle={() => toggleSetting("push")}
+            t={t}
           />
 
           <NotificationRow
             icon={<CheckCheck size={20} />}
-            title="Modo combinado"
-            description="Activa ambos canales simultáneamente"
+            title={t("notifications.combined.title")}
+            description={t("notifications.combined.description")}
             enabled={settings.combined}
-            onToggle={() =>
-              toggleSetting("combined")
-            }
+            onToggle={() => toggleSetting("combined")}
+            t={t}
           />
         </div>
       </div>
@@ -115,13 +101,12 @@ const NotificationRow = ({
   description,
   enabled,
   onToggle,
+  t,
 }) => {
   return (
     <div className={styles.row}>
       <div className={styles.rowLeft}>
-        <div className={styles.rowIcon}>
-          {icon}
-        </div>
+        <div className={styles.rowIcon}>{icon}</div>
 
         <div>
           <h4>{title}</h4>
@@ -134,7 +119,9 @@ const NotificationRow = ({
           className={`${styles.status}
           ${enabled ? styles.active : styles.inactive}`}
         >
-          {enabled ? "Activo" : "Inactivo"}
+          {enabled
+            ? t("notifications.status.active")
+            : t("notifications.status.inactive")}
         </span>
 
         <button

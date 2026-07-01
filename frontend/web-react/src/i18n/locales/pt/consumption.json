@@ -1,0 +1,46 @@
+{
+  "tabs": {
+    "consption": "Consumo",
+    "history": "Histórico",
+    "users": "Usuários",
+    "devices": "Dispositivos",
+    "project": "Projeto"
+  },
+  "breadcrumb": {
+    "home": "Início",
+    "projects": "Projetos",
+    "projectFallback": "Projeto"
+  },
+  "kpi": {
+    "currentPower": "POTÊNCIA ATUAL ⚡",
+    "todayConsumption": "CONSUMO DE HOJE 📊",
+    "devices": "DISPOSITIVOS 🔌",
+    "level": "Nível",
+    "currentLimit": "Limite atual: ",
+    "noLimit": "Sem limite configurado",
+    "allOperational": "Todos operacionais",
+    "noData": "Sem dados"
+  },
+  "charts": {
+    "globalConsumption": "Consumo Global —",
+    "last24h": "Últimas 24 horas",
+    "activePower": "Potência ativa em kW",
+    "historyUnavailable": "Histórico de consumo indisponível",
+    "currentDistribution": "Distribuição atual",
+    "distributionUnavailable": "Distribuição indisponível",
+    "deviceConsumption": "Consumo por dispositivo (agora)",
+    "deviceConsumptionUnavailable": "Consumo por dispositivo indisponível"
+  },
+  "limits": {
+    "daily": "Limite diário",
+    "monthly": "Limite mensal"
+  },
+  "empty": {
+    "noData": "Sem dados disponíveis",
+    "backend": "Será exibido quando o backend estiver conectado",
+    "devicesDev": "Dispositivos em desenvolvimento"
+  },
+  "tooltip": {
+    "consumption": "Consumo"
+  }
+}

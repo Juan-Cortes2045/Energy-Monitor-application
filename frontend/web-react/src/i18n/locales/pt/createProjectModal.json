@@ -1,0 +1,40 @@
+{
+  "title": "Criar projeto",
+  "close": "Fechar",
+  "fields": {
+    "name": "Nome do projeto",
+    "type": "Tipo de projeto",
+    "other": "Qual?",
+    "address": "Endereço",
+    "description": "Descrição",
+    "optional": "(opcional)"
+  },
+  "placeholders": {
+    "name": "Ex: Minha casa, Escritório principal...",
+    "type": "Selecione um tipo...",
+    "other": "Descreva o tipo de projeto...",
+    "address": "Ex: Rua 45 #12-34",
+    "description": "Descreva brevemente o projeto..."
+  },
+  "buttons": {
+    "cancel": "Cancelar",
+    "create": "Criar projeto",
+    "creating": "Criando..."
+  },
+  "errors": {
+    "nameRequired": "O nome do projeto é obrigatório.",
+    "nameMax": "Máximo de 50 caracteres.",
+    "typeRequired": "Selecione um tipo de projeto.",
+    "otherRequired": "Especifique o tipo de projeto.",
+    "otherMax": "Máximo de 50 caracteres.",
+    "addressRequired": "O endereço é obrigatório.",
+    "addressMax": "Máximo de 50 caracteres.",
+    "descriptionMax": "Máximo de 200 caracteres."
+  },
+  "projectTypes": {
+    "house": "Casa",
+    "apartment": "Apartamento",
+    "studio": "Quitinete",
+    "other": "Outro"
+  }
+}

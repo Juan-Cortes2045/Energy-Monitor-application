@@ -2,9 +2,14 @@ import styles from "./Favorites.module.css";
 import Header from "../../design/components/Header/Header";
 import ProjectCard from "../dashboard/components/ProjectCard/ProjectCard";
 import { Heart } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const Favorites = ({ projects = [], onToggleFavorite, onCardClick }) => {
-  const breadcrumbItems = [{ label: "Inicio" }, { label: "Favoritos" }];
+  const { t } = useTranslation("favorites");
+  const breadcrumbItems = [
+    { label: t("favorites.breadcrumb.home") },
+    { label: t("favorites.breadcrumb.current") },
+  ];
 
   const favoriteProjects = projects.filter((p) => p.favorite);
 
@@ -14,20 +19,17 @@ const Favorites = ({ projects = [], onToggleFavorite, onCardClick }) => {
         <Header breadcrumbItems={breadcrumbItems} />
 
         <div className={styles.hero}>
-          <h1 className={styles.title}>Favoritos</h1>
-          <p className={styles.subtitle}>
-            Tus proyectos marcados como favoritos aparecen aquí para que los
-            encuentres de forma rápida.
-          </p>
+          <h1 className={styles.title}>{t("favorites.title")}</h1>
+          <p className={styles.subtitle}>{t("favorites.subtitle")}</p>
         </div>
 
         <div className={styles.gridBox}>
           {favoriteProjects.length === 0 ? (
             <div className={styles.emptyState}>
               <Heart size={40} className={styles.emptyIcon} />
-              <p className={styles.emptyTitle}>Sin favoritos aún</p>
+              <p className={styles.emptyTitle}>{t("favorites.empty.title")}</p>
               <p className={styles.emptyDesc}>
-                Marca el corazón en cualquier proyecto para verlo aquí.
+                {t("favorites.empty.description")}
               </p>
             </div>
           ) : (

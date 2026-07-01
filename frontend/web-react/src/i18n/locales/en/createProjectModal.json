@@ -1,0 +1,40 @@
+{
+  "title": "Create project",
+  "close": "Close",
+  "fields": {
+    "name": "Project name",
+    "type": "Project type",
+    "other": "Which?",
+    "address": "Address",
+    "description": "Description",
+    "optional": "(optional)"
+  },
+  "placeholders": {
+    "name": "Ex: My home, Main office...",
+    "type": "Select a type...",
+    "other": "Describe the project type...",
+    "address": "Ex: 45th Street #12-34",
+    "description": "Briefly describe the project..."
+  },
+  "buttons": {
+    "cancel": "Cancel",
+    "create": "Create project",
+    "creating": "Creating..."
+  },
+  "errors": {
+    "nameRequired": "Project name is required.",
+    "nameMax": "Max 50 characters.",
+    "typeRequired": "Select a project type.",
+    "otherRequired": "Specify the project type.",
+    "otherMax": "Max 50 characters.",
+    "addressRequired": "Address is required.",
+    "addressMax": "Max 50 characters.",
+    "descriptionMax": "Max 200 characters."
+  },
+  "projectTypes": {
+    "house": "House",
+    "apartment": "Apartment",
+    "studio": "Studio",
+    "other": "Other"
+  }
+}

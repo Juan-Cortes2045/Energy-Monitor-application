@@ -1,14 +1,15 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
 import styles from "./CreateProjectModal.module.css";
 
 const PROJECT_TYPES = [
-  { id: "PT001", name: "Casa" },
-  { id: "PT002", name: "Apartamento" },
-  { id: "PT003", name: "Aparta estudio" },
-  { id: "PT004", name: "Otro" },
+  { id: "PT001", key: "house" },
+  { id: "PT002", key: "apartment" },
+  { id: "PT003", key: "studio" },
+  { id: "PT004", key: "other" },
 ];
 
 const INITIAL_FORM = {
@@ -20,40 +21,38 @@ const INITIAL_FORM = {
 };
 
 // ─── Validaciones ─────────────────────────────────────────────────────────────
-function validate(form) {
+function validate(form, t, isOther) {
   const errors = {};
 
-  if (!form.name.trim()) errors.name = "El nombre del proyecto es requerido.";
-  else if (form.name.trim().length > 50) errors.name = "Máximo 50 caracteres.";
+  if (!form.name.trim()) errors.name = t("errors.nameRequired");
+  else if (form.name.trim().length > 50) errors.name = t("errors.nameMax");
 
-  if (!form.projectTypeId)
-    errors.projectTypeId = "Selecciona un tipo de proyecto.";
+  if (!form.projectTypeId) errors.projectTypeId = t("errors.typeRequired");
 
-  const isOther =
-    PROJECT_TYPES.find((t) => t.id === form.projectTypeId)?.name === "Otro";
   if (isOther && !form.otherProjectType.trim())
-    errors.otherProjectType = "Especifica el tipo de proyecto.";
+    errors.otherProjectType = t("errors.otherRequired");
   else if (isOther && form.otherProjectType.trim().length > 50)
-    errors.otherProjectType = "Máximo 50 caracteres.";
+    errors.otherProjectType = t("errors.otherMax");
 
-  if (!form.address.trim()) errors.address = "La dirección es requerida.";
+  if (!form.address.trim()) errors.address = t("errors.addressRequired");
   else if (form.address.trim().length > 50)
-    errors.address = "Máximo 50 caracteres.";
+    errors.address = t("errors.addressMax");
 
   if (form.description.length > 200)
-    errors.description = "Máximo 200 caracteres.";
+    errors.description = t("errors.descriptionMax");
 
   return errors;
 }
 
 const CreateProjectModal = ({ onClose, onSubmit }) => {
+  const { t } = useTranslation("createProjectModal");
+
   const [form, setForm] = useState(INITIAL_FORM);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const selectedTypeName =
-    PROJECT_TYPES.find((t) => t.id === form.projectTypeId)?.name ?? "";
-  const isOther = selectedTypeName === "Otro";
+  const selectedType = PROJECT_TYPES.find((t) => t.id === form.projectTypeId);
+  const isOther = selectedType?.key === "other";
 
   const handleChange = (field) => (e) => {
     const value = e.target.value;
@@ -61,8 +60,8 @@ const CreateProjectModal = ({ onClose, onSubmit }) => {
       const next = { ...prev, [field]: value };
 
       if (field === "projectTypeId") {
-        const name = PROJECT_TYPES.find((t) => t.id === value)?.name ?? "";
-        if (name !== "Otro") next.otherProjectType = "";
+        const type = PROJECT_TYPES.find((t) => t.id === value);
+        if (type?.key !== "other") next.otherProjectType = "";
       }
       return next;
     });
@@ -70,10 +69,10 @@ const CreateProjectModal = ({ onClose, onSubmit }) => {
     if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
   };
 
-  // ── Submit ────────────────────────────────────────────────────────────────
   const handleSubmit = async (e) => {
     e?.preventDefault();
-    const newErrors = validate(form);
+    const newErrors = validate(form, t, isOther);
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -106,159 +105,115 @@ const CreateProjectModal = ({ onClose, onSubmit }) => {
       onClick={handleOverlayClick}
       role="dialog"
       aria-modal="true"
-      aria-labelledby="modal-title"
     >
       <div className={styles.modal}>
         <div className={styles.header}>
-          <h2 className={styles.title} id="modal-title">
-            Crear proyecto
-          </h2>
+          <h2 className={styles.title}>{t("title")}</h2>
           <button
             className={styles.closeBtn}
             onClick={onClose}
-            aria-label="Cerrar"
+            aria-label={t("close")}
           >
             x
           </button>
         </div>
 
         <form className={styles.body} onSubmit={handleSubmit} noValidate>
-          {/* Nombre del proyecto */}
+          {/* Nombre */}
           <div className={styles.field}>
-            <label className={styles.label} htmlFor="proj-name">
-              Nombre del proyecto <span className={styles.required}>*</span>
+            <label className={styles.label}>
+              {t("fields.name")} <span>*</span>
             </label>
             <Input
-              id="proj-name"
-              type="text"
-              placeholder="Ej: Mi hogar, Oficina central..."
+              placeholder={t("placeholders.name")}
               value={form.name}
               onChange={handleChange("name")}
               error={errors.name}
               maxLength={50}
             />
-            {errors.name && (
-              <span className={styles.errorMsg}>{errors.name}</span>
-            )}
+            {errors.name && <span>{errors.name}</span>}
           </div>
 
-          {/* Tipo de proyecto */}
+          {/* Tipo */}
           <div className={styles.field}>
-            <label className={styles.label} htmlFor="proj-type">
-              Tipo de proyecto <span className={styles.required}>*</span>
+            <label className={styles.label}>
+              {t("fields.type")} <span>*</span>
             </label>
             <select
-              id="proj-type"
-              className={`${styles.select} ${errors.projectTypeId ? styles.error : ""}`}
+              className={styles.select}
               value={form.projectTypeId}
               onChange={handleChange("projectTypeId")}
             >
               <option value="" disabled>
-                Selecciona un tipo...
+                {t("placeholders.type")}
               </option>
               {PROJECT_TYPES.map((type) => (
                 <option key={type.id} value={type.id}>
-                  {type.name}
+                  {t(`projectTypes.${type.key}`)}
                 </option>
               ))}
             </select>
-            {errors.projectTypeId && (
-              <span className={styles.errorMsg}>{errors.projectTypeId}</span>
-            )}
+            {errors.projectTypeId && <span>{errors.projectTypeId}</span>}
           </div>
 
-          {/* Campo "Otro" — aparece solo si el tipo seleccionado es "Otro" */}
+          {/* Otro */}
           {isOther && (
             <div className={styles.field}>
-              <label className={styles.label} htmlFor="proj-other">
-                ¿Cuál? <span className={styles.required}>*</span>
+              <label className={styles.label}>
+                {t("fields.other")} <span>*</span>
               </label>
               <Input
-                id="proj-other"
-                type="text"
-                placeholder="Describe el tipo de proyecto..."
+                placeholder={t("placeholders.other")}
                 value={form.otherProjectType}
                 onChange={handleChange("otherProjectType")}
                 error={errors.otherProjectType}
                 maxLength={50}
               />
               {errors.otherProjectType && (
-                <span className={styles.errorMsg}>
-                  {errors.otherProjectType}
-                </span>
+                <span>{errors.otherProjectType}</span>
               )}
             </div>
           )}
 
           {/* Dirección */}
           <div className={styles.field}>
-            <label className={styles.label} htmlFor="proj-address">
-              Dirección <span className={styles.required}>*</span>
+            <label className={styles.label}>
+              {t("fields.address")} <span>*</span>
             </label>
             <Input
-              id="proj-address"
-              type="text"
-              placeholder="Ej: Calle 45 # 12-34, Bogotá"
+              placeholder={t("placeholders.address")}
               value={form.address}
               onChange={handleChange("address")}
               error={errors.address}
               maxLength={50}
             />
-            {errors.address && (
-              <span className={styles.errorMsg}>{errors.address}</span>
-            )}
+            {errors.address && <span>{errors.address}</span>}
           </div>
 
-          {/* Descripción (opcional) */}
+          {/* Descripción */}
           <div className={styles.field}>
-            <label className={styles.label} htmlFor="proj-desc">
-              Descripción
-              <span
-                style={{
-                  fontWeight: "var(--font-weight-normal)",
-                  color: "var(--color-text-secondary)",
-                  marginLeft: "4px",
-                  fontSize: "var(--font-size-xs)",
-                }}
-              >
-                (opcional)
-              </span>
+            <label className={styles.label}>
+              {t("fields.description")}
+              <span> {t("fields.optional")}</span>
             </label>
             <textarea
-              id="proj-desc"
               className={styles.textarea}
-              placeholder="Describe brevemente el proyecto..."
+              placeholder={t("placeholders.description")}
               value={form.description}
               onChange={handleChange("description")}
               maxLength={200}
-              rows={3}
             />
-            <span className={styles.charCount}>
-              {form.description.length} / 200
-            </span>
-            {errors.description && (
-              <span className={styles.errorMsg}>{errors.description}</span>
-            )}
+            <span>{form.description.length} / 200</span>
+            {errors.description && <span>{errors.description}</span>}
           </div>
         </form>
 
-        {/* ── Footer ─────────────────────────────────────────────────── */}
         <div className={styles.footer}>
-          <Button
-            variant="secondary"
-            size="medium"
-            onClick={onClose}
-            disabled={loading}
-          >
-            Cancelar
+          <Button onClick={onClose} disabled={loading}>
+            {t("buttons.cancel")}
           </Button>
-          <Button
-            variant="primary"
-            size="medium"
-            onClick={handleSubmit}
-            disabled={loading}
-          >
-            {loading ? "Creando..." : "Crear proyecto"}
+          <Button onClick={handleSubmit} disabled={loading}>
+            {loading ? t("buttons.creating") : t("buttons.create")}
           </Button>
         </div>
       </div>

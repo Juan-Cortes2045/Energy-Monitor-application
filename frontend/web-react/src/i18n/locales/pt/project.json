@@ -1,0 +1,35 @@
+{
+  "title": {
+    "projectInfo": "Informações do projeto",
+    "accessCode": "Código de acesso",
+    "owner": "Usuário responsável"
+  },
+  "fields": {
+    "name": "Nome",
+    "projectType": "Tipo de projeto",
+    "address": "Endereço",
+    "description": "Descrição",
+    "creationDate": "Data de criação",
+    "email": "E-mail",
+    "phone": "Telefone"
+  },
+  "placeholders": {
+    "empty": "—",
+    "noCode": "——————"
+  },
+  "hints": {
+    "accessCode": "Compartilhe este código para que outros usuários possam entrar."
+  },
+  "buttons": {
+    "copy": "Copiar código de acesso",
+    "deleteProject": "Excluir projeto",
+    "leaveProject": "Sair do projeto"
+  },
+  "status": {
+    "responsible": "Responsável"
+  },
+  "confirm": {
+    "leave": "Tem certeza de que deseja sair deste projeto?",
+    "delete": "Excluir este projeto? Esta ação não pode ser desfeita."
+  }
+}

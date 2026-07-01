@@ -1,0 +1,33 @@
+{
+  "filters": {
+    "day": "Jour",
+    "week": "Semaine",
+    "month": "Mois",
+    "year": "Année"
+  },
+  "dates": {
+    "day": "Dernières 24 heures",
+    "week": "7 derniers jours",
+    "month": "01 avril 2026 - 30 avril 2026",
+    "year": "Janvier 2026 - Décembre 2026"
+  },
+  "chart": {
+    "title": "RÉPARTITION DE LA CONSOMMATION PAR APPAREIL"
+  },
+  "ranking": {
+    "title": "CLASSEMENT DE CONSOMMATION",
+    "headers": {
+      "position": "#",
+      "device": "APPAREIL",
+      "total": "TOTAL",
+      "percentage": "%"
+    }
+  },
+  "stats": {
+    "totalConsumption": "CONSOMMATION TOTALE PÉRIODE",
+    "average": "MOYENNE",
+    "topConsumer": "PLUS GRAND CONSOMMATEUR",
+    "vsPrevious": "↑ 10% vs période précédente",
+    "periodAverage": "Moyenne de la période"
+  }
+}

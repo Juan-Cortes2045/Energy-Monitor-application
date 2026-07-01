@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Heart } from "lucide-react";
 import Card from "../../../../design/components/Card/Card";
 import styles from "../ProjectCard/ProjectCard.module.css";
+import { useTranslation } from "react-i18next";
 
 import colors from "../../../../design/tokens/colors";
 import spacing from "../../../../design/tokens/spacing";
@@ -11,6 +12,7 @@ import shadows from "../../../../design/tokens/shadows";
 
 // ─── onClick viene de DashboardPage → setSelectedProject(project) ─────────────
 const ProjectCard = ({ project, onClick }) => {
+  const { t } = useTranslation("projectCard");
   const [favorite, setFavorite] = useState(project.favorite || false);
 
   const headerColor = project.color
@@ -31,7 +33,7 @@ const ProjectCard = ({ project, onClick }) => {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === "Enter" && onClick?.()}
-      aria-label={`Abrir proyecto ${project.name}`}
+      aria-label={`t("openProject") ${project.name}`}
       style={{
         "--pc-spacing": spacing.md,
         "--pc-radius": radius.lg,
@@ -56,7 +58,7 @@ const ProjectCard = ({ project, onClick }) => {
           type="button"
           className={`${styles.favoriteButton} ${favorite ? styles.favorited : ""}`}
           onClick={toggleFavorite}
-          aria-label={favorite ? "Quitar favorito" : "Añadir a favoritos"}
+          aria-label={favorite ? t("removeFavorite") : t("addFavorite")}
         >
           <Heart size={18} />
         </button>
@@ -65,11 +67,11 @@ const ProjectCard = ({ project, onClick }) => {
       <Card>
         <div className={styles.body}>
           <p>
-            <strong>Dirección: </strong>
+            <strong>{t("address")}: </strong>
             {project.address || project.addres}
           </p>
           <p>
-            <strong>Descripción: </strong>
+            <strong>{t("description")}: </strong>
             {project.description || project.descripcion}
           </p>
         </div>

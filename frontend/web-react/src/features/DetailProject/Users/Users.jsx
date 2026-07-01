@@ -3,6 +3,7 @@ import Card from "../../../design/components/Card/Card";
 import Button from "../../../design/components/Button/Button";
 import Input from "../../../design/components/Input/Input";
 import styles from "./Users.module.css";
+import { useTranslation } from "react-i18next";
 
 const mockUsers = [
   {
@@ -38,7 +39,7 @@ const Avatar = ({ name, index }) => (
   </div>
 );
 
-const UserRow = ({ user, index, isOwner, onRemove }) => (
+const UserRow = ({ user, index, isOwner, onRemove, t }) => (
   <div className={styles.userRow}>
     <Avatar name={user.name} index={index} />
     <div className={styles.userInfo}>
@@ -46,16 +47,18 @@ const UserRow = ({ user, index, isOwner, onRemove }) => (
       <p className={styles.userEmail}>{user.email}</p>
     </div>
     <span
-      className={`${styles.badge} ${user.role === "owner" ? styles.badgeOwner : styles.badgeMember}`}
+      className={`${styles.badge} ${
+        user.role === "owner" ? styles.badgeOwner : styles.badgeMember
+      }`}
     >
-      {user.role === "owner" ? "Responsable" : "Miembro"}
+      {user.role === "owner" ? t("roles.owner") : t("roles.member")}
     </span>
     {isOwner && user.role !== "owner" && (
       <button
         type="button"
         className={styles.removeBtn}
         onClick={() => onRemove(user.id)}
-        aria-label={`Eliminar a ${user.name}`}
+        aria-label={t("actions.removeUser", { name: user.name })}
       >
         ×
       </button>
@@ -64,6 +67,8 @@ const UserRow = ({ user, index, isOwner, onRemove }) => (
 );
 
 const Users = ({ project, isOwner = false }) => {
+  const { t } = useTranslation("users");
+
   const [users, setUsers] = useState(mockUsers);
   const [pending, setPending] = useState([]);
   const [inviteEmail, setInviteEmail] = useState("");
@@ -72,13 +77,14 @@ const Users = ({ project, isOwner = false }) => {
   const handleInvite = () => {
     const email = inviteEmail.trim().toLowerCase();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email) return setInviteError("Ingresa un correo electrónico.");
+
+    if (!email) return setInviteError(t("invite.errors.empty"));
     if (!emailRegex.test(email))
-      return setInviteError("Correo electrónico inválido.");
+      return setInviteError(t("invite.errors.invalid"));
     if (users.some((u) => u.email === email))
-      return setInviteError("Este usuario ya es miembro.");
+      return setInviteError(t("invite.errors.alreadyMember"));
     if (pending.some((p) => p.email === email))
-      return setInviteError("Ya se envió una invitación a este correo.");
+      return setInviteError(t("invite.errors.alreadyInvited"));
 
     setPending((prev) => [...prev, { id: Date.now(), email }]);
     setInviteEmail("");
@@ -95,20 +101,17 @@ const Users = ({ project, isOwner = false }) => {
 
   return (
     <div className={styles.page}>
-      {/* ── Cabecera — ocupa las 2 columnas (grid-area: header) ── */}
       <div className={styles.sectionHeader}>
-        <h2 className={styles.sectionTitle}>Usuarios</h2>
+        <h2 className={styles.sectionTitle}>{t("header.title")}</h2>
         <p className={styles.sectionSub}>
-          {users.length} {users.length === 1 ? "miembro" : "miembros"} en este
-          proyecto
+          {t("header.membersCount", { count: users.length })}
         </p>
       </div>
 
-      {/* ── Miembros — columna izquierda (grid-area: members) ── */}
       <div className={styles.cardMembers}>
         <Card>
           <div className={styles.listBlock}>
-            <p className={styles.blockTitle}>Miembros del proyecto</p>
+            <p className={styles.blockTitle}>{t("members.title")}</p>
             <div className={styles.userList}>
               {users.map((user, i) => (
                 <UserRow
@@ -117,6 +120,7 @@ const Users = ({ project, isOwner = false }) => {
                   index={i}
                   isOwner={isOwner}
                   onRemove={handleRemove}
+                  t={t}
                 />
               ))}
             </div>
@@ -124,19 +128,18 @@ const Users = ({ project, isOwner = false }) => {
         </Card>
       </div>
 
-      {/* ── Invitar — columna derecha (grid-area: invite) ── */}
       {isOwner && (
         <div className={styles.cardInvite}>
           <Card>
             <div className={styles.inviteBlock}>
-              <p className={styles.blockTitle}>Invitar usuario por correo</p>
+              <p className={styles.blockTitle}>{t("invite.title")}</p>
               <div className={styles.inviteRow}>
                 <div className={styles.inviteInputWrap}>
                   <Input
                     id="invite-email"
                     type="email"
                     value={inviteEmail}
-                    placeholder="correo@ejemplo.com"
+                    placeholder={t("invite.placeholder")}
                     onChange={(e) => {
                       setInviteEmail(e.target.value);
                       setInviteError("");
@@ -145,7 +148,7 @@ const Users = ({ project, isOwner = false }) => {
                   />
                 </div>
                 <Button variant="primary" onClick={handleInvite}>
-                  Invitar
+                  {t("invite.button")}
                 </Button>
               </div>
               {inviteError && (
@@ -156,16 +159,13 @@ const Users = ({ project, isOwner = false }) => {
         </div>
       )}
 
-      {/* ── Pendientes — columna derecha debajo de invitar (grid-area: pending) ── */}
       {isOwner && (
         <div className={styles.cardPending}>
           <Card>
             <div className={styles.listBlock}>
-              <p className={styles.blockTitle}>Invitaciones pendientes</p>
+              <p className={styles.blockTitle}>{t("pending.title")}</p>
               {pending.length === 0 ? (
-                <div className={styles.emptyPending}>
-                  Sin invitaciones pendientes
-                </div>
+                <div className={styles.emptyPending}>{t("pending.empty")}</div>
               ) : (
                 <div className={styles.userList}>
                   {pending.map((p) => (
@@ -176,7 +176,7 @@ const Users = ({ project, isOwner = false }) => {
                       <div className={styles.userInfo}>
                         <p className={styles.userEmail}>{p.email}</p>
                         <p className={styles.pendingLabel}>
-                          Invitación enviada
+                          {t("pending.sent")}
                         </p>
                       </div>
                       <Button
@@ -184,7 +184,7 @@ const Users = ({ project, isOwner = false }) => {
                         size="small"
                         onClick={() => handleCancelInvite(p.id)}
                       >
-                        Cancelar
+                        {t("pending.cancel")}
                       </Button>
                     </div>
                   ))}

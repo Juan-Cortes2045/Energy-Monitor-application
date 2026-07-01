@@ -2,11 +2,13 @@ import Card from "../../../../design/components/Card/Card";
 import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
 import styles from "./RecoverPassword.module.css";
+import { useTranslation } from "react-i18next";
 
 import colors from "../../../../design/tokens/colors";
 import { useNavigate } from "react-router-dom";
 
 const RvPassword = () => {
+  const { t } = useTranslation("recoverPassword");
   const navigate = useNavigate();
   const onSubmit = () => {
     navigate("/VRPassword");
@@ -21,22 +23,24 @@ const RvPassword = () => {
   return (
     <div className={styles.container}>
       <Card className={styles.card}>
-        <h2 className={styles.title}>Recuperar contraseña</h2>
+        <h2 className={styles.title}>{t("title")}</h2>
 
-        <p className={styles.description} style={{color: colors.textSecondary}}>
-          Te enviaremos un correo con código de verificación de 6 dígitos para
-          poder recuperar tu cuenta. A continuación digita tu correo
+        <p
+          className={styles.description}
+          style={{ color: colors.textSecondary }}
+        >
+          {t("description")}
         </p>
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.field}>
             <Input id="email" type="email" placeholder="*">
-              Correo Electrónico
+              {t("emailLabel")}
             </Input>
           </div>
 
           <Button type="submit" variant="primary">
-            Enviar código
+            {t("sendCode")}
           </Button>
         </form>
       </Card>

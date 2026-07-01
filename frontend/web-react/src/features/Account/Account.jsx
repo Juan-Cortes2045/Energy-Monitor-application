@@ -1,12 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { VscAccount } from "react-icons/vsc";
 import { FiEdit3 } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 
 import Card from "../../design/components/Card/Card";
 import Button from "../../design/components/Button/Button";
 import styles from "./Account.module.css";
 
 const Account = ({ onClose }) => {
+  const { t } = useTranslation("account");
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
   const [image, setImage] = useState(null);
@@ -37,14 +39,14 @@ const Account = ({ onClose }) => {
         </div>
         <div className={styles.inner}>
           {/* ── Título ───────────────────────────────────────────── */}
-          <h2 className={styles.title}>Mi cuenta</h2>
+          <h2 className={styles.title}>{t("title")}</h2>
 
           {/* ── Avatar + dropdown ────────────────────────────────── */}
           <div className={styles.avatarWrapper} ref={wrapperRef}>
             <div
               className={styles.avatarContainer}
               onClick={() => setOpen((o) => !o)}
-              aria-label="Opciones de foto"
+              aria-label={t("photoOptions")}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => e.key === "Enter" && setOpen((o) => !o)}
@@ -71,7 +73,7 @@ const Account = ({ onClose }) => {
                     setOpen(false);
                   }}
                 >
-                  Agregar foto
+                  {t("addPhoto")}
                 </li>
 
                 <li
@@ -80,7 +82,7 @@ const Account = ({ onClose }) => {
                     setOpen(false);
                   }}
                 >
-                  Ver foto
+                  {t("viewPhoto")}
                 </li>
 
                 <li
@@ -90,7 +92,7 @@ const Account = ({ onClose }) => {
                   }}
                   className={styles.dropdownDanger}
                 >
-                  Eliminar
+                  {t("delete")}
                 </li>
               </ul>
             )}
@@ -99,7 +101,7 @@ const Account = ({ onClose }) => {
           {/* ── Campos de información ─────────────────────────────── */}
           <div className={styles.form}>
             <div className={styles.row}>
-              <label className={styles.label}>Nombre</label>
+              <label className={styles.label}>{t("name")}</label>
               <p className={styles.value}>Usuario001</p>
               <Button variant="primary" className={styles.btnEdit}>
                 <FiEdit3 />
@@ -107,7 +109,7 @@ const Account = ({ onClose }) => {
             </div>
 
             <div className={styles.row}>
-              <label className={styles.label}>Correo</label>
+              <label className={styles.label}>{t("email")}</label>
               <p className={styles.value}>Usuario001@email.com</p>
               <Button variant="primary" className={styles.btnEdit}>
                 <FiEdit3 />
@@ -115,15 +117,15 @@ const Account = ({ onClose }) => {
             </div>
 
             <div className={styles.row}>
-              <label className={styles.label}>Teléfono</label>
-              <p className={styles.value}>No tienes en el momento</p>
+              <label className={styles.label}>{t("phone")}</label>
+              <p className={styles.value}>{t("noPhone")}</p>
               <Button variant="primary" className={styles.btnEdit}>
                 <FiEdit3 />
               </Button>
             </div>
 
             <div className={styles.row}>
-              <label className={styles.label}>Contraseña</label>
+              <label className={styles.label}>{t("password")}</label>
               <p className={styles.value}>••••••••</p>
               <Button variant="primary" className={styles.btnEdit}>
                 <FiEdit3 />
@@ -133,12 +135,12 @@ const Account = ({ onClose }) => {
 
           {/* ── Eliminar cuenta ───────────────────────────────────── */}
           <div className={styles.deleteSection}>
-            <p className={styles.deleteQuestion}>¿Deseas eliminar tu cuenta?</p>
+            <p className={styles.deleteQuestion}>{t("deleteQuestion")}</p>
             <Button
               variant="secondary"
               style={{ color: "var(--color-danger)" }}
             >
-              Eliminar cuenta
+              {t("deleteAccount")}
             </Button>
           </div>
         </div>

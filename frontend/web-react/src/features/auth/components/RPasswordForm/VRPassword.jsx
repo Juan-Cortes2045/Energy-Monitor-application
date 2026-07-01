@@ -1,11 +1,13 @@
 import { useState, useRef } from "react";
 import styles from "./VRPassword.module.css";
+import { useTranslation } from "react-i18next";
 
 import Card from "../../../../design/components/Card/Card";
 import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
 
 const VRPassword = () => {
+  const { t } = useTranslation("recoverPassword");
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputsRef = useRef([]);
 
@@ -35,12 +37,9 @@ const VRPassword = () => {
   return (
     <div className={styles.container}>
       <Card className={styles.card}>
-        <h2 className={styles.title}>Recuperar contraseña</h2>
+        <h2 className={styles.title}>{t("title")}</h2>
 
-        <p className={styles.description}>
-          Te enviamos un correo con un código de verificación de 6 dígitos para
-          confirmar tu identidad
-        </p>
+        <p className={styles.description}>{t("verifyDescription")}</p>
 
         <div className={styles.otpContainer}>
           {code.map((digit, index) => (
@@ -57,12 +56,12 @@ const VRPassword = () => {
         </div>
         <div className={styles.center}>
           <Button onClick={handleVerify} variant="primary">
-            Confirmar código
+            {t("confirmCode")}
           </Button>
 
-          <p className={styles.text}>¿No te llegó el código?</p>
+          <p className={styles.text}>{t("notReceived")}</p>
 
-          <Button variant="secondary">Reenviar código</Button>
+          <Button variant="secondary">{t("resend")}</Button>
         </div>
       </Card>
     </div>
