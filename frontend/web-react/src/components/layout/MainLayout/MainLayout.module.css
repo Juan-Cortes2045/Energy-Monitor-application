@@ -2,7 +2,7 @@
     display: flex;
     height: 100vh;
     overflow: hidden;
-    background-color: var(--main-bg, #ffffff);
+    background-color: var(--color-background);
 }
 
 .content {

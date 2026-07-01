@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 const Favorites = ({ projects = [], onToggleFavorite, onCardClick }) => {
   const { t } = useTranslation("favorites");
   const breadcrumbItems = [
-    { label: t("favorites.breadcrumb.home") },
+    { label: t("favorites.breadcrumb.home"), path: "/dashboard" },
     { label: t("favorites.breadcrumb.current") },
   ];
 

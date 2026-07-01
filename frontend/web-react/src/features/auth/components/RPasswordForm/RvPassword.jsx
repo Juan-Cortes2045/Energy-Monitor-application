@@ -3,16 +3,11 @@ import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
 import styles from "./RecoverPassword.module.css";
 import { useTranslation } from "react-i18next";
-
-import colors from "../../../../design/tokens/colors";
 import { useNavigate } from "react-router-dom";
 
 const RvPassword = () => {
   const { t } = useTranslation("recoverPassword");
   const navigate = useNavigate();
-  const onSubmit = () => {
-    navigate("/VRPassword");
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,18 +17,10 @@ const RvPassword = () => {
 
   return (
     <div className={styles.container}>
-      <Card
-        className={styles.card}
-        style={{
-          width: "400px",
-        }}
-      >
+      <Card className={styles.card} style={{ width: "400px" }}>
         <h2 className={styles.title}>{t("title")}</h2>
 
-        <p
-          className={styles.description}
-          style={{ color: colors.textSecondary }}
-        >
+        <p className={styles.description}>
           {t("description")}
         </p>
 

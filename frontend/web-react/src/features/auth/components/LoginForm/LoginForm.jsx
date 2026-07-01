@@ -48,12 +48,7 @@ const LoginForm = () => {
           {t("login.email")}
         </Input>
         {errors.email && (
-          <span
-            className={styles.error}
-            style={{
-              color: colors.danger,
-            }}
-          >
+          <span className={styles.error}>
             {errors.email.message}
           </span>
         )}
@@ -70,12 +65,7 @@ const LoginForm = () => {
           {t("login.password")}
         </Input>
         {errors.password && (
-          <span
-            className={styles.error}
-            style={{
-              color: colors.danger,
-            }}
-          >
+          <span className={styles.error}>
             {errors.password.message}
           </span>
         )}

@@ -1,5 +1,4 @@
 import logoProyecto from "../../../../assets/logo_proyecto.png";
-import colors from "../../../../design/tokens/colors.js";
 import styles from "./AuthLayout.module.css";
 import BackButton from "../BackButton/BackButton.jsx";
 
@@ -31,7 +30,9 @@ const AuthLayout = ({ children }) => {
         {/* Headline + descripción + pills */}
         <div className={styles.leftMiddle}>
           <h1 className={styles.headline}>
-            Monitorea tu<br />energía en<br />
+            <span className={styles.headlineMain}>
+              Monitorea tu<br />energía en<br />
+            </span>
             <span className={styles.accentText}>tiempo real.</span>
           </h1>
           <p className={styles.subtext}>
@@ -69,7 +70,7 @@ const AuthLayout = ({ children }) => {
       </div>
 
       {/* PANEL DERECHO */}
-      <div className={styles.right} style={{ backgroundColor: colors.background }}>
+      <div className={styles.right}>
         <div className={styles.backWrapper}>
           <BackButton />
         </div>

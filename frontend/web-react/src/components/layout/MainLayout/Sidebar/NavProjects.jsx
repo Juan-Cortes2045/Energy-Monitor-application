@@ -3,8 +3,6 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import styles from "../Sidebar/Sidebar.module.css";
-import spacing from "../../../../design/tokens/spacing";
-import typography from "../../../../design/tokens/typography";
 
 const mockProjects = [
   { id: 1, name: "Casa de Usuario001" },
@@ -28,7 +26,6 @@ const NavProjects = ({ icon, label, collapsed }) => {
         {!collapsed && (
           <>
             <span>{label}</span>
-
             <span style={{ marginLeft: "auto" }}>
               {open ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
             </span>
@@ -38,15 +35,11 @@ const NavProjects = ({ icon, label, collapsed }) => {
 
       {/* LISTA */}
       {open && !collapsed && (
-        <div
-          className={styles.projectList}
-          style={{ marginTop: spacing.sm }}
-        >
+        <div className={`${styles.projectList} ${styles.projectListOpen}`}>
           {mockProjects.map((p) => (
             <div
               key={p.id}
               className={styles.projectItem}
-              style={{ fontSize: typography.sizes.sm }}
               onClick={(e) => {
                 e.stopPropagation();
                 navigate(`/projects/${p.id}`);

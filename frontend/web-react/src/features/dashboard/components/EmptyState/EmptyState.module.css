@@ -4,29 +4,33 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-top: var(--empty-spacing-top, 32px);
+  margin-top: var(--spacing-xl);
   min-height: 60vh;
-  padding: var(--empty-spacing-md, 16px);
+  padding: var(--spacing-md);
 }
 
 .emptyImg {
   width: 100%;
   max-width: 400px;
   height: auto;
-  margin-bottom: var(--empty-spacing-md, 16px);
+  margin-bottom: var(--spacing-md);
   object-fit: contain;
 }
 
 .title {
   margin: 0;
-  margin-bottom: var(--empty-spacing-md, 16px);
+  margin-bottom: var(--spacing-md);
   line-height: 1.4;
+  color: var(--color-text-secondary);
+  font-family: var(--font-secondary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xl);
 }
 
 .buttonsContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: var(--empty-spacing-sm, 8px);
-  margin-top: var(--empty-spacing-md, 16px);
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
 }
