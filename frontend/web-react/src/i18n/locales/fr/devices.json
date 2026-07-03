@@ -1,0 +1,36 @@
+{
+  "header": {
+    "title": "Appareils connectés",
+    "subtitle": "{{online}} appareils en ligne sur {{total}}"
+  },
+  "actions": {
+    "link": "Connecter un appareil",
+    "remove": "Supprimer {{name}}"
+  },
+  "status": {
+    "online": "En ligne",
+    "offline": "Hors ligne"
+  },
+  "applianceTypes": {
+    "fridge": "Réfrigérateur",
+    "washer": "Lave-linge",
+    "tv": "Télévision",
+    "microwave": "Micro-ondes",
+    "ac": "Climatiseur",
+    "pc": "Ordinateur",
+    "waterHeater": "Chauffe-eau",
+    "other": "Autre"
+  },
+  "rooms": {
+    "livingRoom": "Salon",
+    "kitchen": "Cuisine",
+    "bedroom": "Chambre",
+    "garage": "Garage",
+    "other": "Autre"
+  },
+  "empty": {
+    "title": "Vous n'avez pas encore d'appareils connectés",
+    "subtitle": "Installez votre premier module dans la prise d'un appareil pour commencer à suivre sa consommation",
+    "cta": "Connecter un appareil"
+  }
+}

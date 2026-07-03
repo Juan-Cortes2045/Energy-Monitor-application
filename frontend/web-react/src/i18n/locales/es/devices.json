@@ -1,0 +1,36 @@
+{
+  "header": {
+    "title": "Dispositivos vinculados",
+    "subtitle": "{{online}} de {{total}} dispositivos en línea"
+  },
+  "actions": {
+    "link": "Vincular dispositivo",
+    "remove": "Eliminar {{name}}"
+  },
+  "status": {
+    "online": "En línea",
+    "offline": "Desconectado"
+  },
+  "applianceTypes": {
+    "fridge": "Nevera",
+    "washer": "Lavadora",
+    "tv": "Televisor",
+    "microwave": "Microondas",
+    "ac": "Aire acondicionado",
+    "pc": "Computador",
+    "waterHeater": "Calentador de agua",
+    "other": "Otro"
+  },
+  "rooms": {
+    "livingRoom": "Sala",
+    "kitchen": "Cocina",
+    "bedroom": "Habitación",
+    "garage": "Garaje",
+    "other": "Otro"
+  },
+  "empty": {
+    "title": "Aún no tienes dispositivos vinculados",
+    "subtitle": "Instala tu primer módulo dentro del tomacorriente de un electrodoméstico para empezar a monitorear su consumo",
+    "cta": "Vincular dispositivo"
+  }
+}

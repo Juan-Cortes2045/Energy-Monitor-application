@@ -24,7 +24,8 @@ import esUsers from "./locales/es/users.json";
 import esHistory from "./locales/es/history.json";
 import esBenefits from "./locales/es/benefits.json";
 import esSupport from "./locales/es/support.json";
-import esAuthLayout from "./locales/es/authLayout.json";
+import esDevices from "./locales/es/devices.json";
+import esLinkDeviceModal from "./locales/es/linkDeviceModal.json";
 
 // Inglés
 
@@ -49,7 +50,8 @@ import enUsers from "./locales/en/users.json";
 import enHistory from "./locales/en/history.json";
 import enBenefits from "./locales/en/benefits.json";
 import enSupport from "./locales/en/support.json";
-import enAuthLayout from "./locales/en/authLayout.json";
+import enDevices from "./locales/en/devices.json";
+import enLinkDeviceModal from "./locales/en/linkDeviceModal.json";
 
 // Frances
 
@@ -74,7 +76,8 @@ import frUsers from "./locales/fr/users.json";
 import frHistory from "./locales/fr/history.json";
 import frBenefits from "./locales/fr/benefits.json";
 import frSupport from "./locales/fr/support.json";
-import frAuthLayout from "./locales/fr/authLayout.json";
+import frDevices from "./locales/fr/devices.json";
+import frLinkDeviceModal from "./locales/fr/linkDeviceModal.json";
 
 // Portugués
 
@@ -99,7 +102,8 @@ import ptUsers from "./locales/pt/users.json";
 import ptHistory from "./locales/pt/history.json";
 import ptBenefits from "./locales/pt/benefits.json";
 import ptSupport from "./locales/pt/support.json";
-import ptAuthLayout from "./locales/pt/authLayout.json";
+import ptDevices from "./locales/pt/devices.json";
+import ptLinkDeviceModal from "./locales/pt/linkDeviceModal.json";
 
 // Configuración de i18next
 i18n.use(initReactI18next).init({
@@ -129,7 +133,8 @@ i18n.use(initReactI18next).init({
       history: esHistory,
       benefits: esBenefits,
       support: esSupport,
-      authLayout: esAuthLayout,
+      devices: esDevices,
+      linkDeviceModal: esLinkDeviceModal,
     },
     en: {
       account: enAccount,
@@ -153,7 +158,8 @@ i18n.use(initReactI18next).init({
       history: enHistory,
       benefits: enBenefits,
       support: enSupport,
-      authLayout: enAuthLayout,
+      devices: enDevices,
+      linkDeviceModal: enLinkDeviceModal,
     },
     fr: {
       account: frAccount,
@@ -177,7 +183,8 @@ i18n.use(initReactI18next).init({
       history: frHistory,
       benefits: frBenefits,
       support: frSupport,
-      authLayout: frAuthLayout,
+      devices: frDevices,
+      linkDeviceModal: frLinkDeviceModal,
     },
     pt: {
       account: ptAccount,
@@ -201,7 +208,8 @@ i18n.use(initReactI18next).init({
       history: ptHistory,
       benefits: ptBenefits,
       support: ptSupport,
-      authLayout: ptAuthLayout,
+      devices: ptDevices,
+      linkDeviceModal: ptLinkDeviceModal,
     },
   },
 });

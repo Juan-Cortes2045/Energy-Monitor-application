@@ -1,0 +1,36 @@
+{
+  "header": {
+    "title": "Linked devices",
+    "subtitle": "{{online}} of {{total}} devices online"
+  },
+  "actions": {
+    "link": "Link device",
+    "remove": "Remove {{name}}"
+  },
+  "status": {
+    "online": "Online",
+    "offline": "Offline"
+  },
+  "applianceTypes": {
+    "fridge": "Refrigerator",
+    "washer": "Washing machine",
+    "tv": "TV",
+    "microwave": "Microwave",
+    "ac": "Air conditioner",
+    "pc": "Computer",
+    "waterHeater": "Water heater",
+    "other": "Other"
+  },
+  "rooms": {
+    "livingRoom": "Living room",
+    "kitchen": "Kitchen",
+    "bedroom": "Bedroom",
+    "garage": "Garage",
+    "other": "Other"
+  },
+  "empty": {
+    "title": "You don't have any linked devices yet",
+    "subtitle": "Install your first module inside an appliance's outlet to start monitoring its consumption",
+    "cta": "Link device"
+  }
+}

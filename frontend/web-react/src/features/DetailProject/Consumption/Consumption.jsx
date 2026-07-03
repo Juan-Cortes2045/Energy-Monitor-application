@@ -22,6 +22,7 @@ import Card from "../../../design/components/Card/Card";
 import Header from "../../../design/components/Header/Header";
 import Users from "../Users/Users";
 import Project from "../Project/Project";
+import Devices from "../Devices/Devices";
 import ConsumptionHistory from "../ConsumptionHistory/ComsumptionHistory";
 import styles from "./Consumption.module.css";
 
@@ -529,7 +530,7 @@ const Consumption = () => {
 
         {activeTab === "Historial" && <ConsumptionHistory />}
         {activeTab === "Dispositivos" && (
-          <EmptyChart mensaje="Dispositivos en desarrollo" />
+          <Devices project={project} isOwner={isOwner} />
         )}
         {activeTab === "Proyecto" && (
           <Project

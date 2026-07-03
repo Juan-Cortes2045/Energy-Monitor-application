@@ -1,0 +1,44 @@
+{
+  "title": "Vincular dispositivo",
+  "close": "Cerrar",
+  "discover": {
+    "title": "Buscando módulos cercanos",
+    "hint": "Asegúrate de que el módulo esté conectado al tomacorriente y en modo de emparejamiento",
+    "scanning": "Escaneando...",
+    "foundTitle": "Módulos encontrados",
+    "rescan": "Buscar de nuevo"
+  },
+  "appliance": {
+    "title": "¿Qué electrodoméstico vas a monitorear?",
+    "hint": "Selecciona el tipo de electrodoméstico que quedará conectado a este módulo"
+  },
+  "network": {
+    "title": "Conecta a tu red WiFi",
+    "subtitle": "Selecciona la red a la que se conectará el módulo",
+    "passwordLabel": "Contraseña",
+    "passwordPlaceholder": "Ingresa la contraseña de la red",
+    "open": "Abierta"
+  },
+  "connecting": {
+    "title": "Conectando dispositivo",
+    "step1": "Buscando la red \"{{ssid}}\"",
+    "step2": "Verificando contraseña",
+    "step3": "Sincronizando dispositivo"
+  },
+  "done": {
+    "title": "¡Dispositivo vinculado!",
+    "subtitle": "Tu dispositivo ya está conectado y enviando datos",
+    "nameLabel": "Nombre del dispositivo",
+    "roomLabel": "Ubicación"
+  },
+  "buttons": {
+    "cancel": "Cancelar",
+    "back": "Atrás",
+    "continue": "Continuar",
+    "connect": "Conectar",
+    "finish": "Finalizar"
+  },
+  "errors": {
+    "passwordRequired": "Ingresa la contraseña de la red"
+  }
+}

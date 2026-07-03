@@ -1,0 +1,517 @@
+/* ── Overlay ──────────────────────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--spacing-md);
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Modal card ───────────────────────────────────────────────────── */
+.modal {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 440px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ── Header ───────────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.title {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.closeBtn {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.closeBtn:hover {
+  background: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+/* ── Indicador de pasos ───────────────────────────────────────────── */
+.stepDots {
+  display: flex;
+  gap: 6px;
+}
+
+.stepDot {
+  width: 22px;
+  height: 4px;
+  border-radius: 999px;
+  background-color: var(--color-border);
+}
+
+.stepDotActive {
+  background-color: var(--color-primary);
+}
+
+/* ── Body ─────────────────────────────────────────────────────────── */
+.body {
+  padding: var(--spacing-lg);
+}
+
+.stepBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.stepTitle {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+  text-align: center;
+}
+
+.hint {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--spacing-xs) 0;
+  text-align: center;
+}
+
+.blockLabel {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-secondary);
+  margin: var(--spacing-xs) 0 0 0;
+}
+
+/* ── Escaneo ──────────────────────────────────────────────────────── */
+.scanningBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xl) 0;
+}
+
+.pulseWrap {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pulseRing {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-color: var(--color-primary-soft);
+  animation: pulse 1.4s ease-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+.scanIcon {
+  position: relative;
+  color: var(--color-primary);
+}
+
+.scanningText {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* ── Opciones seleccionables (dispositivos / redes) ──────────────── */
+.deviceOptions,
+.networkOptions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.deviceOption,
+.networkOption {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+}
+
+.deviceOption:hover,
+.networkOption:hover {
+  background-color: var(--color-background);
+}
+
+.deviceOptionSelected {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-soft);
+}
+
+.deviceOptionIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--color-gradient);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.deviceOptionName {
+  flex: 1;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.deviceOptionCheck {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.networkName {
+  flex: 1;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.lockIcon {
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.openTag {
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+/* ── Selección de electrodoméstico ───────────────────────────────── */
+.applianceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xs);
+}
+
+.applianceOption {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: var(--spacing-sm) 4px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  cursor: pointer;
+  text-align: center;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+}
+
+.applianceOption:hover {
+  background-color: var(--color-background);
+}
+
+.applianceOptionSelected {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-soft);
+}
+
+.applianceOptionIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--color-gradient);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.applianceOptionName {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-primary);
+  line-height: 1.2;
+}
+
+.applianceOptionCheck {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  color: var(--color-primary);
+}
+
+/* ── Barras de señal ──────────────────────────────────────────────── */
+.signalBars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.bar {
+  width: 3px;
+  background-color: var(--color-border);
+  border-radius: 1px;
+}
+.bar:nth-child(1) {
+  height: 6px;
+}
+.bar:nth-child(2) {
+  height: 9px;
+}
+.bar:nth-child(3) {
+  height: 12px;
+}
+
+.barActive {
+  background-color: var(--color-primary);
+}
+
+/* ── Botón de link / rescan ───────────────────────────────────────── */
+.linkBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: center;
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
+}
+
+.linkBtn:hover {
+  text-decoration: underline;
+}
+
+/* ── Campo / label / select ───────────────────────────────────────── */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.select {
+  width: 100%;
+  height: 40px;
+  padding: 0 var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236C757D' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 120, 215, 0.15);
+}
+
+.errorMsg {
+  font-size: var(--font-size-xs);
+  color: var(--color-danger);
+}
+
+/* ── Conectando ───────────────────────────────────────────────────── */
+.connectingBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-lg) 0;
+}
+
+.spinner {
+  color: var(--color-primary);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.connectingList {
+  list-style: none;
+  padding: 0;
+  margin: var(--spacing-sm) 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  width: 100%;
+}
+
+.connectingList li {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.connectingDone {
+  color: var(--color-text-primary);
+}
+
+.connectingDone svg {
+  color: var(--color-success);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-border);
+  flex-shrink: 0;
+  margin: 0 3.5px;
+}
+
+/* ── Listo ────────────────────────────────────────────────────────── */
+.doneBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: var(--spacing-sm) 0 var(--spacing-md);
+  text-align: center;
+}
+
+.doneIcon {
+  color: var(--color-success);
+  margin-bottom: var(--spacing-xs);
+}
+
+/* ── Footer ───────────────────────────────────────────────────────── */
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .modal {
+    max-width: 100%;
+    max-height: 95vh;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    margin-top: auto;
+  }
+
+  .overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .footer {
+    flex-direction: column-reverse;
+  }
+
+  .footer > * {
+    width: 100%;
+  }
+
+  .applianceGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

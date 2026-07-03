@@ -1,0 +1,44 @@
+{
+  "title": "Connecter un appareil",
+  "close": "Fermer",
+  "discover": {
+    "title": "Recherche de modules à proximité",
+    "hint": "Assurez-vous que le module est branché sur la prise et en mode d'appairage",
+    "scanning": "Recherche en cours...",
+    "foundTitle": "Modules trouvés",
+    "rescan": "Relancer la recherche"
+  },
+  "appliance": {
+    "title": "Quel appareil allez-vous surveiller ?",
+    "hint": "Sélectionnez le type d'appareil qui sera connecté à ce module"
+  },
+  "network": {
+    "title": "Connectez-vous à votre réseau WiFi",
+    "subtitle": "Sélectionnez le réseau auquel le module se connectera",
+    "passwordLabel": "Mot de passe",
+    "passwordPlaceholder": "Entrez le mot de passe du réseau",
+    "open": "Ouvert"
+  },
+  "connecting": {
+    "title": "Connexion de l'appareil",
+    "step1": "Recherche du réseau « {{ssid}} »",
+    "step2": "Vérification du mot de passe",
+    "step3": "Synchronisation de l'appareil"
+  },
+  "done": {
+    "title": "Appareil connecté !",
+    "subtitle": "Votre appareil est maintenant connecté et envoie des données",
+    "nameLabel": "Nom de l'appareil",
+    "roomLabel": "Emplacement"
+  },
+  "buttons": {
+    "cancel": "Annuler",
+    "back": "Retour",
+    "continue": "Continuer",
+    "connect": "Connecter",
+    "finish": "Terminer"
+  },
+  "errors": {
+    "passwordRequired": "Entrez le mot de passe du réseau"
+  }
+}

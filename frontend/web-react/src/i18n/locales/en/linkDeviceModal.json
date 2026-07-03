@@ -1,0 +1,44 @@
+{
+  "title": "Link device",
+  "close": "Close",
+  "discover": {
+    "title": "Searching for nearby modules",
+    "hint": "Make sure the module is plugged into the outlet and in pairing mode",
+    "scanning": "Scanning...",
+    "foundTitle": "Modules found",
+    "rescan": "Search again"
+  },
+  "appliance": {
+    "title": "Which appliance are you going to monitor?",
+    "hint": "Select the type of appliance that will be connected to this module"
+  },
+  "network": {
+    "title": "Connect to your WiFi network",
+    "subtitle": "Select the network the module will connect to",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter the network password",
+    "open": "Open"
+  },
+  "connecting": {
+    "title": "Connecting device",
+    "step1": "Searching for network \"{{ssid}}\"",
+    "step2": "Verifying password",
+    "step3": "Syncing device"
+  },
+  "done": {
+    "title": "Device linked!",
+    "subtitle": "Your device is now connected and sending data",
+    "nameLabel": "Device name",
+    "roomLabel": "Location"
+  },
+  "buttons": {
+    "cancel": "Cancel",
+    "back": "Back",
+    "continue": "Continue",
+    "connect": "Connect",
+    "finish": "Finish"
+  },
+  "errors": {
+    "passwordRequired": "Enter the network password"
+  }
+}

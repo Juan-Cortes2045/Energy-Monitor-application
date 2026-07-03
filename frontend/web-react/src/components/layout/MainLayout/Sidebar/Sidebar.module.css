@@ -315,7 +315,7 @@
 .profileName {
   font-family: var(--font-primary);
   font-size: var(--font-size-md);
-  color: var(--color-surface);
+  color: rgba(255, 255, 255, 0.95);
   flex: 1;
   min-width: 0;
   overflow: hidden;
