@@ -1,0 +1,14 @@
+{
+  "headline": {
+    "line1": "Monitor your",
+    "line2": "energy in",
+    "line3": "real time."
+  },
+  "subtext": "Track the energy consumption of your projects, set alerts, and make data-driven decisions.",
+  "pills": {
+    "realtime": "Real-time analytics",
+    "alerts": "Automatic alerts",
+    "projects": "Project management"
+  },
+  "copyright": "© 2025 EnergyMonitor. All rights reserved."
+}

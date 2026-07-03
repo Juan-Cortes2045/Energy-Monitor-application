@@ -1,0 +1,14 @@
+{
+  "headline": {
+    "line1": "Monitore sua",
+    "line2": "energia em",
+    "line3": "tempo real."
+  },
+  "subtext": "Controle o consumo energético dos seus projetos, configure alertas e tome decisões baseadas em dados.",
+  "pills": {
+    "realtime": "Análise em tempo real",
+    "alerts": "Alertas automáticos",
+    "projects": "Gestão por projetos"
+  },
+  "copyright": "© 2025 EnergyMonitor. Todos os direitos reservados."
+}
