@@ -1,0 +1,15 @@
+{
+  "title": "Join project",
+  "close": "Close",
+  "description": "Enter the alphanumeric code shared by the project owner.",
+  "label": "Access code",
+  "placeholder": "E.g: AB12CD34",
+  "hint": "The code is 8 characters long using uppercase letters and numbers.",
+  "cancel": "Cancel",
+  "join": "Join",
+  "joining": "Joining...",
+  "errors": {
+    "required": "Please enter the access code.",
+    "invalid": "The code must be 8 characters (letters and numbers)."
+  }
+}

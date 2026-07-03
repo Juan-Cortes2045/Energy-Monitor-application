@@ -276,7 +276,6 @@ const Consumption = () => {
 
   const breadcrumbItems = [
     { label: t("breadcrumb.home"), onClick: onBack },
-    { label: t("breadcrumb.projects"), onClick: onBack },
     { label: project?.name ?? t("breadcrumb.projectFallback") },
   ];
 

@@ -1,0 +1,15 @@
+{
+  "title": "Entrar no projeto",
+  "close": "Fechar",
+  "description": "Insira o código alfanumérico compartilhado pelo responsável do projeto.",
+  "label": "Código de acesso",
+  "placeholder": "Ex: AB12CD34",
+  "hint": "O código tem 8 caracteres entre letras maiúsculas e números.",
+  "cancel": "Cancelar",
+  "join": "Entrar",
+  "joining": "Entrando...",
+  "errors": {
+    "required": "Insira o código de acesso.",
+    "invalid": "O código deve ter 8 caracteres (letras e números)."
+  }
+}
