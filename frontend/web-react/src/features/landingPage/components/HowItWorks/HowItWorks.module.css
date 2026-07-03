@@ -2,8 +2,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(90deg, #f8fafc 50%, #eaf3ff 100%);
   gap: 24px;
+  background: linear-gradient(
+    90deg,
+    var(--color-background) 50%,
+    var(--color-gradient) 100%
+  );
 }
 
 .header {

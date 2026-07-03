@@ -14,7 +14,11 @@
   align-items: center;
   text-align: center;
   padding: var(--spacing-xl) var(--spacing-lg);
-  background: linear-gradient(90deg, #f8fafc 50%, #eaf3ff 100%);
+  background: linear-gradient(
+    90deg,
+    var(--color-background) 50%,
+    var(--color-gradient) 100%
+  );
   gap: var(--spacing-md);
   border-bottom: 1px solid var(--color-border);
 }

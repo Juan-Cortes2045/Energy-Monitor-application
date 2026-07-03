@@ -27,8 +27,12 @@ const Input = ({
           value={value}
           placeholder={placeholder}
           onChange={onChange}
+          spellCheck={false}
+          autoCorrect="off"
+          autoCapitalize="off"
           {...rest}
         />
+        
         {icon && (
           <span className={styles.icon} onClick={onIconClick}>
             {icon}

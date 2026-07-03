@@ -1,4 +1,4 @@
-import Support from "../components/Support/support";
+import Support from "../components/Support/Support";
 import Navbar from "../../../components/layout/Navbar/Navbar";
 
 const SupportI = () => {
