@@ -30,12 +30,7 @@ const Benefits = () => {
   ];
 
   return (
-    <section
-      className={styles.container}
-      style={{
-        padding: spacing.xl,
-      }}
-    >
+    <section className={styles.container}>
       {/* TÍTULO */}
       <div className={styles.header}>
         <h2 className={styles.title}>{t("title")}</h2>
