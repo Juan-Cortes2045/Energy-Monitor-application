@@ -75,6 +75,7 @@
 .iconBtn {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   background: none;
   border: 1px solid var(--color-border);
@@ -203,16 +204,31 @@
 
   .actions {
     flex-direction: column;
+    align-items: stretch;
     width: 100%;
+    gap: 10px;
     padding: 8px 20px;
   }
 
-  .actions button { width: 100%; }
+  /* Antes solo ".actions button" tenía width:100%, pero el botón de
+     idioma vive un nivel más adentro (dentro de .langWrapper), y ese
+     wrapper se estiraba a todo el ancho mientras el botón de adentro
+     quedaba con su contenido pegado a la izquierda dentro de una caja
+     invisible más ancha — por eso se veía descuadrado frente al botón
+     de tema. Forzamos explícitamente el ancho completo en ambos y
+     centramos el contenido para que se vean como el mismo tipo de
+     control. */
+  .actions button,
+  .langWrapper,
+  .langWrapper .iconBtn {
+    width: 100%;
+  }
 
   .langDropdown {
     right: auto;
     left: 50%;
     transform: translateX(-50%);
+    width: calc(100% - 40px);
   }
 
   .menuBtn {

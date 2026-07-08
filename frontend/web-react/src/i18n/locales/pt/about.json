@@ -1,0 +1,89 @@
+{
+  "hero": {
+    "titlePart1": "Estamos construindo um futuro com",
+    "titleHighlight": "energia mais consciente",
+    "subtitle": "O EnergyMonitor nasceu para que qualquer lar possa ver, entender e controlar seu consumo elétrico, sem complicações."
+  },
+  "story": {
+    "title": "Nossa história",
+    "items": {
+      "problem": {
+        "title": "O problema",
+        "description": "Muitas pessoas não sabem como sua eletricidade está sendo realmente consumida, o que gera contas mais altas do que o esperado e um impacto negativo no meio ambiente."
+      },
+      "mission": {
+        "title": "Nossa missão",
+        "description": "Registrar, processar e analisar o consumo em tempo real, com alertas e recomendações personalizadas, para que cada pessoa decida antes de a conta chegar."
+      },
+      "vision": {
+        "title": "Nossa visão",
+        "description": "Um mundo onde economizar energia seja tão simples quanto abrir um aplicativo e ver exatamente o que está consumindo demais."
+      }
+    }
+  },
+  "values": {
+    "title": "O que nos guia",
+    "items": {
+      "transparency": {
+        "title": "Transparência",
+        "description": "Mostramos os dados como realmente são, sem médias que escondam o que importa."
+      },
+      "saving": {
+        "title": "Economia real",
+        "description": "Cada alerta e recomendação busca um impacto mensurável na sua conta."
+      },
+      "sustainability": {
+        "title": "Sustentabilidade",
+        "description": "Menos consumo desnecessário também significa uma pegada ambiental menor."
+      },
+      "simplicity": {
+        "title": "Simplicidade",
+        "description": "A energia já é complexa; monitorá-la não deveria ser."
+      }
+    }
+  },
+  "how": {
+    "title": "Como tornamos isso possível?",
+    "description": "Cada eletrodoméstico se conecta por meio de um sensor de corrente e um microcontrolador ESP32 instalado na tomada. Esses dados são processados e transformados em gráficos, alertas e recomendações fáceis de entender, disponíveis tanto no aplicativo móvel quanto na plataforma web.",
+    "button": "Ver como funciona"
+  },
+  "impact": {
+    "title": "O que buscamos alcançar",
+    "items": {
+      "reduction": {
+        "value": "-20%",
+        "label": "de redução média no consumo detectado a tempo"
+      },
+      "coverage": {
+        "value": "100%",
+        "label": "dos seus dispositivos, monitorados em um só lugar"
+      },
+      "monitoring": {
+        "value": "24/7",
+        "label": "de acompanhamento e alertas em tempo real"
+      }
+    }
+  },
+  "team": {
+    "title": "A equipe por trás do EnergyMonitor",
+    "subtitle": "Duas pessoas construíram todo o sistema: do sensor conectado ao ESP32 até o aplicativo que você usa hoje.",
+    "members": {
+      "1": {
+        "name": "Juan Esteban Cortez Parra",
+        "role": "Líder do projeto e gestor de banco de dados",
+        "functions": "Coordena o projeto e valida os avanços, além de liderar o desenvolvimento de backend, APIs, integração com a nuvem e os testes do sistema."
+      },
+      "2": {
+        "name": "Miguel Ángel García Artunduaga",
+        "role": "Analista e designer UX/UI",
+        "functions": "Levanta e documenta os requisitos, projeta a interface e os protótipos navegáveis, e lidera o desenvolvimento frontend e os testes de usabilidade."
+      }
+    }
+  },
+  "cta": {
+    "title": "Pronto para ver seu consumo com clareza?",
+    "subtitle": "Crie sua conta gratuita e comece a monitorar seus dispositivos hoje mesmo.",
+    "primaryButton": "Criar conta",
+    "secondaryButton": "Entrar"
+  }
+}

@@ -15,6 +15,7 @@ import DashboarPage from "../features/dashboard/pages/DashboardPage";
 import Settings from "../features/SettingsPage/pages/Settings";
 import BenefitsI from "../features/landingPage/pages/BenefitsI";
 import SupportI from "../features/landingPage/pages/SupportI";
+import AboutI from "../features/landingPage/pages/AboutI";
 const AppRoutes = () => {
   return (
     <BrowserRouter>
@@ -23,6 +24,7 @@ const AppRoutes = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/how-it-works" element={<HowItWorksPage />} />
         <Route path="/benefits" element={<BenefitsI />} />
+        <Route path="/about" element={<AboutI />} />
         <Route path="/support" element={<SupportI />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

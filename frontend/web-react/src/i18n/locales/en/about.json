@@ -1,0 +1,89 @@
+{
+  "hero": {
+    "titlePart1": "We're building a future with",
+    "titleHighlight": "more mindful energy",
+    "subtitle": "EnergyMonitor was born so any household can see, understand, and control its electricity use, without the hassle."
+  },
+  "story": {
+    "title": "Our story",
+    "items": {
+      "problem": {
+        "title": "The problem",
+        "description": "Many people don't know how their electricity is really being used, which leads to higher-than-expected bills and a negative environmental impact."
+      },
+      "mission": {
+        "title": "Our mission",
+        "description": "Record, process, and analyze consumption in real time, with alerts and personalized recommendations, so everyone can decide before the bill arrives."
+      },
+      "vision": {
+        "title": "Our vision",
+        "description": "A world where saving energy is as simple as opening an app and seeing exactly what's using too much."
+      }
+    }
+  },
+  "values": {
+    "title": "What guides us",
+    "items": {
+      "transparency": {
+        "title": "Transparency",
+        "description": "We show the data as it is, without averages that hide what matters."
+      },
+      "saving": {
+        "title": "Real savings",
+        "description": "Every alert and recommendation aims for a measurable impact on your bill."
+      },
+      "sustainability": {
+        "title": "Sustainability",
+        "description": "Less unnecessary consumption also means a smaller environmental footprint."
+      },
+      "simplicity": {
+        "title": "Simplicity",
+        "description": "Energy is already complex; monitoring it shouldn't be."
+      }
+    }
+  },
+  "how": {
+    "title": "How do we make it possible?",
+    "description": "Each appliance connects through a current sensor and an ESP32 microcontroller installed in the outlet. That data is processed and turned into charts, alerts, and recommendations that are easy to understand, available in both the mobile app and the web platform.",
+    "button": "See how it works"
+  },
+  "impact": {
+    "title": "What we aim to achieve",
+    "items": {
+      "reduction": {
+        "value": "-20%",
+        "label": "average reduction from consumption caught in time"
+      },
+      "coverage": {
+        "value": "100%",
+        "label": "of your devices, monitored from one place"
+      },
+      "monitoring": {
+        "value": "24/7",
+        "label": "real-time tracking and alerts"
+      }
+    }
+  },
+  "team": {
+    "title": "The team behind EnergyMonitor",
+    "subtitle": "Two people built the whole system: from the sensor wired to the ESP32 to the app you use today.",
+    "members": {
+      "1": {
+        "name": "Juan Esteban Cortez Parra",
+        "role": "Project lead & database manager",
+        "functions": "Coordinates the project and validates progress, while leading backend development, APIs, cloud integration, and system testing."
+      },
+      "2": {
+        "name": "Miguel Ángel García Artunduaga",
+        "role": "Analyst & UX/UI designer",
+        "functions": "Gathers and documents requirements, designs the interface and clickable prototypes, and leads frontend development and usability testing."
+      }
+    }
+  },
+  "cta": {
+    "title": "Ready to see your consumption clearly?",
+    "subtitle": "Create your free account and start monitoring your devices today.",
+    "primaryButton": "Create account",
+    "secondaryButton": "Log in"
+  }
+}

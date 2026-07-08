@@ -29,6 +29,7 @@ import esLinkDeviceModal from "./locales/es/linkDeviceModal.json";
 import esAuthLayout from "./locales/es/authLayout.json";
 import esThresholds from "./locales/es/thresholds.json";
 import esNotifications from "./locales/es/notifications.json";
+import esAbout from "./locales/es/about.json";
 
 // Inglés
 
@@ -58,6 +59,7 @@ import enLinkDeviceModal from "./locales/en/linkDeviceModal.json";
 import enAuthLayout from "./locales/en/authLayout.json";
 import enThresholds from "./locales/en/thresholds.json";
 import enNotifications from "./locales/en/notifications.json";
+import enAbout from "./locales/en/about.json";
 
 // Frances
 
@@ -87,6 +89,7 @@ import frLinkDeviceModal from "./locales/fr/linkDeviceModal.json";
 import frAuthLayout from "./locales/fr/authLayout.json";
 import frThresholds from "./locales/fr/thresholds.json";
 import frNotifications from "./locales/fr/notifications.json";
+import frAbout from "./locales/fr/about.json";
 
 // Portugués
 
@@ -116,6 +119,7 @@ import ptLinkDeviceModal from "./locales/pt/linkDeviceModal.json";
 import ptAuthLayout from "./locales/pt/authLayout.json";
 import ptThresholds from "./locales/pt/thresholds.json";
 import ptNotifications from "./locales/pt/notifications.json";
+import ptAbout from "./locales/pt/about.json";
 
 // Configuración de i18next
 i18n.use(initReactI18next).init({
@@ -150,6 +154,7 @@ i18n.use(initReactI18next).init({
       authLayout: esAuthLayout,
       thresholds: esThresholds,
       notifications: esNotifications,
+      about: esAbout,
     },
     en: {
       account: enAccount,
@@ -178,6 +183,7 @@ i18n.use(initReactI18next).init({
       authLayout: enAuthLayout,
       thresholds: enThresholds,
       notifications: enNotifications,
+      about: enAbout,
     },
     fr: {
       account: frAccount,
@@ -206,6 +212,7 @@ i18n.use(initReactI18next).init({
       authLayout: frAuthLayout,
       thresholds: frThresholds,
       notifications: frNotifications,
+      about: frAbout,
     },
     pt: {
       account: ptAccount,
@@ -234,6 +241,7 @@ i18n.use(initReactI18next).init({
       authLayout: ptAuthLayout,
       thresholds: ptThresholds,
       notifications: ptNotifications,
+      about: ptAbout,
     },
   },
 });
