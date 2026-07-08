@@ -1,0 +1,71 @@
+{
+  "breadcrumb": {
+    "home": "Home",
+    "current": "Notifications"
+  },
+  "title": "Notifications",
+  "subtitle": "Alerts and recommendations generated from your projects' consumption.",
+  "tabs": {
+    "all": "All",
+    "alerts": "Alerts",
+    "recommendations": "Recommendations"
+  },
+  "status": {
+    "active": "Active",
+    "resolved": "Resolved",
+    "new": "New",
+    "read": "Read"
+  },
+  "actions": {
+    "resolve": "Resolve",
+    "markRead": "Mark as read",
+    "markAllRead": "Mark all as read",
+    "delete": "Delete"
+  },
+  "mockAlerts": {
+    "dailyLimit": {
+      "title": "Daily limit exceeded",
+      "message": "\"{{device}}\" went over the daily consumption limit set for this project."
+    },
+    "deviceOffline": {
+      "title": "Device disconnected",
+      "message": "\"{{device}}\" stopped reporting consumption data. Check its WiFi connection."
+    },
+    "monthlyNearLimit": {
+      "title": "Close to the monthly limit",
+      "message": "\"{{device}}\" is close to reaching the configured monthly consumption limit."
+    },
+    "consumptionSpike": {
+      "title": "Consumption spike detected",
+      "message": "An unusual consumption spike was detected in the project. Check your connected devices."
+    }
+  },
+  "mockRecommendations": {
+    "acPeak": {
+      "title": "Optimize your air conditioner",
+      "message": "Reduce its use during peak hours to save energy and lower your bill."
+    },
+    "standby": {
+      "title": "Unplug standby devices",
+      "message": "Consider unplugging devices you don't use overnight; standby consumption adds up."
+    },
+    "improvement": {
+      "title": "You're improving!",
+      "message": "Your consumption dropped 12% this month compared to the previous one. Keep it up to stay within your thresholds."
+    }
+  },
+  "empty": {
+    "all": {
+      "title": "No notifications",
+      "description": "When the system detects something relevant in your projects, you'll see it here."
+    },
+    "alerts": {
+      "title": "No active alerts",
+      "description": "There are no pending alerts to review right now."
+    },
+    "recommendations": {
+      "title": "No recommendations",
+      "description": "There are no recommendations generated for your projects yet."
+    }
+  }
+}

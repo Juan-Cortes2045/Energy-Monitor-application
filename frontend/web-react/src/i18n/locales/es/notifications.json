@@ -1,0 +1,71 @@
+{
+  "breadcrumb": {
+    "home": "Inicio",
+    "current": "Notificaciones"
+  },
+  "title": "Notificaciones",
+  "subtitle": "Alertas y recomendaciones generadas a partir del consumo de tus proyectos.",
+  "tabs": {
+    "all": "Todas",
+    "alerts": "Alertas",
+    "recommendations": "Recomendaciones"
+  },
+  "status": {
+    "active": "Activa",
+    "resolved": "Resuelta",
+    "new": "Nueva",
+    "read": "Leída"
+  },
+  "actions": {
+    "resolve": "Resolver",
+    "markRead": "Marcar leída",
+    "markAllRead": "Marcar todas como leídas",
+    "delete": "Eliminar"
+  },
+  "mockAlerts": {
+    "dailyLimit": {
+      "title": "Límite diario superado",
+      "message": "\"{{device}}\" superó el límite diario de consumo configurado para este proyecto."
+    },
+    "deviceOffline": {
+      "title": "Dispositivo desconectado",
+      "message": "\"{{device}}\" dejó de reportar datos de consumo. Verifica su conexión WiFi."
+    },
+    "monthlyNearLimit": {
+      "title": "Cerca del límite mensual",
+      "message": "\"{{device}}\" está cerca de alcanzar el límite mensual de consumo configurado."
+    },
+    "consumptionSpike": {
+      "title": "Pico de consumo detectado",
+      "message": "Se detectó un pico inusual de consumo en el proyecto. Revisa tus dispositivos conectados."
+    }
+  },
+  "mockRecommendations": {
+    "acPeak": {
+      "title": "Optimiza tu aire acondicionado",
+      "message": "Reduce su uso en horas pico para ahorrar energía y disminuir tu factura."
+    },
+    "standby": {
+      "title": "Desconecta dispositivos en standby",
+      "message": "Considera desconectar los dispositivos que no uses durante la noche; el consumo en standby se acumula."
+    },
+    "improvement": {
+      "title": "¡Vas mejorando!",
+      "message": "Tu consumo bajó un 12% este mes respecto al anterior. Sigue así para mantenerte dentro de tus umbrales."
+    }
+  },
+  "empty": {
+    "all": {
+      "title": "Sin notificaciones",
+      "description": "Cuando el sistema detecte algo relevante en tus proyectos, lo verás aquí."
+    },
+    "alerts": {
+      "title": "Sin alertas activas",
+      "description": "No hay alertas pendientes por revisar en este momento."
+    },
+    "recommendations": {
+      "title": "Sin recomendaciones",
+      "description": "Aún no hay recomendaciones generadas para tus proyectos."
+    }
+  }
+}

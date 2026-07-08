@@ -1,0 +1,71 @@
+{
+  "breadcrumb": {
+    "home": "Accueil",
+    "current": "Notifications"
+  },
+  "title": "Notifications",
+  "subtitle": "Alertes et recommandations générées à partir de la consommation de vos projets.",
+  "tabs": {
+    "all": "Toutes",
+    "alerts": "Alertes",
+    "recommendations": "Recommandations"
+  },
+  "status": {
+    "active": "Active",
+    "resolved": "Résolue",
+    "new": "Nouvelle",
+    "read": "Lue"
+  },
+  "actions": {
+    "resolve": "Résoudre",
+    "markRead": "Marquer comme lue",
+    "markAllRead": "Tout marquer comme lu",
+    "delete": "Supprimer"
+  },
+  "mockAlerts": {
+    "dailyLimit": {
+      "title": "Limite quotidienne dépassée",
+      "message": "« {{device}} » a dépassé la limite de consommation quotidienne définie pour ce projet."
+    },
+    "deviceOffline": {
+      "title": "Appareil déconnecté",
+      "message": "« {{device}} » ne transmet plus de données de consommation. Vérifiez sa connexion WiFi."
+    },
+    "monthlyNearLimit": {
+      "title": "Proche de la limite mensuelle",
+      "message": "« {{device}} » approche de la limite de consommation mensuelle configurée."
+    },
+    "consumptionSpike": {
+      "title": "Pic de consommation détecté",
+      "message": "Un pic de consommation inhabituel a été détecté dans le projet. Vérifiez vos appareils connectés."
+    }
+  },
+  "mockRecommendations": {
+    "acPeak": {
+      "title": "Optimisez votre climatiseur",
+      "message": "Réduisez son utilisation aux heures de pointe pour économiser de l'énergie et réduire votre facture."
+    },
+    "standby": {
+      "title": "Débranchez les appareils en veille",
+      "message": "Envisagez de débrancher la nuit les appareils que vous n'utilisez pas ; la consommation en veille s'accumule."
+    },
+    "improvement": {
+      "title": "Vous progressez !",
+      "message": "Votre consommation a baissé de 12 % ce mois-ci par rapport au précédent. Continuez ainsi pour rester dans vos seuils."
+    }
+  },
+  "empty": {
+    "all": {
+      "title": "Aucune notification",
+      "description": "Lorsque le système détectera quelque chose de pertinent dans vos projets, vous le verrez ici."
+    },
+    "alerts": {
+      "title": "Aucune alerte active",
+      "description": "Aucune alerte en attente pour le moment."
+    },
+    "recommendations": {
+      "title": "Aucune recommandation",
+      "description": "Aucune recommandation n'a encore été générée pour vos projets."
+    }
+  }
+}

@@ -9,6 +9,7 @@ import VerifyRecoverPassword from "../features/auth/pages/VerifyRecoverPassword"
 import Account from "../features/Account/Account";
 import Consumption from "../features/DetailProject/Consumption/Consumption";
 import Favorites from "../features/Favorites/Favorites";
+import Notifications from "../features/Notifications/Notifications";
 import MainLayout from "../components/layout/MainLayout/MainLayout";
 import DashboarPage from "../features/dashboard/pages/DashboardPage";
 import Settings from "../features/SettingsPage/pages/Settings";
@@ -34,6 +35,7 @@ const AppRoutes = () => {
             <Route path="/consumption" element={<Consumption />} />
 
             <Route path="/favorites" element={<Favorites />} />
+            <Route path="/notifications" element={<Notifications />} />
 
             <Route path="/settings" element={<Settings />} />
           </Route>

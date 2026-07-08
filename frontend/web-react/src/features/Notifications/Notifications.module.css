@@ -1,0 +1,387 @@
+/* Contenedor raíz – ocupa el espacio que le cede el layout principal */
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: var(--color-background);
+  min-height: 100%;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 0;
+}
+
+/* ── Encabezado de página ─────────────────────────────────────────── */
+.hero {
+  padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.subtitle {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* ── Recuadro grande que contiene tabs + lista ───────────────────── */
+.gridBox {
+  margin: 0 var(--spacing-lg) var(--spacing-lg);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+/* ── Barra de pestañas ────────────────────────────────────────────── */
+.tabsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.tabs {
+  display: flex;
+  gap: var(--spacing-xs);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 4px;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
+
+.tab:hover {
+  color: var(--color-text-primary);
+}
+
+.tabActive {
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.tabCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background-color: var(--color-primary);
+  color: #fff;
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+}
+
+.tabActive .tabCount {
+  background-color: var(--color-primary);
+}
+
+.markAllBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+}
+
+.markAllBtn:hover {
+  text-decoration: underline;
+}
+
+/* ── Lista de notificaciones ─────────────────────────────────────── */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  background-color: var(--color-background);
+  transition: opacity 0.15s ease;
+  min-width: 0;
+}
+
+.rowMuted {
+  opacity: 0.65;
+}
+
+.icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.iconDanger {
+  background-color: #fcebeb;
+  color: #a32d2d;
+}
+
+.iconWarning {
+  background-color: #fff4d6;
+  color: #854f0b;
+}
+
+.iconInfo {
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+/* ── Cuerpo de la fila ────────────────────────────────────────────── */
+.rowBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.rowTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+.rowTitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.rowMessage {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.rowMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+.metaDot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+/* ── Acciones de fila ─────────────────────────────────────────────── */
+.rowActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.actionBtn:hover {
+  background-color: var(--color-background);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.deleteBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background-color: #fcebeb;
+  color: #a32d2d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.deleteBtn:hover {
+  background-color: #f7c1c1;
+}
+
+.deleteBtn:active {
+  transform: scale(0.95);
+}
+
+/* ── Badges de estado ─────────────────────────────────────────────── */
+.badge {
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.badgeDanger {
+  background-color: #fcebeb;
+  color: #a32d2d;
+}
+
+.badgeWarning {
+  background-color: #fff4d6;
+  color: #854f0b;
+}
+
+.badgeInfo {
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.badgeNeutral {
+  background-color: #f1f2f4;
+  color: var(--color-text-secondary);
+}
+
+/* ── Estado vacío ─────────────────────────────────────────────────── */
+.emptyState {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xl);
+  text-align: center;
+}
+
+.emptyIcon {
+  color: var(--color-border);
+  margin-bottom: var(--spacing-xs);
+}
+
+.emptyTitle {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-secondary);
+}
+
+.emptyDesc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  max-width: 320px;
+  line-height: 1.6;
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .gridBox {
+    margin: 0 var(--spacing-md) var(--spacing-md);
+  }
+
+  /* En vez de un flex-wrap frágil (que dejaba el ancho de rowBody a
+     merced de cómo el navegador decidiera repartir el espacio con
+     rowActions), usamos un grid explícito: icono + contenido arriba,
+     acciones en su propia fila ocupando todo el ancho abajo. Así el
+     texto siempre tiene el ancho real de la tarjeta para acomodarse. */
+  .row {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    grid-template-areas:
+      "icon body"
+      "actions actions";
+    column-gap: var(--spacing-sm);
+    row-gap: var(--spacing-sm);
+    align-items: start;
+  }
+
+  .icon {
+    grid-area: icon;
+  }
+
+  .rowBody {
+    grid-area: body;
+    min-width: 0;
+  }
+
+  .rowTop {
+    flex-wrap: wrap;
+    row-gap: 4px;
+  }
+
+  .rowActions {
+    grid-area: actions;
+    justify-content: flex-end;
+    margin-left: 0;
+  }
+}
