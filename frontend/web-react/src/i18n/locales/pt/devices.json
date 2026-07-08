@@ -26,11 +26,19 @@
     "kitchen": "Cozinha",
     "bedroom": "Quarto",
     "garage": "Garagem",
-    "other": "Outro"
+    "other": "Outro",
+    "laundryRoom": "Área de serviço"
   },
   "empty": {
     "title": "Você ainda não tem dispositivos vinculados",
     "subtitle": "Instale seu primeiro módulo dentro da tomada de um eletrodoméstico para começar a monitorar o consumo",
-    "cta": "Vincular dispositivo"
+    "cta": "Vincular dispositivo",
+    "subtitleReadOnly": "O responsável pelo projeto ainda não vinculou dispositivos."
+  },
+  "confirmDelete": {
+    "title": "Excluir dispositivo?",
+    "message": "Você está prestes a excluir \"{{name}}\". Você deixará de receber os dados de consumo dele e precisará vinculá-lo novamente para voltar a usá-lo.",
+    "cancel": "Cancelar",
+    "confirm": "Excluir"
   }
 }

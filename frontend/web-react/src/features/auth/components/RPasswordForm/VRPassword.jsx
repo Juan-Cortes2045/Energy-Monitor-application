@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import styles from "./VRPassword.module.css";
 import { useTranslation } from "react-i18next";
-import colors from "../../../../design/tokens/colors.js";
+
 import Card from "../../../../design/components/Card/Card";
 import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
@@ -68,16 +68,6 @@ const VRPassword = () => {
 
           <Button variant="secondary">{t("resend")}</Button>
         </div>
-        <p className={styles.register}>
-          {t("comeBack")}.{" "}
-          <a
-            href="/login"
-            style={{ color: colors.secondary }}
-            className={styles.registerLink}
-          >
-            {t("login")}
-          </a>
-        </p>
       </Card>
     </div>
   );

@@ -26,11 +26,19 @@
     "kitchen": "Cuisine",
     "bedroom": "Chambre",
     "garage": "Garage",
-    "other": "Autre"
+    "other": "Autre",
+    "laundryRoom": "Buanderie"
   },
   "empty": {
     "title": "Vous n'avez pas encore d'appareils connectés",
     "subtitle": "Installez votre premier module dans la prise d'un appareil pour commencer à suivre sa consommation",
-    "cta": "Connecter un appareil"
+    "cta": "Connecter un appareil",
+    "subtitleReadOnly": "Le responsable du projet n'a pas encore connecté d'appareils."
+  },
+  "confirmDelete": {
+    "title": "Supprimer l'appareil ?",
+    "message": "Vous êtes sur le point de supprimer « {{name}} ». Vous ne recevrez plus ses données de consommation et devrez le reconnecter pour l'utiliser à nouveau.",
+    "cancel": "Annuler",
+    "confirm": "Supprimer"
   }
 }

@@ -4,7 +4,8 @@
     "history": "Historique",
     "users": "Utilisateurs",
     "devices": "Appareils",
-    "project": "Projet"
+    "project": "Projet",
+    "thresholds": "Seuils"
   },
   "breadcrumb": {
     "home": "Accueil",

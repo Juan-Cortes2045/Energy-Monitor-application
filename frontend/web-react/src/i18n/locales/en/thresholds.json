@@ -1,0 +1,27 @@
+{
+  "title": "Consumption thresholds",
+  "subtitle": "These limits apply only to this project and are used to generate personalized alerts and recommendations.",
+  "defaults": {
+    "label": "Use the system's default thresholds",
+    "hint": "Default thresholds are set for an average household consumption. Turn them off to define your own limits for this project.",
+    "on": "On",
+    "off": "Off"
+  },
+  "fields": {
+    "daily": "Daily limit",
+    "monthly": "Monthly limit"
+  },
+  "unit": "kWh",
+  "readOnly": {
+    "notice": "Only the project owner can change these thresholds."
+  },
+  "scopeNote": "Each project keeps its own thresholds; changing these won't affect your other projects.",
+  "buttons": {
+    "save": "Save changes",
+    "saved": "Saved"
+  },
+  "errors": {
+    "invalid": "Enter a value greater than 0",
+    "monthlyLessThanDaily": "The monthly limit must be greater than or equal to the daily one"
+  }
+}

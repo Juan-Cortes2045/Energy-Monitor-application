@@ -23,6 +23,7 @@ import Header from "../../../design/components/Header/Header";
 import Users from "../Users/Users";
 import Project from "../Project/Project";
 import Devices from "../Devices/Devices";
+import Thresholds from "../Thresholds/Thresholds";
 import ConsumptionHistory from "../ConsumptionHistory/ComsumptionHistory";
 import styles from "./Consumption.module.css";
 
@@ -250,6 +251,33 @@ const Consumption = () => {
           <path d="M1.42 9a16 16 0 0 1 21.16 0" />
           <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
           <circle cx="12" cy="20" r="1" fill="currentColor" />
+        </svg>
+      ),
+    },
+    {
+      id: "Umbrales",
+      label: t("tabs.thresholds"),
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <line x1="21" y1="4" x2="14" y2="4" />
+          <line x1="10" y1="4" x2="3" y2="4" />
+          <line x1="21" y1="12" x2="12" y2="12" />
+          <line x1="8" y1="12" x2="3" y2="12" />
+          <line x1="21" y1="20" x2="16" y2="20" />
+          <line x1="12" y1="20" x2="3" y2="20" />
+          <line x1="14" y1="2" x2="14" y2="6" />
+          <line x1="8" y1="10" x2="8" y2="14" />
+          <line x1="16" y1="18" x2="16" y2="22" />
         </svg>
       ),
     },
@@ -531,6 +559,9 @@ const Consumption = () => {
         {activeTab === "Historial" && <ConsumptionHistory />}
         {activeTab === "Dispositivos" && (
           <Devices project={project} isOwner={isOwner} />
+        )}
+        {activeTab === "Umbrales" && (
+          <Thresholds project={project} isOwner={isOwner} />
         )}
         {activeTab === "Proyecto" && (
           <Project

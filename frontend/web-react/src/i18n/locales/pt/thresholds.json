@@ -1,0 +1,27 @@
+{
+  "title": "Limites de consumo",
+  "subtitle": "Esses limites se aplicam somente a este projeto e são usados para gerar alertas e recomendações personalizadas.",
+  "defaults": {
+    "label": "Usar os limites padrão do sistema",
+    "hint": "Os limites padrão são pensados para um consumo residencial médio. Desative-os para definir seus próprios limites neste projeto.",
+    "on": "Ativado",
+    "off": "Desativado"
+  },
+  "fields": {
+    "daily": "Limite diário",
+    "monthly": "Limite mensal"
+  },
+  "unit": "kWh",
+  "readOnly": {
+    "notice": "Somente o responsável pelo projeto pode alterar esses limites."
+  },
+  "scopeNote": "Cada projeto mantém seus próprios limites; alterá-los aqui não afeta seus outros projetos.",
+  "buttons": {
+    "save": "Salvar alterações",
+    "saved": "Salvo"
+  },
+  "errors": {
+    "invalid": "Digite um valor maior que 0",
+    "monthlyLessThanDaily": "O limite mensal deve ser maior ou igual ao diário"
+  }
+}

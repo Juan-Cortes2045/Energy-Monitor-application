@@ -26,6 +26,8 @@ import esBenefits from "./locales/es/benefits.json";
 import esSupport from "./locales/es/support.json";
 import esDevices from "./locales/es/devices.json";
 import esLinkDeviceModal from "./locales/es/linkDeviceModal.json";
+import esAuthLayout from "./locales/es/authLayout.json";
+import esThresholds from "./locales/es/thresholds.json";
 
 // Inglés
 
@@ -52,6 +54,8 @@ import enBenefits from "./locales/en/benefits.json";
 import enSupport from "./locales/en/support.json";
 import enDevices from "./locales/en/devices.json";
 import enLinkDeviceModal from "./locales/en/linkDeviceModal.json";
+import enAuthLayout from "./locales/en/authLayout.json";
+import enThresholds from "./locales/en/thresholds.json";
 
 // Frances
 
@@ -78,6 +82,8 @@ import frBenefits from "./locales/fr/benefits.json";
 import frSupport from "./locales/fr/support.json";
 import frDevices from "./locales/fr/devices.json";
 import frLinkDeviceModal from "./locales/fr/linkDeviceModal.json";
+import frAuthLayout from "./locales/fr/authLayout.json";
+import frThresholds from "./locales/fr/thresholds.json";
 
 // Portugués
 
@@ -104,6 +110,8 @@ import ptBenefits from "./locales/pt/benefits.json";
 import ptSupport from "./locales/pt/support.json";
 import ptDevices from "./locales/pt/devices.json";
 import ptLinkDeviceModal from "./locales/pt/linkDeviceModal.json";
+import ptAuthLayout from "./locales/pt/authLayout.json";
+import ptThresholds from "./locales/pt/thresholds.json";
 
 // Configuración de i18next
 i18n.use(initReactI18next).init({
@@ -135,6 +143,8 @@ i18n.use(initReactI18next).init({
       support: esSupport,
       devices: esDevices,
       linkDeviceModal: esLinkDeviceModal,
+      authLayout: esAuthLayout,
+      thresholds: esThresholds,
     },
     en: {
       account: enAccount,
@@ -160,6 +170,8 @@ i18n.use(initReactI18next).init({
       support: enSupport,
       devices: enDevices,
       linkDeviceModal: enLinkDeviceModal,
+      authLayout: enAuthLayout,
+      thresholds: enThresholds,
     },
     fr: {
       account: frAccount,
@@ -185,6 +197,8 @@ i18n.use(initReactI18next).init({
       support: frSupport,
       devices: frDevices,
       linkDeviceModal: frLinkDeviceModal,
+      authLayout: frAuthLayout,
+      thresholds: frThresholds,
     },
     pt: {
       account: ptAccount,
@@ -210,6 +224,8 @@ i18n.use(initReactI18next).init({
       support: ptSupport,
       devices: ptDevices,
       linkDeviceModal: ptLinkDeviceModal,
+      authLayout: ptAuthLayout,
+      thresholds: ptThresholds,
     },
   },
 });

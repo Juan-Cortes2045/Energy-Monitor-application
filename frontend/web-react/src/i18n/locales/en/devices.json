@@ -26,11 +26,19 @@
     "kitchen": "Kitchen",
     "bedroom": "Bedroom",
     "garage": "Garage",
-    "other": "Other"
+    "other": "Other",
+    "laundryRoom": "Laundry room"
   },
   "empty": {
     "title": "You don't have any linked devices yet",
     "subtitle": "Install your first module inside an appliance's outlet to start monitoring its consumption",
-    "cta": "Link device"
+    "cta": "Link device",
+    "subtitleReadOnly": "The project owner hasn't linked any devices yet."
+  },
+  "confirmDelete": {
+    "title": "Delete device?",
+    "message": "You're about to delete \"{{name}}\". You'll stop receiving its consumption data and will need to link it again to use it.",
+    "cancel": "Cancel",
+    "confirm": "Delete"
   }
 }

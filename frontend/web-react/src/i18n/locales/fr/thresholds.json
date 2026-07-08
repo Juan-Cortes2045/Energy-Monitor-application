@@ -1,0 +1,27 @@
+{
+  "title": "Seuils de consommation",
+  "subtitle": "Ces limites s'appliquent uniquement à ce projet et servent à générer des alertes et des recommandations personnalisées.",
+  "defaults": {
+    "label": "Utiliser les seuils par défaut du système",
+    "hint": "Les seuils par défaut sont calculés pour une consommation résidentielle moyenne. Désactivez-les pour définir vos propres limites sur ce projet.",
+    "on": "Activé",
+    "off": "Désactivé"
+  },
+  "fields": {
+    "daily": "Limite quotidienne",
+    "monthly": "Limite mensuelle"
+  },
+  "unit": "kWh",
+  "readOnly": {
+    "notice": "Seul le responsable du projet peut modifier ces seuils."
+  },
+  "scopeNote": "Chaque projet conserve ses propres seuils ; les modifier ici n'affecte pas vos autres projets.",
+  "buttons": {
+    "save": "Enregistrer les modifications",
+    "saved": "Enregistré"
+  },
+  "errors": {
+    "invalid": "Entrez une valeur supérieure à 0",
+    "monthlyLessThanDaily": "La limite mensuelle doit être supérieure ou égale à la limite quotidienne"
+  }
+}

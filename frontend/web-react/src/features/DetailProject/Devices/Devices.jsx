@@ -18,6 +18,7 @@ import {
 import Card from "../../../design/components/Card/Card";
 import Button from "../../../design/components/Button/Button";
 import LinkDeviceModal from "./LinkDeviceModal/LinkDeviceModal";
+import ConfirmDeleteModal from "./ConfirmDeleteModal/ConfirmDeleteModal";
 import styles from "./Devices.module.css";
 
 // ── Cada dispositivo es un módulo de medición instalado dentro del
@@ -34,30 +35,30 @@ export const APPLIANCE_ICON = {
   other: Plug,
 };
 
+// ── Dispositivos de ejemplo. El nombre y la habitación se resuelven
+// con i18n (t) en el render, no como texto fijo, para que se traduzcan
+// correctamente sin importar el idioma activo. ──
 const INITIAL_DEVICES = [
   {
     id: 1,
-    name: "Nevera",
     applianceType: "fridge",
-    room: "Cocina",
+    roomKey: "kitchen",
     status: "online",
     signal: 82,
     consumption: 0.42,
   },
   {
     id: 2,
-    name: "Lavadora",
     applianceType: "washer",
-    room: "Zona de ropas",
+    roomKey: "laundryRoom",
     status: "online",
     signal: 95,
     consumption: 1.15,
   },
   {
     id: 3,
-    name: "PC de escritorio",
     applianceType: "pc",
-    room: "Habitación",
+    roomKey: "bedroom",
     status: "offline",
     signal: 0,
     consumption: null,
@@ -72,8 +73,11 @@ const SignalIcon = ({ status, signal }) => {
   return <Wifi size={14} className={`${styles.signalIcon} ${level}`} aria-hidden="true" />;
 };
 
-const DeviceRow = ({ device, isOwner, onRemove, t }) => {
+const DeviceRow = ({ device, isOwner, onRequestRemove, t }) => {
   const Icon = APPLIANCE_ICON[device.applianceType] ?? Plug;
+  const displayName = device.name || t(`applianceTypes.${device.applianceType}`);
+  const displayRoom =
+    device.room || (device.roomKey ? t(`rooms.${device.roomKey}`) : "");
 
   return (
     <div className={styles.deviceRow}>
@@ -82,8 +86,8 @@ const DeviceRow = ({ device, isOwner, onRemove, t }) => {
       </div>
 
       <div className={styles.deviceInfo}>
-        <p className={styles.deviceName}>{device.name}</p>
-        <p className={styles.deviceRoom}>{device.room}</p>
+        <p className={styles.deviceName}>{displayName}</p>
+        <p className={styles.deviceRoom}>{displayRoom}</p>
       </div>
 
       <div className={styles.deviceMeta}>
@@ -104,8 +108,8 @@ const DeviceRow = ({ device, isOwner, onRemove, t }) => {
         <button
           type="button"
           className={styles.removeBtn}
-          onClick={() => onRemove(device.id)}
-          aria-label={t("actions.remove", { name: device.name })}
+          onClick={() => onRequestRemove(device)}
+          aria-label={t("actions.remove", { name: displayName })}
         >
           <Trash2 size={14} />
         </button>
@@ -118,9 +122,19 @@ const Devices = ({ project, isOwner = false }) => {
   const { t } = useTranslation("devices");
   const [devices, setDevices] = useState(INITIAL_DEVICES);
   const [modalOpen, setModalOpen] = useState(false);
+  const [deviceToDelete, setDeviceToDelete] = useState(null);
 
-  const handleRemove = (id) => {
-    setDevices((prev) => prev.filter((d) => d.id !== id));
+  const handleRequestRemove = (device) => {
+    setDeviceToDelete(device);
+  };
+
+  const handleCancelRemove = () => {
+    setDeviceToDelete(null);
+  };
+
+  const handleConfirmRemove = (device) => {
+    setDevices((prev) => prev.filter((d) => d.id !== device.id));
+    setDeviceToDelete(null);
   };
 
   const handleAddDevice = (newDevice) => {
@@ -150,10 +164,12 @@ const Devices = ({ project, isOwner = false }) => {
           </p>
         </div>
 
-        <Button variant="primary" size="medium" onClick={() => setModalOpen(true)}>
-          <Plus size={16} />
-          {t("actions.link")}
-        </Button>
+        {isOwner && (
+          <Button variant="primary" size="medium" onClick={() => setModalOpen(true)}>
+            <Plus size={16} />
+            {t("actions.link")}
+          </Button>
+        )}
       </div>
 
       <Card>
@@ -163,11 +179,15 @@ const Devices = ({ project, isOwner = false }) => {
               <WifiOff size={22} />
             </div>
             <p className={styles.emptyTitle}>{t("empty.title")}</p>
-            <p className={styles.emptySub}>{t("empty.subtitle")}</p>
-            <Button variant="primary" onClick={() => setModalOpen(true)}>
-              <Plus size={16} />
-              {t("empty.cta")}
-            </Button>
+            <p className={styles.emptySub}>
+              {isOwner ? t("empty.subtitle") : t("empty.subtitleReadOnly")}
+            </p>
+            {isOwner && (
+              <Button variant="primary" onClick={() => setModalOpen(true)}>
+                <Plus size={16} />
+                {t("empty.cta")}
+              </Button>
+            )}
           </div>
         ) : (
           <div className={styles.deviceList}>
@@ -176,7 +196,7 @@ const Devices = ({ project, isOwner = false }) => {
                 key={device.id}
                 device={device}
                 isOwner={isOwner}
-                onRemove={handleRemove}
+                onRequestRemove={handleRequestRemove}
                 t={t}
               />
             ))}
@@ -184,10 +204,18 @@ const Devices = ({ project, isOwner = false }) => {
         )}
       </Card>
 
-      {modalOpen && (
+      {modalOpen && isOwner && (
         <LinkDeviceModal
           onClose={() => setModalOpen(false)}
           onAddDevice={handleAddDevice}
+        />
+      )}
+
+      {deviceToDelete && (
+        <ConfirmDeleteModal
+          device={deviceToDelete}
+          onCancel={handleCancelRemove}
+          onConfirm={handleConfirmRemove}
         />
       )}
     </div>

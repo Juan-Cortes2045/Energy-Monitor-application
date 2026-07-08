@@ -1,0 +1,241 @@
+/* ── Contenedor de página ────────────────────────────────────────── */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  font-family: var(--font-primary);
+  color: var(--color-text-primary);
+}
+
+/* ── Cabecera de sección ─────────────────────────────────────────── */
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.sectionTitle {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.sectionSub {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin: 2px 0 0 0;
+  max-width: 520px;
+}
+
+/* ── Aviso de solo lectura ────────────────────────────────────────── */
+.readOnlyNotice {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
+}
+
+/* ── Card interna: toggle de umbrales por defecto ────────────────── */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.rowLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.rowIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rowLeft h4 {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.rowLeft p {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin: 2px 0 0 0;
+  max-width: 420px;
+}
+
+.rowRight {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-shrink: 0;
+}
+
+.status {
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.active {
+  background-color: #eaf3de;
+  color: #3b6d11;
+}
+
+.inactive {
+  background-color: #f1f2f4;
+  color: var(--color-text-secondary);
+}
+
+/* ── Switch ───────────────────────────────────────────────────────── */
+.switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border: none;
+  border-radius: 999px;
+  background-color: #cbd5e1;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease;
+}
+
+.switch:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.switchOn {
+  background-color: var(--color-primary);
+}
+
+.thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease;
+}
+
+.switchOn .thumb {
+  transform: translateX(20px);
+}
+
+/* ── Divisor ──────────────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background-color: var(--color-border);
+}
+
+/* ── Campos de umbral ─────────────────────────────────────────────── */
+.fieldsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-md);
+}
+
+.field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.unit {
+  position: absolute;
+  right: var(--spacing-sm);
+  top: 38px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  pointer-events: none;
+}
+
+.errorMsg {
+  font-size: var(--font-size-xs);
+  color: var(--color-danger);
+}
+
+/* ── Acciones ─────────────────────────────────────────────────────── */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.icon {
+  margin-right: 4px;
+}
+
+/* ── Nota de alcance por proyecto ─────────────────────────────────── */
+.infoNote {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .page {
+    padding: var(--spacing-sm);
+  }
+
+  .sectionTitle {
+    font-size: var(--font-size-md);
+  }
+
+  .fieldsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .unit {
+    top: 38px;
+  }
+}
+
+/* ── Desktop ──────────────────────────────────────────────────────── */
+@media (min-width: 1024px) {
+  .page {
+    padding: var(--spacing-lg);
+    max-width: 1100px;
+  }
+
+  .sectionTitle {
+    font-size: var(--font-size-xl);
+  }
+}

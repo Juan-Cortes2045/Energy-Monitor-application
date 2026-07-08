@@ -1,10 +1,11 @@
 {
   "tabs": {
-    "consption": "Consumo",
+    "consumption": "Consumo",
     "history": "Histórico",
     "users": "Usuários",
     "devices": "Dispositivos",
-    "project": "Projeto"
+    "project": "Projeto",
+    "thresholds": "Limites"
   },
   "breadcrumb": {
     "home": "Início",

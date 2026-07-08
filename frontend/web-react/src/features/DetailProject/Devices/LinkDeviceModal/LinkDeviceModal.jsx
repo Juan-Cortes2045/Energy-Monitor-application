@@ -55,7 +55,7 @@ const APPLIANCE_TYPES = [
   { id: "other", icon: Plug },
 ];
 
-const ROOM_KEYS = ["livingRoom", "kitchen", "bedroom", "garage", "other"];
+const ROOM_KEYS = ["livingRoom", "kitchen", "laundryRoom", "bedroom", "garage", "other"];
 
 const StepDots = ({ current }) => (
   <div className={styles.stepDots}>
