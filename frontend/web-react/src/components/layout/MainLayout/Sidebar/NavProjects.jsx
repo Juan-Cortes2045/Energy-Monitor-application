@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "../Sidebar/Sidebar.module.css";
 import { useProjects } from "../../../../context/ProjectContext";
 
-const NavProjects = ({ icon, label, collapsed }) => {
+const NavProjects = ({ icon, label, collapsed, onNavigate }) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { projects } = useProjects();
@@ -45,6 +45,7 @@ const NavProjects = ({ icon, label, collapsed }) => {
                   navigate("/Consumption", {
                     state: { project: p, isOwner: p.variant === "owned" },
                   });
+                  onNavigate?.();
                 }}
               >
                 <div className={styles.projectAvatar}>

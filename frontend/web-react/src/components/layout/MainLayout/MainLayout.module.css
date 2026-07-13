@@ -9,5 +9,14 @@
     flex: 1;
     min-height: 0;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: var(--main-padding, 24px);
+}
+
+
+@media (max-width: 768px) {
+    .content {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
 }

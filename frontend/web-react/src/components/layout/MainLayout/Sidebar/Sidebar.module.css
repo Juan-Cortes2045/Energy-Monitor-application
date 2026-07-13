@@ -232,17 +232,26 @@
 @media (max-width: 768px) {
   .triggerMobile {
     display: flex;
+    align-items: center;
+    justify-content: center;
     position: fixed;
-    top: 15px;
-    left: 15px;
+    top: 16px;
+    left: 16px;
+    width: 44px;
+    height: 44px;
     z-index: 1000;
-    background: var(--color-background-left);  /* ← cambia con el tema */
+    background: var(--color-primary);
     color: white;
     border: none;
-    padding: 20px 10px;
-    border-radius: 10px;
+    padding: 0;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
     cursor: pointer;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.15s ease, background-color 0.2s ease;
+  }
+
+  .triggerMobile:active {
+    transform: scale(0.94);
   }
 
   .sidebar.open ~ .triggerMobile {

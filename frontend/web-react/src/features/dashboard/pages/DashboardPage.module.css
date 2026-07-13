@@ -20,15 +20,13 @@
 /* MOBILE */
 @media (max-width: 768px) {
   .content {
-    width: 100vw;
+    width: 100%;
     overflow-x: hidden;
   }
 
   .header {
     width: 100%;
-    padding: 12px;
-    padding-top: 70px; /* espacio para botón hamburguesa */
-    margin-left: 0;
+    padding: 12px 0;
   }
 
   .main {

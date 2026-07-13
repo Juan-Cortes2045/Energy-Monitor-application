@@ -80,6 +80,7 @@ const Sidebar = () => {
               icon={<CloudLightning size={24} />}
               label={t("projects")}
               collapsed={collapsed}
+              onNavigate={() => setIsOpen(false)}
             />
           </div>
           <NavItem
@@ -87,18 +88,21 @@ const Sidebar = () => {
             icon={<Heart size={24} />}
             label={t("favorites")}
             collapsed={collapsed}
+            onClick={() => setIsOpen(false)}
           />
           <NavItem
             to="/notifications"
             icon={<Bell size={24} />}
             label={t("notifications")}
             collapsed={collapsed}
+            onClick={() => setIsOpen(false)}
           />
           <NavItem
             to="/settings"
             icon={<Settings size={24} />}
             label={t("settings")}
             collapsed={collapsed}
+            onClick={() => setIsOpen(false)}
           />
         </nav>
 
