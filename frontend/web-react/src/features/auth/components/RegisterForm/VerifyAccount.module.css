@@ -61,6 +61,20 @@
   color: var(--color-text-secondary);
 }
 
+.register {
+  text-align: center;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--color-text-primary);
+}
+
+.registerLink {
+  display: inline;
+  font-weight: 500;
+  text-decoration: underline;
+  color: var(--color-secondary);
+}
+
 /* MOBILE */
 @media (max-width: 768px) {
   .container {

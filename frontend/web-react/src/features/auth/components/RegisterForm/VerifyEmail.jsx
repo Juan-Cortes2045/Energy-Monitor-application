@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import colors from "../../../../design/tokens/colors.js";
 import Card from "../../../../design/components/Card/Card";
 import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
@@ -39,10 +40,12 @@ const VerifyEmail = () => {
 
   return (
     <div className={styles.container}>
-      <Card className={styles.card}
-      style={{
-        width: "400px",
-      }}>
+      <Card
+        className={styles.card}
+        style={{
+          width: "400px",
+        }}
+      >
         <div className={styles.content}>
           <h2 className={styles.title}>{t("verify.title")}</h2>
 
@@ -71,6 +74,16 @@ const VerifyEmail = () => {
           <Button type="button" variant="secondary">
             {t("verify.resend")}
           </Button>
+          <p className={styles.register}>
+            {t("register.haveAccount")}.{" "}
+            <a
+              href="/login"
+              style={{ color: colors.secondary }}
+              className={styles.registerLink}
+            >
+              {t("register.login")}
+            </a>
+          </p>
         </div>
       </Card>
     </div>

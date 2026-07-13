@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-
+import { createPortal } from "react-dom";
 
 import styles from "../Sidebar/Sidebar.module.css";
 import logoProyecto from "../../../../assets/logo_proyecto.png";
@@ -106,7 +106,10 @@ const Sidebar = () => {
         <div className={styles.profile} ref={dropdownRef}>
           <div
             className={styles.profileInfo}
-            onClick={() => { setShowProfile(true); setOpenMenu(false); }}
+            onClick={() => {
+              setShowProfile(true);
+              setOpenMenu(false);
+            }}
             style={{ cursor: "pointer" }}
           >
             <img
@@ -115,12 +118,13 @@ const Sidebar = () => {
               className={styles.avatar}
             />
 
-            {!collapsed && (
-              <span className={styles.profileName}>User001</span>
-            )}
+            {!collapsed && <span className={styles.profileName}>User001</span>}
 
             <button
-              onClick={(e) => { e.stopPropagation(); setOpenMenu(!openMenu); }}
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpenMenu(!openMenu);
+              }}
               className={styles.menuBtn}
             >
               <MoreHorizontal size={20} />
@@ -132,7 +136,10 @@ const Sidebar = () => {
             <div className={styles.dropdown}>
               <div
                 className={styles.item}
-                onClick={() => { setShowProfile(true); setOpenMenu(false); }}
+                onClick={() => {
+                  setShowProfile(true);
+                  setOpenMenu(false);
+                }}
               >
                 <User size={24} /> {t("profile.myAccount")}
               </div>
@@ -157,16 +164,11 @@ const Sidebar = () => {
           )}
         </div>
 
-        {showProfile && (
-          <div
-            className={styles.modalOverlay}
-            onClick={() => setShowProfile(false)}
-          >
-            <div onClick={(e) => e.stopPropagation()}>
-              <Account onClose={() => setShowProfile(false)} />
-            </div>
-          </div>
-        )}
+        {showProfile &&
+          createPortal(
+            <Account onClose={() => setShowProfile(false)} />,
+            document.body,
+          )}
       </aside>
 
       {isOpen && (
