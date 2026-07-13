@@ -4,9 +4,12 @@ import Card from "../../../../design/components/Card/Card";
 import styles from "../ProjectCard/ProjectCard.module.css";
 import { useTranslation } from "react-i18next";
 
+const DESCRIPTION_LIMIT = 150; // caracteres antes de considerar "largo"
+
 const ProjectCard = ({ project, onClick }) => {
   const { t } = useTranslation("projectCard");
   const [favorite, setFavorite] = useState(project.favorite || false);
+  const [expanded, setExpanded] = useState(false);
 
   const headerColor = project.color
     ? project.color
@@ -17,6 +20,19 @@ const ProjectCard = ({ project, onClick }) => {
   const toggleFavorite = (e) => {
     e.stopPropagation();
     setFavorite((prev) => !prev);
+  };
+
+  // Obtener la descripción (soporta ambos nombres de campo)
+  const description = project.description || project.descripcion || "";
+  const isLong = description.length > DESCRIPTION_LIMIT;
+  const displayText =
+    expanded || !isLong
+      ? description
+      : description.slice(0, DESCRIPTION_LIMIT) + "…";
+
+  const handleToggleExpand = (e) => {
+    e.stopPropagation(); // no activa el onClick de la tarjeta
+    setExpanded((prev) => !prev);
   };
 
   return (
@@ -54,10 +70,23 @@ const ProjectCard = ({ project, onClick }) => {
             <strong>{t("address")}: </strong>
             {project.address || project.addres}
           </p>
-          <p>
-            <strong>{t("description")}: </strong>
-            {project.description || project.descripcion}
-          </p>
+          <div className={styles.descriptionWrapper}>
+            <p
+              className={`${styles.description} ${!expanded && isLong ? styles.clamped : ""}`}
+            >
+              <strong>{t("description")}: </strong>
+              {displayText}
+            </p>
+            {isLong && (
+              <button
+                type="button"
+                className={styles.toggleButton}
+                onClick={handleToggleExpand}
+              >
+                {expanded ? t("showLess") : t("showMore")}
+              </button>
+            )}
+          </div>
         </div>
       </Card>
     </div>

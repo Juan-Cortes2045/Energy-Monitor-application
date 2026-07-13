@@ -14,7 +14,6 @@ import {
 
 import Card from "../../../design/components/Card/Card";
 import styles from "./ConsumptionHistory.module.css";
-import colors from "../../../design/tokens/colors";
 
 const FILTERS = ["day", "week", "month", "year"];
 
@@ -25,61 +24,89 @@ const DEVICE_COLORS = [
   "var(--color-danger)",
   "#8B5CF6",
   "#F97316",
-  "#06B6D4",
 ];
 
-const mockData = {
-  day: Array.from({ length: 24 }, (_, i) => ({
-    label: `${i}:00`,
-    Nevera: Math.floor(Math.random() * 8) + 18,
-    Iluminación: Math.floor(Math.random() * 6) + 10,
-    TV: Math.floor(Math.random() * 4) + 2,
-    Lavadora: Math.floor(Math.random() * 5),
-  })),
+const DEVICES = [
+  "Nevera",
+  "Aire acondicionado",
+  "Televisor",
+  "Lavadora",
+  "Iluminación",
+  "Otros",
+];
 
-  week: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"].map((d) => ({
-    label: d,
-    Nevera: Math.floor(Math.random() * 20) + 20,
-    Iluminación: Math.floor(Math.random() * 12) + 10,
-    TV: Math.floor(Math.random() * 8) + 4,
-    Lavadora: Math.floor(Math.random() * 6),
-  })),
+// Datos mock
+const generateMockData = () => {
+  const randomValue = (base, range) => Math.floor(Math.random() * range) + base;
 
-  month: Array.from({ length: 30 }, (_, i) => ({
-    label: String(i + 1).padStart(2, "0"),
-    Nevera: Math.floor(Math.random() * 10) + 20,
-    Iluminación: Math.floor(Math.random() * 10) + 15,
-    TV: Math.floor(Math.random() * 5) + 3,
-    Lavadora: Math.floor(Math.random() * 5),
-  })),
+  const day = Array.from({ length: 24 }, (_, i) => {
+    const entry = { label: `${i}:00` };
+    DEVICES.forEach((device) => {
+      entry[device] = randomValue(0, 8);
+    });
+    return entry;
+  });
 
+  const week = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"].map(
+    (dayName) => {
+      const entry = { label: dayName };
+      DEVICES.forEach((device) => {
+        entry[device] = randomValue(5, 20);
+      });
+      return entry;
+    }
+  );
+
+  const month = Array.from({ length: 30 }, (_, i) => {
+    const entry = { label: String(i + 1).padStart(2, "0") };
+    DEVICES.forEach((device) => {
+      entry[device] = randomValue(10, 30);
+    });
+    return entry;
+  });
+
+  const year = [
+    "Ene", "Feb", "Mar", "Abr", "May", "Jun",
+    "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",
+  ].map((monthName) => {
+    const entry = { label: monthName };
+    DEVICES.forEach((device) => {
+      entry[device] = randomValue(100, 200);
+    });
+    return entry;
+  });
+
+  return { day, week, month, year };
+};
+
+const mockData = generateMockData();
+const SUBFILTERS_CONFIG = {
+  day: [
+    { key: "0-6", range: [0, 6] },
+    { key: "6-12", range: [6, 12] },
+    { key: "12-18", range: [12, 18] },
+    { key: "18-24", range: [18, 24] },
+  ],
+  week: null,
+  month: [
+    { key: "sem1", range: [0, 7] },
+    { key: "sem2", range: [7, 14] },
+    { key: "sem3", range: [14, 21] },
+    { key: "sem4", range: [21, 30] },
+  ],
   year: [
-    "Ene",
-    "Feb",
-    "Mar",
-    "Abr",
-    "May",
-    "Jun",
-    "Jul",
-    "Ago",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dic",
-  ].map((m) => ({
-    label: m,
-    Nevera: Math.floor(Math.random() * 120) + 200,
-    Iluminación: Math.floor(Math.random() * 80) + 100,
-    TV: Math.floor(Math.random() * 50) + 40,
-    Lavadora: Math.floor(Math.random() * 40) + 20,
-  })),
+    { key: "q1", range: [0, 3] },
+    { key: "q2", range: [3, 6] },
+    { key: "q3", range: [6, 9] },
+    { key: "q4", range: [9, 12] },
+  ],
 };
 
 const ConsumptionHistory = () => {
   const { t } = useTranslation("history");
 
   const [activeFilter, setActiveFilter] = useState("month");
-
+  const [activeSubFilter, setActiveSubFilter] = useState(null); // clave del subfiltro seleccionado
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
@@ -88,7 +115,24 @@ const ConsumptionHistory = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const chartData = mockData[activeFilter];
+  // Al cambiar el filtro principal, reiniciar subfiltro
+  useEffect(() => {
+    setActiveSubFilter(null);
+  }, [activeFilter]);
+
+  const fullData = mockData[activeFilter];
+
+  // Aplicar subfiltro si existe
+  const chartData = useMemo(() => {
+    const subConfig = SUBFILTERS_CONFIG[activeFilter];
+    if (!subConfig || !activeSubFilter) return fullData;
+
+    const selected = subConfig.find((sf) => sf.key === activeSubFilter);
+    if (!selected) return fullData;
+
+    const [start, end] = selected.range;
+    return fullData.slice(start, end);
+  }, [fullData, activeFilter, activeSubFilter]);
 
   const devices = useMemo(() => {
     if (!chartData.length) return [];
@@ -108,9 +152,11 @@ const ConsumptionHistory = () => {
 
   const totalPeriodo = rankingData.reduce((acc, item) => acc + item.total, 0);
 
+  const needsScroll = chartData.length > 8;
+
   return (
     <div className={styles.page}>
-      {/* TOP */}
+      {/* Filtros principales */}
       <div className={styles.topBar}>
         <div className={styles.filters}>
           {FILTERS.map((filter) => (
@@ -123,43 +169,83 @@ const ConsumptionHistory = () => {
             </button>
           ))}
         </div>
-
         <p className={styles.date}>{t(`dates.${activeFilter}`)}</p>
       </div>
 
-      {/* CHART */}
-      <Card
-        style={{
-          width: "100%",
-          maxWidth: "100%",
-          overflow: "hidden",
-          padding: isMobile ? "16px 14px" : "24px",
-        }}
-      >
+      {SUBFILTERS_CONFIG[activeFilter] && (
+      <div className={styles.subFilters}>
+        {SUBFILTERS_CONFIG[activeFilter].map((sf) => (
+          <button
+            key={sf.key}
+            onClick={() => setActiveSubFilter(sf.key)}
+            className={activeSubFilter === sf.key ? styles.subActive : ""}
+          >
+            {t(`subfilters.${activeFilter}.${sf.key}`)}
+          </button>
+        ))}
+        {activeSubFilter && (
+          <button
+            onClick={() => setActiveSubFilter(null)}
+            className={styles.clearSubFilter}
+          >
+            {t("subfilters.showAll")}
+          </button>
+        )}
+      </div>
+    )}
+
+      {/* Gráfico */}
+      <Card className={styles.chartCard}>
         <div className={styles.chartBlock}>
           <p className={styles.title}>{t("chart.title")}</p>
-
-          <div className={styles.chartWrapper}>
+          <div
+            className={styles.chartWrapper}
+            style={{ overflowX: needsScroll ? "auto" : "hidden" }}
+          >
             <div
               className={styles.chartInner}
               style={{
-                width: isMobile ? `${chartData.length * 55}px` : "100%",
+                minWidth: needsScroll
+                  ? `${chartData.length * 55}px`
+                  : "100%",
               }}
             >
-              <ResponsiveContainer width="100%" height={isMobile ? 280 : 430}>
+              <ResponsiveContainer width="100%" height={isMobile ? 300 : 440}>
                 <BarChart data={chartData}>
                   <CartesianGrid
                     strokeDasharray="3 3"
                     vertical={false}
                     stroke="var(--color-border)"
                   />
-
-                  <XAxis dataKey="label" />
-                  <YAxis />
-
-                  <Tooltip />
-                  <Legend />
-
+                  <XAxis
+                    dataKey="label"
+                    tick={{ fontSize: 11, fill: "var(--color-text-secondary)" }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    tick={{ fontSize: 11, fill: "var(--color-text-secondary)" }}
+                    axisLine={false}
+                    tickLine={false}
+                    unit=" kWh"
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      borderRadius: "var(--radius-md)",
+                      border: "1px solid var(--color-border)",
+                      fontSize: 12,
+                      fontFamily: "var(--font-primary)",
+                    }}
+                  />
+                  <Legend
+                    iconType="circle"
+                    iconSize={8}
+                    formatter={(v) => (
+                      <span style={{ fontSize: 12, color: "var(--color-text-primary)" }}>
+                        {v}
+                      </span>
+                    )}
+                  />
                   {devices.map((device, index) => (
                     <Bar
                       key={device}
@@ -176,71 +262,57 @@ const ConsumptionHistory = () => {
         </div>
       </Card>
 
-      {/* BOTTOM */}
+      {/* Ranking + Stats (sin cambios) */}
       <div className={styles.bottom}>
-        <Card
-          style={{
-            width: "100%",
-            maxWidth: "100%",
-            minWidth: 0,
-            overflow: "hidden",
-            padding: isMobile ? "16px 14px" : "24px",
-          }}
-        >
+        <Card className={styles.rankingCard}>
           <div className={styles.ranking}>
             <p className={styles.title}>{t("ranking.title")}</p>
-
             <div className={styles.table}>
-              <div className={styles.tableContent}>
-                <div className={styles.header}>
-                  <span>{t("ranking.headers.position")}</span>
-                  <span>{t("ranking.headers.device")}</span>
-                  <span>{t("ranking.headers.total")}</span>
-                  <span>{t("ranking.headers.percentage")}</span>
-                </div>
-
-                {rankingData.map((item, index) => {
-                  const pct = ((item.total / totalPeriodo) * 100).toFixed(1);
-
-                  return (
-                    <div key={item.nombre} className={styles.row}>
-                      <span>{index + 1}</span>
-                      <span>{item.nombre}</span>
-                      <span>{item.total.toFixed(1)}</span>
-                      <div className={styles.percent}>
-                        <div
-                          className={styles.bar}
-                          style={{ width: `${pct}%`, background: item.color }}
-                        />
-                        <span>{pct}%</span>
-                      </div>
-                    </div>
-                  );
-                })}
+              <div className={styles.tableHeader}>
+                <span>#</span>
+                <span>{t("ranking.headers.device")}</span>
+                <span>{t("ranking.headers.total")}</span>
+                <span>{t("ranking.headers.percentage")}</span>
               </div>
+              {rankingData.map((item, index) => {
+                const pct = totalPeriodo
+                  ? ((item.total / totalPeriodo) * 100).toFixed(1)
+                  : "0.0";
+                return (
+                  <div key={item.nombre} className={styles.row}>
+                    <span>{index + 1}</span>
+                    <span>{item.nombre}</span>
+                    <span>{item.total.toFixed(1)} kWh</span>
+                    <div className={styles.percent}>
+                      <div
+                        className={styles.bar}
+                        style={{ width: `${pct}%`, background: item.color }}
+                      />
+                      <span>{pct}%</span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </Card>
 
-        {/* STATS */}
         <div className={styles.stats}>
-          <Card>
+          <Card className={styles.statCard}>
             <div className={styles.stat}>
               <p>{t("stats.totalConsumption")}</p>
               <h3>{totalPeriodo.toFixed(1)} kWh</h3>
               <span>{t("stats.vsPrevious")}</span>
             </div>
           </Card>
-
-          <Card>
+          <Card className={styles.statCard}>
             <div className={styles.stat}>
               <p>{t("stats.average")}</p>
               <h3>{(totalPeriodo / chartData.length).toFixed(1)} kWh</h3>
               <span>{t("stats.periodAverage")}</span>
             </div>
           </Card>
-
-          <Card>
+          <Card className={styles.statCard}>
             <div className={styles.stat}>
               <p>{t("stats.topConsumer")}</p>
               <h3>{rankingData[0]?.nombre}</h3>

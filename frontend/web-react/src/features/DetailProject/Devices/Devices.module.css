@@ -232,7 +232,7 @@
     align-items: center;
     width: 100%;
     justify-content: space-between;
-    margin-left: 48px;
+    padding-left: 48px;
   }
 }
 

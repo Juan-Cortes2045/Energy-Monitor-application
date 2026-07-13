@@ -32,16 +32,45 @@ import typography from "../../../design/tokens/typography";
 import radius from "../../../design/tokens/radius";
 import { useTranslation } from "react-i18next";
 
-const emptyProjectData = {
-  potencia: null,
-  nivelPotencia: "—",
-  consumoHoy: null,
-  limiteConsumo: null,
-  dispositivos: { activos: null, total: null },
-  limitesDiario: { usado: 0, limite: 0 },
-  limiteMensual: { usado: 0, limite: 0 },
-  consumoHoras: [],
-  distribucion: [],
+const mockConsumptionData = {
+  potencia: 2.4,               // kW
+  nivelPotencia: "Medio",
+  consumoHoy: 18.5,            // kWh
+  limiteConsumo: 30,           // kWh (límite diario configurado)
+  dispositivos: {
+    activos: 5,
+    total: 8,
+  },
+  limitesDiario: {
+    usado: 18.5,
+    limite: 30,
+  },
+  limiteMensual: {
+    usado: 320,
+    limite: 500,
+  },
+  consumoHoras: [
+    { hora: "00:00", kw: 0.8 }, { hora: "01:00", kw: 0.6 },
+    { hora: "02:00", kw: 0.5 }, { hora: "03:00", kw: 0.4 },
+    { hora: "04:00", kw: 0.3 }, { hora: "05:00", kw: 0.4 },
+    { hora: "06:00", kw: 1.0 }, { hora: "07:00", kw: 1.8 },
+    { hora: "08:00", kw: 2.4 }, { hora: "09:00", kw: 2.1 },
+    { hora: "10:00", kw: 1.9 }, { hora: "11:00", kw: 2.0 },
+    { hora: "12:00", kw: 2.3 }, { hora: "13:00", kw: 2.5 },
+    { hora: "14:00", kw: 2.2 }, { hora: "15:00", kw: 2.0 },
+    { hora: "16:00", kw: 1.7 }, { hora: "17:00", kw: 2.1 },
+    { hora: "18:00", kw: 2.8 }, { hora: "19:00", kw: 3.0 },
+    { hora: "20:00", kw: 2.7 }, { hora: "21:00", kw: 2.3 },
+    { hora: "22:00", kw: 1.5 }, { hora: "23:00", kw: 0.9 },
+  ],
+  distribucion: [
+    { nombre: "Nevera", porcentaje: 30, consumo: 5.55 },
+    { nombre: "Aire acondicionado", porcentaje: 25, consumo: 4.63 },
+    { nombre: "Televisor", porcentaje: 15, consumo: 2.78 },
+    { nombre: "Lavadora", porcentaje: 12, consumo: 2.22 },
+    { nombre: "Iluminación", porcentaje: 10, consumo: 1.85 },
+    { nombre: "Otros", porcentaje: 8, consumo: 1.48 },
+  ],
 };
 
 const TABS = [
@@ -147,7 +176,7 @@ const Consumption = () => {
   const onBack = () => navigate(-1);
   const [activeTab, setActiveTab] = useState("Consumo");
 
-  const data = emptyProjectData;
+  const data = mockConsumptionData;
 
   const LimitBar = ({ label, usado, limite }) => {
     const sinDatos = !limite;

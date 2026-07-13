@@ -29,5 +29,26 @@
     "topConsumer": "MAIOR CONSUMIDOR",
     "vsPrevious": "↑ 10% vs período anterior",
     "periodAverage": "Média do período"
+  },
+  "subfilters": {
+    "showAll": "Mostrar tudo",
+    "day": {
+      "0-6": "0h - 6h",
+      "6-12": "6h - 12h",
+      "12-18": "12h - 18h",
+      "18-24": "18h - 24h"
+    },
+    "month": {
+      "sem1": "Semana 1",
+      "sem2": "Semana 2",
+      "sem3": "Semana 3",
+      "sem4": "Semana 4"
+    },
+    "year": {
+      "q1": "Jan - Mar",
+      "q2": "Abr - Jun",
+      "q3": "Jul - Set",
+      "q4": "Out - Dez"
+    }
   }
 }

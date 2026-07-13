@@ -1,364 +1,326 @@
-.page{
-  width:100%;
-  max-width:1440px;
-  margin:0 auto;
-  padding:0 24px;
-
-  display:flex;
-  flex-direction:column;
-  gap:32px;
+/* ── Layout general ─────────────────────────────────────────────────── */
+.page {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  font-family: var(--font-primary);
+  color: var(--color-text-primary);
+  box-sizing: border-box;
 }
 
-/* TOP */
-
-.topBar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:16px;
-  flex-wrap:wrap;
+/* ── Filtros ────────────────────────────────────────────────────────── */
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
 }
 
-.filters{
-  display:flex;
-  align-items:center;
-  gap:6px;
-
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   background: var(--color-surface);
-  border:1px solid var(--color-border);
-
-  border-radius:14px;
-  padding:6px;
-
-  overflow-x:auto;
-  scrollbar-width:none;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.filters::-webkit-scrollbar {
+  display: none;
 }
 
-.filters::-webkit-scrollbar{
-  display:none;
+.filters button {
+  border: none;
+  background: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  flex-shrink: 0;
 }
 
-.filters button{
-  border:none;
-  background:none;
-
-  padding:12px 18px;
-
-  border-radius:10px;
-  cursor:pointer;
-
-  transition:0.2s;
-
-  color:var(--color-text-secondary);
-
-  font-size:14px;
-  font-weight:500;
-
-  flex-shrink:0;
+.filters button:hover {
+  background: var(--color-background);
 }
 
-.filters button:hover{
-  background:var(--color-gradient);
+.active {
+  background: var(--color-primary) !important;
+  color: white !important;
 }
 
-.active{
-  background:var(--color-primary)!important;
-  color:white!important;
+.date {
+  font-size: 14px;
+  color: var(--color-text-secondary);
 }
 
-.date{
-  font-size:14px;
-  color:var(--color-text-secondary);
+/* ── Tarjeta del gráfico ────────────────────────────────────────────── */
+.chartCard {
+  width: 100%;
+  padding: var(--spacing-lg);
+  box-sizing: border-box;
 }
 
-/* CHART */
-
-.chartBlock{
-  width:100%;
-
-  display:flex;
-  flex-direction:column;
-  gap:24px;
+.chartBlock {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
 }
 
-.chartWrapper{
-  width:100%;
-  overflow-x:auto;
-  overflow-y:hidden;
-
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:thin;
-
-  padding-bottom:8px;
+.title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 var(--spacing-sm);
 }
 
-.chartInner{
-  min-width:100%;
-  height:100%;
+.chartWrapper {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  padding-bottom: 8px;
 }
 
-.title{
-  text-align:center;
-  font-size:18px;
-  font-weight:700;
+.chartInner {
+  min-width: 100%;
+  height: 100%;
 }
 
-/* BOTTOM */
-
-.bottom{
-  width:100%;
-
-  display:grid;
-  grid-template-columns:
-    minmax(0,1fr)
-    340px;
-
-  gap:28px;
-  align-items:start;
-
-  min-width:0;
+/* ── Sección inferior: ranking + stats ──────────────────────────────── */
+.bottom {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: var(--spacing-lg);
+  align-items: start;
 }
 
-.bottom > *{
-  min-width:0;
+.rankingCard {
+  padding: var(--spacing-lg);
+  min-width: 0; /* evita desbordamiento */
 }
 
-/* RANKING */
-
-.ranking{
-  display:flex;
-  flex-direction:column;
-  gap:24px;
-
-  min-width:0;
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
 }
 
-.table{
-  width:100%;
-  min-width:0;
-
-  overflow-x:auto;
-  overflow-y:hidden;
-
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:thin;
+/* ── Tabla de ranking ───────────────────────────────────────────────── */
+.table {
+  width: 100%;
+  margin-top: var(--spacing-md);
 }
 
-.tableContent{
-  min-width:100%;
+.tableHeader,
+.row {
+  display: grid;
+  grid-template-columns: 40px 1fr 1fr 140px;
+  gap: var(--spacing-sm);
+  align-items: center;
+  padding: var(--spacing-xs) 0;
 }
 
-.header,
-.row{
-  min-width:680px;
-
-  display:grid;
-  grid-template-columns:
-    50px
-    minmax(180px,1fr)
-    140px
-    180px;
-
-  gap:20px;
-  align-items:center;
+.tableHeader {
+  border-bottom: 1px solid var(--color-border);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  padding-bottom: var(--spacing-sm);
 }
 
-.header{
-  padding-bottom:12px;
-
-  border-bottom:
-    1px solid var(--color-border);
-
-  font-size:14px;
-  font-weight:700;
-
-  color:var(--color-text-secondary);
+.row {
+  font-size: 14px;
 }
 
-.row{
-  padding:10px 0;
-  font-size:15px;
+.percent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.percent{
-  display:flex;
-  align-items:center;
-  gap:10px;
+.bar {
+  height: 6px;
+  min-width: 24px;
+  border-radius: 999px;
+  transition: width 0.3s ease;
 }
 
-.bar{
-  height:8px;
-  min-width:40px;
-  border-radius:999px;
+.percent span {
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 40px;
+  text-align: right;
 }
 
-.percent span{
-  font-size:13px;
-  font-weight:600;
+/* ── Tarjetas de stats ──────────────────────────────────────────────── */
+.statCard {
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
 }
 
-/* STATS */
-
-.stats{
-  display:flex;
-  flex-direction:column;
-  gap:24px;
+.stat {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.stat{
-  min-height:170px;
-
-  display:flex;
-  flex-direction:column;
-
-  align-items:center;
-  justify-content:center;
-
-  text-align:center;
-  gap:10px;
+.stat p {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin: 0;
 }
 
-.stat p{
-  font-size:13px;
-  font-weight:600;
-  color:var(--color-text-secondary);
+.stat h3 {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0;
 }
 
-.stat h3{
-  font-size:34px;
-  font-weight:700;
-  line-height:1;
+.stat span {
+  font-size: 12px;
+  color: var(--color-secondary);
 }
 
-.stat span{
-  font-size:13px;
-  color:var(--color-secondary);
+/* Subfiltros de intervalo */
+.subFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
 }
 
-/* TABLET */
+.subFilters button {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: 0.2s;
+}
 
-@media (max-width:1024px){
+.subFilters button:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
 
-  .bottom{
-    grid-template-columns:1fr;
+.subActive {
+  background: var(--color-primary) !important;
+  color: white !important;
+  border-color: var(--color-primary) !important;
+}
+
+.clearSubFilter {
+  background: transparent !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text-secondary) !important;
+}
+
+.clearSubFilter:hover {
+  color: var(--color-danger) !important;
+}
+
+/* ── Tablet ─────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .bottom {
+    grid-template-columns: 1fr; /* una sola columna */
   }
 
-  .stats{
-    display:grid;
-    grid-template-columns:
-      repeat(3,1fr);
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
   }
 
+  .stat h3 {
+    font-size: 26px;
+  }
 }
 
-/* MOBILE */
-
-@media (max-width:768px){
-
-  .page{
-    padding:0 0px;
-    gap: 14px;
-
-    overflow-x:hidden;
+/* ── Mobile ─────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .page {
+    padding: var(--spacing-sm);
+    gap: var(--spacing-md);
   }
 
-  .topBar{
-    flex-direction:column;
-    align-items:stretch;
+  .topBar {
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .date{
-    font-size:12px;
+  .date {
+    font-size: 12px;
   }
 
-  .filters{
-    width:100%;
+  .filters button {
+    padding: 10px 14px;
+    font-size: 12px;
   }
 
-  .filters button{
-    padding:10px 14px;
-    font-size:12px;
+  .chartCard {
+    padding: var(--spacing-md);
   }
 
-  .title{
-    font-size:15px;
-    line-height:1.4;
+  .title {
+    font-size: 16px;
   }
 
-  /* CHART */
-
-  .chartBlock{
-    gap:18px;
+  .bottom {
+    gap: var(--spacing-md);
   }
 
-  /* TABLE */
+  /* Tabla adaptable con scroll horizontal solo en mobile */
+  .table {
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
 
-  .header,
-  .row{
-    min-width:480px;
+  .tableHeader,
+  .row {
+    min-width: 500px; /* scroll horizontal en pantallas pequeñas */
+    grid-template-columns: 30px 120px 90px 120px;
+    gap: 10px;
+  }
 
-    grid-template-columns:
-      30px
-      140px
-      80px
-      110px;
+  .stats {
+    grid-template-columns: 1fr; /* una columna de stats */
+  }
 
-    gap:10px;
+  .stat h3 {
+    font-size: 24px;
+  }
 }
 
-  .header{
-    font-size:12px;
+/* ── Mobile pequeño ─────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .tableHeader,
+  .row {
+    min-width: 460px;
   }
 
-  .row{
-    font-size:13px;
+  .stat h3 {
+    font-size: 22px;
   }
-
-  .percent{
-    gap:8px;
-  }
-
-  .percent span{
-    font-size:11px;
-  }
-
-  .bar{
-    min-width:28px;
-    height:6px;
-  }
-
-  /* STATS */
-
-  .stats{
-    grid-template-columns:1fr;
-  }
-
-  .stat{
-    min-height:130px;
-    padding:16px;
-  }
-
-  .stat h3{
-    font-size:28px;
-  }
-
-}
-
-/* MOBILE PEQUEÑO */
-
-@media (max-width:480px){
-
- .header,
-  .row{
-    min-width:460px;
-  }
-
-  .title{
-    font-size:14px;
-  }
-
-  .stat h3{
-    font-size:24px;
-  }
-
 }

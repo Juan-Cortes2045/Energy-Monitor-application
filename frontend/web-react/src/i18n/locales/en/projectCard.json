@@ -3,5 +3,7 @@
   "removeFavorite": "Remove from favorites",
   "addFavorite": "Add to favorites",
   "address": "Address",
-  "description": "Description"
+  "description": "Description",
+  "showMore": "Show more",
+  "showLess": "Show less"
 }

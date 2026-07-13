@@ -7,7 +7,8 @@
     "other": "Qual?",
     "address": "Endereço",
     "description": "Descrição",
-    "optional": "(opcional)"
+    "optional": "(opcional)",
+    "addressExamples": "Ex.: Rua das Flores, 123 - Apto 45, Av. Paulista, 1000"
   },
   "placeholders": {
     "name": "Ex: Minha casa, Escritório principal...",
@@ -28,7 +29,9 @@
     "otherRequired": "Especifique o tipo de projeto.",
     "otherMax": "Máximo de 50 caracteres.",
     "addressRequired": "O endereço é obrigatório.",
-    "addressMax": "Máximo de 50 caracteres.",
+    "addressMax": "Máximo de 200 caracteres",
+    "addressInvalidChars": "Caracteres não permitidos (< > { } [ ] | \" ` ')",
+    "addressInvalidFormat": "Formato de endereço inválido. Ex.: Rua 15, #93-47",
     "descriptionMax": "Máximo de 200 caracteres."
   },
   "projectTypes": {

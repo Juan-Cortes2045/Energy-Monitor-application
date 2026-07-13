@@ -7,7 +7,8 @@
     "other": "Lequel ?",
     "address": "Adresse",
     "description": "Description",
-    "optional": "(optionnel)"
+    "optional": "(optionnel)",
+    "addressExamples": "Ex. : 15 rue de la Paix, Appt 502, 10 avenue des Champs-Élysées"
   },
   "placeholders": {
     "name": "Ex : Ma maison, Bureau principal...",
@@ -28,7 +29,9 @@
     "otherRequired": "Spécifiez le type de projet.",
     "otherMax": "Maximum 50 caractères.",
     "addressRequired": "L'adresse est requise.",
-    "addressMax": "Maximum 50 caractères.",
+    "addressMax": "200 caractères maximum",
+    "addressInvalidChars": "Caractères interdits (< > { } [ ] | \" ` ')",
+    "addressInvalidFormat": "Format d'adresse invalide. Ex. : 15 rue de la Paix, #93-47",
     "descriptionMax": "Maximum 200 caractères."
   },
   "projectTypes": {

@@ -7,7 +7,8 @@
     "other": "Which?",
     "address": "Address",
     "description": "Description",
-    "optional": "(optional)"
+    "optional": "(optional)",
+    "addressExamples": "E.g.: 123 Main St, Apt 4B, 456 Oak Avenue"
   },
   "placeholders": {
     "name": "Ex: My home, Main office...",
@@ -28,7 +29,9 @@
     "otherRequired": "Specify the project type.",
     "otherMax": "Max 50 characters.",
     "addressRequired": "Address is required.",
-    "addressMax": "Max 50 characters.",
+    "addressMax": "Maximum 200 characters",
+    "addressInvalidChars": "Forbidden characters (< > { } [ ] | \" ` ')",
+    "addressInvalidFormat": "Invalid address format. E.g.: 123 Main St, #45-67",
     "descriptionMax": "Max 200 characters."
   },
   "projectTypes": {

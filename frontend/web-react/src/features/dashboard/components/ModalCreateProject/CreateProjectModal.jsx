@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
+import AddressInput from "../AddressInput/AddressInput"; // ✅ nuevo componente
 import styles from "./CreateProjectModal.module.css";
 
 const PROJECT_TYPES = [
@@ -34,9 +35,23 @@ function validate(form, t, isOther) {
   else if (isOther && form.otherProjectType.trim().length > 50)
     errors.otherProjectType = t("errors.otherMax");
 
-  if (!form.address.trim()) errors.address = t("errors.addressRequired");
-  else if (form.address.trim().length > 50)
+  const addr = form.address.trim();
+  if (!addr) {
+    errors.address = t("errors.addressRequired");
+  } else if (addr.length > 200) {
     errors.address = t("errors.addressMax");
+  } else if (/[<>{}[\]|"`']/.test(form.address)) {
+    errors.address = t("errors.addressInvalidChars");
+  } else if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ0-9\s#\-.,()/]+$/.test(addr)) {
+    errors.address = t("errors.addressInvalidChars");
+  } else {
+    const hasHash = /#/.test(addr);
+    const hasNo = /No\.?\s+\d/i.test(addr);
+    const hasKeyword = /\b(Calle|Cra\.?|Carrera|Av\.?|Avenida|Transversal|Diagonal|Vereda|Finca|Apartamento|Apto|Oficina|Local)\b/i.test(addr);
+    if (!hasHash && !hasNo && !hasKeyword) {
+      errors.address = t("errors.addressInvalidFormat");
+    }
+  }
 
   if (form.description.length > 200)
     errors.description = t("errors.descriptionMax");
@@ -131,7 +146,7 @@ const CreateProjectModal = ({ onClose, onSubmit }) => {
               error={errors.name}
               maxLength={50}
             />
-            {errors.name && <span>{errors.name}</span>}
+            {errors.name && <span className={styles.errorMsg}>{errors.name}</span>}
           </div>
 
           {/* Tipo */}
@@ -153,7 +168,7 @@ const CreateProjectModal = ({ onClose, onSubmit }) => {
                 </option>
               ))}
             </select>
-            {errors.projectTypeId && <span>{errors.projectTypeId}</span>}
+            {errors.projectTypeId && <span className={styles.errorMsg}>{errors.projectTypeId}</span>}
           </div>
 
           {/* Otro */}
@@ -170,24 +185,23 @@ const CreateProjectModal = ({ onClose, onSubmit }) => {
                 maxLength={50}
               />
               {errors.otherProjectType && (
-                <span>{errors.otherProjectType}</span>
+                <span className={styles.errorMsg}>{errors.otherProjectType}</span>
               )}
             </div>
           )}
 
-          {/* Dirección */}
+          {/* Dirección – ahora usando AddressInput */}
           <div className={styles.field}>
             <label className={styles.label}>
               {t("fields.address")} <span>*</span>
             </label>
-            <Input
+            <AddressInput
               placeholder={t("placeholders.address")}
               value={form.address}
               onChange={handleChange("address")}
               error={errors.address}
-              maxLength={50}
             />
-            {errors.address && <span>{errors.address}</span>}
+            {errors.address && <span className={styles.errorMsg}>{errors.address}</span>}
           </div>
 
           {/* Descripción */}
@@ -203,8 +217,8 @@ const CreateProjectModal = ({ onClose, onSubmit }) => {
               onChange={handleChange("description")}
               maxLength={200}
             />
-            <span>{form.description.length} / 200</span>
-            {errors.description && <span>{errors.description}</span>}
+            <span className={styles.charCount}>{form.description.length} / 200</span>
+            {errors.description && <span className={styles.errorMsg}>{errors.description}</span>}
           </div>
         </form>
 

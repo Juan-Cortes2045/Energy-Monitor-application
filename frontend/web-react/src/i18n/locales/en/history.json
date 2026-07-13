@@ -29,5 +29,26 @@
     "topConsumer": "TOP CONSUMER",
     "vsPrevious": "↑ 10% vs previous period",
     "periodAverage": "Period average"
+  },
+  "subfilters": {
+    "showAll": "Show all",
+    "day": {
+      "0-6": "0h - 6h",
+      "6-12": "6h - 12h",
+      "12-18": "12h - 18h",
+      "18-24": "18h - 24h"
+    },
+    "month": {
+      "sem1": "Week 1",
+      "sem2": "Week 2",
+      "sem3": "Week 3",
+      "sem4": "Week 4"
+    },
+    "year": {
+      "q1": "Jan - Mar",
+      "q2": "Apr - Jun",
+      "q3": "Jul - Sep",
+      "q4": "Oct - Dec"
+    }
   }
 }

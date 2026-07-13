@@ -1,16 +1,15 @@
 {
   "title": "Crear proyecto",
   "close": "Cerrar",
-
   "fields": {
     "name": "Nombre del proyecto",
     "type": "Tipo de proyecto",
     "other": "¿Cuál?",
     "address": "Dirección",
     "description": "Descripción",
-    "optional": "(opcional)"
+    "optional": "(opcional)",
+    "addressExamples": "Ej: Cra. 15 # 93-47, Calle 100 # 15-20, Vereda El Bosque Finca La Esperanza"
   },
-
   "placeholders": {
     "name": "Ej: Mi hogar, Oficina central...",
     "type": "Selecciona un tipo...",
@@ -18,13 +17,11 @@
     "address": "Ej: Calle 45 # 12-34, Bogotá",
     "description": "Describe brevemente el proyecto..."
   },
-
   "buttons": {
     "cancel": "Cancelar",
     "create": "Crear proyecto",
     "creating": "Creando..."
   },
-
   "errors": {
     "nameRequired": "El nombre del proyecto es requerido.",
     "nameMax": "Máximo 50 caracteres.",
@@ -32,10 +29,11 @@
     "otherRequired": "Especifica el tipo de proyecto.",
     "otherMax": "Máximo 50 caracteres.",
     "addressRequired": "La dirección es requerida.",
-    "addressMax": "Máximo 50 caracteres.",
+    "addressMax": "Máximo 200 caracteres",
+    "addressInvalidChars": "Caracteres no permitidos (< > { } [ ] | \" ` ')",
+    "addressInvalidFormat": "Formato de dirección no válido. Ej: Cra. 15 # 93-47",
     "descriptionMax": "Máximo 200 caracteres."
   },
-
   "projectTypes": {
     "house": "Casa",
     "apartment": "Apartamento",
