@@ -1,0 +1,103 @@
+{
+  "common": {
+    "close": "Fechar"
+  },
+  "terms": {
+    "tabLabel": "Termos de Uso",
+    "title": "Termos de Uso",
+    "lastUpdated": "Última atualização: julho de 2026",
+    "intro": "Estes Termos de Uso regulam o acesso e o uso do EnergyMonitor, uma aplicação desenvolvida como projeto acadêmico do programa Tecnólogo em Análise e Desenvolvimento de Software (ADSO) do SENA. Ao criar uma conta e marcar a caixa de aceitação, você declara ter lido, compreendido e aceitado integralmente este documento.",
+    "sections": [
+      {
+        "heading": "1. Aceitação dos termos",
+        "body": "O uso do EnergyMonitor implica a aceitação total destes Termos de Uso. Caso não concorde com alguma das disposições aqui contidas, deverá abster-se de se registrar ou usar a plataforma."
+      },
+      {
+        "heading": "2. Descrição do serviço",
+        "body": "EnergyMonitor é uma aplicação web que permite o monitoramento do consumo de energia elétrica residencial por meio de dispositivos de medição baseados em microcontroladores ESP32 e sensores de corrente instalados nas tomadas. A plataforma exibe o consumo por eletrodoméstico, histórico, alertas e estatísticas de uso.\n\nEnergyMonitor é um projeto de caráter acadêmico. Embora busque oferecer uma experiência funcional e confiável, não se garante a disponibilidade ininterrupta do serviço nem a precisão absoluta das medições, uma vez que dependem do correto funcionamento do hardware instalado pelo usuário."
+      },
+      {
+        "heading": "3. Cadastro e conta de usuário",
+        "body": "Para usar a aplicação, o usuário deve criar uma conta fornecendo informações verdadeiras, completas e atualizadas. O usuário é responsável pela confidencialidade de suas credenciais e por toda atividade realizada a partir de sua conta.\n\nO EnergyMonitor poderá suspender ou excluir contas que forneçam informações falsas, que sejam usadas para fins diferentes dos previstos, ou que comprometam a segurança da plataforma."
+      },
+      {
+        "heading": "4. Uso adequado do hardware associado",
+        "body": "Os dispositivos de medição (ESP32 + sensor de corrente) devem ser instalados seguindo as instruções fornecidas no assistente de emparelhamento da aplicação. O usuário é o único responsável pela instalação elétrica de tais dispositivos e deve tomar as precauções necessárias para evitar riscos elétricos. O EnergyMonitor não se responsabiliza por danos decorrentes de instalação inadequada do hardware."
+      },
+      {
+        "heading": "5. Propriedade intelectual",
+        "body": "O código-fonte, o design visual, a documentação técnica e o conteúdo do EnergyMonitor são propriedade de seus desenvolvedores e são compartilhados para fins acadêmicos no âmbito do programa ADSO do SENA. É proibida sua reprodução ou exploração comercial sem autorização prévia e expressa dos autores."
+      },
+      {
+        "heading": "6. Direitos do consumidor",
+        "body": "De acordo com a Lei 1480 de 2011 (Estatuto do Consumidor colombiano) e a Lei 2439 de 2024, o usuário tem direito a receber informações verdadeiras, claras e suficientes sobre o funcionamento do serviço, bem como a formular queixas e reclamações a respeito. Por se tratar de um projeto acadêmico sem fins comerciais, as disposições sobre reversão de pagamento e comércio eletrônico transacional não se aplicam, salvo se a aplicação passar a oferecer serviços pagos no futuro, caso em que estes termos serão atualizados."
+      },
+      {
+        "heading": "7. Limitação de responsabilidade",
+        "body": "O EnergyMonitor é fornecido \"como está\". Os desenvolvedores não garantem que o serviço esteja livre de erros nem que as medições de consumo reflitam com precisão absoluta o gasto energético real. O usuário assume os riscos decorrentes do uso das informações fornecidas pela plataforma para a tomada de decisões sobre seu consumo elétrico."
+      },
+      {
+        "heading": "8. Alterações aos termos",
+        "body": "Estes Termos de Uso podem ser modificados a qualquer momento. Mudanças substanciais serão informadas aos usuários por meio da aplicação. O uso continuado do serviço após tais modificações constitui aceitação dos novos termos."
+      },
+      {
+        "heading": "9. Lei aplicável e jurisdição",
+        "body": "Estes Termos são regidos pelas leis da República da Colômbia. Qualquer controvérsia decorrente de sua interpretação ou aplicação será submetida às autoridades judiciais competentes da Colômbia."
+      },
+      {
+        "heading": "10. Contato",
+        "body": "Para consultas relacionadas a estes Termos de Uso, o usuário pode entrar em contato com a equipe de desenvolvimento do EnergyMonitor pelos canais disponibilizados na seção \"Sobre Nós\" da aplicação."
+      }
+    ],
+    "footer": "Este documento foi elaborado com base na regulamentação colombiana vigente em matéria de proteção ao consumidor e comércio eletrônico, e é apresentado para fins acadêmicos como parte do projeto EnergyMonitor."
+  },
+  "privacy": {
+    "tabLabel": "Política de Privacidade",
+    "title": "Política de Tratamento de Dados Pessoais",
+    "lastUpdated": "Última atualização: julho de 2026",
+    "intro": "O EnergyMonitor respeita e protege o direito à intimidade e ao Habeas Data de seus usuários, consagrado no artigo 15 da Constituição Política da Colômbia. Esta política descreve como as informações pessoais registradas na plataforma são coletadas, usadas, armazenadas e protegidas.",
+    "sections": [
+      {
+        "heading": "1. Responsável pelo tratamento",
+        "body": "O tratamento dos dados pessoais coletados pelo EnergyMonitor está a cargo da equipe de desenvolvimento do projeto, no âmbito do programa Tecnólogo em Análise e Desenvolvimento de Software (ADSO) do SENA, sob a orientação do instrutor responsável pelo projeto formativo."
+      },
+      {
+        "heading": "2. Marco normativo aplicável",
+        "body": "Esta política é elaborada em conformidade com o artigo 15 da Constituição Política da Colômbia, a Lei 1581 de 2012 e seu Decreto regulamentar 1377 de 2013, o Decreto 1074 de 2015, bem como os padrões internacionais da Convenção 108 do Conselho da Europa, as diretrizes da OCDE e os Padrões Ibero-americanos de Proteção de Dados Pessoais (RIPD)."
+      },
+      {
+        "heading": "3. Dados que coletamos",
+        "body": "Coletamos dados de cadastro da conta (nome, e-mail e senha criptografada), dados dos dispositivos de medição vinculados pelo usuário (identificador do dispositivo, eletrodoméstico associado, localização dentro da residência) e dados de consumo elétrico gerados pelos sensores (leituras de energia, históricos e estatísticas de uso)."
+      },
+      {
+        "heading": "4. Finalidade do tratamento",
+        "body": "Os dados são utilizados exclusivamente para: (i) permitir o cadastro e a autenticação do usuário; (ii) exibir o consumo elétrico dos eletrodomésticos monitorados; (iii) gerar históricos, alertas e notificações sobre o consumo; e (iv) fins acadêmicos de avaliação do projeto formativo. As informações não são comercializadas, vendidas nem cedidas a terceiros para fins publicitários."
+      },
+      {
+        "heading": "5. Direitos do titular da informação (Habeas Data)",
+        "body": "De acordo com o artigo 15 da Constituição e a Lei 1581 de 2012, o usuário, como titular de seus dados pessoais, tem direito a: conhecer, atualizar e retificar seus dados; solicitar prova da autorização concedida; ser informado sobre o uso dado às suas informações; apresentar queixas à Superintendência de Indústria e Comércio; revogar a autorização e/ou solicitar a exclusão de seus dados quando os princípios legais não forem respeitados; e acessar gratuitamente seus dados pessoais."
+      },
+      {
+        "heading": "6. Como exercer seus direitos",
+        "body": "O usuário pode exercer seus direitos de Habeas Data por meio da seção de configurações da conta dentro da aplicação, ou pelos canais de contato disponibilizados na seção \"Sobre Nós\". As solicitações serão atendidas dentro dos prazos legais previstos na Lei 1581 de 2012."
+      },
+      {
+        "heading": "7. Segurança da informação",
+        "body": "O EnergyMonitor implementa medidas técnicas razoáveis para proteger as informações pessoais contra perda, acesso não autorizado, alteração ou divulgação indevida, incluindo criptografia de senhas e controles de acesso ao banco de dados."
+      },
+      {
+        "heading": "8. Transferência e transmissão de dados",
+        "body": "Os dados de consumo elétrico são transmitidos dos dispositivos ESP32 para os servidores da plataforma por meio de conexão Wi-Fi configurada pelo usuário. Não são realizadas transferências internacionais de dados pessoais além do necessário para o funcionamento técnico da aplicação."
+      },
+      {
+        "heading": "9. Vigência e alterações",
+        "body": "Esta Política de Tratamento de Dados Pessoais vigora a partir de sua publicação e pode ser modificada a qualquer momento. Mudanças substanciais serão comunicadas oportunamente dentro da aplicação."
+      },
+      {
+        "heading": "10. Autoridade de controle",
+        "body": "A Superintendência de Indústria e Comércio (SIC), por meio de sua Delegacia para a Proteção de Dados Pessoais, é a autoridade encarregada de fiscalizar o cumprimento da regulamentação de proteção de dados na Colômbia, junto à qual o usuário pode apresentar queixas relacionadas ao tratamento de suas informações."
+      }
+    ],
+    "footer": "Este documento foi elaborado com base na Constituição Política da Colômbia, na Lei 1581 de 2012, em seus decretos regulamentares e nos padrões internacionais aplicáveis, e é apresentado para fins acadêmicos como parte do projeto EnergyMonitor."
+  }
+}

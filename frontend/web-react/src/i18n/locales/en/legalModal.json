@@ -1,0 +1,103 @@
+{
+  "common": {
+    "close": "Close"
+  },
+  "terms": {
+    "tabLabel": "Terms of Use",
+    "title": "Terms of Use",
+    "lastUpdated": "Last updated: July 2026",
+    "intro": "These Terms of Use govern access to and use of EnergyMonitor, an application developed as an academic project of SENA's Software Analysis and Development program (ADSO). By creating an account and checking the acceptance box, you declare that you have read, understood, and fully accepted this document.",
+    "sections": [
+      {
+        "heading": "1. Acceptance of terms",
+        "body": "Using EnergyMonitor implies full acceptance of these Terms of Use. If you do not agree with any provision herein, you must refrain from registering or using the platform."
+      },
+      {
+        "heading": "2. Service description",
+        "body": "EnergyMonitor is a web application that allows monitoring of household electrical energy consumption through measuring devices based on ESP32 microcontrollers and current sensors installed in electrical outlets. The platform displays consumption by appliance, history, alerts, and usage statistics.\n\nEnergyMonitor is an academic project. While it aims to offer a functional and reliable experience, uninterrupted availability and absolute measurement accuracy are not guaranteed, as these depend on the correct operation of the hardware installed by the user."
+      },
+      {
+        "heading": "3. Registration and user account",
+        "body": "To use the application, the user must create an account by providing truthful, complete, and up-to-date information. The user is responsible for the confidentiality of their credentials and for all activity carried out from their account.\n\nEnergyMonitor may suspend or delete accounts that provide false information, are used for purposes other than intended, or compromise the security of the platform."
+      },
+      {
+        "heading": "4. Proper use of associated hardware",
+        "body": "Measuring devices (ESP32 + current sensor) must be installed following the instructions provided in the app's pairing wizard. The user is solely responsible for the electrical installation of such devices and must take the necessary precautions to avoid electrical hazards. EnergyMonitor is not responsible for damages resulting from improper hardware installation."
+      },
+      {
+        "heading": "5. Intellectual property",
+        "body": "The source code, visual design, technical documentation, and content of EnergyMonitor are the property of its developers and are shared for academic purposes as part of SENA's ADSO program. Reproduction or commercial exploitation without prior express authorization from the authors is prohibited."
+      },
+      {
+        "heading": "6. Consumer rights",
+        "body": "In accordance with Law 1480 of 2011 (Colombian Consumer Protection Statute) and Law 2439 of 2024, users have the right to receive truthful, clear, and sufficient information about how the service works, as well as to file complaints and claims about it. As this is a non-commercial academic project, provisions on payment reversal and transactional e-commerce do not apply, unless the application begins to offer paid services in the future, in which case these terms will be updated."
+      },
+      {
+        "heading": "7. Limitation of liability",
+        "body": "EnergyMonitor is provided \"as is.\" The developers do not guarantee that the service is free of errors or that consumption measurements reflect actual energy expenditure with absolute accuracy. The user assumes the risks derived from using the information provided by the platform to make decisions about their electricity consumption."
+      },
+      {
+        "heading": "8. Changes to these terms",
+        "body": "These Terms of Use may be modified at any time. Substantial changes will be communicated to users through the application. Continued use of the service after such modifications constitutes acceptance of the new terms."
+      },
+      {
+        "heading": "9. Governing law and jurisdiction",
+        "body": "These Terms are governed by the laws of the Republic of Colombia. Any dispute arising from their interpretation or application shall be submitted to the competent judicial authorities of Colombia."
+      },
+      {
+        "heading": "10. Contact",
+        "body": "For inquiries related to these Terms of Use, users may contact the EnergyMonitor development team through the channels provided in the \"About Us\" section of the application."
+      }
+    ],
+    "footer": "This document was prepared based on current Colombian consumer protection and e-commerce regulations, and is presented for academic purposes as part of the EnergyMonitor project."
+  },
+  "privacy": {
+    "tabLabel": "Privacy Policy",
+    "title": "Personal Data Processing Policy",
+    "lastUpdated": "Last updated: July 2026",
+    "intro": "EnergyMonitor respects and protects the right to privacy and Habeas Data of its users, enshrined in Article 15 of the Colombian Constitution. This policy describes how personal information registered on the platform is collected, used, stored, and protected.",
+    "sections": [
+      {
+        "heading": "1. Data controller",
+        "body": "The processing of personal data collected by EnergyMonitor is carried out by the project's development team, as part of SENA's Software Analysis and Development program (ADSO), under the guidance of the instructor responsible for the training project."
+      },
+      {
+        "heading": "2. Applicable legal framework",
+        "body": "This policy is prepared in accordance with Article 15 of the Colombian Constitution, Law 1581 of 2012 and its implementing Decree 1377 of 2013, Decree 1074 of 2015, as well as international standards including Council of Europe Convention 108, OECD guidelines, and the Ibero-American Data Protection Network (RIPD) standards."
+      },
+      {
+        "heading": "3. Data we collect",
+        "body": "We collect account registration data (name, email, and encrypted password), data on measuring devices linked by the user (device identifier, associated appliance, location within the home), and electrical consumption data generated by the sensors (energy readings, history, and usage statistics)."
+      },
+      {
+        "heading": "4. Purpose of processing",
+        "body": "Data is used exclusively to: (i) enable user registration and authentication; (ii) display the electricity consumption of monitored appliances; (iii) generate history, alerts, and notifications about consumption; and (iv) academic purposes for evaluating the training project. Information is not sold, marketed, or shared with third parties for advertising purposes."
+      },
+      {
+        "heading": "5. Data subject rights (Habeas Data)",
+        "body": "In accordance with Article 15 of the Constitution and Law 1581 of 2012, users, as owners of their personal data, have the right to: know, update, and rectify their data; request proof of the authorization granted; be informed about how their information is used; file complaints with the Superintendency of Industry and Commerce; revoke authorization and/or request deletion of their data when legal principles are not respected; and access their personal data free of charge."
+      },
+      {
+        "heading": "6. How to exercise your rights",
+        "body": "Users can exercise their Habeas Data rights through the account settings section within the application, or through the contact channels provided in the \"About Us\" section. Requests will be handled within the legal terms set out in Law 1581 of 2012."
+      },
+      {
+        "heading": "7. Information security",
+        "body": "EnergyMonitor implements reasonable technical measures to protect personal information against loss, unauthorized access, alteration, or improper disclosure, including password encryption and database access controls."
+      },
+      {
+        "heading": "8. Data transfer and transmission",
+        "body": "Electricity consumption data is transmitted from ESP32 devices to the platform's servers via a Wi-Fi connection configured by the user. No international transfers of personal data occur beyond what is necessary for the technical operation of the application."
+      },
+      {
+        "heading": "9. Validity and changes",
+        "body": "This Personal Data Processing Policy is effective upon publication and may be modified at any time. Substantial changes will be communicated promptly within the application."
+      },
+      {
+        "heading": "10. Supervisory authority",
+        "body": "The Superintendency of Industry and Commerce (SIC), through its Delegate Office for the Protection of Personal Data, is the authority responsible for overseeing compliance with data protection regulations in Colombia, and to whom users may submit complaints related to the processing of their information."
+      }
+    ],
+    "footer": "This document was prepared based on the Colombian Constitution, Law 1581 of 2012, its implementing decrees, and applicable international standards, and is presented for academic purposes as part of the EnergyMonitor project."
+  }
+}

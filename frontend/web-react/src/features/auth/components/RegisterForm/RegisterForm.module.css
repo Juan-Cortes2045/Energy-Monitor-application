@@ -87,6 +87,7 @@
   font-weight: 500;
   text-decoration: underline;
   color: var(--color-secondary);
+  cursor: pointer;
 }
 
 .buttonsContainer {

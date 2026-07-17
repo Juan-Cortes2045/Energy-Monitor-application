@@ -30,6 +30,7 @@ import esAuthLayout from "./locales/es/authLayout.json";
 import esThresholds from "./locales/es/thresholds.json";
 import esNotifications from "./locales/es/notifications.json";
 import esAbout from "./locales/es/about.json";
+import esLegalModal from "./locales/es/legalModal.json";
 
 // Inglés
 
@@ -60,6 +61,7 @@ import enAuthLayout from "./locales/en/authLayout.json";
 import enThresholds from "./locales/en/thresholds.json";
 import enNotifications from "./locales/en/notifications.json";
 import enAbout from "./locales/en/about.json";
+import enLegalModal from "./locales/en/legalModal.json";
 
 // Frances
 
@@ -90,6 +92,7 @@ import frAuthLayout from "./locales/fr/authLayout.json";
 import frThresholds from "./locales/fr/thresholds.json";
 import frNotifications from "./locales/fr/notifications.json";
 import frAbout from "./locales/fr/about.json";
+import frLegalModal from "./locales/fr/legalModal.json";
 
 // Portugués
 
@@ -120,6 +123,7 @@ import ptAuthLayout from "./locales/pt/authLayout.json";
 import ptThresholds from "./locales/pt/thresholds.json";
 import ptNotifications from "./locales/pt/notifications.json";
 import ptAbout from "./locales/pt/about.json";
+import ptLegalModal from "./locales/pt/legalModal.json"
 
 // Configuración de i18next
 i18n.use(initReactI18next).init({
@@ -155,6 +159,7 @@ i18n.use(initReactI18next).init({
       thresholds: esThresholds,
       notifications: esNotifications,
       about: esAbout,
+      legalModal: esLegalModal
     },
     en: {
       account: enAccount,
@@ -184,6 +189,7 @@ i18n.use(initReactI18next).init({
       thresholds: enThresholds,
       notifications: enNotifications,
       about: enAbout,
+      legalModal: enLegalModal
     },
     fr: {
       account: frAccount,
@@ -213,6 +219,7 @@ i18n.use(initReactI18next).init({
       thresholds: frThresholds,
       notifications: frNotifications,
       about: frAbout,
+      legalModal: frLegalModal
     },
     pt: {
       account: ptAccount,
@@ -242,6 +249,7 @@ i18n.use(initReactI18next).init({
       thresholds: ptThresholds,
       notifications: ptNotifications,
       about: ptAbout,
+      legalModal: ptLegalModal
     },
   },
 });

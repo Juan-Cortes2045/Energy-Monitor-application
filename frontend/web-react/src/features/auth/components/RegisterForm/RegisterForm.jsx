@@ -11,6 +11,7 @@ import googleIcon from "../../../../assets/google_icon.png";
 import Button from "../../../../design/components/Button/Button.jsx";
 import Input from "../../../../design/components/Input/Input.jsx";
 import Card from "../../../../design/components/Card/Card.jsx";
+import LegalModal from "../LegalModal/LegalModal.jsx";
 
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
@@ -20,6 +21,7 @@ const RegisterForm = () => {
   const { t } = useTranslation("auth");
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+  const [legalTab, setLegalTab] = useState(null); // null | "terms" | "privacy"
 
   const {
     register,
@@ -121,6 +123,7 @@ const RegisterForm = () => {
                   <span
                     className={styles.registerLink}
                     style={{ color: colors.secondary }}
+                    onClick={() => setLegalTab("terms")}
                   >
                     {t("register.terms")}
                   </span>{" "}
@@ -128,6 +131,7 @@ const RegisterForm = () => {
                   <span
                     className={styles.registerLink}
                     style={{ color: colors.secondary }}
+                    onClick={() => setLegalTab("privacy")}
                   >
                     {t("register.privacy")}
                   </span>
@@ -174,6 +178,14 @@ const RegisterForm = () => {
           </form>
         </div>
       </Card>
+
+      {/* MODAL DE TÉRMINOS Y CONDICIONES / POLÍTICA DE PRIVACIDAD */}
+      <LegalModal
+        isOpen={legalTab !== null}
+        activeTab={legalTab}
+        onTabChange={setLegalTab}
+        onClose={() => setLegalTab(null)}
+      />
     </div>
   );
 };

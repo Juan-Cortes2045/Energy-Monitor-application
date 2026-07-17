@@ -1,0 +1,103 @@
+{
+  "common": {
+    "close": "Fermer"
+  },
+  "terms": {
+    "tabLabel": "Conditions d'Utilisation",
+    "title": "Conditions d'Utilisation",
+    "lastUpdated": "Dernière mise à jour : juillet 2026",
+    "intro": "Ces Conditions d'Utilisation régissent l'accès et l'utilisation d'EnergyMonitor, une application développée dans le cadre d'un projet académique du programme Technologue en Analyse et Développement de Logiciels (ADSO) du SENA. En créant un compte et en cochant la case d'acceptation, vous déclarez avoir lu, compris et accepté intégralement ce document.",
+    "sections": [
+      {
+        "heading": "1. Acceptation des conditions",
+        "body": "L'utilisation d'EnergyMonitor implique l'acceptation pleine et entière des présentes Conditions d'Utilisation. Si vous n'êtes pas d'accord avec l'une des dispositions ici contenues, vous devez vous abstenir de vous inscrire ou d'utiliser la plateforme."
+      },
+      {
+        "heading": "2. Description du service",
+        "body": "EnergyMonitor est une application web permettant de surveiller la consommation d'énergie électrique domestique au moyen de dispositifs de mesure basés sur des microcontrôleurs ESP32 et des capteurs de courant installés dans les prises électriques. La plateforme affiche la consommation par appareil électroménager, l'historique, les alertes et les statistiques d'utilisation.\n\nEnergyMonitor est un projet à caractère académique. Bien qu'il vise à offrir une expérience fonctionnelle et fiable, la disponibilité ininterrompue du service et la précision absolue des mesures ne sont pas garanties, celles-ci dépendant du bon fonctionnement du matériel installé par l'utilisateur."
+      },
+      {
+        "heading": "3. Inscription et compte utilisateur",
+        "body": "Pour utiliser l'application, l'utilisateur doit créer un compte en fournissant des informations véridiques, complètes et à jour. L'utilisateur est responsable de la confidentialité de ses identifiants et de toute activité réalisée depuis son compte.\n\nEnergyMonitor peut suspendre ou supprimer les comptes fournissant de fausses informations, utilisés à des fins autres que celles prévues, ou compromettant la sécurité de la plateforme."
+      },
+      {
+        "heading": "4. Utilisation adéquate du matériel associé",
+        "body": "Les dispositifs de mesure (ESP32 + capteur de courant) doivent être installés en suivant les instructions fournies dans l'assistant d'appairage de l'application. L'utilisateur est seul responsable de l'installation électrique de ces dispositifs et doit prendre les précautions nécessaires pour éviter tout risque électrique. EnergyMonitor n'est pas responsable des dommages résultant d'une installation incorrecte du matériel."
+      },
+      {
+        "heading": "5. Propriété intellectuelle",
+        "body": "Le code source, le design visuel, la documentation technique et le contenu d'EnergyMonitor sont la propriété de ses développeurs et sont partagés à des fins académiques dans le cadre du programme ADSO du SENA. Toute reproduction ou exploitation commerciale sans autorisation préalable et expresse des auteurs est interdite."
+      },
+      {
+        "heading": "6. Droits du consommateur",
+        "body": "Conformément à la Loi 1480 de 2011 (Statut du Consommateur colombien) et à la Loi 2439 de 2024, l'utilisateur a le droit de recevoir des informations véridiques, claires et suffisantes sur le fonctionnement du service, ainsi que de formuler des plaintes et réclamations à son sujet. S'agissant d'un projet académique sans but commercial, les dispositions relatives au remboursement de paiement et au commerce électronique transactionnel ne s'appliquent pas, sauf si l'application venait à proposer des services payants à l'avenir, auquel cas ces conditions seraient mises à jour."
+      },
+      {
+        "heading": "7. Limitation de responsabilité",
+        "body": "EnergyMonitor est fourni « tel quel ». Les développeurs ne garantissent pas que le service soit exempt d'erreurs ni que les mesures de consommation reflètent avec une précision absolue la dépense énergétique réelle. L'utilisateur assume les risques liés à l'utilisation des informations fournies par la plateforme pour la prise de décisions concernant sa consommation électrique."
+      },
+      {
+        "heading": "8. Modifications des conditions",
+        "body": "Ces Conditions d'Utilisation peuvent être modifiées à tout moment. Les changements substantiels seront communiqués aux utilisateurs via l'application. La poursuite de l'utilisation du service après ces modifications constitue une acceptation des nouvelles conditions."
+      },
+      {
+        "heading": "9. Loi applicable et juridiction",
+        "body": "Ces Conditions sont régies par les lois de la République de Colombie. Tout litige découlant de leur interprétation ou de leur application sera soumis aux autorités judiciaires compétentes de Colombie."
+      },
+      {
+        "heading": "10. Contact",
+        "body": "Pour toute question relative à ces Conditions d'Utilisation, l'utilisateur peut contacter l'équipe de développement d'EnergyMonitor via les canaux indiqués dans la section « À propos » de l'application."
+      }
+    ],
+    "footer": "Ce document a été élaboré sur la base de la réglementation colombienne en vigueur en matière de protection des consommateurs et de commerce électronique, et est présenté à des fins académiques dans le cadre du projet EnergyMonitor."
+  },
+  "privacy": {
+    "tabLabel": "Politique de Confidentialité",
+    "title": "Politique de Traitement des Données Personnelles",
+    "lastUpdated": "Dernière mise à jour : juillet 2026",
+    "intro": "EnergyMonitor respecte et protège le droit à la vie privée et à l'Habeas Data de ses utilisateurs, consacré à l'article 15 de la Constitution politique de Colombie. Cette politique décrit comment les informations personnelles enregistrées sur la plateforme sont collectées, utilisées, stockées et protégées.",
+    "sections": [
+      {
+        "heading": "1. Responsable du traitement",
+        "body": "Le traitement des données personnelles collectées par EnergyMonitor est assuré par l'équipe de développement du projet, dans le cadre du programme Technologue en Analyse et Développement de Logiciels (ADSO) du SENA, sous la supervision de l'instructeur responsable du projet de formation."
+      },
+      {
+        "heading": "2. Cadre juridique applicable",
+        "body": "Cette politique est élaborée conformément à l'article 15 de la Constitution colombienne, à la Loi 1581 de 2012 et à son décret d'application 1377 de 2013, au Décret 1074 de 2015, ainsi qu'aux normes internationales telles que la Convention 108 du Conseil de l'Europe, les lignes directrices de l'OCDE et les Standards Ibéro-américains de Protection des Données Personnelles (RIPD)."
+      },
+      {
+        "heading": "3. Données que nous collectons",
+        "body": "Nous collectons les données d'inscription du compte (nom, e-mail et mot de passe chiffré), les données des dispositifs de mesure associés par l'utilisateur (identifiant du dispositif, appareil électroménager associé, emplacement dans le foyer) et les données de consommation électrique générées par les capteurs (relevés d'énergie, historiques et statistiques d'utilisation)."
+      },
+      {
+        "heading": "4. Finalité du traitement",
+        "body": "Les données sont utilisées exclusivement pour : (i) permettre l'inscription et l'authentification de l'utilisateur ; (ii) afficher la consommation électrique des appareils surveillés ; (iii) générer des historiques, des alertes et des notifications relatives à la consommation ; et (iv) des fins académiques d'évaluation du projet de formation. Les informations ne sont ni vendues ni cédées à des tiers à des fins publicitaires."
+      },
+      {
+        "heading": "5. Droits de la personne concernée (Habeas Data)",
+        "body": "Conformément à l'article 15 de la Constitution et à la Loi 1581 de 2012, l'utilisateur, en tant que titulaire de ses données personnelles, a le droit de : connaître, mettre à jour et rectifier ses données ; demander une preuve de l'autorisation accordée ; être informé de l'utilisation faite de ses informations ; déposer des plaintes auprès de la Superintendance de l'Industrie et du Commerce ; révoquer l'autorisation et/ou demander la suppression de ses données lorsque les principes légaux ne sont pas respectés ; et accéder gratuitement à ses données personnelles."
+      },
+      {
+        "heading": "6. Comment exercer vos droits",
+        "body": "L'utilisateur peut exercer ses droits Habeas Data via la section des paramètres du compte dans l'application, ou via les canaux de contact indiqués dans la section « À propos ». Les demandes seront traitées dans les délais légaux prévus par la Loi 1581 de 2012."
+      },
+      {
+        "heading": "7. Sécurité de l'information",
+        "body": "EnergyMonitor met en œuvre des mesures techniques raisonnables pour protéger les informations personnelles contre la perte, l'accès non autorisé, l'altération ou la divulgation indue, notamment le chiffrement des mots de passe et des contrôles d'accès à la base de données."
+      },
+      {
+        "heading": "8. Transfert et transmission des données",
+        "body": "Les données de consommation électrique sont transmises des dispositifs ESP32 vers les serveurs de la plateforme via une connexion Wi-Fi configurée par l'utilisateur. Aucun transfert international de données personnelles n'a lieu au-delà de ce qui est nécessaire au fonctionnement technique de l'application."
+      },
+      {
+        "heading": "9. Validité et modifications",
+        "body": "Cette Politique de Traitement des Données Personnelles entre en vigueur dès sa publication et peut être modifiée à tout moment. Les changements substantiels seront communiqués rapidement au sein de l'application."
+      },
+      {
+        "heading": "10. Autorité de contrôle",
+        "body": "La Superintendance de l'Industrie et du Commerce (SIC), via sa Délégation à la Protection des Données Personnelles, est l'autorité chargée de veiller au respect de la réglementation sur la protection des données en Colombie, auprès de laquelle l'utilisateur peut déposer des plaintes relatives au traitement de ses informations."
+      }
+    ],
+    "footer": "Ce document a été élaboré sur la base de la Constitution colombienne, de la Loi 1581 de 2012, de ses décrets d'application et des normes internationales applicables, et est présenté à des fins académiques dans le cadre du projet EnergyMonitor."
+  }
+}
