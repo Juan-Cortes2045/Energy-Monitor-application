@@ -8,7 +8,6 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
   Bar,
 } from "recharts";
 
@@ -205,11 +204,9 @@ const ConsumptionHistory = () => {
             <div
               className={styles.chartInner}
               style={{
-                minWidth: needsScroll
-                  ? `${chartData.length * 55}px`
-                  : "100%",
+                minWidth: needsScroll ? `${chartData.length * 55}px` : "100%",
               }}
-            >
+        >
               <ResponsiveContainer width="100%" height={isMobile ? 300 : 440}>
                 <BarChart data={chartData}>
                   <CartesianGrid
@@ -237,15 +234,6 @@ const ConsumptionHistory = () => {
                       fontFamily: "var(--font-primary)",
                     }}
                   />
-                  <Legend
-                    iconType="circle"
-                    iconSize={8}
-                    formatter={(v) => (
-                      <span style={{ fontSize: 12, color: "var(--color-text-primary)" }}>
-                        {v}
-                      </span>
-                    )}
-                  />
                   {devices.map((device, index) => (
                     <Bar
                       key={device}
@@ -259,7 +247,20 @@ const ConsumptionHistory = () => {
               </ResponsiveContainer>
             </div>
           </div>
+        <div className={styles.legend}>
+          {devices.map((device, index) => (
+            <div key={device} className={styles.legendItem}>
+              <span
+                className={styles.legendDot}
+                style={{
+                  background: DEVICE_COLORS[index % DEVICE_COLORS.length],
+                }}
+              />
+              <span className={styles.legendLabel}>{device}</span>
+            </div>
+          ))}
         </div>
+      </div>
       </Card>
 
       {/* Ranking + Stats (sin cambios) */}
