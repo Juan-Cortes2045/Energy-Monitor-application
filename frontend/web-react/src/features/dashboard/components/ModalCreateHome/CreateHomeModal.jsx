@@ -3,37 +3,36 @@ import { useTranslation } from "react-i18next";
 
 import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
-import AddressInput from "../AddressInput/AddressInput"; // ✅ nuevo componente
-import styles from "./CreateProjectModal.module.css";
+import AddressInput from "../AddressInput/AddressInput";
+import styles from "./CreateHomeModal.module.css";
 
-const PROJECT_TYPES = [
-  { id: "PT001", key: "house" },
-  { id: "PT002", key: "apartment" },
-  { id: "PT003", key: "studio" },
-  { id: "PT004", key: "other" },
+const HOME_TYPES = [
+  { id: "HT001", key: "house" },
+  { id: "HT002", key: "apartment" },
+  { id: "HT003", key: "studio" },
+  { id: "HT004", key: "other" },
 ];
 
 const INITIAL_FORM = {
   name: "",
-  projectTypeId: "",
-  otherProjectType: "",
+  homeTypeId: "",
+  otherHomeType: "",
   address: "",
   description: "",
 };
 
-// ─── Validaciones ─────────────────────────────────────────────────────────────
 function validate(form, t, isOther) {
   const errors = {};
 
   if (!form.name.trim()) errors.name = t("errors.nameRequired");
   else if (form.name.trim().length > 50) errors.name = t("errors.nameMax");
 
-  if (!form.projectTypeId) errors.projectTypeId = t("errors.typeRequired");
+  if (!form.homeTypeId) errors.homeTypeId = t("errors.typeRequired");
 
-  if (isOther && !form.otherProjectType.trim())
-    errors.otherProjectType = t("errors.otherRequired");
-  else if (isOther && form.otherProjectType.trim().length > 50)
-    errors.otherProjectType = t("errors.otherMax");
+  if (isOther && !form.otherHomeType.trim())
+    errors.otherHomeType = t("errors.otherRequired");
+  else if (isOther && form.otherHomeType.trim().length > 50)
+    errors.otherHomeType = t("errors.otherMax");
 
   const addr = form.address.trim();
   if (!addr) {
@@ -59,14 +58,14 @@ function validate(form, t, isOther) {
   return errors;
 }
 
-const CreateProjectModal = ({ onClose, onSubmit }) => {
-  const { t } = useTranslation("createProjectModal");
+const CreateHomeModal = ({ onClose, onSubmit }) => {
+  const { t } = useTranslation("createHomeModal");
 
   const [form, setForm] = useState(INITIAL_FORM);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const selectedType = PROJECT_TYPES.find((t) => t.id === form.projectTypeId);
+  const selectedType = HOME_TYPES.find((t) => t.id === form.homeTypeId);
   const isOther = selectedType?.key === "other";
 
   const handleChange = (field) => (e) => {
@@ -74,9 +73,9 @@ const CreateProjectModal = ({ onClose, onSubmit }) => {
     setForm((prev) => {
       const next = { ...prev, [field]: value };
 
-      if (field === "projectTypeId") {
-        const type = PROJECT_TYPES.find((t) => t.id === value);
-        if (type?.key !== "other") next.otherProjectType = "";
+      if (field === "homeTypeId") {
+        const type = HOME_TYPES.find((t) => t.id === value);
+        if (type?.key !== "other") next.otherHomeType = "";
       }
       return next;
     });
@@ -97,8 +96,8 @@ const CreateProjectModal = ({ onClose, onSubmit }) => {
     try {
       const payload = {
         name: form.name.trim(),
-        projectTypeId: form.projectTypeId,
-        otherProjectType: isOther ? form.otherProjectType.trim() : "",
+        homeTypeId: form.homeTypeId,
+        otherHomeType: isOther ? form.otherHomeType.trim() : "",
         address: form.address.trim(),
         description: form.description.trim(),
       };
@@ -134,7 +133,6 @@ const CreateProjectModal = ({ onClose, onSubmit }) => {
         </div>
 
         <form className={styles.body} onSubmit={handleSubmit} noValidate>
-          {/* Nombre */}
           <div className={styles.field}>
             <label className={styles.label}>
               {t("fields.name")} <span>*</span>
@@ -149,29 +147,27 @@ const CreateProjectModal = ({ onClose, onSubmit }) => {
             {errors.name && <span className={styles.errorMsg}>{errors.name}</span>}
           </div>
 
-          {/* Tipo */}
           <div className={styles.field}>
             <label className={styles.label}>
               {t("fields.type")} <span>*</span>
             </label>
             <select
               className={styles.select}
-              value={form.projectTypeId}
-              onChange={handleChange("projectTypeId")}
+              value={form.homeTypeId}
+              onChange={handleChange("homeTypeId")}
             >
               <option value="" disabled>
                 {t("placeholders.type")}
               </option>
-              {PROJECT_TYPES.map((type) => (
+              {HOME_TYPES.map((type) => (
                 <option key={type.id} value={type.id}>
-                  {t(`projectTypes.${type.key}`)}
+                  {t(`homeTypes.${type.key}`)}
                 </option>
               ))}
             </select>
-            {errors.projectTypeId && <span className={styles.errorMsg}>{errors.projectTypeId}</span>}
+            {errors.homeTypeId && <span className={styles.errorMsg}>{errors.homeTypeId}</span>}
           </div>
 
-          {/* Otro */}
           {isOther && (
             <div className={styles.field}>
               <label className={styles.label}>
@@ -179,18 +175,17 @@ const CreateProjectModal = ({ onClose, onSubmit }) => {
               </label>
               <Input
                 placeholder={t("placeholders.other")}
-                value={form.otherProjectType}
-                onChange={handleChange("otherProjectType")}
-                error={errors.otherProjectType}
+                value={form.otherHomeType}
+                onChange={handleChange("otherHomeType")}
+                error={errors.otherHomeType}
                 maxLength={50}
               />
-              {errors.otherProjectType && (
-                <span className={styles.errorMsg}>{errors.otherProjectType}</span>
+              {errors.otherHomeType && (
+                <span className={styles.errorMsg}>{errors.otherHomeType}</span>
               )}
             </div>
           )}
 
-          {/* Dirección – ahora usando AddressInput */}
           <div className={styles.field}>
             <label className={styles.label}>
               {t("fields.address")} <span>*</span>
@@ -204,7 +199,6 @@ const CreateProjectModal = ({ onClose, onSubmit }) => {
             {errors.address && <span className={styles.errorMsg}>{errors.address}</span>}
           </div>
 
-          {/* Descripción */}
           <div className={styles.field}>
             <label className={styles.label}>
               {t("fields.description")}
@@ -235,4 +229,4 @@ const CreateProjectModal = ({ onClose, onSubmit }) => {
   );
 };
 
-export default CreateProjectModal;
+export default CreateHomeModal;

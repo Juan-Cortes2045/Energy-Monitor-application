@@ -1,0 +1,15 @@
+{
+  "title": "Rejoindre une maison",
+  "close": "Fermer",
+  "description": "Entrez le code alphanumérique partagé par le propriétaire de la maison.",
+  "label": "Code d'accès",
+  "placeholder": "Ex: AB12CD34",
+  "hint": "Le code a 8 caractères entre lettres majuscules et chiffres.",
+  "cancel": "Annuler",
+  "join": "Rejoindre",
+  "joining": "Connexion...",
+  "errors": {
+    "required": "Entrez le code d'accès.",
+    "invalid": "Le code doit avoir 8 caractères (lettres et chiffres)."
+  }
+}

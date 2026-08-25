@@ -3,13 +3,13 @@
     "home": "Início"
   },
   "actions": {
-    "joinProject": "Entrar em um projeto",
-    "createProject": "Criar projeto"
+    "joinHome": "Entrar no lar",
+    "createHome": "Criar lar"
   },
-  "project": {
-    "joinedName": "Projeto ingressado",
-    "responsible": "Responsável pelo projeto",
-    "joinedDescription": "Projeto no qual você entrou como usuário comum.",
+  "home": {
+    "joinedName": "Lar ingressado",
+    "responsible": "Responsável pelo lar",
+    "joinedDescription": "Lar no qual você entrou como usuário comum.",
     "you": "Você"
   }
 }

@@ -1,7 +1,7 @@
 {
-  "title": "Unirse a proyecto",
+  "title": "Unirse a hogar",
   "close": "Cerrar",
-  "description": "Ingresa el código alfanumérico que te compartió el responsable del proyecto.",
+  "description": "Ingresa el código alfanumérico que te compartió el responsable del hogar.",
   "label": "Código de acceso",
   "placeholder": "Ej: AB12CD34",
   "hint": "El código tiene 8 caracteres entre letras mayúsculas y números.",

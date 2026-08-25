@@ -45,8 +45,8 @@
   height: auto;
 }
 }
-/* ── Projects grid ────────────────────────────────────────────────── */
-.projectsGrid {
+/* ── Homes grid ────────────────────────────────────────────────── */
+.homesGrid {
   padding: var(--spacing-lg);
   display: flex;
   flex-wrap: wrap;

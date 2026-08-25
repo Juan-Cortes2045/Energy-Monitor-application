@@ -21,7 +21,7 @@ import {
 import Card from "../../../design/components/Card/Card";
 import Header from "../../../design/components/Header/Header";
 import Users from "../Users/Users";
-import Project from "../Project/Project";
+import HomeDetail from "../Home/Home";
 import Devices from "../Devices/Devices";
 import Thresholds from "../Thresholds/Thresholds";
 import ConsumptionHistory from "../ConsumptionHistory/ComsumptionHistory";
@@ -118,8 +118,8 @@ const TABS = [
     ),
   },
   {
-    id: "Proyecto",
-    label: "Proyecto",
+    id: "Hogar",
+    label: "Hogar",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" />
@@ -172,7 +172,7 @@ const Consumption = () => {
   const { t } = useTranslation("consumption");
   const location = useLocation();
   const navigate = useNavigate();
-  const { project, isOwner = false } = location.state ?? {};
+  const { home, isOwner = false } = location.state ?? {};
   const onBack = () => navigate(-1);
   const [activeTab, setActiveTab] = useState("Consumo");
 
@@ -311,8 +311,8 @@ const Consumption = () => {
       ),
     },
     {
-      id: "Proyecto",
-      label: t("tabs.project"),
+      id: "Hogar",
+      label: t("tabs.home"),
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -334,7 +334,7 @@ const Consumption = () => {
 
   const breadcrumbItems = [
     { label: t("breadcrumb.home"), onClick: onBack },
-    { label: project?.name ?? t("breadcrumb.projectFallback") },
+    { label: home?.name ?? t("breadcrumb.homeFallback") },
   ];
 
   return (
@@ -358,7 +358,7 @@ const Consumption = () => {
 
         {/* TAB: Usuarios */}
         {activeTab === "Usuarios" && (
-          <Users project={project} isOwner={isOwner} />
+          <Users home={home} isOwner={isOwner} />
         )}
 
         {/* TAB: Consumo */}
@@ -587,14 +587,14 @@ const Consumption = () => {
 
         {activeTab === "Historial" && <ConsumptionHistory />}
         {activeTab === "Dispositivos" && (
-          <Devices project={project} isOwner={isOwner} />
+          <Devices home={home} isOwner={isOwner} />
         )}
         {activeTab === "Umbrales" && (
-          <Thresholds project={project} isOwner={isOwner} />
+          <Thresholds home={home} isOwner={isOwner} />
         )}
-        {activeTab === "Proyecto" && (
-          <Project
-            project={project}
+        {activeTab === "Hogar" && (
+          <HomeDetail
+            home={home}
             isOwner={isOwner}
             onLeave={() => navigate("/dashboard")}
             onDelete={() => navigate("/dashboard")}

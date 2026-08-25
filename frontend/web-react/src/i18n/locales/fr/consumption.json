@@ -4,13 +4,13 @@
     "history": "Historique",
     "users": "Utilisateurs",
     "devices": "Appareils",
-    "project": "Projet",
+    "home": "Maison",
     "thresholds": "Seuils"
   },
   "breadcrumb": {
     "home": "Accueil",
-    "projects": "Projets",
-    "projectFallback": "Projet"
+    "homes": "Maisons",
+    "homeFallback": "Maison"
   },
   "kpi": {
     "currentPower": "PUISSANCE ACTUELLE ⚡",

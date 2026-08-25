@@ -5,10 +5,10 @@
       "current": "Favoritos"
     },
     "title": "Favoritos",
-    "subtitle": "Seus projetos favoritos aparecem aqui para que você os encontre rapidamente.",
+    "subtitle": "Seus lares favoritos aparecem aqui para que você os encontre rapidamente.",
     "empty": {
       "title": "Nenhum favorito ainda",
-      "description": "Marque o coração em qualquer projeto para vê-lo aqui."
+      "description": "Marque o coração em qualquer lar para vê-lo aqui."
     }
   }
 }

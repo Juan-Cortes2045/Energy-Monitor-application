@@ -1,5 +1,5 @@
 {
-  "openProject": "Abrir proyecto {{name}}",
+  "openHome": "Abrir hogar {{name}}",
   "removeFavorite": "Quitar favorito",
   "addFavorite": "Añadir a favoritos",
   "address": "Dirección",

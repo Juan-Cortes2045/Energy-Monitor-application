@@ -4,13 +4,13 @@
     "history": "Historial",
     "users": "Usuarios",
     "devices": "Dispositivos",
-    "project": "Proyecto",
+    "home": "Hogar",
     "thresholds": "Umbrales"
   },
   "breadcrumb": {
     "home": "Inicio",
-    "projects": "Proyectos",
-    "projectFallback": "Proyecto"
+    "homes": "Hogares",
+    "homeFallback": "Hogar"
   },
   "kpi": {
     "currentPower": "POTENCIA ACTUAL ⚡",

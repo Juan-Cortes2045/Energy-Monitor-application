@@ -1,6 +1,6 @@
 {
-  "openProject": "Open project {{name}}",
-  "removeFavorite": "Remove from favorites",
+  "openHome": "Open home {{name}}",
+  "removeFavorite": "Remove favorite",
   "addFavorite": "Add to favorites",
   "address": "Address",
   "description": "Description",

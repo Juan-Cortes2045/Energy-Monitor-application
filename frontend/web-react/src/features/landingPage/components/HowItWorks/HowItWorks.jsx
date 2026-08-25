@@ -24,7 +24,7 @@ const steps = [
   },
   {
     number: 2,
-    title: "Crea y configura tu proyecto",
+    title: "Crea y configura tu hogar",
     description:
       "Registra tu hogar, vincula dispositivos eléctricos y define límites de consumo personalizados.",
     icon: <Settings size={42} />,

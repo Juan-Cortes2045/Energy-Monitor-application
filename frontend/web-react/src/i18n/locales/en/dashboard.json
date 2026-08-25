@@ -3,13 +3,13 @@
     "home": "Home"
   },
   "actions": {
-    "joinProject": "Join project",
-    "createProject": "Create project"
+    "joinHome": "Join home",
+    "createHome": "Create home"
   },
-  "project": {
-    "joinedName": "Joined project",
-    "responsible": "Project manager",
-    "joinedDescription": "Project you joined as a regular user.",
+  "home": {
+    "joinedName": "Joined home",
+    "responsible": "Home owner",
+    "joinedDescription": "Home you joined as a regular user.",
     "you": "You"
   }
 }

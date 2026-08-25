@@ -1,6 +1,6 @@
 {
-  "openProject": "Ouvrir le projet {{name}}",
-  "removeFavorite": "Retirer des favoris",
+  "openHome": "Ouvrir la maison {{name}}",
+  "removeFavorite": "Supprimer des favoris",
   "addFavorite": "Ajouter aux favoris",
   "address": "Adresse",
   "description": "Description",

@@ -1,17 +1,17 @@
 import styles from "./Favorites.module.css";
 import Header from "../../design/components/Header/Header";
-import ProjectCard from "../dashboard/components/ProjectCard/ProjectCard";
+import HomeCard from "../dashboard/components/HomeCard/HomeCard";
 import { Heart } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-const Favorites = ({ projects = [], onToggleFavorite, onCardClick }) => {
+const Favorites = ({ homes = [], onToggleFavorite, onCardClick }) => {
   const { t } = useTranslation("favorites");
   const breadcrumbItems = [
     { label: t("favorites.breadcrumb.home"), path: "/dashboard" },
     { label: t("favorites.breadcrumb.current") },
   ];
 
-  const favoriteProjects = projects.filter((p) => p.favorite);
+  const favoriteHomes = homes.filter((h) => h.favorite);
 
   return (
     <div className={styles.content}>
@@ -24,7 +24,7 @@ const Favorites = ({ projects = [], onToggleFavorite, onCardClick }) => {
         </div>
 
         <div className={styles.gridBox}>
-          {favoriteProjects.length === 0 ? (
+          {favoriteHomes.length === 0 ? (
             <div className={styles.emptyState}>
               <Heart size={40} className={styles.emptyIcon} />
               <p className={styles.emptyTitle}>{t("favorites.empty.title")}</p>
@@ -34,11 +34,11 @@ const Favorites = ({ projects = [], onToggleFavorite, onCardClick }) => {
             </div>
           ) : (
             <div className={styles.grid}>
-              {favoriteProjects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  onClick={() => onCardClick?.(project)}
+              {favoriteHomes.map((home) => (
+                <HomeCard
+                  key={home.id}
+                  home={home}
+                  onClick={() => onCardClick?.(home)}
                   onToggleFavorite={onToggleFavorite}
                 />
               ))}

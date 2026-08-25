@@ -161,8 +161,8 @@
 
 .dropdown button { width: 100%; }
 
-/* PROJECTS */
-.projectList {
+/* HOMES */
+.homeList {
   position: absolute;
   top: 100%;
   left: 0;
@@ -178,11 +178,11 @@
   overflow-y: auto;
 }
 
-.projectListOpen {
+.homeListOpen {
   margin-top: 4px;
 }
 
-.projectItem {
+.homeItem {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -193,12 +193,12 @@
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.projectItem:hover {
+.homeItem:hover {
   background: rgba(255, 255, 255, 0.08);
   color: white;
 }
 
-.projectAvatar {
+.homeAvatar {
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -307,7 +307,7 @@
   }
 
   .link { padding: 14px 18px; font-size: 16px; }
-  .projectList { max-height: none; overflow: hidden; }
+  .homeList { max-height: none; overflow: hidden; }
   .profile { margin-top: auto; }
   .profileInfo span { display: block !important; }
   .menuBtn { display: flex !important; }
@@ -334,8 +334,8 @@
 
 
 
-/* ── Sin proyectos ────────────────────────────────────────────────── */
-.noProjects {
+/* ── Sin hogares ────────────────────────────────────────────────── */
+.noHomes {
   font-family: var(--font-primary);
   font-size: var(--font-size-xs);
   color: rgba(255, 255, 255, 0.4);

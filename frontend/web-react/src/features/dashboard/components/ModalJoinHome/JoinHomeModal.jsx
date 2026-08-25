@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { KeyRound } from "lucide-react";
 import Button from "../../../../design/components/Button/Button";
-import styles from "./JoinProjectModal.module.css";
+import styles from "./JoinHomeModal.module.css";
 
 const CODE_LENGTH = 8;
 const CODE_REGEX = /^[A-Z0-9]{8}$/;
@@ -13,8 +13,8 @@ function validate(code, t) {
   return null;
 }
 
-const JoinProjectModal = ({ onClose, onSubmit }) => {
-  const { t } = useTranslation("joinProjectModal");
+const JoinHomeModal = ({ onClose, onSubmit }) => {
+  const { t } = useTranslation("joinHomeModal");
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -52,7 +52,6 @@ const JoinProjectModal = ({ onClose, onSubmit }) => {
       aria-labelledby="join-modal-title"
     >
       <div className={styles.modal}>
-        {/* HEADER */}
         <div className={styles.header}>
           <h2 className={styles.title} id="join-modal-title">
             {t("title")}
@@ -66,7 +65,6 @@ const JoinProjectModal = ({ onClose, onSubmit }) => {
           </button>
         </div>
 
-        {/* BODY */}
         <form className={styles.body} onSubmit={handleSubmit} noValidate>
           <div className={styles.iconWrapper}>
             <KeyRound size={32} />
@@ -103,7 +101,6 @@ const JoinProjectModal = ({ onClose, onSubmit }) => {
           </div>
         </form>
 
-        {/* FOOTER */}
         <div className={styles.footer}>
           <Button variant="secondary" size="medium" onClick={onClose} disabled={loading}>
             {t("cancel")}
@@ -117,4 +114,4 @@ const JoinProjectModal = ({ onClose, onSubmit }) => {
   );
 };
 
-export default JoinProjectModal;
+export default JoinHomeModal;

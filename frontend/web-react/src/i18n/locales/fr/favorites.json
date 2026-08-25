@@ -5,10 +5,10 @@
       "current": "Favoris"
     },
     "title": "Favoris",
-    "subtitle": "Vos projets favoris apparaissent ici pour que vous puissiez les retrouver rapidement.",
+    "subtitle": "Vos maisons favorites apparaissent ici pour que vous puissiez les retrouver rapidement.",
     "empty": {
       "title": "Aucun favori pour le moment",
-      "description": "Appuyez sur le cœur d’un projet pour le voir ici."
+      "description": "Appuyez sur le cœur d'une maison pour le voir ici."
     }
   }
 }

@@ -1,0 +1,43 @@
+{
+  "title": "Créer une maison",
+  "close": "Fermer",
+  "fields": {
+    "name": "Nom de la maison",
+    "type": "Type de maison",
+    "other": "Lequel?",
+    "address": "Adresse",
+    "description": "Description",
+    "optional": "(optionnel)",
+    "addressExamples": "Ex: Cra. 15 # 93-47, Calle 100 # 15-20, Vereda El Bosque Finca La Esperanza"
+  },
+  "placeholders": {
+    "name": "Ex: Ma maison, Bureau central...",
+    "type": "Sélectionnez un type...",
+    "other": "Décrivez le type de maison...",
+    "address": "Ex: Calle 45 # 12-34, Bogotá",
+    "description": "Décrivez brièvement la maison..."
+  },
+  "buttons": {
+    "cancel": "Annuler",
+    "create": "Créer une maison",
+    "creating": "Création..."
+  },
+  "errors": {
+    "nameRequired": "Le nom de la maison est requis.",
+    "nameMax": "50 caractères maximum.",
+    "typeRequired": "Sélectionnez un type de maison.",
+    "otherRequired": "Spécifiez le type de maison.",
+    "otherMax": "50 caractères maximum.",
+    "addressRequired": "L'adresse est requise.",
+    "addressMax": "200 caractères maximum",
+    "addressInvalidChars": "Caractères non autorisés (< > { } [ ] | \" ` ')",
+    "addressInvalidFormat": "Format d'adresse non valide. Ex: Cra. 15 # 93-47",
+    "descriptionMax": "200 caractères maximum."
+  },
+  "homeTypes": {
+    "house": "Maison",
+    "apartment": "Appartement",
+    "studio": "Studio",
+    "other": "Autre"
+  }
+}

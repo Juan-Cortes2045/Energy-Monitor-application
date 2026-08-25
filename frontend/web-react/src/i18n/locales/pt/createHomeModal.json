@@ -1,43 +1,43 @@
 {
-  "title": "Criar projeto",
+  "title": "Criar lar",
   "close": "Fechar",
   "fields": {
-    "name": "Nome do projeto",
-    "type": "Tipo de projeto",
+    "name": "Nome do lar",
+    "type": "Tipo de lar",
     "other": "Qual?",
     "address": "Endereço",
     "description": "Descrição",
     "optional": "(opcional)",
-    "addressExamples": "Ex.: Rua das Flores, 123 - Apto 45, Av. Paulista, 1000"
+    "addressExamples": "Ex: Cra. 15 # 93-47, Calle 100 # 15-20, Vereda El Bosque Finca La Esperanza"
   },
   "placeholders": {
-    "name": "Ex: Minha casa, Escritório principal...",
+    "name": "Ex: Meu lar, Escritório central...",
     "type": "Selecione um tipo...",
-    "other": "Descreva o tipo de projeto...",
-    "address": "Ex: Rua 45 #12-34",
-    "description": "Descreva brevemente o projeto..."
+    "other": "Descreva o tipo de lar...",
+    "address": "Ex: Calle 45 # 12-34, Bogotá",
+    "description": "Descreva brevemente o lar..."
   },
   "buttons": {
     "cancel": "Cancelar",
-    "create": "Criar projeto",
+    "create": "Criar lar",
     "creating": "Criando..."
   },
   "errors": {
-    "nameRequired": "O nome do projeto é obrigatório.",
+    "nameRequired": "O nome do lar é obrigatório.",
     "nameMax": "Máximo de 50 caracteres.",
-    "typeRequired": "Selecione um tipo de projeto.",
-    "otherRequired": "Especifique o tipo de projeto.",
+    "typeRequired": "Selecione um tipo de lar.",
+    "otherRequired": "Especifique o tipo de lar.",
     "otherMax": "Máximo de 50 caracteres.",
     "addressRequired": "O endereço é obrigatório.",
     "addressMax": "Máximo de 200 caracteres",
     "addressInvalidChars": "Caracteres não permitidos (< > { } [ ] | \" ` ')",
-    "addressInvalidFormat": "Formato de endereço inválido. Ex.: Rua 15, #93-47",
+    "addressInvalidFormat": "Formato de endereço inválido. Ex: Cra. 15 # 93-47",
     "descriptionMax": "Máximo de 200 caracteres."
   },
-  "projectTypes": {
+  "homeTypes": {
     "house": "Casa",
     "apartment": "Apartamento",
-    "studio": "Quitinete",
+    "studio": "Estúdio",
     "other": "Outro"
   }
 }

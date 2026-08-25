@@ -1,7 +1,7 @@
 {
-  "title": "Entrar no projeto",
+  "title": "Entrar no lar",
   "close": "Fechar",
-  "description": "Insira o código alfanumérico compartilhado pelo responsável do projeto.",
+  "description": "Insira o código alfanumérico compartilhado pelo responsável do lar.",
   "label": "Código de acesso",
   "placeholder": "Ex: AB12CD34",
   "hint": "O código tem 8 caracteres entre letras maiúsculas e números.",

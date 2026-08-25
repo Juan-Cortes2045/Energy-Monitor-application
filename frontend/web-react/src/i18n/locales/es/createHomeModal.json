@@ -1,9 +1,9 @@
 {
-  "title": "Crear proyecto",
+  "title": "Crear hogar",
   "close": "Cerrar",
   "fields": {
-    "name": "Nombre del proyecto",
-    "type": "Tipo de proyecto",
+    "name": "Nombre del hogar",
+    "type": "Tipo de hogar",
     "other": "¿Cuál?",
     "address": "Dirección",
     "description": "Descripción",
@@ -13,20 +13,20 @@
   "placeholders": {
     "name": "Ej: Mi hogar, Oficina central...",
     "type": "Selecciona un tipo...",
-    "other": "Describe el tipo de proyecto...",
+    "other": "Describe el tipo de hogar...",
     "address": "Ej: Calle 45 # 12-34, Bogotá",
-    "description": "Describe brevemente el proyecto..."
+    "description": "Describe brevemente el hogar..."
   },
   "buttons": {
     "cancel": "Cancelar",
-    "create": "Crear proyecto",
+    "create": "Crear hogar",
     "creating": "Creando..."
   },
   "errors": {
-    "nameRequired": "El nombre del proyecto es requerido.",
+    "nameRequired": "El nombre del hogar es requerido.",
     "nameMax": "Máximo 50 caracteres.",
-    "typeRequired": "Selecciona un tipo de proyecto.",
-    "otherRequired": "Especifica el tipo de proyecto.",
+    "typeRequired": "Selecciona un tipo de hogar.",
+    "otherRequired": "Especifica el tipo de hogar.",
     "otherMax": "Máximo 50 caracteres.",
     "addressRequired": "La dirección es requerida.",
     "addressMax": "Máximo 200 caracteres",
@@ -34,7 +34,7 @@
     "addressInvalidFormat": "Formato de dirección no válido. Ej: Cra. 15 # 93-47",
     "descriptionMax": "Máximo 200 caracteres."
   },
-  "projectTypes": {
+  "homeTypes": {
     "house": "Casa",
     "apartment": "Apartamento",
     "studio": "Aparta estudio",

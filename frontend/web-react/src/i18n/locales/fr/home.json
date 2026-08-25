@@ -1,12 +1,12 @@
 {
   "title": {
-    "projectInfo": "Informations du projet",
+    "homeInfo": "Informations de la maison",
     "accessCode": "Code d'accès",
     "owner": "Utilisateur responsable"
   },
   "fields": {
     "name": "Nom",
-    "projectType": "Type de projet",
+    "homeType": "Type de maison",
     "address": "Adresse",
     "description": "Description",
     "creationDate": "Date de création",
@@ -22,14 +22,14 @@
   },
   "buttons": {
     "copy": "Copier le code d'accès",
-    "deleteProject": "Supprimer le projet",
-    "leaveProject": "Quitter le projet"
+    "deleteHome": "Supprimer la maison",
+    "leaveHome": "Quitter la maison"
   },
   "status": {
     "responsible": "Responsable"
   },
   "confirm": {
-    "leave": "Êtes-vous sûr de vouloir quitter ce projet ?",
-    "delete": "Supprimer ce projet ? Cette action est irréversible."
+    "leave": "Êtes-vous sûr de vouloir quitter cette maison ?",
+    "delete": "Supprimer cette maison ? Cette action est irréversible."
   }
 }

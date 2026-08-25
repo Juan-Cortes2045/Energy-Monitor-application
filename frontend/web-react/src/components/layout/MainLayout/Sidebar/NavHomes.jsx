@@ -3,12 +3,12 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import styles from "../Sidebar/Sidebar.module.css";
-import { useProjects } from "../../../../context/ProjectContext";
+import { useHomes } from "../../../../context/HomeContext";
 
-const NavProjects = ({ icon, label, collapsed, onNavigate }) => {
+const NavHomes = ({ icon, label, collapsed, onNavigate }) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const { projects } = useProjects();
+  const { homes } = useHomes();
 
   return (
     <div>
@@ -32,26 +32,26 @@ const NavProjects = ({ icon, label, collapsed, onNavigate }) => {
 
       {/* LISTA */}
       {open && !collapsed && (
-        <div className={`${styles.projectList} ${styles.projectListOpen}`}>
-          {projects.length === 0 ? (
-            <p className={styles.noProjects}>Sin proyectos</p>
+        <div className={`${styles.homeList} ${styles.homeListOpen}`}>
+          {homes.length === 0 ? (
+            <p className={styles.noHomes}>Sin hogares</p>
           ) : (
-            projects.map((p) => (
+            homes.map((h) => (
               <div
-                key={p.id}
-                className={styles.projectItem}
+                key={h.id}
+                className={styles.homeItem}
                 onClick={(e) => {
                   e.stopPropagation();
                   navigate("/Consumption", {
-                    state: { project: p, isOwner: p.variant === "owned" },
+                    state: { home: h, isOwner: h.variant === "owned" },
                   });
                   onNavigate?.();
                 }}
               >
-                <div className={styles.projectAvatar}>
-                  {p.name.charAt(0).toUpperCase()}
+                <div className={styles.homeAvatar}>
+                  {h.name.charAt(0).toUpperCase()}
                 </div>
-                <span>{p.name}</span>
+                <span>{h.name}</span>
               </div>
             ))
           )}
@@ -61,4 +61,4 @@ const NavProjects = ({ icon, label, collapsed, onNavigate }) => {
   );
 };
 
-export default NavProjects;
+export default NavHomes;

@@ -1,12 +1,12 @@
 {
   "title": {
-    "projectInfo": "Project Information",
+    "homeInfo": "Home Information",
     "accessCode": "Access Code",
     "owner": "Responsible User"
   },
   "fields": {
     "name": "Name",
-    "projectType": "Project Type",
+    "homeType": "Home Type",
     "address": "Address",
     "description": "Description",
     "creationDate": "Creation Date",
@@ -22,14 +22,14 @@
   },
   "buttons": {
     "copy": "Copy access code",
-    "deleteProject": "Delete project",
-    "leaveProject": "Leave project"
+    "deleteHome": "Delete home",
+    "leaveHome": "Leave home"
   },
   "status": {
     "responsible": "Responsible"
   },
   "confirm": {
-    "leave": "Are you sure you want to leave this project?",
-    "delete": "Delete this project? This action cannot be undone."
+    "leave": "Are you sure you want to leave this home?",
+    "delete": "Delete this home? This action cannot be undone."
   }
 }

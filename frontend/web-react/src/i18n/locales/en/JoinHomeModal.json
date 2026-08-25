@@ -1,0 +1,15 @@
+{
+  "title": "Join home",
+  "close": "Close",
+  "description": "Enter the alphanumeric code shared by the home owner.",
+  "label": "Access code",
+  "placeholder": "Eg: AB12CD34",
+  "hint": "The code has 8 characters between uppercase letters and numbers.",
+  "cancel": "Cancel",
+  "join": "Join",
+  "joining": "Joining...",
+  "errors": {
+    "required": "Enter the access code.",
+    "invalid": "The code must have 8 characters (letters and numbers)."
+  }
+}

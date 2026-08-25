@@ -36,7 +36,7 @@ const getAddressError = (value, t) => {
 };
 
 const AddressInput = ({ value, onChange, error: externalError, ...rest }) => {
-  const { t } = useTranslation('createProjectModal');
+  const { t } = useTranslation('createHomeModal');
   const [internalError, setInternalError] = useState(null);
 
   const handleChange = (e) => {

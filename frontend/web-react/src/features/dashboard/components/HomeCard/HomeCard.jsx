@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { Heart } from "lucide-react";
 import Card from "../../../../design/components/Card/Card";
-import styles from "../ProjectCard/ProjectCard.module.css";
+import styles from "./HomeCard.module.css";
 import { useTranslation } from "react-i18next";
 
-const DESCRIPTION_LIMIT = 150; // caracteres antes de considerar "largo"
+const DESCRIPTION_LIMIT = 150;
 
-const ProjectCard = ({ project, onClick }) => {
-  const { t } = useTranslation("projectCard");
-  const [favorite, setFavorite] = useState(project.favorite || false);
+const HomeCard = ({ home, onClick }) => {
+  const { t } = useTranslation("homeCard");
+  const [favorite, setFavorite] = useState(home.favorite || false);
   const [expanded, setExpanded] = useState(false);
 
-  const headerColor = project.color
-    ? project.color
-    : project.variant === "joined"
+  const headerColor = home.color
+    ? home.color
+    : home.variant === "joined"
       ? "var(--color-secondary)"
       : "var(--color-primary)";
 
@@ -22,8 +22,7 @@ const ProjectCard = ({ project, onClick }) => {
     setFavorite((prev) => !prev);
   };
 
-  // Obtener la descripción (soporta ambos nombres de campo)
-  const description = project.description || project.descripcion || "";
+  const description = home.description || home.descripcion || "";
   const isLong = description.length > DESCRIPTION_LIMIT;
   const displayText =
     expanded || !isLong
@@ -31,7 +30,7 @@ const ProjectCard = ({ project, onClick }) => {
       : description.slice(0, DESCRIPTION_LIMIT) + "…";
 
   const handleToggleExpand = (e) => {
-    e.stopPropagation(); // no activa el onClick de la tarjeta
+    e.stopPropagation();
     setExpanded((prev) => !prev);
   };
 
@@ -42,7 +41,7 @@ const ProjectCard = ({ project, onClick }) => {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === "Enter" && onClick?.()}
-      aria-label={`Abrir proyecto ${project.name}`}
+      aria-label={`Abrir hogar ${home.name}`}
       style={{ cursor: "pointer" }}
     >
       <div
@@ -50,8 +49,8 @@ const ProjectCard = ({ project, onClick }) => {
         style={{ backgroundColor: headerColor }}
       >
         <div className={styles.headerText}>
-          <h3 className={styles.title}>{project.name}</h3>
-          <p className={styles.responsible}>{project.userResponsible}</p>
+          <h3 className={styles.title}>{home.name}</h3>
+          <p className={styles.responsible}>{home.userResponsible}</p>
         </div>
 
         <button
@@ -68,7 +67,7 @@ const ProjectCard = ({ project, onClick }) => {
         <div className={styles.body}>
           <p>
             <strong>{t("address")}: </strong>
-            {project.address || project.addres}
+            {home.address || home.addres}
           </p>
           <div className={styles.descriptionWrapper}>
             <p
@@ -93,4 +92,4 @@ const ProjectCard = ({ project, onClick }) => {
   );
 };
 
-export default ProjectCard;
+export default HomeCard;

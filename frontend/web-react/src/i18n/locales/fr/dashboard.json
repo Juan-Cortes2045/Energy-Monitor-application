@@ -3,13 +3,13 @@
     "home": "Accueil"
   },
   "actions": {
-    "joinProject": "Rejoindre un projet",
-    "createProject": "Créer un projet"
+    "joinHome": "Rejoindre une maison",
+    "createHome": "Créer une maison"
   },
-  "project": {
-    "joinedName": "Projet rejoint",
-    "responsible": "Responsable du projet",
-    "joinedDescription": "Projet que vous avez rejoint en tant qu'utilisateur standard.",
+  "home": {
+    "joinedName": "Maison rejointe",
+    "responsible": "Propriétaire de la maison",
+    "joinedDescription": "Maison que vous avez rejointe en tant qu'utilisateur standard.",
     "you": "Vous"
   }
 }

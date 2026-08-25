@@ -5,14 +5,14 @@ import "./i18n";
 
 import "./index.css";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
-import { ProjectProvider } from "./context/ProjectContext.jsx";
+import { HomeProvider } from "./context/HomeContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ThemeProvider>
-      <ProjectProvider>
+      <HomeProvider>
         <App />
-      </ProjectProvider>
+      </HomeProvider>
     </ThemeProvider>
   </React.StrictMode>,
 );

@@ -1,0 +1,43 @@
+{
+  "title": "Create home",
+  "close": "Close",
+  "fields": {
+    "name": "Home name",
+    "type": "Home type",
+    "other": "Which one?",
+    "address": "Address",
+    "description": "Description",
+    "optional": "(optional)",
+    "addressExamples": "Eg: Cra. 15 # 93-47, Calle 100 # 15-20, Vereda El Bosque Finca La Esperanza"
+  },
+  "placeholders": {
+    "name": "Eg: My home, Central office...",
+    "type": "Select a type...",
+    "other": "Describe the home type...",
+    "address": "Eg: Calle 45 # 12-34, Bogotá",
+    "description": "Briefly describe the home..."
+  },
+  "buttons": {
+    "cancel": "Cancel",
+    "create": "Create home",
+    "creating": "Creating..."
+  },
+  "errors": {
+    "nameRequired": "Home name is required.",
+    "nameMax": "Maximum 50 characters.",
+    "typeRequired": "Select a home type.",
+    "otherRequired": "Specify the home type.",
+    "otherMax": "Maximum 50 characters.",
+    "addressRequired": "Address is required.",
+    "addressMax": "Maximum 200 characters",
+    "addressInvalidChars": "Invalid characters (< > { } [ ] | \" ` ')",
+    "addressInvalidFormat": "Invalid address format. Eg: Cra. 15 # 93-47",
+    "descriptionMax": "Maximum 200 characters."
+  },
+  "homeTypes": {
+    "house": "House",
+    "apartment": "Apartment",
+    "studio": "Studio apartment",
+    "other": "Other"
+  }
+}

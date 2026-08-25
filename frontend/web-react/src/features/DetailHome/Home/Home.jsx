@@ -13,21 +13,21 @@ import {
 } from "lucide-react";
 import Card from "../../../design/components/Card/Card";
 import Button from "../../../design/components/Button/Button";
-import styles from "./Project.module.css";
+import styles from "./Home.module.css";
 import { useTranslation } from "react-i18next";
 
-const emptyProject = {
-  project_code: "",
+const emptyHome = {
+  home_code: "",
   name: "",
   address: "",
-  projectType: "",
+  homeType: "",
   access_code: "",
   description: "",
   creation_date: null,
   responsible: { name: "", email: "", cellphone: "" },
 };
 
-const PROJECT_TYPE_ICONS = {
+const HOME_TYPE_ICONS = {
   Casa: <Home size={12} />,
   Apartamento: <Building2 size={12} />,
   "Apta estudio": <Building2 size={12} />,
@@ -59,11 +59,11 @@ const Field = ({ label, fullWidth = false, children }) => (
   </div>
 );
 
-const Project = ({ project, isOwner = false, onLeave, onDelete }) => {
-  const { t } = useTranslation("project");
+const HomeDetail = ({ home, isOwner = false, onLeave, onDelete }) => {
+  const { t } = useTranslation("home");
   const [copied, setCopied] = useState(false);
 
-  const data = emptyProject;
+  const data = emptyHome;
 
   const handleCopy = () => {
     if (!data.access_code) return;
@@ -91,7 +91,7 @@ const Project = ({ project, isOwner = false, onLeave, onDelete }) => {
         <div className={styles.cardInner}>
           <p className={styles.cardTitle}>
             <Building2 size={14} aria-hidden="true" />
-            {t("title.projectInfo")}
+            {t("title.homeInfo")}
           </p>
 
           <div className={styles.fieldGrid}>
@@ -99,13 +99,13 @@ const Project = ({ project, isOwner = false, onLeave, onDelete }) => {
               <span>{data.name || t("placeholders.empty")}</span>
             </Field>
 
-            <Field label={t("fields.projectType")}>
-              {data.projectType ? (
+            <Field label={t("fields.homeType")}>
+              {data.homeType ? (
                 <span className={styles.typeBadge}>
-                  {PROJECT_TYPE_ICONS[data.projectType] ?? (
+                  {HOME_TYPE_ICONS[data.homeType] ?? (
                     <Building2 size={12} />
                   )}
-                  {data.projectType}
+                  {data.homeType}
                 </span>
               ) : (
                 <span>{t("placeholders.empty")}</span>
@@ -162,12 +162,12 @@ const Project = ({ project, isOwner = false, onLeave, onDelete }) => {
             {isOwner ? (
               <Button variant="Danger" onClick={handleDelete}>
                 <Trash2 size={15} className={styles.icon} />
-                {t("buttons.deleteProject")}
+                {t("buttons.deleteHome")}
               </Button>
             ) : (
               <Button variant="Danger" onClick={handleLeave}>
                 <LogOut size={15} className={styles.icon} />
-                {t("buttons.leaveProject")}
+                {t("buttons.leaveHome")}
               </Button>
             )}
           </div>
@@ -217,4 +217,4 @@ const Project = ({ project, isOwner = false, onLeave, onDelete }) => {
   );
 };
 
-export default Project;
+export default HomeDetail;

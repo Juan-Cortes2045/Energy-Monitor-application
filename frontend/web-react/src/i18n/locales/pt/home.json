@@ -1,12 +1,12 @@
 {
   "title": {
-    "projectInfo": "Informações do projeto",
+    "homeInfo": "Informações do lar",
     "accessCode": "Código de acesso",
     "owner": "Usuário responsável"
   },
   "fields": {
     "name": "Nome",
-    "projectType": "Tipo de projeto",
+    "homeType": "Tipo de lar",
     "address": "Endereço",
     "description": "Descrição",
     "creationDate": "Data de criação",
@@ -22,14 +22,14 @@
   },
   "buttons": {
     "copy": "Copiar código de acesso",
-    "deleteProject": "Excluir projeto",
-    "leaveProject": "Sair do projeto"
+    "deleteHome": "Excluir lar",
+    "leaveHome": "Sair do lar"
   },
   "status": {
     "responsible": "Responsável"
   },
   "confirm": {
-    "leave": "Tem certeza de que deseja sair deste projeto?",
-    "delete": "Excluir este projeto? Esta ação não pode ser desfeita."
+    "leave": "Tem certeza de que deseja sair deste lar?",
+    "delete": "Excluir este lar? Esta ação não pode ser desfeita."
   }
 }

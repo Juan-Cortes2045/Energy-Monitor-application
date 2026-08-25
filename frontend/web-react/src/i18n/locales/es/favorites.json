@@ -5,10 +5,10 @@
       "current": "Favoritos"
     },
     "title": "Favoritos",
-    "subtitle": "Tus proyectos marcados como favoritos aparecen aquí para que los encuentres de forma rápida.",
+    "subtitle": "Tus hogares marcados como favoritos aparecen aquí para que los encuentres de forma rápida.",
     "empty": {
       "title": "Sin favoritos aún",
-      "description": "Marca el corazón en cualquier proyecto para verlo aquí."
+      "description": "Marca el corazón en cualquier hogar para verlo aquí."
     }
   }
 }

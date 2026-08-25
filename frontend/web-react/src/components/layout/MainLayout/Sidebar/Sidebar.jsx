@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import { createPortal } from "react-dom";
 
 import styles from "../Sidebar/Sidebar.module.css";
-import logoProyecto from "../../../../assets/logo_proyecto.png";
-import NavProjects from "./NavProjects";
+import logoHome from "../../../../assets/logo_proyecto.png";
+import NavHomes from "./NavHomes";
 
 import {
   Menu,
@@ -62,7 +62,7 @@ const Sidebar = () => {
           >
             <Menu size={24} />
           </button>
-          <img src={logoProyecto} alt="EnergyMonitor" className={styles.logo} />
+          <img src={logoHome} alt="EnergyMonitor" className={styles.logo} />
           <h1 className={styles.title}>EnergyMonitor</h1>
         </div>
 
@@ -76,9 +76,9 @@ const Sidebar = () => {
             onClick={() => setIsOpen(false)}
           />
           <div className={styles.navGroup}>
-            <NavProjects
+            <NavHomes
               icon={<CloudLightning size={24} />}
-              label={t("projects")}
+              label={t("homes")}
               collapsed={collapsed}
               onNavigate={() => setIsOpen(false)}
             />

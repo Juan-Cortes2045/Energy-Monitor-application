@@ -4,13 +4,13 @@
     "history": "Histórico",
     "users": "Usuários",
     "devices": "Dispositivos",
-    "project": "Projeto",
+    "home": "Lar",
     "thresholds": "Limites"
   },
   "breadcrumb": {
     "home": "Início",
-    "projects": "Projetos",
-    "projectFallback": "Projeto"
+    "homes": "Lares",
+    "homeFallback": "Lar"
   },
   "kpi": {
     "currentPower": "POTÊNCIA ATUAL ⚡",
