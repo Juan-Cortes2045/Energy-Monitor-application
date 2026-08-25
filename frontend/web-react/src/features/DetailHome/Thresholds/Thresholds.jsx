@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Gauge, Info, Check, Lock } from "lucide-react";
 
@@ -7,18 +7,29 @@ import Button from "../../../design/components/Button/Button";
 import Input from "../../../design/components/Input/Input";
 import styles from "./Thresholds.module.css";
 
-// ── Umbrales por defecto del sistema (ERF3.5). Sirven como base cuando
-// el proyecto todavía no tiene umbrales personalizados propios. ────────
 const DEFAULT_THRESHOLDS = { daily: 10, monthly: 300 };
 
 const Thresholds = ({ project, isOwner = false }) => {
   const { t } = useTranslation("thresholds");
 
   const [useDefaults, setUseDefaults] = useState(true);
+  const [periodicity, setPeriodicity] = useState("daily");
   const [daily, setDaily] = useState(String(DEFAULT_THRESHOLDS.daily));
   const [monthly, setMonthly] = useState(String(DEFAULT_THRESHOLDS.monthly));
   const [errors, setErrors] = useState({});
   const [saved, setSaved] = useState(false);
+
+  const isDaily = periodicity === "daily";
+
+  const calculatedValue = useMemo(() => {
+    if (isDaily) {
+      const num = Number(daily);
+      return !daily.trim() || Number.isNaN(num) || num <= 0 ? "" : String(Math.round(num * 30));
+    } else {
+      const num = Number(monthly);
+      return !monthly.trim() || Number.isNaN(num) || num <= 0 ? "" : (num / 30).toFixed(1).replace(/\.0$/, "");
+    }
+  }, [daily, monthly, isDaily]);
 
   const handleToggleDefaults = () => {
     if (!isOwner) return;
@@ -34,26 +45,35 @@ const Thresholds = ({ project, isOwner = false }) => {
     setSaved(false);
   };
 
-  const handleFieldChange = (setter) => (e) => {
-    setter(e.target.value);
+  const handlePeriodicityToggle = () => {
+    if (!isOwner || useDefaults) return;
+    setPeriodicity((prev) => (prev === "daily" ? "monthly" : "daily"));
+    setErrors({});
+    setSaved(false);
+  };
+
+  const handleActiveFieldChange = (e) => {
+    if (isDaily) {
+      setDaily(e.target.value);
+    } else {
+      setMonthly(e.target.value);
+    }
     setSaved(false);
   };
 
   const validate = () => {
-    const dailyNum = Number(daily);
-    const monthlyNum = Number(monthly);
     const nextErrors = {};
-
-    if (!daily.trim() || Number.isNaN(dailyNum) || dailyNum <= 0) {
-      nextErrors.daily = t("errors.invalid");
+    if (isDaily) {
+      const dailyNum = Number(daily);
+      if (!daily.trim() || Number.isNaN(dailyNum) || dailyNum <= 0) {
+        nextErrors.daily = t("errors.invalid");
+      }
+    } else {
+      const monthlyNum = Number(monthly);
+      if (!monthly.trim() || Number.isNaN(monthlyNum) || monthlyNum <= 0) {
+        nextErrors.monthly = t("errors.invalid");
+      }
     }
-    if (!monthly.trim() || Number.isNaN(monthlyNum) || monthlyNum <= 0) {
-      nextErrors.monthly = t("errors.invalid");
-    }
-    if (!nextErrors.daily && !nextErrors.monthly && monthlyNum < dailyNum) {
-      nextErrors.monthly = t("errors.monthlyLessThanDaily");
-    }
-
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
   };
@@ -65,10 +85,6 @@ const Thresholds = ({ project, isOwner = false }) => {
       return;
     }
     if (!validate()) return;
-
-    // NOTE: aquí se persistirán los umbrales de este proyecto (ERF3.1)
-    // contra el backend cuando esté disponible. Cada proyecto guarda
-    // sus propios valores de forma independiente.
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
@@ -91,6 +107,7 @@ const Thresholds = ({ project, isOwner = false }) => {
 
       <Card>
         <div className={styles.container}>
+          {/* Toggle defaults */}
           <div className={styles.row}>
             <div className={styles.rowLeft}>
               <div className={styles.rowIcon}>
@@ -124,38 +141,76 @@ const Thresholds = ({ project, isOwner = false }) => {
 
           <div className={styles.divider} />
 
+          {/* Periodicity selector */}
+          {!useDefaults && (
+            <>
+              <div className={styles.row}>
+                <div className={styles.rowLeft}>
+                  <div>
+                    <h4>{t("periodicity.label")}</h4>
+                  </div>
+                </div>
+                <div className={styles.rowRight}>
+                  <span className={styles.periodicityLabel}>
+                    {isDaily ? t("periodicity.daily") : t("periodicity.monthly")}
+                  </span>
+                  <button
+                    type="button"
+                    className={`${styles.switch} ${!isDaily ? styles.switchOn : ""}`}
+                    onClick={handlePeriodicityToggle}
+                    disabled={!isOwner}
+                    aria-label={t("periodicity.label")}
+                  >
+                    <span className={styles.thumb} />
+                  </button>
+                </div>
+              </div>
+
+              <div className={styles.divider} />
+            </>
+          )}
+
+          {/* Threshold fields */}
           <div className={styles.fieldsGrid}>
+            {/* Daily field */}
             <div className={styles.field}>
               <Input
                 id="threshold-daily"
                 type="number"
                 min="0"
-                value={daily}
-                onChange={handleFieldChange(setDaily)}
-                disabled={useDefaults || !isOwner}
+                value={isDaily ? daily : calculatedValue}
+                onChange={isDaily ? handleActiveFieldChange : undefined}
+                disabled={useDefaults || !isOwner || !isDaily}
                 placeholder="0"
               >
                 {t("fields.daily")}
               </Input>
               <span className={styles.unit}>{t("unit")}</span>
+              {!isDaily && !useDefaults && calculatedValue && (
+                <span className={styles.calculatedBadge}>{t("calculated")}</span>
+              )}
               {errors.daily && (
                 <span className={styles.errorMsg}>{errors.daily}</span>
               )}
             </div>
 
+            {/* Monthly field */}
             <div className={styles.field}>
               <Input
                 id="threshold-monthly"
                 type="number"
                 min="0"
-                value={monthly}
-                onChange={handleFieldChange(setMonthly)}
-                disabled={useDefaults || !isOwner}
+                value={isDaily ? calculatedValue : monthly}
+                onChange={!isDaily ? handleActiveFieldChange : undefined}
+                disabled={useDefaults || !isOwner || isDaily}
                 placeholder="0"
               >
                 {t("fields.monthly")}
               </Input>
               <span className={styles.unit}>{t("unit")}</span>
+              {isDaily && !useDefaults && calculatedValue && (
+                <span className={styles.calculatedBadge}>{t("calculated")}</span>
+              )}
               {errors.monthly && (
                 <span className={styles.errorMsg}>{errors.monthly}</span>
               )}

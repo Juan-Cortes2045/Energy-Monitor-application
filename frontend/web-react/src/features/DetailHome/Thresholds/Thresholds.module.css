@@ -46,7 +46,7 @@
   padding: var(--spacing-xs) var(--spacing-sm);
 }
 
-/* ── Card interna: toggle de umbrales por defecto ────────────────── */
+/* ── Card interna ─────────────────────────────────────────────────── */
 .container {
   display: flex;
   flex-direction: column;
@@ -116,6 +116,27 @@
 .inactive {
   background-color: #f1f2f4;
   color: var(--color-text-secondary);
+}
+
+/* ── Periodicity label ───────────────────────────────────────────── */
+.periodicityLabel {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+}
+
+/* ── Calculated badge ────────────────────────────────────────────── */
+.calculatedBadge {
+  display: inline-block;
+  margin-top: 2px;
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-secondary);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 1px 8px;
+  width: fit-content;
 }
 
 /* ── Switch ───────────────────────────────────────────────────────── */
@@ -200,7 +221,7 @@
   margin-right: 4px;
 }
 
-/* ── Nota de alcance por proyecto ─────────────────────────────────── */
+/* ── Nota de alcance ─────────────────────────────────────────────── */
 .infoNote {
   display: flex;
   align-items: center;

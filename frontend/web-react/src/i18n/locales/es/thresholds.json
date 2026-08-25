@@ -1,27 +1,32 @@
 {
   "title": "Umbrales de consumo",
-  "subtitle": "Estos límites aplican únicamente a este proyecto y se usan para generar alertas y recomendaciones personalizadas.",
+  "subtitle": "Estos límites aplican únicamente a este hogar y se usan para generar alertas y recomendaciones personalizadas.",
   "defaults": {
     "label": "Usar los umbrales por defecto del sistema",
-    "hint": "Los umbrales por defecto están pensados para un consumo residencial promedio. Desactívalos para definir tus propios límites en este proyecto.",
+    "hint": "Los umbrales por defecto están pensados para un consumo residencial promedio. Desactívalos para definir tus propios límites en este hogar.",
     "on": "Activado",
     "off": "Desactivado"
+  },
+  "periodicity": {
+    "label": "Configurar por",
+    "daily": "Diario",
+    "monthly": "Mensual"
   },
   "fields": {
     "daily": "Límite diario",
     "monthly": "Límite mensual"
   },
+  "calculated": "Calculado",
   "unit": "kWh",
   "readOnly": {
-    "notice": "Solo el responsable del proyecto puede modificar estos umbrales."
+    "notice": "Solo el responsable del hogar puede modificar estos umbrales."
   },
-  "scopeNote": "Cada proyecto guarda sus propios umbrales; cambiarlos aquí no afecta a tus otros proyectos.",
+  "scopeNote": "Cada hogar guarda sus propios umbrales; cambiarlos aquí no afecta a tus otros hogares.",
   "buttons": {
     "save": "Guardar cambios",
     "saved": "Guardado"
   },
   "errors": {
-    "invalid": "Ingresa un valor mayor a 0",
-    "monthlyLessThanDaily": "El límite mensual debe ser mayor o igual al diario"
+    "invalid": "Ingresa un valor mayor a 0"
   }
 }
