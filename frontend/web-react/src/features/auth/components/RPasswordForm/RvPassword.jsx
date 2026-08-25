@@ -1,7 +1,6 @@
 import Card from "../../../../design/components/Card/Card";
 import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
-import colors from "../../../../design/tokens/colors.js";
 import styles from "./RecoverPassword.module.css";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -38,7 +37,7 @@ const RvPassword = () => {
           {t("comeBack")}.{" "}
           <a
             href="/login"
-            style={{ color: colors.secondary }}
+            style={{ color: "var(--color-secondary)" }}
             className={styles.registerLink}
           >
             {t("login")}

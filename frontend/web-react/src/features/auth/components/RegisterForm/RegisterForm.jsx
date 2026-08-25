@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import styles from "./RegisterForm.module.css";
 import { registerSchema } from "../../validation/registerSchema.js";
 import { useNavigate } from "react-router-dom";
-import colors from "../../../../design/tokens/colors.js";
 import { useTranslation } from "react-i18next";
 
 import googleIcon from "../../../../assets/google_icon.png";
@@ -122,7 +121,7 @@ const RegisterForm = () => {
                   {t("register.termsPrefix")}{" "}
                   <span
                     className={styles.registerLink}
-                    style={{ color: colors.secondary }}
+                    style={{ color: "var(--color-secondary)" }}
                     onClick={() => setLegalTab("terms")}
                   >
                     {t("register.terms")}
@@ -130,7 +129,7 @@ const RegisterForm = () => {
                   y la{" "}
                   <span
                     className={styles.registerLink}
-                    style={{ color: colors.secondary }}
+                    style={{ color: "var(--color-secondary)" }}
                     onClick={() => setLegalTab("privacy")}
                   >
                     {t("register.privacy")}
@@ -169,7 +168,7 @@ const RegisterForm = () => {
               {t("register.haveAccount")}.{" "}
               <a
                 href="/login"
-                style={{ color: colors.secondary }}
+                style={{ color: "var(--color-secondary)" }}
                 className={styles.registerLink}
               >
                 {t("register.login")}

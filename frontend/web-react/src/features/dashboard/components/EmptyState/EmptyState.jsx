@@ -2,9 +2,6 @@ import styles from "../EmptyState/EmptyState.module.css";
 import emptyImg from "../../../../assets/empty_image.png";
 
 import Button from "../../../../design/components/Button/Button";
-import colors from "../../../../design/tokens/colors";
-import spacing from "../../../../design/tokens/spacing";
-import typography from "../../../../design/tokens/typography";
 import { useTranslation } from "react-i18next";
 
 const EmptyState = ({ onCreateHome, onJoinHome }) => {
@@ -15,10 +12,10 @@ const EmptyState = ({ onCreateHome, onJoinHome }) => {
 
       <h2
         style={{
-          color: colors.textSecondary,
-          fontFamily: typography.fontSecondary,
-          fontWeight: typography.weights.bold,
-          fontSize: typography.sizes.xl,
+          color: "var(--color-text-secondary)",
+          fontFamily: "var(--font-secondary)",
+          fontWeight: "var(--font-weight-bold)",
+          fontSize: "var(--font-size-xl)",
         }}
       >
         {t("title")}

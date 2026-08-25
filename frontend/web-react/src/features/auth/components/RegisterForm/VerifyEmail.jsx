@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import colors from "../../../../design/tokens/colors.js";
 import Card from "../../../../design/components/Card/Card";
 import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
@@ -78,7 +77,7 @@ const VerifyEmail = () => {
             {t("register.haveAccount")}.{" "}
             <a
               href="/login"
-              style={{ color: colors.secondary }}
+              style={{ color: "var(--color-secondary)" }}
               className={styles.registerLink}
             >
               {t("register.login")}

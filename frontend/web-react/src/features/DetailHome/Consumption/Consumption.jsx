@@ -27,9 +27,6 @@ import Thresholds from "../Thresholds/Thresholds";
 import ConsumptionHistory from "../ConsumptionHistory/ComsumptionHistory";
 import styles from "./Consumption.module.css";
 
-import colors from "../../../design/tokens/colors";
-import typography from "../../../design/tokens/typography";
-import radius from "../../../design/tokens/radius";
 import { useTranslation } from "react-i18next";
 
 const mockConsumptionData = {

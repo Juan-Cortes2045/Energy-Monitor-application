@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../../validation/loginSchema.js";
 import styles from "../LoginForm/LoginForm.module.css";
-import colors from "../../../../design/tokens/colors.js";
 import { useTranslation } from "react-i18next";
 
 import googleIcon from "../../../../assets/google_icon.png";
@@ -81,7 +80,7 @@ const LoginForm = () => {
             href="/recover-password"
             className={styles.link}
             style={{
-              color: colors.secondary,
+              color: "var(--color-secondary)",
             }}
           >
             {t("login.forgotPassword")}
@@ -98,7 +97,7 @@ const LoginForm = () => {
           <div
             className={styles.divider}
             style={{
-              color: colors.textSecondary,
+              color: "var(--color-text-secondary)",
             }}
           >
             <span>{t("login.divider")}</span>
@@ -118,7 +117,7 @@ const LoginForm = () => {
             href="/register"
             className={styles.link}
             style={{
-              color: colors.secondary,
+              color: "var(--color-secondary)",
             }}
           >
             {t("login.register")}

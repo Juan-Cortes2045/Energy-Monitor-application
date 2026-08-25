@@ -1,8 +1,4 @@
 import styles from "../../css/Card.module.css";
-import typography from "../../tokens/typography";
-import radius from "../../tokens/radius";
-import spacing from "../../tokens/spacing";
-import shadows from "../../tokens/shadows";
 
 const Card = ({ title, children, style = {}, maxWidth = "100%" }) => {
   return (
@@ -10,9 +6,9 @@ const Card = ({ title, children, style = {}, maxWidth = "100%" }) => {
       className={styles.container}
       style={{
         backgroundColor: "var(--color-surface)",
-        borderRadius: radius.md,
-        padding: spacing.lg,
-        boxShadow: shadows.lg,
+        borderRadius: "var(--radius-md)",
+        padding: "var(--spacing-lg)",
+        boxShadow: "var(--shadow-lg)",
         maxWidth,
         ...style,
       }}
@@ -21,9 +17,9 @@ const Card = ({ title, children, style = {}, maxWidth = "100%" }) => {
         <h3
           className={styles.title}
           style={{
-            fontFamily: typography.fontPrimary,
-            fontSize: typography.sizes.lg,
-            fontWeight: typography.weights.bold,
+            fontFamily: "var(--font-primary)",
+            fontSize: "var(--font-size-lg)",
+            fontWeight: "var(--font-weight-bold)",
             color: "var(--color-text-primary)",
           }}
         >
