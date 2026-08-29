@@ -134,12 +134,12 @@
   color: #185fa5;
 }
 .avatar_green {
-  background-color: #eaf3de;
-  color: #3b6d11;
+  background-color: var(--color-success-soft);
+  color: var(--color-success-text);
 }
 .avatar_amber {
-  background-color: #faeeda;
-  color: #854f0b;
+  background-color: var(--color-warning-soft);
+  color: var(--color-warning-text);
 }
 .avatar_purple {
   background-color: #eeedfe;
@@ -197,8 +197,8 @@
   color: #185fa5;
 }
 .badgeMember {
-  background-color: #eaf3de;
-  color: #3b6d11;
+  background-color: var(--color-success-soft);
+  color: var(--color-success-text);
 }
 
 /* ── Botón eliminar ──────────────────────────────────────────────── */
@@ -207,8 +207,8 @@
   height: 28px;
   border-radius: var(--radius-sm);
   border: none;
-  background-color: #fcebeb;
-  color: #a32d2d;
+  background-color: var(--color-danger-soft);
+  color: var(--color-danger-text);
   font-size: 18px;
   line-height: 1;
   display: flex;
@@ -222,7 +222,7 @@
 }
 
 .removeBtn:hover {
-  background-color: #f7c1c1;
+  background-color: var(--color-danger-soft-hover);
 }
 .removeBtn:active {
   transform: scale(0.95);

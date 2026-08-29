@@ -185,9 +185,9 @@
 }
 
 .copyBtnOk {
-  background-color: #eaf3de;
-  color: #3b6d11;
-  border-color: #c0dd97;
+  background-color: var(--color-success-soft);
+  color: var(--color-success-text);
+  border-color: var(--color-success-text);
 }
 
 /* ── Botón acción dentro de la card ─────────────────────────────── */

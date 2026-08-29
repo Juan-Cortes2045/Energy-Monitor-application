@@ -76,8 +76,8 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background-color: #fcebeb;
-  color: #a32d2d;
+  background-color: var(--color-danger-soft);
+  color: var(--color-danger-text);
   display: flex;
   align-items: center;
   justify-content: center;

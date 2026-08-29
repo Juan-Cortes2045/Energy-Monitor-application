@@ -160,13 +160,13 @@
 }
 
 .iconDanger {
-  background-color: #fcebeb;
-  color: #a32d2d;
+  background-color: var(--color-danger-soft);
+  color: var(--color-danger-text);
 }
 
 .iconWarning {
-  background-color: #fff4d6;
-  color: #854f0b;
+  background-color: var(--color-warning-soft);
+  color: var(--color-warning-text);
 }
 
 .iconInfo {
@@ -263,8 +263,8 @@
   height: 28px;
   border-radius: var(--radius-sm);
   border: none;
-  background-color: #fcebeb;
-  color: #a32d2d;
+  background-color: var(--color-danger-soft);
+  color: var(--color-danger-text);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -276,7 +276,7 @@
 }
 
 .deleteBtn:hover {
-  background-color: #f7c1c1;
+  background-color: var(--color-danger-soft-hover);
 }
 
 .deleteBtn:active {
@@ -294,13 +294,13 @@
 }
 
 .badgeDanger {
-  background-color: #fcebeb;
-  color: #a32d2d;
+  background-color: var(--color-danger-soft);
+  color: var(--color-danger-text);
 }
 
 .badgeWarning {
-  background-color: #fff4d6;
-  color: #854f0b;
+  background-color: var(--color-warning-soft);
+  color: var(--color-warning-text);
 }
 
 .badgeInfo {

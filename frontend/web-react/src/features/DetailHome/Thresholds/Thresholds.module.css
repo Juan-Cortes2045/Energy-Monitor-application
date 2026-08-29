@@ -109,8 +109,8 @@
 }
 
 .active {
-  background-color: #eaf3de;
-  color: #3b6d11;
+  background-color: var(--color-success-soft);
+  color: var(--color-success-text);
 }
 
 .inactive {

@@ -123,8 +123,8 @@
 }
 
 .statusOnline {
-  background-color: #eaf3de;
-  color: #3b6d11;
+  background-color: var(--color-success-soft);
+  color: var(--color-success-text);
 }
 
 .statusOffline {
@@ -133,10 +133,10 @@
 }
 
 .signalIcon.signalHigh {
-  color: #3b6d11;
+  color: var(--color-success-text);
 }
 .signalIcon.signalMed {
-  color: #854f0b;
+  color: var(--color-warning-text);
 }
 .signalIcon.signalLow {
   color: var(--color-danger);
@@ -156,8 +156,8 @@
   height: 30px;
   border-radius: var(--radius-sm);
   border: none;
-  background-color: #fcebeb;
-  color: #a32d2d;
+  background-color: var(--color-danger-soft);
+  color: var(--color-danger-text);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -169,7 +169,7 @@
 }
 
 .removeBtn:hover {
-  background-color: #f7c1c1;
+  background-color: var(--color-danger-soft-hover);
 }
 .removeBtn:active {
   transform: scale(0.95);
