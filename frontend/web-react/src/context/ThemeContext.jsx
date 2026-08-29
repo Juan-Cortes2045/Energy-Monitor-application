@@ -22,6 +22,14 @@ export const THEMES = [
             "--color-text-primary":    "#212529",
             "--color-text-secondary":  "#6C757D",
             "--color-border":          "#E5E7EB",
+
+            "--color-danger-soft":       "#FCEBEB",
+            "--color-danger-soft-hover": "#F7C1C1",
+            "--color-danger-text":       "#A32D2D",
+            "--color-success-soft":      "#EAF3DE",
+            "--color-success-text":      "#3B6D11",
+            "--color-warning-soft":      "#FFF4D6",
+            "--color-warning-text":      "#854F0B",
         },
     },
     {
@@ -45,6 +53,14 @@ export const THEMES = [
             "--color-text-primary":    "#1A2E1B",
             "--color-text-secondary":  "#5A7A5C",
             "--color-border":          "#C8E6C9",
+
+            "--color-danger-soft":       "#FCEBEB",
+            "--color-danger-soft-hover": "#F7C1C1",
+            "--color-danger-text":       "#A32D2D",
+            "--color-success-soft":      "#E8F5E9",
+            "--color-success-text":      "#2E7D32",
+            "--color-warning-soft":      "#FFF4D6",
+            "--color-warning-text":      "#854F0B",
         },
     },
     {
@@ -68,6 +84,14 @@ export const THEMES = [
             "--color-text-primary":    "#F1F5F9",
             "--color-text-secondary":  "#94A3B8",
             "--color-border":          "#334155",
+
+            "--color-danger-soft":       "rgba(230,57,70,0.15)",
+            "--color-danger-soft-hover": "rgba(230,57,70,0.28)",
+            "--color-danger-text":       "#FCA5A5",
+            "--color-success-soft":      "rgba(46,204,113,0.15)",
+            "--color-success-text":      "#6EE7B7",
+            "--color-warning-soft":      "rgba(255,215,0,0.15)",
+            "--color-warning-text":      "#FCD34D",
         },
     },
     {
@@ -91,6 +115,14 @@ export const THEMES = [
             "--color-text-primary":    "#ECFDF5",
             "--color-text-secondary":  "#6EE7B7",
             "--color-border":          "#1E4029",
+
+            "--color-danger-soft":       "rgba(230,57,70,0.15)",
+            "--color-danger-soft-hover": "rgba(230,57,70,0.28)",
+            "--color-danger-text":       "#FCA5A5",
+            "--color-success-soft":      "rgba(34,197,94,0.15)",
+            "--color-success-text":      "#4ADE80",
+            "--color-warning-soft":      "rgba(255,215,0,0.15)",
+            "--color-warning-text":      "#FCD34D",
         },
     },
 ];

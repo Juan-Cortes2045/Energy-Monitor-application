@@ -10,6 +10,14 @@
   --color-danger: #e63946;
   --color-info: #17a2b8;
 
+  --color-danger-soft: #fcebeb;
+  --color-danger-soft-hover: #f7c1c1;
+  --color-danger-text: #a32d2d;
+  --color-success-soft: #eaf3de;
+  --color-success-text: #3b6d11;
+  --color-warning-soft: #fff4d6;
+  --color-warning-text: #854f0b;
+
   --color-background: #f8f9fa;
   --color-background-left: #3f6bae;
   --color-surface: #ffffff;
