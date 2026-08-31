@@ -34,10 +34,14 @@
   --font-primary: "Inter", sans-serif;
   --font-secondary: "Poppins", sans-serif;
 
+  --font-size-11: 11px;
   --font-size-xs: 12px;
+  --font-size-13: 13px;
   --font-size-sm: 14px;
   --font-size-md: 16px;
+  --font-size-18: 18px;
   --font-size-lg: 20px;
+  --font-size-22: 22px;
   --font-size-xl: 24px;
   --font-size-xxl: 32px;
   --font-size-xxxl: 60px;

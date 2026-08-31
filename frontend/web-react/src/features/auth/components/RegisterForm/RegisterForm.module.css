@@ -13,7 +13,7 @@
 
 /*ERRORES*/
 .error {
-  font-size: 16px;
+  font-size: var(--font-size-md);
   color: var(--color-danger);
 }
 
@@ -21,14 +21,14 @@
   display: flex;
   align-items: flex-start;
   gap: 6px;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   line-height: 1.4;
 }
 
 /*OPCIONES*/
 .options {
   display: flex;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
 }
 
 .checkbox{
@@ -52,7 +52,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
 }
 
@@ -70,7 +70,7 @@
 }
 
 .divider span {
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   white-space: nowrap;
 }
 
@@ -78,7 +78,7 @@
 .register {
   text-align: center;
   font-weight: 500;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   color: var(--color-text-primary);
 }
 
@@ -140,7 +140,7 @@
   }
 
   .title {
-    font-size: 20px;
+    font-size: var(--font-size-lg);
   }
 
   .form {
@@ -153,25 +153,25 @@
   }
 
   .terms {
-    font-size: 13px;
+    font-size: var(--font-size-13);
   }
 
   .divider span {
-    font-size: 11px;
+    font-size: var(--font-size-11);
   }
 }
 
 /*  MOBILE PEQUEÑO */
 @media (max-width: 480px) {
   .title {
-    font-size: 18px;
+    font-size: var(--font-size-18);
   }
 
   .terms {
-    font-size: 12px;
+    font-size: var(--font-size-xs);
   }
 
   .register {
-    font-size: 13px;
+    font-size: var(--font-size-13);
   }
 }
