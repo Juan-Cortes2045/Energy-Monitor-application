@@ -16,11 +16,11 @@
 }
 
 .title {
-  color: var(--color-hiw-title);
+  color: var(--color-text-primary);
 }
 
 .subtitle {
-  color: var(--color-hiw-subtitle);
+  color: var(--color-text-secondary);
 }
 
 .steps {
@@ -54,11 +54,11 @@
 .stepHeader h4 {
   margin: 0;
   line-height: 1.2;
-  color: var(--color-hiw-card-title);
+  color: var(--color-text-primary);
 }
 
 .stepContent p {
-  color: var(--color-hiw-card-text);
+  color: var(--color-text-secondary);
   margin: 0;
 }
 

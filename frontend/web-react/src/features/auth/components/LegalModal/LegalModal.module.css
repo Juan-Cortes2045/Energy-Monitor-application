@@ -49,12 +49,12 @@
 }
 
 .tab:hover {
-  background: var(--color-surface-hover, rgba(0, 0, 0, 0.05));
+  background: var(--color-background);
 }
 
 .tabActive {
   color: var(--color-secondary);
-  background: var(--color-surface-hover, rgba(0, 0, 0, 0.06));
+  background: var(--color-background);
 }
 
 .closeButton {
@@ -71,7 +71,7 @@
 }
 
 .closeButton:hover {
-  background: var(--color-surface-hover, rgba(0, 0, 0, 0.05));
+  background: var(--color-background);
 }
 
 .body {

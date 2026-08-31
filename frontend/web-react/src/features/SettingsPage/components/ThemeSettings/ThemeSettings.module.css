@@ -205,7 +205,7 @@
 .cardName {
     font-size: 16px;
     font-weight: 600;
-    color: var(--color-text);
+    color: var(--color-text-primary);
 }
 .darkCard .cardName {
     color: #F1F5F9;
