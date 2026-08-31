@@ -13,7 +13,7 @@ export const THEMES = [
             "--color-primary":         "#0078D7",
             "--color-primary-hover":   "#3399FF",
             "--color-primary-dark":    "#0A2540",
-            "--color-primary-soft":    "#E8F3FF",   /* fondo suave para badges e iconos */
+            "--color-primary-soft":    "#E8F3FF",   
             "--color-secondary":       "#32CD32",
             "--color-background":      "#F8F9FA",
             "--color-background-left": "#3F6BAE",
@@ -30,6 +30,8 @@ export const THEMES = [
             "--color-success-text":      "#3B6D11",
             "--color-warning-soft":      "#FFF4D6",
             "--color-warning-text":      "#854F0B",
+            "--color-info-soft":         "#D1ECF1",
+            "--color-info-text":         "#0C5460",
         },
     },
     {
@@ -61,6 +63,8 @@ export const THEMES = [
             "--color-success-text":      "#2E7D32",
             "--color-warning-soft":      "#FFF4D6",
             "--color-warning-text":      "#854F0B",
+            "--color-info-soft":         "#D1ECF1",
+            "--color-info-text":         "#0C5460",
         },
     },
     {
@@ -92,6 +96,8 @@ export const THEMES = [
             "--color-success-text":      "#6EE7B7",
             "--color-warning-soft":      "rgba(255,215,0,0.15)",
             "--color-warning-text":      "#FCD34D",
+            "--color-info-soft":         "rgba(23,162,184,0.15)",
+            "--color-info-text":         "#67E8F9",
         },
     },
     {
@@ -123,6 +129,8 @@ export const THEMES = [
             "--color-success-text":      "#4ADE80",
             "--color-warning-soft":      "rgba(255,215,0,0.15)",
             "--color-warning-text":      "#FCD34D",
+            "--color-info-soft":         "rgba(23,162,184,0.15)",
+            "--color-info-text":         "#67E8F9",
         },
     },
 ];

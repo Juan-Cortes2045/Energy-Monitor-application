@@ -170,8 +170,8 @@
 }
 
 .iconInfo {
-  background-color: var(--color-primary-soft);
-  color: var(--color-primary);
+  background-color: var(--color-info-soft);
+  color: var(--color-info-text);
 }
 
 /* ── Cuerpo de la fila ────────────────────────────────────────────── */
@@ -304,8 +304,8 @@
 }
 
 .badgeInfo {
-  background-color: var(--color-primary-soft);
-  color: var(--color-primary);
+  background-color: var(--color-info-soft);
+  color: var(--color-info-text);
 }
 
 .badgeNeutral {
@@ -348,12 +348,6 @@
   .gridBox {
     margin: 0 var(--spacing-md) var(--spacing-md);
   }
-
-  /* En vez de un flex-wrap frágil (que dejaba el ancho de rowBody a
-     merced de cómo el navegador decidiera repartir el espacio con
-     rowActions), usamos un grid explícito: icono + contenido arriba,
-     acciones en su propia fila ocupando todo el ancho abajo. Así el
-     texto siempre tiene el ancho real de la tarjeta para acomodarse. */
   .row {
     display: grid;
     grid-template-columns: 36px 1fr;

@@ -17,6 +17,8 @@
   --color-success-text: #3b6d11;
   --color-warning-soft: #fff4d6;
   --color-warning-text: #854f0b;
+  --color-info-soft: #d1ecf1;
+  --color-info-text: #0c5460;
 
   --color-background: #f8f9fa;
   --color-background-left: #3f6bae;
@@ -27,8 +29,6 @@
   --color-text-secondary: #6c757d;
   --color-border: #e5e7eb;
 
-  --color-card-soft: #e8f3ff;
-  --color-card-selected: #f7fbff;
   --color-primary-soft: #E8F3FF;
 
   --font-primary: "Inter", sans-serif;
