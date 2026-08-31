@@ -104,7 +104,7 @@
 
 .sectionHeading {
   font-size: 15px;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--color-secondary);
   margin-bottom: 6px;
 }
