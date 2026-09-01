@@ -12,36 +12,23 @@ import {
 } from "recharts";
 
 import Card from "../../../design/components/Card/Card";
+import { APPLIANCE_TYPE_IDS } from "../shared/deviceTypes";
+import { getDeviceColor } from "../shared/deviceChartConfig";
+import EmptyChart from "../shared/EmptyChart";
+import { useTheme } from "../../../context/ThemeContext";
 import styles from "./ConsumptionHistory.module.css";
 
 const FILTERS = ["day", "week", "month", "year"];
 
-const DEVICE_COLORS = [
-  "var(--color-primary)",
-  "var(--color-warning)",
-  "var(--color-secondary)",
-  "var(--color-danger)",
-  "#8B5CF6",
-  "#F97316",
-];
-
-const DEVICES = [
-  "Nevera",
-  "Aire acondicionado",
-  "Televisor",
-  "Lavadora",
-  "Iluminación",
-  "Otros",
-];
-
-// Datos mock
-const generateMockData = () => {
+// Datos mock por rango de tiempo, uno por applianceType presente en el
+// hogar (no por nombre en español: se traduce al mostrar, no al generar).
+const generateMockData = (categoryTypes) => {
   const randomValue = (base, range) => Math.floor(Math.random() * range) + base;
 
   const day = Array.from({ length: 24 }, (_, i) => {
     const entry = { label: `${i}:00` };
-    DEVICES.forEach((device) => {
-      entry[device] = randomValue(0, 8);
+    categoryTypes.forEach((type) => {
+      entry[type] = randomValue(0, 8);
     });
     return entry;
   });
@@ -49,8 +36,8 @@ const generateMockData = () => {
   const week = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"].map(
     (dayName) => {
       const entry = { label: dayName };
-      DEVICES.forEach((device) => {
-        entry[device] = randomValue(5, 20);
+      categoryTypes.forEach((type) => {
+        entry[type] = randomValue(5, 20);
       });
       return entry;
     }
@@ -58,8 +45,8 @@ const generateMockData = () => {
 
   const month = Array.from({ length: 30 }, (_, i) => {
     const entry = { label: String(i + 1).padStart(2, "0") };
-    DEVICES.forEach((device) => {
-      entry[device] = randomValue(10, 30);
+    categoryTypes.forEach((type) => {
+      entry[type] = randomValue(10, 30);
     });
     return entry;
   });
@@ -69,8 +56,8 @@ const generateMockData = () => {
     "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",
   ].map((monthName) => {
     const entry = { label: monthName };
-    DEVICES.forEach((device) => {
-      entry[device] = randomValue(100, 200);
+    categoryTypes.forEach((type) => {
+      entry[type] = randomValue(100, 200);
     });
     return entry;
   });
@@ -78,7 +65,6 @@ const generateMockData = () => {
   return { day, week, month, year };
 };
 
-const mockData = generateMockData();
 const SUBFILTERS_CONFIG = {
   day: [
     { key: "0-6", range: [0, 6] },
@@ -101,12 +87,14 @@ const SUBFILTERS_CONFIG = {
   ],
 };
 
-const ConsumptionHistory = () => {
-  const { t } = useTranslation("history");
+const ConsumptionHistory = ({ devices }) => {
+  const { t, i18n } = useTranslation("history");
+  const { currentTheme } = useTheme();
 
   const [activeFilter, setActiveFilter] = useState("month");
   const [activeSubFilter, setActiveSubFilter] = useState(null); // clave del subfiltro seleccionado
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [manualSelectedType, setManualSelectedType] = useState(null); // null = seguir al top consumer
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -119,39 +107,78 @@ const ConsumptionHistory = () => {
     setActiveSubFilter(null);
   }, [activeFilter]);
 
-  const fullData = mockData[activeFilter];
+  // Al cambiar de periodo (filtro o subfiltro), volver a seguir al top
+  // consumer en vez de conservar la elección manual del periodo anterior.
+  useEffect(() => {
+    setManualSelectedType(null);
+  }, [activeFilter, activeSubFilter]);
 
-  // Aplicar subfiltro si existe
-  const chartData = useMemo(() => {
+  // Tipos de dispositivo realmente vinculados en el hogar, en orden
+  // canónico (mismo orden que usa Consumption.jsx) para poder comparar
+  // ambas pestañas de un vistazo.
+  const categoryTypes = useMemo(() => {
+    const present = new Set(devices.map((d) => d.applianceType));
+    return APPLIANCE_TYPE_IDS.filter((id) => present.has(id));
+  }, [devices]);
+
+  const mockDataByFilter = useMemo(
+    () => generateMockData(categoryTypes),
+    [categoryTypes]
+  );
+
+  const fullData = mockDataByFilter[activeFilter];
+
+  // Filas del rango de tiempo seleccionado (recorte por subfiltro, igual
+  // que antes). De aquí se derivan tanto los totales por categoría
+  // (ranking/stats) como la serie temporal del dispositivo seleccionado
+  // (gráfico).
+  const rows = useMemo(() => {
     const subConfig = SUBFILTERS_CONFIG[activeFilter];
-    if (!subConfig || !activeSubFilter) return fullData;
-
-    const selected = subConfig.find((sf) => sf.key === activeSubFilter);
-    if (!selected) return fullData;
-
-    const [start, end] = selected.range;
-    return fullData.slice(start, end);
+    if (subConfig && activeSubFilter) {
+      const selected = subConfig.find((sf) => sf.key === activeSubFilter);
+      if (selected) {
+        const [start, end] = selected.range;
+        return fullData.slice(start, end);
+      }
+    }
+    return fullData;
   }, [fullData, activeFilter, activeSubFilter]);
 
-  const devices = useMemo(() => {
-    if (!chartData.length) return [];
-    return Object.keys(chartData[0]).filter((key) => key !== "label");
-  }, [chartData]);
+  const categoryTotals = useMemo(() => {
+    return categoryTypes.map((type) => ({
+      type,
+      name: t(`applianceTypes.${type}`, { ns: "devices" }),
+      total: rows.reduce((sum, row) => sum + row[type], 0),
+    }));
+  }, [rows, categoryTypes, t, i18n.language]);
+
+  const topConsumerType = useMemo(() => {
+    if (!categoryTotals.length) return null;
+    return [...categoryTotals].sort((a, b) => b.total - a.total)[0].type;
+  }, [categoryTotals]);
+
+  const selectedType = manualSelectedType ?? topConsumerType;
+
+  // Serie temporal (una barra por punto de tiempo) del dispositivo
+  // actualmente seleccionado.
+  const timeSeriesData = useMemo(() => {
+    if (!selectedType) return [];
+    return rows.map((row) => ({ label: row.label, value: row[selectedType] }));
+  }, [rows, selectedType]);
 
   const rankingData = useMemo(() => {
-    return devices.map((device, index) => {
-      const total = chartData.reduce((acc, item) => acc + item[device], 0);
-      return {
-        nombre: device,
-        total,
-        color: DEVICE_COLORS[index % DEVICE_COLORS.length],
-      };
-    });
-  }, [chartData, devices]);
+    return [...categoryTotals]
+      .sort((a, b) => b.total - a.total)
+      .map((entry) => ({
+        nombre: entry.name,
+        total: entry.total,
+        color: getDeviceColor(entry.type, currentTheme.mode),
+      }));
+  }, [categoryTotals, currentTheme.mode]);
 
   const totalPeriodo = rankingData.reduce((acc, item) => acc + item.total, 0);
 
-  const needsScroll = chartData.length > 8;
+  const needsScroll = timeSeriesData.length > 8;
 
   return (
     <div className={styles.page}>
@@ -197,73 +224,81 @@ const ConsumptionHistory = () => {
       <Card className={styles.chartCard}>
         <div className={styles.chartBlock}>
           <p className={styles.title}>{t("chart.title")}</p>
-          <div
-            className={styles.chartWrapper}
-            style={{ overflowX: needsScroll ? "auto" : "hidden" }}
-          >
+
+          {categoryTypes.length > 0 && (
+            <div className={styles.deviceSelector}>
+              {categoryTypes.map((type) => (
+                <button
+                  key={type}
+                  onClick={() => setManualSelectedType(type)}
+                  className={selectedType === type ? styles.deviceActive : ""}
+                >
+                  <span
+                    className={styles.deviceDot}
+                    style={{ background: getDeviceColor(type, currentTheme.mode) }}
+                  />
+                  {t(`applianceTypes.${type}`, { ns: "devices" })}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {timeSeriesData.length === 0 ? (
+            <EmptyChart mensaje={t("chart.empty")} />
+          ) : (
             <div
-              className={styles.chartInner}
-              style={{
-                minWidth: needsScroll ? `${chartData.length * 55}px` : "100%",
-              }}
-        >
-              <ResponsiveContainer width="100%" height={isMobile ? 300 : 440}>
-                <BarChart data={chartData}>
-                  <CartesianGrid
-                    strokeDasharray="3 3"
-                    vertical={false}
-                    stroke="var(--color-border)"
-                  />
-                  <XAxis
-                    dataKey="label"
-                    tick={{ fontSize: 11, fill: "var(--color-text-secondary)" }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <YAxis
-                    tick={{ fontSize: 11, fill: "var(--color-text-secondary)" }}
-                    axisLine={false}
-                    tickLine={false}
-                    unit=" kWh"
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      borderRadius: "var(--radius-md)",
-                      border: "1px solid var(--color-border)",
-                      fontSize: 12,
-                      fontFamily: "var(--font-primary)",
-                    }}
-                  />
-                  {devices.map((device, index) => (
+              className={styles.chartWrapper}
+              style={{ overflowX: needsScroll ? "auto" : "hidden" }}
+            >
+              <div
+                className={styles.chartInner}
+                style={{
+                  minWidth: needsScroll ? `${timeSeriesData.length * 55}px` : "100%",
+                }}
+              >
+                <ResponsiveContainer width="100%" height={isMobile ? 300 : 440}>
+                  <BarChart data={timeSeriesData}>
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      vertical={false}
+                      stroke="var(--color-border)"
+                    />
+                    <XAxis
+                      dataKey="label"
+                      tick={{ fontSize: 11, fill: "var(--color-text-secondary)" }}
+                      axisLine={false}
+                      tickLine={false}
+                    />
+                    <YAxis
+                      tick={{ fontSize: 11, fill: "var(--color-text-secondary)" }}
+                      axisLine={false}
+                      tickLine={false}
+                      unit=" kWh"
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        borderRadius: "var(--radius-md)",
+                        border: "1px solid var(--color-border)",
+                        fontSize: 12,
+                        fontFamily: "var(--font-primary)",
+                      }}
+                    />
                     <Bar
-                      key={device}
-                      dataKey={device}
-                      fill={DEVICE_COLORS[index % DEVICE_COLORS.length]}
+                      dataKey="value"
+                      fill={getDeviceColor(selectedType, currentTheme.mode)}
                       radius={[4, 4, 0, 0]}
                       maxBarSize={isMobile ? 18 : 28}
                     />
-                  ))}
-                </BarChart>
-              </ResponsiveContainer>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </div>
-          </div>
-        <div className={styles.legend}>
-          {devices.map((device, index) => (
-            <div key={device} className={styles.legendItem}>
-              <span
-                className={styles.legendDot}
-                style={{
-                  background: DEVICE_COLORS[index % DEVICE_COLORS.length],
-                }}
-              />
-              <span className={styles.legendLabel}>{device}</span>
-            </div>
-          ))}
+          )}
         </div>
-      </div>
       </Card>
 
-      {/* Ranking + Stats (sin cambios) */}
+      {/* Ranking + Stats */}
+      {categoryTotals.length > 0 && (
       <div className={styles.bottom}>
         <Card className={styles.rankingCard}>
           <div className={styles.ranking}>
@@ -309,7 +344,9 @@ const ConsumptionHistory = () => {
           <Card className={styles.statCard}>
             <div className={styles.stat}>
               <p>{t("stats.average")}</p>
-              <h3>{(totalPeriodo / chartData.length).toFixed(1)} kWh</h3>
+              <h3>
+                {(totalPeriodo / (categoryTotals.length || 1)).toFixed(1)} kWh
+              </h3>
               <span>{t("stats.periodAverage")}</span>
             </div>
           </Card>
@@ -322,6 +359,7 @@ const ConsumptionHistory = () => {
           </Card>
         </div>
       </div>
+      )}
     </div>
   );
 };

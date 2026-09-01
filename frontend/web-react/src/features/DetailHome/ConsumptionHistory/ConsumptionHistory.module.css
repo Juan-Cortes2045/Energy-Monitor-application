@@ -89,6 +89,48 @@
   margin: 0 0 var(--spacing-sm);
 }
 
+/* Selector de dispositivo (independiente de los filtros de periodo) */
+.deviceSelector {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: var(--spacing-sm);
+}
+
+.deviceSelector button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.deviceSelector button:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.deviceActive {
+  background: var(--color-background) !important;
+  color: var(--color-text-primary) !important;
+  font-weight: 700 !important;
+}
+
+.deviceDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
 .chartWrapper {
   width: 100%;
   overflow-x: auto;
@@ -102,37 +144,6 @@
 .chartInner {
   min-width: 100%;
   height: 100%;
-}
-
-/* Leyenda del gráfico */
-.legend {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 10px 20px;
-  padding-top: var(--spacing-sm);
-  border-top: 1px solid var(--color-border);
-}
-
-.legendItem {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.legendDot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.legendLabel {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--color-text-primary);
-  white-space: nowrap;
 }
 
 /*  Sección inferior: ranking + stats  */
@@ -324,20 +335,6 @@
   .chartCard {
     padding: var(--spacing-md);
   }
-
-  .legend {
-  gap: 8px 14px;
-  padding-top: var(--spacing-xs);
-}
-
-.legendDot {
-  width: 8px;
-  height: 8px;
-}
-
-.legendLabel {
-  font-size: 11px;
-}
 
   .title {
     font-size: 16px;

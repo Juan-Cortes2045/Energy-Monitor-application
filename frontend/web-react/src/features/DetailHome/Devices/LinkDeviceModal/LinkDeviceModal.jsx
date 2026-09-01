@@ -4,14 +4,6 @@ import {
   X,
   Search,
   CircuitBoard,
-  Refrigerator,
-  WashingMachine,
-  Tv,
-  Microwave,
-  AirVent,
-  Monitor,
-  Flame,
-  Plug,
   Wifi,
   Lock,
   Eye,
@@ -23,14 +15,12 @@ import {
 
 import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
+import { APPLIANCE_ICON } from "../../shared/deviceTypes";
 import styles from "./LinkDeviceModal.module.css";
 
 const STEPS = ["discover", "appliance", "network", "connecting", "done"];
 
-// ── Módulos de medición encontrados cerca. Todos son el mismo tipo de
-// hardware: se instalan dentro del tomacorriente para medir el consumo
-// de lo que sea que quede conectado a él. Se identifican por su código
-// de serie, no por un "tipo" de dispositivo. ──
+
 const MOCK_FOUND_DEVICES = [
   { id: "d1", code: "EM-204" },
   { id: "d2", code: "EM-118" },
@@ -43,17 +33,11 @@ const MOCK_NETWORKS = [
   { id: "n3", ssid: "Red-Invitados", signal: 55, secured: false },
 ];
 
-// ── Electrodomésticos que el módulo puede quedar monitoreando ──────
-const APPLIANCE_TYPES = [
-  { id: "fridge", icon: Refrigerator },
-  { id: "washer", icon: WashingMachine },
-  { id: "tv", icon: Tv },
-  { id: "microwave", icon: Microwave },
-  { id: "ac", icon: AirVent },
-  { id: "pc", icon: Monitor },
-  { id: "waterHeater", icon: Flame },
-  { id: "other", icon: Plug },
-];
+
+const APPLIANCE_TYPES = Object.entries(APPLIANCE_ICON).map(([id, icon]) => ({
+  id,
+  icon,
+}));
 
 const ROOM_KEYS = ["livingRoom", "kitchen", "laundryRoom", "bedroom", "garage", "other"];
 
@@ -166,7 +150,7 @@ const LinkDeviceModal = ({ onClose, onAddDevice }) => {
     onAddDevice?.({
       name: deviceName.trim() || tDevices(`applianceTypes.${selectedAppliance?.id ?? "other"}`),
       applianceType: selectedAppliance?.id ?? "other",
-      room: tDevices(`rooms.${room}`),
+      roomKey: room,
     });
   };
 

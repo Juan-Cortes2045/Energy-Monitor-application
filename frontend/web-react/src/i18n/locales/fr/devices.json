@@ -19,6 +19,7 @@
     "ac": "Climatiseur",
     "pc": "Ordinateur",
     "waterHeater": "Chauffe-eau",
+    "lighting": "Éclairage",
     "other": "Autre"
   },
   "rooms": {

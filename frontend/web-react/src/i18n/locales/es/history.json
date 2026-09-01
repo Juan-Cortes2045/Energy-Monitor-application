@@ -12,7 +12,8 @@
     "year": "Enero 2026 - Diciembre 2026"
   },
   "chart": {
-    "title": "DISTRIBUCIÓN DE CONSUMO POR DISPOSITIVO"
+    "title": "DISTRIBUCIÓN DE CONSUMO POR DISPOSITIVO",
+    "empty": "Vincula un dispositivo para ver su historial de consumo"
   },
   "ranking": {
     "title": "RANKING DE CONSUMO",

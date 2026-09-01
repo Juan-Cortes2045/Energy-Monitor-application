@@ -19,6 +19,7 @@
     "ac": "Aire acondicionado",
     "pc": "Computador",
     "waterHeater": "Calentador de agua",
+    "lighting": "Iluminación",
     "other": "Otro"
   },
   "rooms": {

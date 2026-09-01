@@ -36,7 +36,9 @@ const ConfirmDeleteModal = ({ device, onCancel, onConfirm }) => {
           {t("confirmDelete.title")}
         </p>
         <p className={styles.message}>
-          {t("confirmDelete.message", { name: device?.name ?? "" })}
+          {t("confirmDelete.message", {
+            name: device?.name || t(`applianceTypes.${device?.applianceType}`),
+          })}
         </p>
 
         <div className={styles.actions}>

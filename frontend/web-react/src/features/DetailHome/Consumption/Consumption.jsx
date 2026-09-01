@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useTransition } from "react";
 
 import {
   AreaChart,
@@ -25,6 +24,10 @@ import HomeDetail from "../Home/Home";
 import Devices from "../Devices/Devices";
 import Thresholds from "../Thresholds/Thresholds";
 import ConsumptionHistory from "../ConsumptionHistory/ComsumptionHistory";
+import { useDevicesState } from "../shared/useDevicesState";
+import { getDeviceColor } from "../shared/deviceChartConfig";
+import EmptyChart from "../shared/EmptyChart";
+import { useTheme } from "../../../context/ThemeContext";
 import styles from "./Consumption.module.css";
 
 import { useTranslation } from "react-i18next";
@@ -34,10 +37,6 @@ const mockConsumptionData = {
   nivelPotencia: "Medio",
   consumoHoy: 18.5,            // kWh
   limiteConsumo: 30,           // kWh (límite diario configurado)
-  dispositivos: {
-    activos: 5,
-    total: 8,
-  },
   limitesDiario: {
     usado: 18.5,
     limite: 30,
@@ -60,80 +59,7 @@ const mockConsumptionData = {
     { hora: "20:00", kw: 2.7 }, { hora: "21:00", kw: 2.3 },
     { hora: "22:00", kw: 1.5 }, { hora: "23:00", kw: 0.9 },
   ],
-  distribucion: [
-    { nombre: "Nevera", porcentaje: 30, consumo: 5.55 },
-    { nombre: "Aire acondicionado", porcentaje: 25, consumo: 4.63 },
-    { nombre: "Televisor", porcentaje: 15, consumo: 2.78 },
-    { nombre: "Lavadora", porcentaje: 12, consumo: 2.22 },
-    { nombre: "Iluminación", porcentaje: 10, consumo: 1.85 },
-    { nombre: "Otros", porcentaje: 8, consumo: 1.48 },
-  ],
 };
-
-const TABS = [
-  {
-    id: "Consumo",
-    label: "Consumo",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-      </svg>
-    ),
-  },
-  {
-    id: "Historial",
-    label: "Historial",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" />
-        <polyline points="12 6 12 12 16 14" />
-      </svg>
-    ),
-  },
-  {
-    id: "Usuarios",
-    label: "Usuarios",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-      </svg>
-    ),
-  },
-  {
-    id: "Dispositivos",
-    label: "Dispositivos",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M5 12.55a11 11 0 0 1 14.08 0" />
-        <path d="M1.42 9a16 16 0 0 1 21.16 0" />
-        <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
-        <circle cx="12" cy="20" r="1" fill="currentColor" />
-      </svg>
-    ),
-  },
-  {
-    id: "Hogar",
-    label: "Hogar",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" />
-        <polyline points="9 21 9 12 15 12 15 21" />
-      </svg>
-    ),
-  },
-];
-
-const CHART_COLORS = [
-  "var(--color-primary)",
-  "var(--color-warning)",
-  "var(--color-secondary)",
-  "var(--color-danger)",
-  "#9B59B6",
-  "#E67E22",
-];
 
 const CustomAreaTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -155,25 +81,40 @@ const CustomPieTooltip = ({ active, payload }) => {
   );
 };
 
-const EmptyChart = ({ mensaje = "Sin datos disponibles" }) => (
-  <div className={styles.emptyChart}>
-    <span className={styles.emptyChartIcon}>📡</span>
-    <p className={styles.emptyChartMsg}>{mensaje}</p>
-    <span className={styles.emptyChartSub}>
-      Se mostrará cuando el back-end esté conectado
-    </span>
-  </div>
-);
-
 const Consumption = () => {
-  const { t } = useTranslation("consumption");
+  const { t, i18n } = useTranslation("consumption");
   const location = useLocation();
   const navigate = useNavigate();
   const { home, isOwner = false } = location.state ?? {};
   const onBack = () => navigate(-1);
   const [activeTab, setActiveTab] = useState("Consumo");
+  const { currentTheme } = useTheme();
+  const { devices, addDevice, removeDevice } = useDevicesState();
 
-  const data = mockConsumptionData;
+  const distribucion = useMemo(() => {
+    const totals = {};
+    devices.forEach((device) => {
+      totals[device.applianceType] =
+        (totals[device.applianceType] ?? 0) + (device.consumption ?? 0);
+    });
+    const totalAll = Object.values(totals).reduce((a, b) => a + b, 0);
+    return Object.entries(totals).map(([type, consumo]) => ({
+      type,
+      nombre: t(`applianceTypes.${type}`, { ns: "devices" }),
+      consumo: Number(consumo.toFixed(2)),
+      porcentaje: totalAll ? Number(((consumo / totalAll) * 100).toFixed(1)) : 0,
+    }));
+
+  }, [devices, t, i18n.language]);
+
+  const data = {
+    ...mockConsumptionData,
+    dispositivos: {
+      activos: devices.filter((d) => d.status === "online").length,
+      total: devices.length,
+    },
+    distribucion,
+  };
 
   const LimitBar = ({ label, usado, limite }) => {
     const sinDatos = !limite;
@@ -490,8 +431,11 @@ const Consumption = () => {
                           dataKey="porcentaje"
                           nameKey="nombre"
                         >
-                          {data.distribucion.map((_, i) => (
-                            <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
+                          {data.distribucion.map((entry) => (
+                            <Cell
+                              key={entry.type}
+                              fill={getDeviceColor(entry.type, currentTheme.mode)}
+                            />
                           ))}
                         </Pie>
                         <Tooltip content={<CustomPieTooltip />} />
@@ -556,8 +500,11 @@ const Consumption = () => {
                           }}
                         />
                         <Bar dataKey="consumo" radius={[0, 4, 4, 0]} maxBarSize={14}>
-                          {data.distribucion.map((_, i) => (
-                            <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
+                          {data.distribucion.map((entry) => (
+                            <Cell
+                              key={entry.type}
+                              fill={getDeviceColor(entry.type, currentTheme.mode)}
+                            />
                           ))}
                         </Bar>
                       </BarChart>
@@ -582,9 +529,14 @@ const Consumption = () => {
           </>
         )}
 
-        {activeTab === "Historial" && <ConsumptionHistory />}
+        {activeTab === "Historial" && <ConsumptionHistory devices={devices} />}
         {activeTab === "Dispositivos" && (
-          <Devices home={home} isOwner={isOwner} />
+          <Devices
+            isOwner={isOwner}
+            devices={devices}
+            onAddDevice={addDevice}
+            onRemoveDevice={removeDevice}
+          />
         )}
         {activeTab === "Umbrales" && (
           <Thresholds home={home} isOwner={isOwner} />

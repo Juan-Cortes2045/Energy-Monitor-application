@@ -12,7 +12,8 @@
     "year": "Janvier 2026 - Décembre 2026"
   },
   "chart": {
-    "title": "RÉPARTITION DE LA CONSOMMATION PAR APPAREIL"
+    "title": "RÉPARTITION DE LA CONSOMMATION PAR APPAREIL",
+    "empty": "Associez un appareil pour voir son historique de consommation"
   },
   "ranking": {
     "title": "CLASSEMENT DE CONSOMMATION",

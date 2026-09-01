@@ -1,69 +1,13 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Refrigerator,
-  WashingMachine,
-  Tv,
-  Microwave,
-  AirVent,
-  Monitor,
-  Flame,
-  Plug,
-  Wifi,
-  WifiOff,
-  Trash2,
-  Plus,
-} from "lucide-react";
+import { Plug, Wifi, WifiOff, Trash2, Plus } from "lucide-react";
 
 import Card from "../../../design/components/Card/Card";
 import Button from "../../../design/components/Button/Button";
 import LinkDeviceModal from "./LinkDeviceModal/LinkDeviceModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal/ConfirmDeleteModal";
+import { APPLIANCE_ICON } from "../shared/deviceTypes";
 import styles from "./Devices.module.css";
-
-// ── Cada dispositivo es un módulo de medición instalado dentro del
-// tomacorriente de un electrodoméstico. El ícono representa el
-// electrodoméstico que el módulo está monitoreando, no el módulo en sí. ──
-export const APPLIANCE_ICON = {
-  fridge: Refrigerator,
-  washer: WashingMachine,
-  tv: Tv,
-  microwave: Microwave,
-  ac: AirVent,
-  pc: Monitor,
-  waterHeater: Flame,
-  other: Plug,
-};
-
-// ── Dispositivos de ejemplo. El nombre y la habitación se resuelven
-// con i18n (t) en el render, no como texto fijo, para que se traduzcan
-// correctamente sin importar el idioma activo. ──
-const INITIAL_DEVICES = [
-  {
-    id: 1,
-    applianceType: "fridge",
-    roomKey: "kitchen",
-    status: "online",
-    signal: 82,
-    consumption: 0.42,
-  },
-  {
-    id: 2,
-    applianceType: "washer",
-    roomKey: "laundryRoom",
-    status: "online",
-    signal: 95,
-    consumption: 1.15,
-  },
-  {
-    id: 3,
-    applianceType: "pc",
-    roomKey: "bedroom",
-    status: "offline",
-    signal: 0,
-    consumption: null,
-  },
-];
 
 const SignalIcon = ({ status, signal }) => {
   if (status !== "online") {
@@ -100,7 +44,7 @@ const DeviceRow = ({ device, isOwner, onRequestRemove, t }) => {
           {device.status === "online" ? t("status.online") : t("status.offline")}
         </span>
         {device.consumption != null && (
-          <span className={styles.consumption}>{device.consumption} kWh</span>
+          <span className={styles.consumption}>{device.consumption} kW</span>
         )}
       </div>
 
@@ -118,9 +62,8 @@ const DeviceRow = ({ device, isOwner, onRequestRemove, t }) => {
   );
 };
 
-const Devices = ({ project, isOwner = false }) => {
+const Devices = ({ isOwner = false, devices, onAddDevice, onRemoveDevice }) => {
   const { t } = useTranslation("devices");
-  const [devices, setDevices] = useState(INITIAL_DEVICES);
   const [modalOpen, setModalOpen] = useState(false);
   const [deviceToDelete, setDeviceToDelete] = useState(null);
 
@@ -133,22 +76,12 @@ const Devices = ({ project, isOwner = false }) => {
   };
 
   const handleConfirmRemove = (device) => {
-    setDevices((prev) => prev.filter((d) => d.id !== device.id));
+    onRemoveDevice(device.id);
     setDeviceToDelete(null);
   };
 
   const handleAddDevice = (newDevice) => {
-    setDevices((prev) => [
-      ...prev,
-      {
-        id: Date.now(),
-        applianceType: "other",
-        status: "online",
-        signal: 78,
-        consumption: 0,
-        ...newDevice,
-      },
-    ]);
+    onAddDevice(newDevice);
     setModalOpen(false);
   };
 
