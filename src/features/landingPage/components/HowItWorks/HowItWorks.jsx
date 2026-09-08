@@ -4,14 +4,9 @@ import Card from "../../../../design/components/Card/Card";
 import imgLp from "../../../../assets/img_lp2.png";
 import { useTranslation } from "react-i18next";
 
-import {
-  User,
-  Settings,
-  BarChart3,
-  AlertTriangle,
-} from "lucide-react";
+import { User, Settings, BarChart3, AlertTriangle } from "lucide-react";
 
-const HowItWorks = () => {
+const HowItWorks = ({ id }) => {
   const { t } = useTranslation("howItWorks");
   const steps = [
     {
@@ -46,7 +41,7 @@ const HowItWorks = () => {
         padding: "var(--spacing-xl)",
       }}
     >
-      <div className={styles.header}>
+      <div className={styles.header} id={id}>
         <h2
           className={styles.title}
           style={{

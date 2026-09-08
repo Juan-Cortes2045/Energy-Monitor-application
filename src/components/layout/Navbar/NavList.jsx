@@ -7,8 +7,6 @@ const NavList = ({ setOpen }) => {
   return (
     <ul className={styles.navLinks}>
       <NavItem text={t("menu.home")} path="/" />
-      <NavItem text={t("menu.howItWorks")} path="/how-it-works" />
-      <NavItem text={t("menu.benefits")} path="/benefits" />
       <NavItem text={t("menu.about")} path="/about" />
       <NavItem text={t("menu.support")} path="/support" />
     </ul>

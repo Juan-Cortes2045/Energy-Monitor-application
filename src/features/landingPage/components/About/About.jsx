@@ -123,7 +123,11 @@ const About = () => {
         </div>
         <h2 className={styles.howTitle}>{t("how.title")}</h2>
         <p className={styles.howDesc}>{t("how.description")}</p>
-        <Button variant="secondary" size="medium" onClick={() => navigate("/how-it-works")}>
+        <Button
+          variant="secondary"
+          size="medium"
+          onClick={() => navigate("/home#HowItWorks")}
+        >
           {t("how.button")}
         </Button>
       </section>
@@ -188,7 +192,11 @@ const About = () => {
             {t("cta.primaryButton")}
             <ArrowRight size={16} style={{ marginLeft: 6 }} />
           </Button>
-          <Button variant="secondary" size="medium" onClick={() => navigate("/login")}>
+          <Button
+            variant="secondary"
+            size="medium"
+            onClick={() => navigate("/login")}
+          >
             {t("cta.secondaryButton")}
           </Button>
         </div>

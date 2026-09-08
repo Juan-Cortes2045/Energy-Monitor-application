@@ -24,9 +24,7 @@ const Hero = () => {
             </span>
           </h1>
 
-          <p className={styles.description}>
-            {t("description")}
-          </p>
+          <p className={styles.description}>{t("description")}</p>
 
           {/* BOTÓN */}
           <div className={styles.buttonWrapper}>

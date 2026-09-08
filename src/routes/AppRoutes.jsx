@@ -13,7 +13,6 @@ import Notifications from "../features/Notifications/Notifications";
 import MainLayout from "../components/layout/MainLayout/MainLayout";
 import DashboarPage from "../features/dashboard/pages/DashboardPage";
 import Settings from "../features/SettingsPage/pages/Settings";
-import BenefitsI from "../features/landingPage/pages/BenefitsI";
 import SupportI from "../features/landingPage/pages/SupportI";
 import AboutI from "../features/landingPage/pages/AboutI";
 const AppRoutes = () => {
@@ -22,8 +21,6 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/how-it-works" element={<HowItWorksPage />} />
-        <Route path="/benefits" element={<BenefitsI />} />
         <Route path="/about" element={<AboutI />} />
         <Route path="/support" element={<SupportI />} />
         <Route path="/login" element={<Login />} />
