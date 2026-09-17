@@ -32,8 +32,16 @@ const JoinHomeModal = ({ onClose, onSubmit }) => {
 
     setLoading(true);
     try {
-      onSubmit?.(code);
+      await onSubmit?.(code);
       onClose?.();
+    } catch (submitErr) {
+      setError(
+        submitErr.code === "HOME_NOT_FOUND"
+          ? t("errors.notFound")
+          : submitErr.code === "ALREADY_MEMBER"
+            ? t("errors.alreadyMember")
+            : submitErr.message,
+      );
     } finally {
       setLoading(false);
     }

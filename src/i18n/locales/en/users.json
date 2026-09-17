@@ -19,7 +19,8 @@
       "empty": "Enter an email address.",
       "invalid": "Invalid email address.",
       "alreadyMember": "This user is already a member.",
-      "alreadyInvited": "An invitation has already been sent to this email."
+      "alreadyInvited": "An invitation has already been sent to this email.",
+      "userNotFound": "No registered user with that email."
     }
   },
   "pending": {

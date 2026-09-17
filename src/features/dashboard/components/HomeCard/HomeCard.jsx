@@ -6,23 +6,19 @@ import { useTranslation } from "react-i18next";
 
 const DESCRIPTION_LIMIT = 150;
 
-const HomeCard = ({ home, onClick }) => {
+const HomeCard = ({ home, onClick, onToggleFavorite }) => {
   const { t } = useTranslation("homeCard");
-  const [favorite, setFavorite] = useState(home.favorite || false);
   const [expanded, setExpanded] = useState(false);
 
-  const headerColor = home.color
-    ? home.color
-    : home.variant === "joined"
-      ? "var(--color-secondary)"
-      : "var(--color-primary)";
+  const headerColor = home.role === "MEMBER" ? "var(--color-secondary)" : "var(--color-primary)";
+  const ownerName = home.owner ? `${home.owner.name} ${home.owner.last_name}`.trim() : "";
 
   const toggleFavorite = (e) => {
     e.stopPropagation();
-    setFavorite((prev) => !prev);
+    onToggleFavorite?.(home, !home.favorite);
   };
 
-  const description = home.description || home.descripcion || "";
+  const description = home.description || "";
   const isLong = description.length > DESCRIPTION_LIMIT;
   const displayText =
     expanded || !isLong
@@ -41,7 +37,7 @@ const HomeCard = ({ home, onClick }) => {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === "Enter" && onClick?.()}
-      aria-label={`Abrir hogar ${home.name}`}
+      aria-label={t("openHome", { name: home.name })}
       style={{ cursor: "pointer" }}
     >
       <div
@@ -50,14 +46,14 @@ const HomeCard = ({ home, onClick }) => {
       >
         <div className={styles.headerText}>
           <h3 className={styles.title}>{home.name}</h3>
-          <p className={styles.responsible}>{home.userResponsible}</p>
+          <p className={styles.responsible}>{ownerName}</p>
         </div>
 
         <button
           type="button"
-          className={`${styles.favoriteButton} ${favorite ? styles.favorited : ""}`}
+          className={`${styles.favoriteButton} ${home.favorite ? styles.favorited : ""}`}
           onClick={toggleFavorite}
-          aria-label={favorite ? t("removeFavorite") : t("addFavorite")}
+          aria-label={home.favorite ? t("removeFavorite") : t("addFavorite")}
         >
           <Heart size={18} />
         </button>
@@ -67,7 +63,7 @@ const HomeCard = ({ home, onClick }) => {
         <div className={styles.body}>
           <p>
             <strong>{t("address")}: </strong>
-            {home.address || home.addres}
+            {home.address}
           </p>
           <div className={styles.descriptionWrapper}>
             <p

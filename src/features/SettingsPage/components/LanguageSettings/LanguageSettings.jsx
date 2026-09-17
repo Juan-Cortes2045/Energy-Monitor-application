@@ -4,6 +4,7 @@ import ReactCountryFlag from "react-country-flag";
 import Card from "../../../../design/components/Card/Card.jsx";
 import styles from "./LanguageSettings.module.css";
 import i18n from "../../../../i18n";
+import { updateMyConfiguration } from "../../../../services/user.service.js";
 
 const LANGUAGES = [
     { id: "es", name: "Español",   locale: "es-CO", countryCode: "CO" },
@@ -20,6 +21,10 @@ const LanguageSettings = () => {
   const handleSelect = (code) => {
     i18n.changeLanguage(code);
     localStorage.setItem("lang", code);
+    updateMyConfiguration({ language: code }).catch(() => {
+      // Local language already applied; a failed sync just means it
+      // won't survive the next login from another device.
+    });
   };
 
   return (

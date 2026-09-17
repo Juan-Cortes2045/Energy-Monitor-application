@@ -27,6 +27,7 @@
     "saved": "Enregistré"
   },
   "errors": {
-    "invalid": "Entrez une valeur supérieure à 0"
+    "invalid": "Entrez une valeur supérieure à 0",
+    "dailyExceedsMonthly": "La limite quotidienne ne peut pas dépasser la limite mensuelle"
   }
 }

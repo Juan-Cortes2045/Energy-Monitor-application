@@ -1,0 +1,18 @@
+{
+  "loading": "Loading…",
+  "homeNotFound": {
+    "title": "Home not found",
+    "message": "This home doesn't exist or was removed.",
+    "cta": "Back to dashboard"
+  },
+  "forbidden": {
+    "title": "You don't have access to this home",
+    "message": "Ask the owner to invite you, or go back to your dashboard.",
+    "cta": "Back to dashboard"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "message": "The page you're looking for doesn't exist.",
+    "cta": "Back to dashboard"
+  }
+}

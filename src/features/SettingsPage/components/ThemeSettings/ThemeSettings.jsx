@@ -2,6 +2,7 @@ import { Palette, Check } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Card from "../../../../design/components/Card/Card.jsx";
 import { useTheme } from "../../../../context/ThemeContext.jsx";
+import { updateMyConfiguration } from "../../../../services/user.service.js";
 import styles from "./ThemeSettings.module.css";
 
 const lightThemes = (themes) => themes.filter((t) => t.mode === "light");
@@ -10,6 +11,14 @@ const darkThemes = (themes) => themes.filter((t) => t.mode === "dark");
 const ThemeSettings = () => {
     const { t } = useTranslation("settings");
     const { themeId, setThemeId, currentTheme, themes } = useTheme();
+
+    const handleSelect = (id) => {
+        setThemeId(id);
+        updateMyConfiguration({ color_theme: id }).catch(() => {
+            // Local theme already applied; a failed sync just means it
+            // won't survive the next login from another device.
+        });
+    };
 
     const renderThemeCard = (theme) => {
         const isActive = themeId === theme.id;
@@ -22,7 +31,7 @@ const ThemeSettings = () => {
                 className={`${styles.themeCard} ${isDark ? styles.darkCard : ""} ${
                     isActive ? styles.active : ""
                 }`}
-                onClick={() => setThemeId(theme.id)}
+                onClick={() => handleSelect(theme.id)}
                 type="button"
             >
                 {isActive && (

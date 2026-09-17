@@ -1,44 +1,43 @@
 {
   "title": "Vincular dispositivo",
   "close": "Cerrar",
-  "discover": {
-    "title": "Buscando módulos cercanos",
-    "hint": "Asegúrate de que el módulo esté conectado al tomacorriente y en modo de emparejamiento",
-    "scanning": "Escaneando...",
-    "foundTitle": "Módulos encontrados",
-    "rescan": "Buscar de nuevo"
+  "enterCode": {
+    "title": "Ingresa el código de tu dispositivo",
+    "hint": "El código de 6 caracteres está impreso en el módulo físico.",
+    "label": "Código del dispositivo",
+    "placeholder": "Ej: EM204X"
   },
-  "appliance": {
-    "title": "¿Qué electrodoméstico vas a monitorear?",
-    "hint": "Selecciona el tipo de electrodoméstico que quedará conectado a este módulo"
+  "testDevices": {
+    "title": "Dispositivos de prueba disponibles",
+    "hint": "Solo en este entorno de pruebas: en la app terminada, este código vendría impreso en tu dispositivo físico. Toca uno para autocompletarlo."
   },
-  "network": {
-    "title": "Conecta a tu red WiFi",
-    "subtitle": "Selecciona la red a la que se conectará el módulo",
-    "passwordLabel": "Contraseña",
-    "passwordPlaceholder": "Ingresa la contraseña de la red",
-    "open": "Abierta"
+  "assignDetails": {
+    "title": "¿Qué electrodoméstico estás monitoreando?",
+    "hint": "Tu dispositivo no puede detectarlo solo: elegí el electrodoméstico y la ubicación reales donde lo instalaste.",
+    "applianceLabel": "Electrodoméstico",
+    "locationLabel": "Ubicación",
+    "locationPlaceholder": "Selecciona una ubicación"
   },
   "connecting": {
-    "title": "Conectando dispositivo",
-    "step1": "Buscando la red \"{{ssid}}\"",
-    "step2": "Verificando contraseña",
-    "step3": "Sincronizando dispositivo"
+    "title": "Vinculando dispositivo…"
   },
   "done": {
     "title": "¡Dispositivo vinculado!",
     "subtitle": "Tu dispositivo ya está conectado y enviando datos",
     "nameLabel": "Nombre del dispositivo",
-    "roomLabel": "Ubicación"
+    "typeLabel": "Tipo de electrodoméstico",
+    "locationLabel": "Ubicación"
   },
   "buttons": {
     "cancel": "Cancelar",
     "back": "Atrás",
     "continue": "Continuar",
-    "connect": "Conectar",
     "finish": "Finalizar"
   },
   "errors": {
-    "passwordRequired": "Ingresa la contraseña de la red"
+    "required": "Ingresa el código del dispositivo",
+    "invalid": "El código debe tener 6 caracteres",
+    "notFound": "No encontramos un dispositivo con ese código",
+    "alreadyLinked": "Este dispositivo ya está vinculado a un hogar"
   }
 }

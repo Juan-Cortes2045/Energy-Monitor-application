@@ -8,110 +8,34 @@ import {
   Lightbulb,
   Check,
   CheckCheck,
-  Trash2,
 } from "lucide-react";
 
 import Header from "../../design/components/Header/Header";
 import Card from "../../design/components/Card/Card";
 import styles from "./Notifications.module.css";
-
-// ── Alertas generadas automáticamente a partir del análisis de las
-// mediciones de consumo (ERF4.3) y del estado de conexión de los
-// dispositivos (ERF5.3). El contenido se resuelve con i18n para que se
-// traduzca correctamente; en producción vendrán ya generadas desde el
-// backend, pero mientras no hay servicio conectado se simulan aquí. ──
-const INITIAL_ALERTS = [
-  {
-    id: "a1",
-    kind: "alert",
-    type: "threshold",
-    severity: "critical",
-    key: "dailyLimit",
-    project: "Casa Principal",
-    device: "Nevera",
-    date: "2026-07-07T09:12:00",
-    resolved: false,
-  },
-  {
-    id: "a2",
-    kind: "alert",
-    type: "connectivity",
-    severity: "warning",
-    key: "deviceOffline",
-    project: "Casa Principal",
-    device: "PC de escritorio",
-    date: "2026-07-06T22:40:00",
-    resolved: false,
-  },
-  {
-    id: "a3",
-    kind: "alert",
-    type: "threshold",
-    severity: "warning",
-    key: "monthlyNearLimit",
-    project: "Oficina Norte",
-    device: "Lavadora",
-    date: "2026-07-05T18:05:00",
-    resolved: true,
-  },
-  {
-    id: "a4",
-    kind: "alert",
-    type: "threshold",
-    severity: "critical",
-    key: "consumptionSpike",
-    project: "Casa Principal",
-    device: null,
-    date: "2026-07-02T14:30:00",
-    resolved: true,
-  },
-];
-
-// ── Recomendaciones generadas a partir del comportamiento de consumo
-// detectado, incluso sin situaciones críticas (ERF4.4). ──
-const INITIAL_RECOMMENDATIONS = [
-  {
-    id: "r1",
-    kind: "recommendation",
-    key: "acPeak",
-    project: "Casa Principal",
-    device: "Aire acondicionado",
-    date: "2026-07-07T08:00:00",
-    read: false,
-  },
-  {
-    id: "r2",
-    kind: "recommendation",
-    key: "standby",
-    project: "Oficina Norte",
-    date: "2026-07-04T12:00:00",
-    read: false,
-  },
-  {
-    id: "r3",
-    kind: "recommendation",
-    key: "improvement",
-    project: "Casa Principal",
-    date: "2026-07-01T09:00:00",
-    read: true,
-  },
-];
+import { useNotifications } from "./useNotifications";
+import { markRecommendationRead } from "../../services/recommendation.service";
+import { useHomes } from "../../context/HomeContext";
+import LoadingState from "../../components/shared/LoadingState/LoadingState";
+import ErrorState from "../../components/shared/ErrorState/ErrorState";
 
 const TABS = ["all", "alerts", "recommendations"];
 
 const getAlertIcon = (alert) => {
-  if (alert.type === "connectivity") return WifiOff;
-  return alert.severity === "critical" ? Zap : AlertTriangle;
+  if (alert.type === "CONNECTIVITY") return WifiOff;
+  return alert.severity === "CRITICAL" ? Zap : AlertTriangle;
 };
 
-const AlertRow = ({ alert, t, formatDate, onResolve, onDelete }) => {
+const AlertRow = ({ alert, homeName, t, formatDate }) => {
   const Icon = getAlertIcon(alert);
+  const resolved = alert.alert_status === "RESOLVED";
+  const [messageNs, messageKey] = alert.message_key.split(".");
 
   return (
-    <div className={`${styles.row} ${alert.resolved ? styles.rowMuted : ""}`}>
+    <div className={`${styles.row} ${resolved ? styles.rowMuted : ""}`}>
       <div
         className={`${styles.icon} ${
-          alert.severity === "critical" ? styles.iconDanger : styles.iconWarning
+          alert.severity === "CRITICAL" ? styles.iconDanger : styles.iconWarning
         }`}
       >
         <Icon size={18} />
@@ -119,61 +43,76 @@ const AlertRow = ({ alert, t, formatDate, onResolve, onDelete }) => {
 
       <div className={styles.rowBody}>
         <div className={styles.rowTop}>
-          <p className={styles.rowTitle}>{t(`mockAlerts.${alert.key}.title`)}</p>
+          <p className={styles.rowTitle}>{t(`${messageNs}.${messageKey}.title`)}</p>
           <span
             className={`${styles.badge} ${
-              alert.resolved
+              resolved
                 ? styles.badgeNeutral
-                : alert.severity === "critical"
+                : alert.severity === "CRITICAL"
                   ? styles.badgeDanger
                   : styles.badgeWarning
             }`}
           >
-            {alert.resolved ? t("status.resolved") : t("status.active")}
+            {resolved ? t("status.resolved") : t("status.active")}
           </span>
         </div>
 
         <p className={styles.rowMessage}>
-          {t(`mockAlerts.${alert.key}.message`, {
-            device: alert.device ?? "",
-          })}
+          {t(`${messageNs}.${messageKey}.message`, { home: homeName })}
         </p>
 
         <div className={styles.rowMeta}>
-          <span>{alert.project}</span>
-          {alert.device && (
-            <>
-              <span className={styles.metaDot} />
-              <span>{alert.device}</span>
-            </>
-          )}
+          <span>{homeName}</span>
           <span className={styles.metaDot} />
-          <span>{formatDate(alert.date)}</span>
+          <span>{formatDate(alert.date_time)}</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const RecommendationRow = ({ recommendation, homeName, t, formatDate, onMarkRead }) => {
+  const read = recommendation.status === "READ";
+  const [messageNs, messageKey] = recommendation.message_key.split(".");
+
+  return (
+    <div className={`${styles.row} ${read ? styles.rowMuted : ""}`}>
+      <div className={`${styles.icon} ${styles.iconInfo}`}>
+        <Lightbulb size={18} />
+      </div>
+
+      <div className={styles.rowBody}>
+        <div className={styles.rowTop}>
+          <p className={styles.rowTitle}>
+            {t(`${messageNs}.${messageKey}.title`)}
+          </p>
+          <span
+            className={`${styles.badge} ${read ? styles.badgeNeutral : styles.badgeInfo}`}
+          >
+            {read ? t("status.read") : t("status.new")}
+          </span>
+        </div>
+
+        <p className={styles.rowMessage}>
+          {t(`${messageNs}.${messageKey}.message`, { home: homeName })}
+        </p>
+
+        <div className={styles.rowMeta}>
+          <span>{homeName}</span>
+          <span className={styles.metaDot} />
+          <span>{formatDate(recommendation.date_time)}</span>
         </div>
       </div>
 
-      {/* Una alerta activa solo se puede resolver; el sistema aún no
-          confirmó que la situación se solucionó, así que no se puede
-          eliminar todavía. Una vez resuelta, sí se puede quitar de la lista. */}
       <div className={styles.rowActions}>
-        {!alert.resolved ? (
+        {!read && (
           <button
             type="button"
             className={styles.actionBtn}
-            onClick={() => onResolve(alert.id)}
+            onClick={() => onMarkRead(recommendation.id)}
           >
             <Check size={13} />
-            {t("actions.resolve")}
-          </button>
-        ) : (
-          <button
-            type="button"
-            className={styles.deleteBtn}
-            onClick={() => onDelete(alert.id)}
-            aria-label={t("actions.delete")}
-            title={t("actions.delete")}
-          >
-            <Trash2 size={14} />
+            {t("actions.markRead")}
           </button>
         )}
       </div>
@@ -181,74 +120,13 @@ const AlertRow = ({ alert, t, formatDate, onResolve, onDelete }) => {
   );
 };
 
-const RecommendationRow = ({ recommendation, t, formatDate, onMarkRead, onDelete }) => (
-  <div className={`${styles.row} ${recommendation.read ? styles.rowMuted : ""}`}>
-    <div className={`${styles.icon} ${styles.iconInfo}`}>
-      <Lightbulb size={18} />
-    </div>
-
-    <div className={styles.rowBody}>
-      <div className={styles.rowTop}>
-        <p className={styles.rowTitle}>
-          {t(`mockRecommendations.${recommendation.key}.title`)}
-        </p>
-        <span
-          className={`${styles.badge} ${
-            recommendation.read ? styles.badgeNeutral : styles.badgeInfo
-          }`}
-        >
-          {recommendation.read ? t("status.read") : t("status.new")}
-        </span>
-      </div>
-
-      <p className={styles.rowMessage}>
-        {t(`mockRecommendations.${recommendation.key}.message`)}
-      </p>
-
-      <div className={styles.rowMeta}>
-        <span>{recommendation.project}</span>
-        {recommendation.device && (
-          <>
-            <span className={styles.metaDot} />
-            <span>{recommendation.device}</span>
-          </>
-        )}
-        <span className={styles.metaDot} />
-        <span>{formatDate(recommendation.date)}</span>
-      </div>
-    </div>
-
-    {/* Las recomendaciones no requieren que el sistema confirme nada:
-        se pueden descartar en cualquier momento. */}
-    <div className={styles.rowActions}>
-      {!recommendation.read && (
-        <button
-          type="button"
-          className={styles.actionBtn}
-          onClick={() => onMarkRead(recommendation.id)}
-        >
-          <Check size={13} />
-          {t("actions.markRead")}
-        </button>
-      )}
-      <button
-        type="button"
-        className={styles.deleteBtn}
-        onClick={() => onDelete(recommendation.id)}
-        aria-label={t("actions.delete")}
-        title={t("actions.delete")}
-      >
-        <Trash2 size={14} />
-      </button>
-    </div>
-  </div>
-);
-
 const Notifications = () => {
   const { t, i18n } = useTranslation("notifications");
-  const [alerts, setAlerts] = useState(INITIAL_ALERTS);
-  const [recommendations, setRecommendations] = useState(INITIAL_RECOMMENDATIONS);
+  const { homes } = useHomes();
+  const { data, loading, error, refetch } = useNotifications();
   const [activeTab, setActiveTab] = useState("all");
+
+  const homeNameById = useMemo(() => Object.fromEntries(homes.map((h) => [h.id, h.name])), [homes]);
 
   const breadcrumbItems = [
     { label: t("breadcrumb.home"), path: "/dashboard" },
@@ -268,51 +146,33 @@ const Notifications = () => {
     }
   };
 
-  const handleResolveAlert = (id) => {
-    setAlerts((prev) =>
-      prev.map((a) => (a.id === id ? { ...a, resolved: true } : a)),
-    );
+  const handleMarkRead = async (id) => {
+    await markRecommendationRead(id);
+    await refetch();
   };
 
-  const handleMarkRead = (id) => {
-    setRecommendations((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, read: true } : r)),
-    );
+  const handleMarkAllRead = async () => {
+    const unread = data.recommendations.filter((r) => r.status !== "READ");
+    await Promise.all(unread.map((r) => markRecommendationRead(r.id)));
+    await refetch();
   };
 
-  const handleMarkAllRead = () => {
-    setRecommendations((prev) => prev.map((r) => ({ ...r, read: true })));
-  };
+  const activeAlertsCount = data.alerts.filter((a) => a.alert_status !== "RESOLVED").length;
+  const unreadRecommendationsCount = data.recommendations.filter((r) => r.status !== "READ").length;
 
-  // Una alerta solo se puede eliminar una vez resuelta (el sistema ya
-  // detectó que la situación se solucionó); una recomendación se puede
-  // descartar en cualquier momento. La guarda "!a.resolved" es una
-  // defensa adicional, ya que el botón de eliminar de una alerta activa
-  // ni siquiera se renderiza.
-  const handleDeleteAlert = (id) => {
-    setAlerts((prev) => prev.filter((a) => !(a.id === id && a.resolved)));
-  };
-
-  const handleDeleteRecommendation = (id) => {
-    setRecommendations((prev) => prev.filter((r) => r.id !== id));
-  };
-
-  const activeAlertsCount = alerts.filter((a) => !a.resolved).length;
-  const unreadRecommendationsCount = recommendations.filter((r) => !r.read).length;
+  const alertItems = data.alerts.map((a) => ({ ...a, kind: "alert", date: a.date_time }));
+  const recommendationItems = data.recommendations.map((r) => ({ ...r, kind: "recommendation", date: r.date_time }));
 
   const combinedList = useMemo(
-    () =>
-      [...alerts, ...recommendations].sort(
-        (a, b) => new Date(b.date) - new Date(a.date),
-      ),
-    [alerts, recommendations],
+    () => [...alertItems, ...recommendationItems].sort((a, b) => new Date(b.date) - new Date(a.date)),
+    [alertItems, recommendationItems],
   );
 
   const listToRender =
     activeTab === "alerts"
-      ? [...alerts].sort((a, b) => new Date(b.date) - new Date(a.date))
+      ? [...alertItems].sort((a, b) => new Date(b.date) - new Date(a.date))
       : activeTab === "recommendations"
-        ? [...recommendations].sort((a, b) => new Date(b.date) - new Date(a.date))
+        ? [...recommendationItems].sort((a, b) => new Date(b.date) - new Date(a.date))
         : combinedList;
 
   const emptyKey =
@@ -368,7 +228,11 @@ const Notifications = () => {
           </div>
 
           <Card>
-            {listToRender.length === 0 ? (
+            {loading ? (
+              <LoadingState />
+            ) : error ? (
+              <ErrorState error={error} onRetry={refetch} />
+            ) : listToRender.length === 0 ? (
               <div className={styles.emptyState}>
                 <Bell size={40} className={styles.emptyIcon} />
                 <p className={styles.emptyTitle}>{t(`${emptyKey}.title`)}</p>
@@ -381,19 +245,18 @@ const Notifications = () => {
                     <AlertRow
                       key={item.id}
                       alert={item}
+                      homeName={homeNameById[item.home_id] ?? ""}
                       t={t}
                       formatDate={formatDate}
-                      onResolve={handleResolveAlert}
-                      onDelete={handleDeleteAlert}
                     />
                   ) : (
                     <RecommendationRow
                       key={item.id}
                       recommendation={item}
+                      homeName={homeNameById[item.home_id] ?? ""}
                       t={t}
                       formatDate={formatDate}
                       onMarkRead={handleMarkRead}
-                      onDelete={handleDeleteRecommendation}
                     />
                   ),
                 )}

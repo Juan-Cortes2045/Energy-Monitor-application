@@ -17,6 +17,12 @@
     "todayConsumption": "CONSOMMATION D'AUJOURD'HUI 📊",
     "devices": "APPAREILS 🔌",
     "level": "Niveau",
+    "levels": {
+      "LOW": "Faible",
+      "MEDIUM": "Moyen",
+      "HIGH": "Élevé",
+      "CRITICAL": "Critique"
+    },
     "currentLimit": "Limite actuelle : ",
     "noLimit": "Aucune limite configurée",
     "allOperational": "Tous opérationnels",

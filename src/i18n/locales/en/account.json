@@ -10,5 +10,12 @@
   "noPhone": "You don't have one at the moment",
   "password": "Password",
   "deleteQuestion": "Do you want to delete your account?",
-  "deleteAccount": "Delete account"
+  "deleteAccount": "Delete account",
+  "deleteUnavailable": "Account deletion isn't available yet",
+  "lastName": "Last name",
+  "save": "Save",
+  "cancel": "Cancel",
+  "changePassword": "Change password",
+  "photoNote": "Photo previews aren't saved yet in this preview build",
+  "saveError": "Couldn't save your changes"
 }

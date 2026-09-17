@@ -23,13 +23,16 @@
   "buttons": {
     "copy": "Copier le code d'accès",
     "deleteHome": "Supprimer la maison",
-    "leaveHome": "Quitter la maison"
+    "leaveHome": "Quitter la maison",
+    "cancel": "Annuler"
   },
   "status": {
     "responsible": "Responsable"
   },
   "confirm": {
+    "leaveTitle": "Quitter cette maison ?",
     "leave": "Êtes-vous sûr de vouloir quitter cette maison ?",
+    "deleteTitle": "Supprimer cette maison ?",
     "delete": "Supprimer cette maison ? Cette action est irréversible."
   }
 }

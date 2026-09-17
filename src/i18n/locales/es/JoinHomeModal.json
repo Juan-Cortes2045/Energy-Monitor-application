@@ -10,6 +10,8 @@
   "joining": "Uniéndome...",
   "errors": {
     "required": "Ingresa el código de acceso.",
-    "invalid": "El código debe tener 8 caracteres (letras y números)."
+    "invalid": "El código debe tener 8 caracteres (letras y números).",
+    "notFound": "No encontramos un hogar con ese código de acceso.",
+    "alreadyMember": "Ya eres miembro de este hogar."
   }
 }

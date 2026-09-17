@@ -27,6 +27,7 @@
     "saved": "Guardado"
   },
   "errors": {
-    "invalid": "Ingresa un valor mayor a 0"
+    "invalid": "Ingresa un valor mayor a 0",
+    "dailyExceedsMonthly": "El límite diario no puede ser mayor que el mensual"
   }
 }

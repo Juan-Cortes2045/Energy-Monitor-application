@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Gauge, Info, Check, Lock } from "lucide-react";
 
@@ -6,18 +6,30 @@ import Card from "../../../design/components/Card/Card";
 import Button from "../../../design/components/Button/Button";
 import Input from "../../../design/components/Input/Input";
 import styles from "./Thresholds.module.css";
+import { useThresholds } from "./useThresholds";
+import { updateThresholds } from "../../../services/home.service";
+import LoadingState from "../../../components/shared/LoadingState/LoadingState";
+import ErrorState from "../../../components/shared/ErrorState/ErrorState";
 
-const DEFAULT_THRESHOLDS = { daily: 10, monthly: 300 };
-
-const Thresholds = ({ project, isOwner = false }) => {
+const Thresholds = ({ home, isOwner = false }) => {
   const { t } = useTranslation("thresholds");
+  const { data: thresholds, loading, error, refetch } = useThresholds(home.id);
 
   const [useDefaults, setUseDefaults] = useState(true);
   const [periodicity, setPeriodicity] = useState("daily");
-  const [daily, setDaily] = useState(String(DEFAULT_THRESHOLDS.daily));
-  const [monthly, setMonthly] = useState(String(DEFAULT_THRESHOLDS.monthly));
+  const [daily, setDaily] = useState("");
+  const [monthly, setMonthly] = useState("");
   const [errors, setErrors] = useState({});
   const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
+
+  // Seed local editable state once the real thresholds arrive.
+  useEffect(() => {
+    if (!thresholds) return;
+    setUseDefaults(thresholds.use_system_default);
+    setDaily(String(thresholds.daily_limit));
+    setMonthly(String(thresholds.monthly_limit));
+  }, [thresholds]);
 
   const isDaily = periodicity === "daily";
 
@@ -33,15 +45,11 @@ const Thresholds = ({ project, isOwner = false }) => {
 
   const handleToggleDefaults = () => {
     if (!isOwner) return;
-    setUseDefaults((prev) => {
-      const next = !prev;
-      if (next) {
-        setDaily(String(DEFAULT_THRESHOLDS.daily));
-        setMonthly(String(DEFAULT_THRESHOLDS.monthly));
-        setErrors({});
-      }
-      return next;
-    });
+    // There's no separate "system default values" endpoint to reset to —
+    // toggling this back on just stops requiring the owner to manage the
+    // numbers personally going forward; it keeps whatever is currently in
+    // the fields rather than fabricating a specific default on the client.
+    setUseDefaults((prev) => !prev);
     setSaved(false);
   };
 
@@ -63,31 +71,48 @@ const Thresholds = ({ project, isOwner = false }) => {
 
   const validate = () => {
     const nextErrors = {};
+    const dailyNum = isDaily ? Number(daily) : Number(calculatedValue);
+    const monthlyNum = isDaily ? Number(calculatedValue) : Number(monthly);
+
     if (isDaily) {
-      const dailyNum = Number(daily);
       if (!daily.trim() || Number.isNaN(dailyNum) || dailyNum <= 0) {
         nextErrors.daily = t("errors.invalid");
       }
     } else {
-      const monthlyNum = Number(monthly);
       if (!monthly.trim() || Number.isNaN(monthlyNum) || monthlyNum <= 0) {
         nextErrors.monthly = t("errors.invalid");
       }
     }
+    if (!nextErrors.daily && !nextErrors.monthly && dailyNum > monthlyNum) {
+      nextErrors[isDaily ? "daily" : "monthly"] = t("errors.dailyExceedsMonthly");
+    }
     setErrors(nextErrors);
-    return Object.keys(nextErrors).length === 0;
+    return Object.keys(nextErrors).length === 0 ? { dailyNum, monthlyNum } : null;
   };
 
-  const handleSave = () => {
-    if (useDefaults) {
+  const handleSave = async () => {
+    let payload = { daily_limit: Number(daily), monthly_limit: Number(monthly), use_system_default: useDefaults };
+    if (!useDefaults) {
+      const validated = validate();
+      if (!validated) return;
+      payload = { ...payload, daily_limit: validated.dailyNum, monthly_limit: validated.monthlyNum };
+    }
+    setSaving(true);
+    setErrors({});
+    try {
+      await updateThresholds(home.id, payload);
+      await refetch();
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
-      return;
+    } catch (err) {
+      setErrors({ [isDaily ? "daily" : "monthly"]: err.message });
+    } finally {
+      setSaving(false);
     }
-    if (!validate()) return;
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
   };
+
+  if (loading) return <LoadingState />;
+  if (error) return <ErrorState error={error} onRetry={refetch} />;
 
   return (
     <div className={styles.page}>
@@ -219,7 +244,7 @@ const Thresholds = ({ project, isOwner = false }) => {
 
           {isOwner && (
             <div className={styles.actions}>
-              <Button variant="primary" onClick={handleSave}>
+              <Button variant="primary" onClick={handleSave} disabled={saving}>
                 {saved ? (
                   <>
                     <Check size={15} className={styles.icon} />

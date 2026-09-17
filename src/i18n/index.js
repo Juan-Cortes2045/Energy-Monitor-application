@@ -31,6 +31,8 @@ import esThresholds from "./locales/es/thresholds.json";
 import esNotifications from "./locales/es/notifications.json";
 import esAbout from "./locales/es/about.json";
 import esLegalModal from "./locales/es/legalModal.json";
+import esRouteGuards from "./locales/es/routeGuards.json";
+import esCommon from "./locales/es/common.json";
 
 // Inglés
 
@@ -62,6 +64,8 @@ import enThresholds from "./locales/en/thresholds.json";
 import enNotifications from "./locales/en/notifications.json";
 import enAbout from "./locales/en/about.json";
 import enLegalModal from "./locales/en/legalModal.json";
+import enRouteGuards from "./locales/en/routeGuards.json";
+import enCommon from "./locales/en/common.json";
 
 // Frances
 
@@ -93,6 +97,8 @@ import frThresholds from "./locales/fr/thresholds.json";
 import frNotifications from "./locales/fr/notifications.json";
 import frAbout from "./locales/fr/about.json";
 import frLegalModal from "./locales/fr/legalModal.json";
+import frRouteGuards from "./locales/fr/routeGuards.json";
+import frCommon from "./locales/fr/common.json";
 
 // Portugués
 
@@ -159,7 +165,9 @@ i18n.use(initReactI18next).init({
       thresholds: esThresholds,
       notifications: esNotifications,
       about: esAbout,
-      legalModal: esLegalModal
+      legalModal: esLegalModal,
+      routeGuards: esRouteGuards,
+      common: esCommon
     },
     en: {
       account: enAccount,
@@ -189,7 +197,9 @@ i18n.use(initReactI18next).init({
       thresholds: enThresholds,
       notifications: enNotifications,
       about: enAbout,
-      legalModal: enLegalModal
+      legalModal: enLegalModal,
+      routeGuards: enRouteGuards,
+      common: enCommon
     },
     fr: {
       account: frAccount,
@@ -219,7 +229,9 @@ i18n.use(initReactI18next).init({
       thresholds: frThresholds,
       notifications: frNotifications,
       about: frAbout,
-      legalModal: frLegalModal
+      legalModal: frLegalModal,
+      routeGuards: frRouteGuards,
+      common: frCommon
     },
     pt: {
       account: ptAccount,

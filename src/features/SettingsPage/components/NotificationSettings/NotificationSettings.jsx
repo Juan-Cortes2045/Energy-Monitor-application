@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Bell, Mail, Smartphone, CheckCheck } from "lucide-react";
 
@@ -6,38 +6,54 @@ import Card from "../../../../../src/design/components/Card/Card";
 
 import styles from "./NotificationSettings.module.css";
 import { useTranslation } from "react-i18next";
+import { getMyConfiguration, updateMyConfiguration } from "../../../../services/user.service";
+import LoadingState from "../../../../components/shared/LoadingState/LoadingState";
+import ErrorState from "../../../../components/shared/ErrorState/ErrorState";
 
 const NotificationSettings = () => {
   const { t } = useTranslation("settings");
-  const [settings, setSettings] = useState({
-    email: true,
-    push: true,
-    combined: true,
-  });
+  const [settings, setSettings] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const load = () => {
+    setLoading(true);
+    setError(null);
+    getMyConfiguration()
+      .then((config) =>
+        setSettings({
+          email: config.notify_by_email,
+          push: config.notify_by_push,
+          combined: config.notify_by_email && config.notify_by_push,
+        }),
+      )
+      .catch(setError)
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
+
+  const persist = (next) =>
+    updateMyConfiguration({ notify_by_email: next.email, notify_by_push: next.push });
 
   const toggleSetting = (key) => {
     setSettings((prev) => {
-      if (key === "combined") {
-        const newValue = !prev.combined;
-
-        return {
-          email: newValue,
-          push: newValue,
-          combined: newValue,
-        };
-      }
-
-      const updated = {
-        ...prev,
-        [key]: !prev[key],
-      };
-
-      return {
-        ...updated,
-        combined: updated.email && updated.push,
-      };
+      const next =
+        key === "combined"
+          ? { email: !prev.combined, push: !prev.combined, combined: !prev.combined }
+          : (() => {
+              const updated = { ...prev, [key]: !prev[key] };
+              return { ...updated, combined: updated.email && updated.push };
+            })();
+      persist(next);
+      return next;
     });
   };
+
+  if (loading) return <LoadingState />;
+  if (error) return <ErrorState error={error} onRetry={load} />;
 
   const activeCount = [settings.email, settings.push].filter(Boolean).length;
 

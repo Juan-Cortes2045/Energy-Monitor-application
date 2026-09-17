@@ -5,7 +5,9 @@ export const registerSchema = (t) =>
     .object({
       name: z.string().min(1, t("errors.required")),
 
-      email: z.string().min(1, t("errors.required")),
+      lastName: z.string().min(1, t("errors.required")),
+
+      email: z.string().min(1, t("errors.required")).email(t("errors.invalidEmail")),
 
       password: z
         .string()

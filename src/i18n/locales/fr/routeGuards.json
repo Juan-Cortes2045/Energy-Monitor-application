@@ -1,0 +1,18 @@
+{
+  "loading": "Chargement…",
+  "homeNotFound": {
+    "title": "Logement introuvable",
+    "message": "Ce logement n'existe pas ou a été supprimé.",
+    "cta": "Retour au tableau de bord"
+  },
+  "forbidden": {
+    "title": "Vous n'avez pas accès à ce logement",
+    "message": "Demandez au propriétaire de vous inviter, ou revenez à votre tableau de bord.",
+    "cta": "Retour au tableau de bord"
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "message": "La page que vous recherchez n'existe pas.",
+    "cta": "Retour au tableau de bord"
+  }
+}

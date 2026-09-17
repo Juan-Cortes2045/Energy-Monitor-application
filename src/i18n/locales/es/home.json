@@ -23,13 +23,16 @@
   "buttons": {
     "copy": "Copiar código de acceso",
     "deleteHome": "Eliminar hogar",
-    "leaveHome": "Salirse del hogar"
+    "leaveHome": "Salirse del hogar",
+    "cancel": "Cancelar"
   },
   "status": {
     "responsible": "Responsable"
   },
   "confirm": {
+    "leaveTitle": "¿Salir de este hogar?",
     "leave": "¿Seguro que deseas salirte de este hogar?",
+    "deleteTitle": "¿Eliminar este hogar?",
     "delete": "¿Eliminar este hogar? Esta acción no se puede deshacer."
   }
 }

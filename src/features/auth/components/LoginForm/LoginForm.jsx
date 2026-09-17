@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../../validation/loginSchema.js";
 import styles from "../LoginForm/LoginForm.module.css";
@@ -13,12 +12,23 @@ import Card from "../../../../design/components/Card/Card.jsx";
 
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "../../../../context/AuthContext";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const { t: v } = useTranslation("validations");
   const { t } = useTranslation("auth");
   const [showPassword, setShowPassword] = useState(false);
+  const [serverError, setServerError] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
+  const successMessage = location.state?.verified
+    ? t("verify.success")
+    : location.state?.passwordReset
+      ? t("recover.resetSuccess")
+      : null;
 
   const {
     register,
@@ -28,9 +38,17 @@ const LoginForm = () => {
     resolver: zodResolver(loginSchema(v)),
   });
 
-  const onSubmit = (data) => {
-    console.log("login:", data);
-    navigate("/dashboard");
+  const onSubmit = async (data) => {
+    setServerError(null);
+    setSubmitting(true);
+    try {
+      await login(data.email, data.password);
+      navigate(location.state?.from?.pathname ?? "/dashboard", { replace: true });
+    } catch (err) {
+      setServerError(t(`errors.${err.code}`, t("errors.generic")));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -40,6 +58,7 @@ const LoginForm = () => {
       }}
     >
       <h2 className={styles.title}>{t("login.title")}</h2>
+      {successMessage && <p className={styles.description}>{successMessage}</p>}
 
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         {/*EMAIL*/}
@@ -69,6 +88,8 @@ const LoginForm = () => {
           </span>
         )}
 
+        {serverError && <span className={styles.error}>{serverError}</span>}
+
         {/*OPCIONES*/}
         <div className={styles.options}>
           <label className={styles.renember}>
@@ -89,7 +110,7 @@ const LoginForm = () => {
 
         <div className={styles.buttonsContainer}>
           {/*BOTON LOGIN*/}
-          <Button type="submit" variant="primary">
+          <Button type="submit" variant="primary" disabled={submitting}>
             {t("login.submit")}
           </Button>
 

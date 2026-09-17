@@ -14,6 +14,7 @@ import LegalModal from "../LegalModal/LegalModal.jsx";
 
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import { register as registerUser } from "../../../../services/auth.service";
 
 const RegisterForm = () => {
   const { t: v } = useTranslation("validations");
@@ -21,6 +22,8 @@ const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
   const [legalTab, setLegalTab] = useState(null); // null | "terms" | "privacy"
+  const [serverError, setServerError] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const {
     register,
@@ -37,8 +40,21 @@ const RegisterForm = () => {
 
   const navigate = useNavigate();
   const onSubmit = async (data) => {
-    console.log("register:", data);
-    navigate("/VerifyAccount");
+    setServerError(null);
+    setSubmitting(true);
+    try {
+      await registerUser({
+        name: data.name,
+        last_name: data.lastName,
+        email: data.email,
+        password: data.password,
+      });
+      navigate("/verify-account", { state: { email: data.email } });
+    } catch (err) {
+      setServerError(t(`errors.${err.code}`, t("errors.generic")));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -55,6 +71,16 @@ const RegisterForm = () => {
             {errors.name && (
               <span className={styles.error}>
                 {errors.name.message}
+              </span>
+            )}
+
+            {/* LAST NAME */}
+            <Input id="lastName" type="text" placeholder="*" {...register("lastName")}>
+              {t("register.lastName")}
+            </Input>
+            {errors.lastName && (
+              <span className={styles.error}>
+                {errors.lastName.message}
               </span>
             )}
 
@@ -145,9 +171,11 @@ const RegisterForm = () => {
               )}
             </div>
 
+            {serverError && <span className={styles.error}>{serverError}</span>}
+
             {/* BUTTONS */}
             <div className={styles.buttonsContainer}>
-              <Button type="submit" variant="primary">
+              <Button type="submit" variant="primary" disabled={submitting}>
                 {t("register.submit")}
               </Button>
 

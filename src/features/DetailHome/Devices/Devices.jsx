@@ -7,25 +7,29 @@ import Button from "../../../design/components/Button/Button";
 import LinkDeviceModal from "./LinkDeviceModal/LinkDeviceModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal/ConfirmDeleteModal";
 import { APPLIANCE_ICON } from "../shared/deviceTypes";
+import { useApplianceTypes } from "../shared/useApplianceTypes";
+import { useHomeDevices } from "./useHomeDevices";
+import { unlinkDevice } from "../../../services/device.service";
+import LoadingState from "../../../components/shared/LoadingState/LoadingState";
+import ErrorState from "../../../components/shared/ErrorState/ErrorState";
 import styles from "./Devices.module.css";
 
 const SignalIcon = ({ status, signal }) => {
-  if (status !== "online") {
+  if (status !== "ONLINE") {
     return <WifiOff size={14} className={styles.signalOff} aria-hidden="true" />;
   }
   const level = signal >= 70 ? styles.signalHigh : signal >= 35 ? styles.signalMed : styles.signalLow;
   return <Wifi size={14} className={`${styles.signalIcon} ${level}`} aria-hidden="true" />;
 };
 
-const DeviceRow = ({ device, isOwner, onRequestRemove, t }) => {
-  const Icon = APPLIANCE_ICON[device.applianceType] ?? Plug;
-  const displayName = device.name || t(`applianceTypes.${device.applianceType}`);
-  const displayRoom =
-    device.room || (device.roomKey ? t(`rooms.${device.roomKey}`) : "");
+const DeviceRow = ({ device, applianceKey, isOwner, onRequestRemove, t }) => {
+  const Icon = APPLIANCE_ICON[applianceKey] ?? Plug;
+  const displayName = device.name || t(`applianceTypes.${applianceKey}`);
+  const displayRoom = device.location ? t(`rooms.${device.location}`) : "";
 
   return (
     <div className={styles.deviceRow}>
-      <div className={`${styles.deviceIcon} ${device.status === "online" ? styles.deviceIconOn : styles.deviceIconOff}`}>
+      <div className={`${styles.deviceIcon} ${device.status === "ONLINE" ? styles.deviceIconOn : styles.deviceIconOff}`}>
         <Icon size={18} />
       </div>
 
@@ -37,14 +41,14 @@ const DeviceRow = ({ device, isOwner, onRequestRemove, t }) => {
       <div className={styles.deviceMeta}>
         <span
           className={`${styles.statusBadge} ${
-            device.status === "online" ? styles.statusOnline : styles.statusOffline
+            device.status === "ONLINE" ? styles.statusOnline : styles.statusOffline
           }`}
         >
-          <SignalIcon status={device.status} signal={device.signal} />
-          {device.status === "online" ? t("status.online") : t("status.offline")}
+          <SignalIcon status={device.status} signal={device.signal_strength} />
+          {device.status === "ONLINE" ? t("status.online") : t("status.offline")}
         </span>
-        {device.consumption != null && (
-          <span className={styles.consumption}>{device.consumption} kW</span>
+        {device.status === "ONLINE" && (
+          <span className={styles.consumption}>{device.consumption_today_kwh} kWh</span>
         )}
       </div>
 
@@ -62,10 +66,13 @@ const DeviceRow = ({ device, isOwner, onRequestRemove, t }) => {
   );
 };
 
-const Devices = ({ isOwner = false, devices, onAddDevice, onRemoveDevice }) => {
+const Devices = ({ homeId, isOwner = false }) => {
   const { t } = useTranslation("devices");
+  const { nameOf } = useApplianceTypes();
+  const { data: devices, loading, error, refetch } = useHomeDevices(homeId);
   const [modalOpen, setModalOpen] = useState(false);
   const [deviceToDelete, setDeviceToDelete] = useState(null);
+  const [removing, setRemoving] = useState(false);
 
   const handleRequestRemove = (device) => {
     setDeviceToDelete(device);
@@ -75,17 +82,26 @@ const Devices = ({ isOwner = false, devices, onAddDevice, onRemoveDevice }) => {
     setDeviceToDelete(null);
   };
 
-  const handleConfirmRemove = (device) => {
-    onRemoveDevice(device.id);
-    setDeviceToDelete(null);
+  const handleConfirmRemove = async (device) => {
+    setRemoving(true);
+    try {
+      await unlinkDevice(homeId, device.id);
+      await refetch();
+    } finally {
+      setRemoving(false);
+      setDeviceToDelete(null);
+    }
   };
 
-  const handleAddDevice = (newDevice) => {
-    onAddDevice(newDevice);
+  const handleLinked = () => {
     setModalOpen(false);
+    refetch();
   };
 
-  const onlineCount = devices.filter((d) => d.status === "online").length;
+  if (loading) return <LoadingState />;
+  if (error) return <ErrorState error={error} onRetry={refetch} />;
+
+  const onlineCount = devices.filter((d) => d.status === "ONLINE").length;
 
   return (
     <div className={styles.page}>
@@ -128,6 +144,7 @@ const Devices = ({ isOwner = false, devices, onAddDevice, onRemoveDevice }) => {
               <DeviceRow
                 key={device.id}
                 device={device}
+                applianceKey={nameOf(device.appliance_type_id)}
                 isOwner={isOwner}
                 onRequestRemove={handleRequestRemove}
                 t={t}
@@ -139,16 +156,18 @@ const Devices = ({ isOwner = false, devices, onAddDevice, onRemoveDevice }) => {
 
       {modalOpen && isOwner && (
         <LinkDeviceModal
+          homeId={homeId}
           onClose={() => setModalOpen(false)}
-          onAddDevice={handleAddDevice}
+          onLinked={handleLinked}
         />
       )}
 
       {deviceToDelete && (
         <ConfirmDeleteModal
-          device={deviceToDelete}
+          device={{ ...deviceToDelete, applianceType: nameOf(deviceToDelete.appliance_type_id) }}
           onCancel={handleCancelRemove}
           onConfirm={handleConfirmRemove}
+          disabled={removing}
         />
       )}
     </div>

@@ -22,6 +22,7 @@ import {
 import NavItem from "./NavItem";
 import Button from "../../../../design/components/Button/Button";
 import Account from "../../../../features/Account/Account";
+import { useAuth } from "../../../../context/AuthContext";
 
 const Sidebar = () => {
   const { t } = useTranslation("sidebar");
@@ -31,6 +32,13 @@ const Sidebar = () => {
   const [showProfile, setShowProfile] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
+  const { user, logout } = useAuth();
+  const displayName = user ? `${user.person?.name ?? ""} ${user.person?.last_name ?? ""}`.trim() : "";
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/home");
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -116,13 +124,19 @@ const Sidebar = () => {
             }}
             style={{ cursor: "pointer" }}
           >
-            <img
-              src="https://i.pravatar.cc/40"
-              alt="user"
-              className={styles.avatar}
-            />
+            {user?.person?.profile_image ? (
+              <img
+                src={user.person.profile_image}
+                alt={displayName}
+                className={styles.avatar}
+              />
+            ) : (
+              <div className={styles.avatar}>
+                <User size={20} />
+              </div>
+            )}
 
-            {!collapsed && <span className={styles.profileName}>User001</span>}
+            {!collapsed && <span className={styles.profileName}>{displayName}</span>}
 
             <button
               onClick={(e) => {
@@ -158,7 +172,7 @@ const Sidebar = () => {
                 <Button
                   type="submit"
                   variant="primary"
-                  onClick={() => navigate("/home")}
+                  onClick={handleLogout}
                   style={{ width: "100%" }}
                 >
                   {t("profile.logout")}

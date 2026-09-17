@@ -10,6 +10,8 @@
   "joining": "Joining...",
   "errors": {
     "required": "Enter the access code.",
-    "invalid": "The code must have 8 characters (letters and numbers)."
+    "invalid": "The code must have 8 characters (letters and numbers).",
+    "notFound": "No home found with that access code.",
+    "alreadyMember": "You are already a member of this home."
   }
 }

@@ -7,7 +7,14 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "mock:seed": "node mock/seed.js",
+    "mock:add-spares": "node mock/add-spare-devices.js",
+    "mock:fill": "node mock/fill-measurements.js",
+    "mock:live": "node mock/live-measurements.js",
+    "mock:alerts": "node mock/generate-alerts.js",
+    "mock": "node mock/server.js",
+    "dev:full": "concurrently -n front,api,live -c cyan,magenta,yellow \"npm run dev\" \"npm run mock\" \"npm run mock:live\""
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -30,10 +37,15 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "concurrently": "^10.0.5",
+    "cors": "^2.8.6",
     "eslint": "^9.39.4",
+    "express": "^4.22.3",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
+    "json-server": "^0.17.4",
+    "jsonwebtoken": "^9.0.3",
     "vite": "^8.0.11"
   }
 }

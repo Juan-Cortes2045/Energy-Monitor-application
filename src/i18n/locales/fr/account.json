@@ -10,5 +10,12 @@
   "noPhone": "Vous n'en avez pas pour le moment",
   "password": "Mot de passe",
   "deleteQuestion": "Voulez-vous supprimer votre compte ?",
-  "deleteAccount": "Supprimer le compte"
+  "deleteAccount": "Supprimer le compte",
+  "deleteUnavailable": "La suppression du compte n'est pas encore disponible",
+  "lastName": "Nom de famille",
+  "save": "Enregistrer",
+  "cancel": "Annuler",
+  "changePassword": "Changer le mot de passe",
+  "photoNote": "L'aperçu de la photo n'est pas encore enregistré dans cette version d'essai",
+  "saveError": "Impossible d'enregistrer vos modifications"
 }

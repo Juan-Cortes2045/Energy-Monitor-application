@@ -1,16 +1,22 @@
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Card from "../../../../design/components/Card/Card";
 import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
 import styles from "./VerifyAccount.module.css";
 import { useTranslation } from "react-i18next";
+import { verifyEmail } from "../../../../services/auth.service";
 
 const VerifyEmail = () => {
   const { t } = useTranslation("auth");
   const [code, setCode] = useState(["", "", "", "", "", ""]);
+  const [serverError, setServerError] = useState(null);
+  const [resentMessage, setResentMessage] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
   const inputsRef = useRef([]);
   const navigate = useNavigate();
+  const location = useLocation();
+  const email = location.state?.email;
 
   const handleChange = (value, index) => {
     if (!/^[0-9]?$/.test(value)) return;
@@ -30,11 +36,29 @@ const VerifyEmail = () => {
     }
   };
 
-  const handleVerify = (e) => {
+  const handleVerify = async (e) => {
     e.preventDefault();
-    const finalCode = code.join("");
-    console.log("Código:", finalCode);
-    navigate("/login");
+    setServerError(null);
+    setResentMessage(null);
+    setSubmitting(true);
+    try {
+      await verifyEmail({ email, code: code.join("") });
+      navigate("/login", { state: { verified: true } });
+    } catch (err) {
+      setServerError(err.code === "INVALID_CODE" ? t("verify.invalidCode") : t(`errors.${err.code}`, t("errors.generic")));
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  // The mock backend always accepts the same fixed verification code (see
+  // mock/README.md), so there is no real "resend" call to make — this just
+  // clears the inputs and reassures the user their original code still works.
+  const handleResend = () => {
+    setCode(["", "", "", "", "", ""]);
+    setServerError(null);
+    setResentMessage(t("verify.resent"));
+    inputsRef.current[0]?.focus();
   };
 
   return (
@@ -64,13 +88,16 @@ const VerifyEmail = () => {
             ))}
           </div>
 
-          <Button variant="primary" onClick={handleVerify}>
+          {serverError && <span className={styles.helperText}>{serverError}</span>}
+          {resentMessage && <span className={styles.helperText}>{resentMessage}</span>}
+
+          <Button variant="primary" onClick={handleVerify} disabled={submitting}>
             {t("verify.confirm")}
           </Button>
 
           <span className={styles.helperText}>{t("verify.notReceived")}</span>
 
-          <Button type="button" variant="secondary">
+          <Button type="button" variant="secondary" onClick={handleResend}>
             {t("verify.resend")}
           </Button>
           <p className={styles.register}>

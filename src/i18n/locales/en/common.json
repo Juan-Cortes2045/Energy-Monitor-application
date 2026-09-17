@@ -1,0 +1,9 @@
+{
+  "loading": "Loading…",
+  "error": {
+    "generic": "Something went wrong. Please try again.",
+    "retry": "Retry",
+    "offline": "Can't reach the server. Check your connection and try again.",
+    "forbidden": "You don't have permission to do this."
+  }
+}

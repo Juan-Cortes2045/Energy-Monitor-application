@@ -1,0 +1,9 @@
+{
+  "loading": "Chargement…",
+  "error": {
+    "generic": "Une erreur est survenue. Veuillez réessayer.",
+    "retry": "Réessayer",
+    "offline": "Impossible de contacter le serveur. Vérifiez votre connexion et réessayez.",
+    "forbidden": "Vous n'avez pas la permission de faire cela."
+  }
+}

@@ -10,5 +10,12 @@
   "noPhone": "No tienes en el momento",
   "password": "Contraseña",
   "deleteQuestion": "¿Deseas eliminar tu cuenta?",
-  "deleteAccount": "Eliminar cuenta"
+  "deleteAccount": "Eliminar cuenta",
+  "deleteUnavailable": "Eliminar cuenta no está disponible todavía",
+  "lastName": "Apellido",
+  "save": "Guardar",
+  "cancel": "Cancelar",
+  "changePassword": "Cambiar contraseña",
+  "photoNote": "La vista previa de la foto aún no se guarda en esta versión de prueba",
+  "saveError": "No pudimos guardar tus cambios"
 }

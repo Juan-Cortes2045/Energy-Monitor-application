@@ -15,34 +15,26 @@ import Card from "../../../design/components/Card/Card";
 import Button from "../../../design/components/Button/Button";
 import styles from "./Home.module.css";
 import { useTranslation } from "react-i18next";
+import { deleteHome, leaveHome } from "../../../services/home.service";
+import ConfirmModal from "../../../components/shared/ConfirmModal/ConfirmModal";
 
-const emptyHome = {
-  home_code: "",
-  name: "",
-  address: "",
-  homeType: "",
-  access_code: "",
-  description: "",
-  creation_date: null,
-  responsible: { name: "", email: "", cellphone: "" },
-};
-
+// Keyed by home_type.name (the stable "house"/"apartment"/"studio"/"other"
+// key from the API), not display text — see mock/README.md's *_type.name
+// convention.
 const HOME_TYPE_ICONS = {
-  Casa: <Home size={12} />,
-  Apartamento: <Building2 size={12} />,
-  "Apta estudio": <Building2 size={12} />,
-  Oficina: <Building2 size={12} />,
-  Local: <Building2 size={12} />,
-  Otro: <Building2 size={12} />,
+  house: <Home size={12} />,
+  apartment: <Building2 size={12} />,
+  studio: <Building2 size={12} />,
+  other: <Building2 size={12} />,
 };
 
-const formatDate = (iso) => {
+const formatDate = (iso, locale) => {
   if (!iso) return "—";
-  return new Date(iso).toLocaleDateString("es-CO", {
+  return new Intl.DateTimeFormat(locale, {
     day: "2-digit",
     month: "short",
     year: "numeric",
-  });
+  }).format(new Date(iso));
 };
 
 const getInitials = (name = "") =>
@@ -60,28 +52,35 @@ const Field = ({ label, fullWidth = false, children }) => (
 );
 
 const HomeDetail = ({ home, isOwner = false, onLeave, onDelete }) => {
-  const { t } = useTranslation("home");
+  const { t, i18n } = useTranslation("home");
+  const { t: tHomeTypes } = useTranslation("createHomeModal");
   const [copied, setCopied] = useState(false);
+  const [confirmAction, setConfirmAction] = useState(null); // null | "leave" | "delete"
+  const [confirming, setConfirming] = useState(false);
 
-  const data = emptyHome;
+  const ownerName = home.owner ? `${home.owner.name} ${home.owner.last_name}`.trim() : "";
 
   const handleCopy = () => {
-    if (!data.access_code) return;
-    navigator.clipboard.writeText(data.access_code).then(() => {
+    if (!home.access_code) return;
+    navigator.clipboard.writeText(home.access_code).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
   };
 
-  const handleLeave = () => {
-    if (window.confirm(t("confirm.leave"))) {
-      onLeave?.();
-    }
-  };
-
-  const handleDelete = () => {
-    if (window.confirm(t("confirm.delete"))) {
-      onDelete?.();
+  const handleConfirm = async () => {
+    setConfirming(true);
+    try {
+      if (confirmAction === "leave") {
+        await leaveHome(home.id);
+        onLeave?.();
+      } else if (confirmAction === "delete") {
+        await deleteHome(home.id);
+        onDelete?.();
+      }
+    } finally {
+      setConfirming(false);
+      setConfirmAction(null);
     }
   };
 
@@ -96,16 +95,16 @@ const HomeDetail = ({ home, isOwner = false, onLeave, onDelete }) => {
 
           <div className={styles.fieldGrid}>
             <Field label={t("fields.name")}>
-              <span>{data.name || t("placeholders.empty")}</span>
+              <span>{home.name || t("placeholders.empty")}</span>
             </Field>
 
             <Field label={t("fields.homeType")}>
-              {data.homeType ? (
+              {home.home_type ? (
                 <span className={styles.typeBadge}>
-                  {HOME_TYPE_ICONS[data.homeType] ?? (
+                  {HOME_TYPE_ICONS[home.home_type.name] ?? (
                     <Building2 size={12} />
                   )}
-                  {data.homeType}
+                  {tHomeTypes(`homeTypes.${home.home_type.name}`)}
                 </span>
               ) : (
                 <span>{t("placeholders.empty")}</span>
@@ -113,18 +112,18 @@ const HomeDetail = ({ home, isOwner = false, onLeave, onDelete }) => {
             </Field>
 
             <Field label={t("fields.address")} fullWidth>
-              <span>{data.address || t("placeholders.empty")}</span>
+              <span>{home.address || t("placeholders.empty")}</span>
             </Field>
 
             <Field label={t("fields.description")} fullWidth>
               <span className={styles.textMuted}>
-                {data.description || t("placeholders.empty")}
+                {home.description || t("placeholders.empty")}
               </span>
             </Field>
 
             <Field label={t("fields.creationDate")}>
               <span className={styles.textMuted}>
-                {formatDate(data.creation_date)}
+                {formatDate(home.creation_date, i18n.language)}
               </span>
             </Field>
           </div>
@@ -142,13 +141,13 @@ const HomeDetail = ({ home, isOwner = false, onLeave, onDelete }) => {
 
                 <div className={styles.codeBox}>
                   <span className={styles.codeText}>
-                    {data.access_code || t("placeholders.noCode")}
+                    {home.access_code || t("placeholders.noCode")}
                   </span>
                   <button
                     type="button"
                     className={`${styles.copyBtn} ${copied ? styles.copyBtnOk : ""}`}
                     onClick={handleCopy}
-                    disabled={!data.access_code}
+                    disabled={!home.access_code}
                     aria-label={t("buttons.copy")}
                   >
                     {copied ? <Check size={13} /> : <Copy size={13} />}
@@ -160,12 +159,12 @@ const HomeDetail = ({ home, isOwner = false, onLeave, onDelete }) => {
 
           <div className={styles.actionRow}>
             {isOwner ? (
-              <Button variant="Danger" onClick={handleDelete}>
+              <Button variant="Danger" onClick={() => setConfirmAction("delete")}>
                 <Trash2 size={15} className={styles.icon} />
                 {t("buttons.deleteHome")}
               </Button>
             ) : (
-              <Button variant="Danger" onClick={handleLeave}>
+              <Button variant="Danger" onClick={() => setConfirmAction("leave")}>
                 <LogOut size={15} className={styles.icon} />
                 {t("buttons.leaveHome")}
               </Button>
@@ -183,11 +182,11 @@ const HomeDetail = ({ home, isOwner = false, onLeave, onDelete }) => {
 
           <div className={styles.ownerRow}>
             <div className={styles.ownerAvatar}>
-              {getInitials(data.responsible.name) || <User size={16} />}
+              {getInitials(ownerName) || <User size={16} />}
             </div>
             <div className={styles.ownerMeta}>
               <span className={styles.ownerName}>
-                {data.responsible.name || t("placeholders.empty")}
+                {ownerName || t("placeholders.empty")}
               </span>
               <span className={styles.ownerBadge}>
                 {t("status.responsible")}
@@ -201,18 +200,30 @@ const HomeDetail = ({ home, isOwner = false, onLeave, onDelete }) => {
             <Field label={t("fields.email")}>
               <span className={styles.fieldValueWithIcon}>
                 <Mail size={12} aria-hidden="true" />
-                {data.responsible.email || t("placeholders.empty")}
+                {home.owner?.email || t("placeholders.empty")}
               </span>
             </Field>
             <Field label={t("fields.phone")}>
               <span className={styles.fieldValueWithIcon}>
                 <Phone size={12} aria-hidden="true" />
-                {data.responsible.cellphone || t("placeholders.empty")}
+                {home.owner?.cellphone || t("placeholders.empty")}
               </span>
             </Field>
           </div>
         </div>
       </Card>
+
+      {confirmAction && (
+        <ConfirmModal
+          title={t(confirmAction === "delete" ? "confirm.deleteTitle" : "confirm.leaveTitle")}
+          message={t(confirmAction === "delete" ? "confirm.delete" : "confirm.leave")}
+          confirmLabel={t(confirmAction === "delete" ? "buttons.deleteHome" : "buttons.leaveHome")}
+          cancelLabel={t("buttons.cancel")}
+          onCancel={() => setConfirmAction(null)}
+          onConfirm={handleConfirm}
+          disabled={confirming}
+        />
+      )}
     </div>
   );
 };

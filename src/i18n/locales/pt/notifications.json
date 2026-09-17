@@ -17,7 +17,6 @@
     "read": "Lida"
   },
   "actions": {
-    "resolve": "Resolver",
     "markRead": "Marcar como lida",
     "markAllRead": "Marcar todas como lidas",
     "delete": "Excluir"

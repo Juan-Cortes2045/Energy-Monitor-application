@@ -10,6 +10,8 @@
   "joining": "Connexion...",
   "errors": {
     "required": "Entrez le code d'accès.",
-    "invalid": "Le code doit avoir 8 caractères (lettres et chiffres)."
+    "invalid": "Le code doit avoir 8 caractères (lettres et chiffres).",
+    "notFound": "Aucune maison trouvée avec ce code d'accès.",
+    "alreadyMember": "Vous êtes déjà membre de cette maison."
   }
 }

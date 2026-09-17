@@ -19,7 +19,8 @@
       "empty": "Ingresa un correo electrónico.",
       "invalid": "Correo electrónico inválido.",
       "alreadyMember": "Este usuario ya es miembro.",
-      "alreadyInvited": "Ya se envió una invitación a este correo."
+      "alreadyInvited": "Ya se envió una invitación a este correo.",
+      "userNotFound": "No hay un usuario registrado con ese correo."
     }
   },
   "pending": {

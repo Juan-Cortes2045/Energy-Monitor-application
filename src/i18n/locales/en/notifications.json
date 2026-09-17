@@ -4,7 +4,7 @@
     "current": "Notifications"
   },
   "title": "Notifications",
-  "subtitle": "Alerts and recommendations generated from your projects' consumption.",
+  "subtitle": "Alerts and recommendations generated from your homes' consumption.",
   "tabs": {
     "all": "All",
     "alerts": "Alerts",
@@ -17,47 +17,47 @@
     "read": "Read"
   },
   "actions": {
-    "resolve": "Resolve",
     "markRead": "Mark as read",
-    "markAllRead": "Mark all as read",
-    "delete": "Delete"
+    "markAllRead": "Mark all as read"
   },
-  "mockAlerts": {
-    "dailyLimit": {
+  "threshold": {
+    "dailyExceeded": {
       "title": "Daily limit exceeded",
-      "message": "\"{{device}}\" went over the daily consumption limit set for this project."
+      "message": "The daily consumption limit was exceeded in \"{{home}}\"."
     },
-    "deviceOffline": {
-      "title": "Device disconnected",
-      "message": "\"{{device}}\" stopped reporting consumption data. Check its WiFi connection."
-    },
-    "monthlyNearLimit": {
-      "title": "Close to the monthly limit",
-      "message": "\"{{device}}\" is close to reaching the configured monthly consumption limit."
-    },
-    "consumptionSpike": {
-      "title": "Consumption spike detected",
-      "message": "An unusual consumption spike was detected in the project. Check your connected devices."
+    "monthlyApproaching": {
+      "title": "Approaching monthly limit",
+      "message": "\"{{home}}\" is close to its configured monthly consumption limit."
     }
   },
-  "mockRecommendations": {
-    "acPeak": {
-      "title": "Optimize your air conditioner",
-      "message": "Reduce its use during peak hours to save energy and lower your bill."
+  "connectivity": {
+    "deviceOffline": {
+      "title": "Device disconnected",
+      "message": "A device in \"{{home}}\" stopped reporting consumption data."
+    }
+  },
+  "recommendation": {
+    "scheduleMaintenance": {
+      "title": "Schedule maintenance",
+      "message": "One of your devices in \"{{home}}\" may need maintenance soon."
     },
-    "standby": {
-      "title": "Unplug standby devices",
-      "message": "Consider unplugging devices you don't use overnight; standby consumption adds up."
+    "shiftUsageOffPeak": {
+      "title": "Shift usage to off-peak hours",
+      "message": "Save energy by using high-consumption appliances in \"{{home}}\" during off-peak hours."
     },
-    "improvement": {
-      "title": "You're improving!",
-      "message": "Your consumption dropped 12% this month compared to the previous one. Keep it up to stay within your thresholds."
+    "reduceStandby": {
+      "title": "Reduce standby consumption",
+      "message": "Unplug idle devices in \"{{home}}\" to cut standby consumption."
+    },
+    "upgradeAppliance": {
+      "title": "Consider upgrading an appliance",
+      "message": "An older appliance in \"{{home}}\" may be consuming more energy than necessary."
     }
   },
   "empty": {
     "all": {
       "title": "No notifications",
-      "description": "When the system detects something relevant in your projects, you'll see it here."
+      "description": "When the system detects something relevant in your homes, you'll see it here."
     },
     "alerts": {
       "title": "No active alerts",
@@ -65,7 +65,7 @@
     },
     "recommendations": {
       "title": "No recommendations",
-      "description": "There are no recommendations generated for your projects yet."
+      "description": "There are no recommendations generated for your homes yet."
     }
   }
 }

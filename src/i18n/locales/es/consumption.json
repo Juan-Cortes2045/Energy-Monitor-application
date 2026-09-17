@@ -17,6 +17,12 @@
     "todayConsumption": "CONSUMO HOY 📊",
     "devices": "DISPOSITIVOS 🔌",
     "level": "Nivel",
+    "levels": {
+      "LOW": "Bajo",
+      "MEDIUM": "Medio",
+      "HIGH": "Alto",
+      "CRITICAL": "Crítico"
+    },
     "currentLimit": "Límite actual: ",
     "noLimit": "Sin límite configurado",
     "allOperational": "Todos operativos",

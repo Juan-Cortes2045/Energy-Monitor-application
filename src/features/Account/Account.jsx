@@ -1,23 +1,54 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { VscAccount } from "react-icons/vsc";
 import { FiEdit3 } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 
 import Card from "../../design/components/Card/Card";
 import Button from "../../design/components/Button/Button";
+import Input from "../../design/components/Input/Input";
 import styles from "./Account.module.css";
+import { getMe, updateMe } from "../../services/user.service";
+import LoadingState from "../../components/shared/LoadingState/LoadingState";
+import ErrorState from "../../components/shared/ErrorState/ErrorState";
 
 const Account = ({ onClose }) => {
   const { t } = useTranslation("account");
+  const navigate = useNavigate();
+  const handleClose = onClose ?? (() => navigate(-1));
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
-  const [image, setImage] = useState(null);
+  // Preview-only: there's no file-upload endpoint in the mock, so this never
+  // reaches the server (see mock/README.md). Real persistence would need a
+  // multipart upload route the current API contract doesn't define.
+  const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
+
+  const [person, setPerson] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(null);
+  const [editingField, setEditingField] = useState(null); // null | "name" | "phone"
+  const [draft, setDraft] = useState({});
+  const [saveError, setSaveError] = useState(null);
+  const [saving, setSaving] = useState(false);
+
+  const loadMe = () => {
+    setLoading(true);
+    setLoadError(null);
+    getMe()
+      .then(setPerson)
+      .catch(setLoadError)
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    loadMe();
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImage(URL.createObjectURL(file));
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
@@ -31,7 +62,6 @@ const Account = ({ onClose }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Bloquea el scroll del fondo mientras el modal está abierto
   useEffect(() => {
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -41,19 +71,66 @@ const Account = ({ onClose }) => {
   }, []);
 
   const handleOverlayClick = (e) => {
-    if (e.target === e.currentTarget) onClose?.();
+    if (e.target === e.currentTarget) handleClose();
   };
+
+  const startEdit = (field) => {
+    setSaveError(null);
+    if (field === "name") {
+      setDraft({ name: person.name, last_name: person.last_name });
+    } else if (field === "phone") {
+      setDraft({ cellphone: person.cellphone ?? "" });
+    }
+    setEditingField(field);
+  };
+
+  const handleSave = async () => {
+    setSaving(true);
+    setSaveError(null);
+    try {
+      const updated = await updateMe(draft);
+      setPerson(updated);
+      setEditingField(null);
+    } catch (err) {
+      setSaveError(err.message || t("saveError"));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className={styles.page} onClick={handleOverlayClick}>
+        <div className={styles.modalWrapper}>
+          <Card>
+            <LoadingState />
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <div className={styles.page} onClick={handleOverlayClick}>
+        <div className={styles.modalWrapper}>
+          <Card>
+            <ErrorState error={loadError} onRetry={loadMe} />
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.page} onClick={handleOverlayClick}>
       <div className={styles.modalWrapper}>
         <Card>
-          {/* ── Botón cerrar ─────────────────────────────────────── */}
           <div className={styles.closeBtnRow}>
             <button
               type="button"
               className={styles.closeBtn}
-              onClick={onClose}
+              onClick={handleClose}
               aria-label={t("close")}
             >
               x
@@ -61,10 +138,8 @@ const Account = ({ onClose }) => {
           </div>
 
           <div className={styles.inner}>
-            {/* ── Título ───────────────────────────────────────────── */}
             <h2 className={styles.title}>{t("title")}</h2>
 
-            {/* ── Avatar + dropdown ────────────────────────────────── */}
             <div className={styles.avatarWrapper} ref={wrapperRef}>
               <div
                 className={styles.avatarContainer}
@@ -74,8 +149,8 @@ const Account = ({ onClose }) => {
                 tabIndex={0}
                 onKeyDown={(e) => e.key === "Enter" && setOpen((o) => !o)}
               >
-                {image ? (
-                  <img src={image} className={styles.avatarImg} />
+                {imagePreview || person.profile_image ? (
+                  <img src={imagePreview ?? person.profile_image} className={styles.avatarImg} />
                 ) : (
                   <VscAccount className={styles.icon} />
                 )}
@@ -101,7 +176,7 @@ const Account = ({ onClose }) => {
 
                   <li
                     onClick={() => {
-                      if (image) window.open(image);
+                      if (imagePreview) window.open(imagePreview);
                       setOpen(false);
                     }}
                   >
@@ -110,7 +185,7 @@ const Account = ({ onClose }) => {
 
                   <li
                     onClick={() => {
-                      setImage(null);
+                      setImagePreview(null);
                       setOpen(false);
                     }}
                     className={styles.dropdownDanger}
@@ -120,49 +195,89 @@ const Account = ({ onClose }) => {
                 </ul>
               )}
             </div>
+            {imagePreview && <p className={styles.hint}>{t("photoNote")}</p>}
 
-            {/* ── Campos de información ─────────────────────────────── */}
             <div className={styles.form}>
               <div className={styles.row}>
                 <label className={styles.label}>{t("name")}</label>
-                <p className={styles.value}>Usuario001</p>
-                <Button variant="primary" className={styles.btnEdit}>
-                  <FiEdit3 />
-                </Button>
+                {editingField === "name" ? (
+                  <>
+                    <Input
+                      value={draft.name}
+                      onChange={(e) => setDraft((d) => ({ ...d, name: e.target.value }))}
+                      placeholder={t("name")}
+                    />
+                    <Input
+                      value={draft.last_name}
+                      onChange={(e) => setDraft((d) => ({ ...d, last_name: e.target.value }))}
+                      placeholder={t("lastName")}
+                    />
+                    <Button variant="primary" onClick={handleSave} disabled={saving}>
+                      {t("save")}
+                    </Button>
+                    <Button variant="secondary" onClick={() => setEditingField(null)}>
+                      {t("cancel")}
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <p className={styles.value}>{`${person.name} ${person.last_name}`.trim()}</p>
+                    <Button variant="primary" className={styles.btnEdit} onClick={() => startEdit("name")}>
+                      <FiEdit3 />
+                    </Button>
+                  </>
+                )}
               </div>
 
               <div className={styles.row}>
                 <label className={styles.label}>{t("email")}</label>
-                <p className={styles.value}>Usuario001@email.com</p>
-                <Button variant="primary" className={styles.btnEdit}>
-                  <FiEdit3 />
-                </Button>
+                <p className={styles.value}>{person.email}</p>
               </div>
 
               <div className={styles.row}>
                 <label className={styles.label}>{t("phone")}</label>
-                <p className={styles.value}>{t("noPhone")}</p>
-                <Button variant="primary" className={styles.btnEdit}>
-                  <FiEdit3 />
-                </Button>
+                {editingField === "phone" ? (
+                  <>
+                    <Input
+                      value={draft.cellphone}
+                      onChange={(e) => setDraft((d) => ({ ...d, cellphone: e.target.value }))}
+                      placeholder={t("phone")}
+                    />
+                    <Button variant="primary" onClick={handleSave} disabled={saving}>
+                      {t("save")}
+                    </Button>
+                    <Button variant="secondary" onClick={() => setEditingField(null)}>
+                      {t("cancel")}
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <p className={styles.value}>{person.cellphone || t("noPhone")}</p>
+                    <Button variant="primary" className={styles.btnEdit} onClick={() => startEdit("phone")}>
+                      <FiEdit3 />
+                    </Button>
+                  </>
+                )}
               </div>
 
               <div className={styles.row}>
                 <label className={styles.label}>{t("password")}</label>
                 <p className={styles.value}>••••••••</p>
-                <Button variant="primary" className={styles.btnEdit}>
+                <Button variant="primary" className={styles.btnEdit} onClick={() => navigate("/recover-password")}>
                   <FiEdit3 />
                 </Button>
               </div>
+              {saveError && <p className={styles.hint}>{saveError}</p>}
             </div>
 
-            {/* ── Eliminar cuenta ───────────────────────────────────── */}
             <div className={styles.deleteSection}>
               <p className={styles.deleteQuestion}>{t("deleteQuestion")}</p>
               <Button
                 variant="secondary"
                 className={styles.btnDelete}
                 style={{ color: "var(--color-danger)" }}
+                disabled
+                title={t("deleteUnavailable")}
               >
                 {t("deleteAccount")}
               </Button>

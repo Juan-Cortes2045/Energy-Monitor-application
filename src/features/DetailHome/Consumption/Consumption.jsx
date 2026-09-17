@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 import {
   AreaChart,
@@ -23,43 +23,17 @@ import Users from "../Users/Users";
 import HomeDetail from "../Home/Home";
 import Devices from "../Devices/Devices";
 import Thresholds from "../Thresholds/Thresholds";
-import ConsumptionHistory from "../ConsumptionHistory/ComsumptionHistory";
-import { useDevicesState } from "../shared/useDevicesState";
+import ConsumptionHistory from "../ConsumptionHistory/ConsumptionHistory";
 import { getDeviceColor } from "../shared/deviceChartConfig";
+import { useApplianceTypes } from "../shared/useApplianceTypes";
 import EmptyChart from "../shared/EmptyChart";
 import { useTheme } from "../../../context/ThemeContext";
+import { useHomeConsumption } from "./useHomeConsumption";
+import LoadingState from "../../../components/shared/LoadingState/LoadingState";
+import ErrorState from "../../../components/shared/ErrorState/ErrorState";
 import styles from "./Consumption.module.css";
 
 import { useTranslation } from "react-i18next";
-
-const mockConsumptionData = {
-  potencia: 2.4,               // kW
-  nivelPotencia: "Medio",
-  consumoHoy: 18.5,            // kWh
-  limiteConsumo: 30,           // kWh (límite diario configurado)
-  limitesDiario: {
-    usado: 18.5,
-    limite: 30,
-  },
-  limiteMensual: {
-    usado: 320,
-    limite: 500,
-  },
-  consumoHoras: [
-    { hora: "00:00", kw: 0.8 }, { hora: "01:00", kw: 0.6 },
-    { hora: "02:00", kw: 0.5 }, { hora: "03:00", kw: 0.4 },
-    { hora: "04:00", kw: 0.3 }, { hora: "05:00", kw: 0.4 },
-    { hora: "06:00", kw: 1.0 }, { hora: "07:00", kw: 1.8 },
-    { hora: "08:00", kw: 2.4 }, { hora: "09:00", kw: 2.1 },
-    { hora: "10:00", kw: 1.9 }, { hora: "11:00", kw: 2.0 },
-    { hora: "12:00", kw: 2.3 }, { hora: "13:00", kw: 2.5 },
-    { hora: "14:00", kw: 2.2 }, { hora: "15:00", kw: 2.0 },
-    { hora: "16:00", kw: 1.7 }, { hora: "17:00", kw: 2.1 },
-    { hora: "18:00", kw: 2.8 }, { hora: "19:00", kw: 3.0 },
-    { hora: "20:00", kw: 2.7 }, { hora: "21:00", kw: 2.3 },
-    { hora: "22:00", kw: 1.5 }, { hora: "23:00", kw: 0.9 },
-  ],
-};
 
 const CustomAreaTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -81,57 +55,56 @@ const CustomPieTooltip = ({ active, payload }) => {
   );
 };
 
+function toKw(watts) {
+  return Math.round((watts / 1000) * 100) / 100;
+}
+
 const Consumption = () => {
-  const { t, i18n } = useTranslation("consumption");
-  const location = useLocation();
+  const { t } = useTranslation("consumption");
   const navigate = useNavigate();
-  const { home, isOwner = false } = location.state ?? {};
+  const { home, isOwner = false } = useOutletContext();
   const onBack = () => navigate(-1);
   const [activeTab, setActiveTab] = useState("Consumo");
   const { currentTheme } = useTheme();
-  const { devices, addDevice, removeDevice } = useDevicesState();
+  const { nameOf } = useApplianceTypes();
 
-  const distribucion = useMemo(() => {
-    const totals = {};
-    devices.forEach((device) => {
-      totals[device.applianceType] =
-        (totals[device.applianceType] ?? 0) + (device.consumption ?? 0);
-    });
-    const totalAll = Object.values(totals).reduce((a, b) => a + b, 0);
-    return Object.entries(totals).map(([type, consumo]) => ({
-      type,
-      nombre: t(`applianceTypes.${type}`, { ns: "devices" }),
-      consumo: Number(consumo.toFixed(2)),
-      porcentaje: totalAll ? Number(((consumo / totalAll) * 100).toFixed(1)) : 0,
-    }));
+  const todayDate = useMemo(() => new Date().toISOString().slice(0, 10), []);
+  const { data, loading, error, refetch } = useHomeConsumption(home.id, todayDate);
+  const { summary, hourly, distribution } = data;
 
-  }, [devices, t, i18n.language]);
+  const hourlySeries = useMemo(
+    () => hourly.map((h) => ({ hour: `${String(h.hour).padStart(2, "0")}:00`, kw: toKw(h.active_power_w) })),
+    [hourly],
+  );
 
-  const data = {
-    ...mockConsumptionData,
-    dispositivos: {
-      activos: devices.filter((d) => d.status === "online").length,
-      total: devices.length,
-    },
-    distribucion,
-  };
+  const distributionSeries = useMemo(
+    () =>
+      distribution.map((d) => {
+        const typeKey = nameOf(d.appliance_type_id);
+        return {
+          type: typeKey,
+          name: t(`applianceTypes.${typeKey}`, { ns: "devices" }),
+          consumptionKwh: d.consumption_kwh,
+          percentage: d.percentage,
+        };
+      }),
+    [distribution, nameOf, t],
+  );
 
-  const LimitBar = ({ label, usado, limite }) => {
-    const sinDatos = !limite;
-    const pct = sinDatos
-      ? 0
-      : Math.min(Math.round((usado / limite) * 100), 100);
+  const LimitBar = ({ label, used, limit }) => {
+    const noData = !limit;
+    const pct = noData ? 0 : Math.min(Math.round((used / limit) * 100), 100);
     return (
       <div className={styles.limitCard}>
         <div className={styles.limitTop}>
           <span className={styles.limitLabel}>{label}</span>
-          <span className={styles.limitPct}>{sinDatos ? "—" : `${pct}%`}</span>
+          <span className={styles.limitPct}>{noData ? "—" : `${pct}%`}</span>
         </div>
         <div className={styles.limitBarOuter}>
           <div className={styles.limitBarInner} style={{ width: `${pct}%` }} />
         </div>
         <div className={styles.limitValues}>
-          {sinDatos ? t("kpi.noData") : `${usado} / ${limite} kWh`}
+          {noData ? t("kpi.noData") : `${used} / ${limit} kWh`}
         </div>
       </div>
     );
@@ -301,19 +274,22 @@ const Consumption = () => {
 
         {/* TAB: Consumo */}
         {activeTab === "Consumo" && (
+          loading ? (
+            <LoadingState />
+          ) : error ? (
+            <ErrorState error={error} onRetry={refetch} />
+          ) : (
           <>
             <div className={styles.kpiRow}>
               <div className={`${styles.kpiCard} ${styles.kpiYellow}`}>
                 <div className={styles.kpiContent}>
                   <p className={styles.kpiLabel}>{t("kpi.currentPower")}</p>
                   <p className={styles.kpiValue}>
-                    {data.potencia ?? "—"}
-                    <span className={styles.kpiUnit}>
-                      {data.potencia != null ? " kW" : ""}
-                    </span>
+                    {toKw(summary.active_power_w)}
+                    <span className={styles.kpiUnit}> kW</span>
                   </p>
                   <p className={styles.kpiSub}>
-                    {t("kpi.level")} {data.nivelPotencia}
+                    {t("kpi.level")} {t(`kpi.levels.${summary.power_level}`)}
                   </p>
                 </div>
               </div>
@@ -321,14 +297,12 @@ const Consumption = () => {
                 <div className={styles.kpiContent}>
                   <p className={styles.kpiLabel}>{t("kpi.todayConsumption")}</p>
                   <p className={styles.kpiValue}>
-                    {data.consumoHoy ?? "—"}
-                    <span className={styles.kpiUnit}>
-                      {data.consumoHoy != null ? " kWh" : ""}
-                    </span>
+                    {summary.consumption_today_kwh}
+                    <span className={styles.kpiUnit}> kWh</span>
                   </p>
                   <p className={styles.kpiSub}>
-                    {data.limiteConsumo != null
-                      ? `t("kpi.currentLimit") ${data.limiteConsumo} kWh`
+                    {summary.daily.limit != null
+                      ? `${t("kpi.currentLimit")}${summary.daily.limit} kWh`
                       : t("kpi.noLimit")}
                   </p>
                 </div>
@@ -337,15 +311,11 @@ const Consumption = () => {
                 <div className={styles.kpiContent}>
                   <p className={styles.kpiLabel}>{t("kpi.devices")}</p>
                   <p className={styles.kpiValue}>
-                    {data.dispositivos.activos ?? "—"}
-                    <span className={styles.kpiUnit}>
-                      {data.dispositivos.total != null
-                        ? ` / ${data.dispositivos.total}`
-                        : ""}
-                    </span>
+                    {summary.devices.online}
+                    <span className={styles.kpiUnit}> / {summary.devices.total}</span>
                   </p>
                   <p className={styles.kpiSub}>
-                    {data.dispositivos.activos != null
+                    {summary.devices.online === summary.devices.total
                       ? t("kpi.allOperational")
                       : t("kpi.noData")}
                   </p>
@@ -362,12 +332,12 @@ const Consumption = () => {
                 <p className={styles.chartSubtitle}>
                   {t("charts.activePower")}
                 </p>
-                {data.consumoHoras.length === 0 ? (
+                {hourlySeries.length === 0 ? (
                   <EmptyChart mensaje={t("charts.historyUnavailable")} />
                 ) : (
                   <ResponsiveContainer width="100%" height={160}>
                     <AreaChart
-                      data={data.consumoHoras}
+                      data={hourlySeries}
                       margin={{ top: 5, right: 10, left: -20, bottom: 0 }}
                     >
                       <defs>
@@ -382,7 +352,7 @@ const Consumption = () => {
                         vertical={false}
                       />
                       <XAxis
-                        dataKey="hora"
+                        dataKey="hour"
                         tick={{ fontSize: 10, fill: "var(--color-text-secondary)", fontFamily: "var(--font-primary)" }}
                         axisLine={false}
                         tickLine={false}
@@ -416,22 +386,22 @@ const Consumption = () => {
                   <p className={styles.sectionTitle}>
                     {t("charts.currentDistribution")}
                   </p>
-                  {data.distribucion.length === 0 ? (
+                  {distributionSeries.length === 0 ? (
                     <EmptyChart mensaje={t("charts.distributionUnavailable")} />
                   ) : (
                     <ResponsiveContainer width="100%" height={200}>
                       <PieChart>
                         <Pie
-                          data={data.distribucion}
+                          data={distributionSeries}
                           cx="50%"
                           cy="50%"
                           innerRadius={50}
                           outerRadius={75}
                           paddingAngle={2}
-                          dataKey="porcentaje"
-                          nameKey="nombre"
+                          dataKey="percentage"
+                          nameKey="name"
                         >
-                          {data.distribucion.map((entry) => (
+                          {distributionSeries.map((entry) => (
                             <Cell
                               key={entry.type}
                               fill={getDeviceColor(entry.type, currentTheme.mode)}
@@ -456,7 +426,7 @@ const Consumption = () => {
                   <p className={styles.sectionTitle}>
                     {t("charts.deviceConsumption")}
                   </p>
-                  {data.distribucion.length === 0 ? (
+                  {distributionSeries.length === 0 ? (
                     <EmptyChart
                       mensaje={t("charts.deviceConsumptionUnavailable")}
                     />
@@ -464,7 +434,7 @@ const Consumption = () => {
                     <ResponsiveContainer width="100%" height={200}>
                       <BarChart
                         layout="vertical"
-                        data={data.distribucion}
+                        data={distributionSeries}
                         margin={{ top: 0, right: 40, left: 10, bottom: 0 }}
                       >
                         <CartesianGrid
@@ -474,14 +444,14 @@ const Consumption = () => {
                         />
                         <XAxis
                           type="number"
-                          unit=" kW"
+                          unit=" kWh"
                           tick={{ fontSize: 10, fill: "var(--color-text-secondary)", fontFamily: "var(--font-primary)" }}
                           axisLine={false}
                           tickLine={false}
                         />
                         <YAxis
                           type="category"
-                          dataKey="nombre"
+                          dataKey="name"
                           width={85}
                           tick={{ fontSize: 11, fill: "var(--color-text-primary)", fontFamily: "var(--font-primary)" }}
                           axisLine={false}
@@ -489,7 +459,7 @@ const Consumption = () => {
                         />
                         <Tooltip
                           formatter={(v) => [
-                            `${v} kW`,
+                            `${v} kWh`,
                             t("tooltip.consumption"),
                           ]}
                           contentStyle={{
@@ -499,8 +469,8 @@ const Consumption = () => {
                             fontFamily: "var(--font-primary)",
                           }}
                         />
-                        <Bar dataKey="consumo" radius={[0, 4, 4, 0]} maxBarSize={14}>
-                          {data.distribucion.map((entry) => (
+                        <Bar dataKey="consumptionKwh" radius={[0, 4, 4, 0]} maxBarSize={14}>
+                          {distributionSeries.map((entry) => (
                             <Cell
                               key={entry.type}
                               fill={getDeviceColor(entry.type, currentTheme.mode)}
@@ -517,26 +487,22 @@ const Consumption = () => {
             <div className={styles.limitsRow}>
               <LimitBar
                 label={t("limits.daily")}
-                usado={data.limitesDiario.usado}
-                limite={data.limitesDiario.limite}
+                used={summary.daily.used}
+                limit={summary.daily.limit}
               />
               <LimitBar
                 label={t("limits.monthly")}
-                usado={data.limiteMensual.usado}
-                limite={data.limiteMensual.limite}
+                used={summary.monthly.used}
+                limit={summary.monthly.limit}
               />
             </div>
           </>
+          )
         )}
 
-        {activeTab === "Historial" && <ConsumptionHistory devices={devices} />}
+        {activeTab === "Historial" && <ConsumptionHistory homeId={home.id} />}
         {activeTab === "Dispositivos" && (
-          <Devices
-            isOwner={isOwner}
-            devices={devices}
-            onAddDevice={addDevice}
-            onRemoveDevice={removeDevice}
-          />
+          <Devices homeId={home.id} isOwner={isOwner} />
         )}
         {activeTab === "Umbrales" && (
           <Thresholds home={home} isOwner={isOwner} />

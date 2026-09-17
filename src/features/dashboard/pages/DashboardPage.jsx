@@ -11,10 +11,13 @@ import CreateHomeModal from "../components/ModalCreateHome/CreateHomeModal";
 import JoinHomeModal from "../components/ModalJoinHome/JoinHomeModal";
 import { FolderPlus, Users } from "lucide-react";
 import { useHomes } from "../../../context/HomeContext";
+import { createHome, joinHome, setFavorite } from "../../../services/home.service";
+import LoadingState from "../../../components/shared/LoadingState/LoadingState";
+import ErrorState from "../../../components/shared/ErrorState/ErrorState";
 
 const DashboardPage = () => {
   const { t } = useTranslation("dashboard");
-  const { homes, addHome } = useHomes();
+  const { homes, loading, error, refetch } = useHomes();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
   const navigate = useNavigate();
@@ -44,39 +47,28 @@ const DashboardPage = () => {
     }
   };
 
-  const handleJoinHome = (code) => {
-    addHome({
-      id: Date.now(),
-      name: t("home.joinedName"),
-      userResponsible: t("home.responsible"),
-      address: "Av. Central 45, Oficina 3",
-      description: t("home.joinedDescription"),
-      variant: "joined",
-      favorite: false,
-    });
+  const handleJoinHome = async (code) => {
+    await joinHome(code);
+    await refetch();
   };
 
-  const handleHomeCreated = (formData) => {
-    addHome({
-      id: Date.now(),
-      name: formData.name,
-      address: formData.address,
-      description: formData.description,
-      homeTypeId: formData.homeTypeId,
-      otherHomeType: formData.otherHomeType,
-      userResponsible: "Tú",
-      variant: "owned",
-      favorite: false,
-    });
+  const handleHomeCreated = async (payload) => {
+    await createHome(payload);
+    await refetch();
+  };
+
+  const handleToggleFavorite = async (home, nextFavorite) => {
+    try {
+      await setFavorite(home.id, nextFavorite);
+      await refetch();
+    } catch {
+      // Optimistic UI isn't used here since refetch() already re-syncs from
+      // the server on both success and (harmlessly) on failure.
+    }
   };
 
   const handleCardClick = (home) => {
-    navigate("/Consumption", {
-      state: {
-        home,
-        isOwner: home.variant === "owned",
-      },
-    });
+    navigate(`/homes/${home.id}`);
   };
 
   return (
@@ -90,7 +82,11 @@ const DashboardPage = () => {
           />
         </Header>
 
-        {homes.length === 0 ? (
+        {loading ? (
+          <LoadingState />
+        ) : error ? (
+          <ErrorState error={error} onRetry={refetch} />
+        ) : homes.length === 0 ? (
           <EmptyState
             onCreateHome={() => setShowCreateModal(true)}
             onJoinHome={() => setShowJoinModal(true)}
@@ -102,6 +98,7 @@ const DashboardPage = () => {
                 key={home.id}
                 home={home}
                 onClick={() => handleCardClick(home)}
+                onToggleFavorite={handleToggleFavorite}
               />
             ))}
           </div>

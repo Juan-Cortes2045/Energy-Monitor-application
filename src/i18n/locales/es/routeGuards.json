@@ -1,0 +1,18 @@
+{
+  "loading": "Cargando…",
+  "homeNotFound": {
+    "title": "Hogar no encontrado",
+    "message": "Este hogar no existe o fue eliminado.",
+    "cta": "Volver al panel"
+  },
+  "forbidden": {
+    "title": "No tienes acceso a este hogar",
+    "message": "Pídele al propietario que te invite, o vuelve a tu panel.",
+    "cta": "Volver al panel"
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "message": "La página que buscas no existe.",
+    "cta": "Volver al panel"
+  }
+}

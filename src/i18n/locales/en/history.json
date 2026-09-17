@@ -7,9 +7,7 @@
   },
   "dates": {
     "day": "Last 24 hours",
-    "week": "Last 7 days",
-    "month": "April 01, 2026 - April 30, 2026",
-    "year": "January 2026 - December 2026"
+    "week": "Last 7 days"
   },
   "chart": {
     "title": "CONSUMPTION DISTRIBUTION BY DEVICE",

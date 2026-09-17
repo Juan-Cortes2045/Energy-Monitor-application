@@ -4,23 +4,10 @@ import Button from "../../../design/components/Button/Button";
 import Input from "../../../design/components/Input/Input";
 import styles from "./Users.module.css";
 import { useTranslation } from "react-i18next";
-
-const mockUsers = [
-  {
-    id: 1,
-    name: "Carlos García",
-    email: "carlos.garcia@email.com",
-    role: "owner",
-  },
-  { id: 2, name: "Ana Martínez", email: "ana.m@email.com", role: "member" },
-  { id: 3, name: "Luis Pérez", email: "luis.perez@email.com", role: "member" },
-  {
-    id: 4,
-    name: "Sofía Ramos",
-    email: "sofia.ramos@empresa.co",
-    role: "member",
-  },
-];
+import { useHomeMembers } from "./useHomeMembers";
+import { inviteMember, removeMember } from "../../../services/home.service";
+import LoadingState from "../../../components/shared/LoadingState/LoadingState";
+import ErrorState from "../../../components/shared/ErrorState/ErrorState";
 
 const getInitials = (name = "") =>
   name
@@ -39,72 +26,82 @@ const Avatar = ({ name, index }) => (
   </div>
 );
 
-const UserRow = ({ user, index, isOwner, onRemove, t }) => (
-  <div className={styles.userRow}>
-    <Avatar name={user.name} index={index} />
-    <div className={styles.userInfo}>
-      <p className={styles.userName}>{user.name}</p>
-      <p className={styles.userEmail}>{user.email}</p>
-    </div>
-    <span
-      className={`${styles.badge} ${
-        user.role === "owner" ? styles.badgeOwner : styles.badgeMember
-      }`}
-    >
-      {user.role === "owner" ? t("roles.owner") : t("roles.member")}
-    </span>
-    {isOwner && user.role !== "owner" && (
-      <button
-        type="button"
-        className={styles.removeBtn}
-        onClick={() => onRemove(user.id)}
-        aria-label={t("actions.removeUser", { name: user.name })}
+const UserRow = ({ member, index, isOwner, onRemove, t }) => {
+  const fullName = `${member.name} ${member.last_name}`.trim();
+  const isOwnerRow = member.role === "OWNER";
+  return (
+    <div className={styles.userRow}>
+      <Avatar name={fullName} index={index} />
+      <div className={styles.userInfo}>
+        <p className={styles.userName}>{fullName}</p>
+        <p className={styles.userEmail}>{member.email}</p>
+      </div>
+      <span
+        className={`${styles.badge} ${isOwnerRow ? styles.badgeOwner : styles.badgeMember}`}
       >
-        ×
-      </button>
-    )}
-  </div>
-);
+        {isOwnerRow ? t("roles.owner") : t("roles.member")}
+      </span>
+      {isOwner && !isOwnerRow && (
+        <button
+          type="button"
+          className={styles.removeBtn}
+          onClick={() => onRemove(member.user_id)}
+          aria-label={t("actions.removeUser", { name: fullName })}
+        >
+          ×
+        </button>
+      )}
+    </div>
+  );
+};
 
-const Users = ({ project, isOwner = false }) => {
+const Users = ({ home, isOwner = false }) => {
   const { t } = useTranslation("users");
-
-  const [users, setUsers] = useState(mockUsers);
-  const [pending, setPending] = useState([]);
+  const { data: members, loading, error, refetch } = useHomeMembers(home.id);
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteError, setInviteError] = useState("");
+  const [inviting, setInviting] = useState(false);
 
-  const handleInvite = () => {
+  const handleInvite = async () => {
     const email = inviteEmail.trim().toLowerCase();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!email) return setInviteError(t("invite.errors.empty"));
-    if (!emailRegex.test(email))
-      return setInviteError(t("invite.errors.invalid"));
-    if (users.some((u) => u.email === email))
-      return setInviteError(t("invite.errors.alreadyMember"));
-    if (pending.some((p) => p.email === email))
-      return setInviteError(t("invite.errors.alreadyInvited"));
+    if (!emailRegex.test(email)) return setInviteError(t("invite.errors.invalid"));
 
-    setPending((prev) => [...prev, { id: Date.now(), email }]);
-    setInviteEmail("");
-    setInviteError("");
+    setInviting(true);
+    try {
+      await inviteMember(home.id, email);
+      setInviteEmail("");
+      setInviteError("");
+      await refetch();
+    } catch (err) {
+      setInviteError(
+        err.code === "USER_NOT_FOUND"
+          ? t("invite.errors.userNotFound")
+          : err.code === "ALREADY_MEMBER"
+            ? t("invite.errors.alreadyMember")
+            : err.message,
+      );
+    } finally {
+      setInviting(false);
+    }
   };
 
-  const handleCancelInvite = (id) => {
-    setPending((prev) => prev.filter((p) => p.id !== id));
+  const handleRemove = async (userId) => {
+    await removeMember(home.id, userId);
+    await refetch();
   };
 
-  const handleRemove = (userId) => {
-    setUsers((prev) => prev.filter((u) => u.id !== userId));
-  };
+  if (loading) return <LoadingState />;
+  if (error) return <ErrorState error={error} onRetry={refetch} />;
 
   return (
     <div className={styles.page}>
       <div className={styles.sectionHeader}>
         <h2 className={styles.sectionTitle}>{t("header.title")}</h2>
         <p className={styles.sectionSub}>
-          {t("header.membersCount", { count: users.length })}
+          {t("header.membersCount", { count: members.length })}
         </p>
       </div>
 
@@ -113,10 +110,10 @@ const Users = ({ project, isOwner = false }) => {
           <div className={styles.listBlock}>
             <p className={styles.blockTitle}>{t("members.title")}</p>
             <div className={styles.userList}>
-              {users.map((user, i) => (
+              {members.map((member, i) => (
                 <UserRow
-                  key={user.id}
-                  user={user}
+                  key={member.user_id}
+                  member={member}
                   index={i}
                   isOwner={isOwner}
                   onRemove={handleRemove}
@@ -147,48 +144,12 @@ const Users = ({ project, isOwner = false }) => {
                     onKeyDown={(e) => e.key === "Enter" && handleInvite()}
                   />
                 </div>
-                <Button variant="primary" onClick={handleInvite}>
+                <Button variant="primary" onClick={handleInvite} disabled={inviting}>
                   {t("invite.button")}
                 </Button>
               </div>
               {inviteError && (
                 <p className={styles.inviteError}>{inviteError}</p>
-              )}
-            </div>
-          </Card>
-        </div>
-      )}
-
-      {isOwner && (
-        <div className={styles.cardPending}>
-          <Card>
-            <div className={styles.listBlock}>
-              <p className={styles.blockTitle}>{t("pending.title")}</p>
-              {pending.length === 0 ? (
-                <div className={styles.emptyPending}>{t("pending.empty")}</div>
-              ) : (
-                <div className={styles.userList}>
-                  {pending.map((p) => (
-                    <div key={p.id} className={styles.pendingRow}>
-                      <div className={`${styles.avatar} ${styles.avatar_gray}`}>
-                        ✉
-                      </div>
-                      <div className={styles.userInfo}>
-                        <p className={styles.userEmail}>{p.email}</p>
-                        <p className={styles.pendingLabel}>
-                          {t("pending.sent")}
-                        </p>
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="small"
-                        onClick={() => handleCancelInvite(p.id)}
-                      >
-                        {t("pending.cancel")}
-                      </Button>
-                    </div>
-                  ))}
-                </div>
               )}
             </div>
           </Card>

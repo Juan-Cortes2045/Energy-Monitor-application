@@ -23,13 +23,16 @@
   "buttons": {
     "copy": "Copy access code",
     "deleteHome": "Delete home",
-    "leaveHome": "Leave home"
+    "leaveHome": "Leave home",
+    "cancel": "Cancel"
   },
   "status": {
     "responsible": "Responsible"
   },
   "confirm": {
+    "leaveTitle": "Leave this home?",
     "leave": "Are you sure you want to leave this home?",
+    "deleteTitle": "Delete this home?",
     "delete": "Delete this home? This action cannot be undone."
   }
 }

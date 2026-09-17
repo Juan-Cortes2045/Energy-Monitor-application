@@ -1,18 +1,32 @@
+import { useState } from "react";
 import Card from "../../../../design/components/Card/Card";
 import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
 import styles from "./RecoverPassword.module.css";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { recoverPassword } from "../../../../services/auth.service";
 
 const RvPassword = () => {
   const { t } = useTranslation("recoverPassword");
+  const { t: tAuth } = useTranslation("auth");
+  const [email, setEmail] = useState("");
+  const [serverError, setServerError] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Enviar código");
-    navigate("/VerifyRecoverPassword");
+    setServerError(null);
+    setSubmitting(true);
+    try {
+      const { resetToken } = await recoverPassword({ email });
+      navigate("/verify-recover-password", { state: { email, mockCode: resetToken } });
+    } catch (err) {
+      setServerError(err.code === "USER_NOT_FOUND" ? t("userNotFound") : tAuth(`errors.${err.code}`, tAuth("errors.generic")));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -24,12 +38,20 @@ const RvPassword = () => {
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.field}>
-            <Input id="email" type="email" placeholder="*">
+            <Input
+              id="email"
+              type="email"
+              placeholder="*"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            >
               {t("emailLabel")}
             </Input>
           </div>
 
-          <Button type="submit" variant="primary">
+          {serverError && <span className={styles.error}>{serverError}</span>}
+
+          <Button type="submit" variant="primary" disabled={submitting}>
             {t("sendCode")}
           </Button>
         </form>

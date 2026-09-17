@@ -1,38 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
 import AddressInput from "../AddressInput/AddressInput";
 import styles from "./CreateHomeModal.module.css";
-
-const HOME_TYPES = [
-  { id: "HT001", key: "house" },
-  { id: "HT002", key: "apartment" },
-  { id: "HT003", key: "studio" },
-  { id: "HT004", key: "other" },
-];
+import { listHomeTypes } from "../../../../services/catalog.service";
 
 const INITIAL_FORM = {
   name: "",
   homeTypeId: "",
-  otherHomeType: "",
   address: "",
   description: "",
 };
 
-function validate(form, t, isOther) {
+function validate(form, t) {
   const errors = {};
 
   if (!form.name.trim()) errors.name = t("errors.nameRequired");
   else if (form.name.trim().length > 50) errors.name = t("errors.nameMax");
 
   if (!form.homeTypeId) errors.homeTypeId = t("errors.typeRequired");
-
-  if (isOther && !form.otherHomeType.trim())
-    errors.otherHomeType = t("errors.otherRequired");
-  else if (isOther && form.otherHomeType.trim().length > 50)
-    errors.otherHomeType = t("errors.otherMax");
 
   const addr = form.address.trim();
   if (!addr) {
@@ -61,31 +49,29 @@ function validate(form, t, isOther) {
 const CreateHomeModal = ({ onClose, onSubmit }) => {
   const { t } = useTranslation("createHomeModal");
 
+  const [homeTypes, setHomeTypes] = useState([]);
   const [form, setForm] = useState(INITIAL_FORM);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
 
-  const selectedType = HOME_TYPES.find((t) => t.id === form.homeTypeId);
-  const isOther = selectedType?.key === "other";
+  useEffect(() => {
+    const controller = new AbortController();
+    listHomeTypes({ signal: controller.signal })
+      .then(setHomeTypes)
+      .catch(() => setHomeTypes([]));
+    return () => controller.abort();
+  }, []);
 
   const handleChange = (field) => (e) => {
     const value = e.target.value;
-    setForm((prev) => {
-      const next = { ...prev, [field]: value };
-
-      if (field === "homeTypeId") {
-        const type = HOME_TYPES.find((t) => t.id === value);
-        if (type?.key !== "other") next.otherHomeType = "";
-      }
-      return next;
-    });
-
+    setForm((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
   };
 
   const handleSubmit = async (e) => {
     e?.preventDefault();
-    const newErrors = validate(form, t, isOther);
+    const newErrors = validate(form, t);
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -93,17 +79,17 @@ const CreateHomeModal = ({ onClose, onSubmit }) => {
     }
 
     setLoading(true);
+    setSubmitError(null);
     try {
-      const payload = {
+      await onSubmit?.({
         name: form.name.trim(),
-        homeTypeId: form.homeTypeId,
-        otherHomeType: isOther ? form.otherHomeType.trim() : "",
+        home_type_id: form.homeTypeId,
         address: form.address.trim(),
-        description: form.description.trim(),
-      };
-
-      onSubmit?.(payload);
+        description: form.description.trim() || null,
+      });
       onClose?.();
+    } catch (err) {
+      setSubmitError(err.message);
     } finally {
       setLoading(false);
     }
@@ -159,32 +145,14 @@ const CreateHomeModal = ({ onClose, onSubmit }) => {
               <option value="" disabled>
                 {t("placeholders.type")}
               </option>
-              {HOME_TYPES.map((type) => (
+              {homeTypes.map((type) => (
                 <option key={type.id} value={type.id}>
-                  {t(`homeTypes.${type.key}`)}
+                  {t(`homeTypes.${type.name}`)}
                 </option>
               ))}
             </select>
             {errors.homeTypeId && <span className={styles.errorMsg}>{errors.homeTypeId}</span>}
           </div>
-
-          {isOther && (
-            <div className={styles.field}>
-              <label className={styles.label}>
-                {t("fields.other")} <span>*</span>
-              </label>
-              <Input
-                placeholder={t("placeholders.other")}
-                value={form.otherHomeType}
-                onChange={handleChange("otherHomeType")}
-                error={errors.otherHomeType}
-                maxLength={50}
-              />
-              {errors.otherHomeType && (
-                <span className={styles.errorMsg}>{errors.otherHomeType}</span>
-              )}
-            </div>
-          )}
 
           <div className={styles.field}>
             <label className={styles.label}>
@@ -214,6 +182,8 @@ const CreateHomeModal = ({ onClose, onSubmit }) => {
             <span className={styles.charCount}>{form.description.length} / 200</span>
             {errors.description && <span className={styles.errorMsg}>{errors.description}</span>}
           </div>
+
+          {submitError && <span className={styles.errorMsg}>{submitError}</span>}
         </form>
 
         <div className={styles.footer}>

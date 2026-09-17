@@ -27,6 +27,7 @@
     "saved": "Saved"
   },
   "errors": {
-    "invalid": "Enter a value greater than 0"
+    "invalid": "Enter a value greater than 0",
+    "dailyExceedsMonthly": "The daily limit can't be greater than the monthly limit"
   }
 }

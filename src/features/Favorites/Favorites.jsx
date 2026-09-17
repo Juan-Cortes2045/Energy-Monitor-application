@@ -3,15 +3,27 @@ import Header from "../../design/components/Header/Header";
 import HomeCard from "../dashboard/components/HomeCard/HomeCard";
 import { Heart } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { useHomes } from "../../context/HomeContext";
+import { setFavorite } from "../../services/home.service";
+import LoadingState from "../../components/shared/LoadingState/LoadingState";
+import ErrorState from "../../components/shared/ErrorState/ErrorState";
 
-const Favorites = ({ homes = [], onToggleFavorite, onCardClick }) => {
+const Favorites = () => {
   const { t } = useTranslation("favorites");
+  const { homes, loading, error, refetch } = useHomes();
+  const navigate = useNavigate();
   const breadcrumbItems = [
     { label: t("favorites.breadcrumb.home"), path: "/dashboard" },
     { label: t("favorites.breadcrumb.current") },
   ];
 
   const favoriteHomes = homes.filter((h) => h.favorite);
+
+  const handleToggleFavorite = async (home, nextFavorite) => {
+    await setFavorite(home.id, nextFavorite);
+    await refetch();
+  };
 
   return (
     <div className={styles.content}>
@@ -24,7 +36,11 @@ const Favorites = ({ homes = [], onToggleFavorite, onCardClick }) => {
         </div>
 
         <div className={styles.gridBox}>
-          {favoriteHomes.length === 0 ? (
+          {loading ? (
+            <LoadingState />
+          ) : error ? (
+            <ErrorState error={error} onRetry={refetch} />
+          ) : favoriteHomes.length === 0 ? (
             <div className={styles.emptyState}>
               <Heart size={40} className={styles.emptyIcon} />
               <p className={styles.emptyTitle}>{t("favorites.empty.title")}</p>
@@ -38,8 +54,8 @@ const Favorites = ({ homes = [], onToggleFavorite, onCardClick }) => {
                 <HomeCard
                   key={home.id}
                   home={home}
-                  onClick={() => onCardClick?.(home)}
-                  onToggleFavorite={onToggleFavorite}
+                  onClick={() => navigate(`/homes/${home.id}`)}
+                  onToggleFavorite={handleToggleFavorite}
                 />
               ))}
             </div>
