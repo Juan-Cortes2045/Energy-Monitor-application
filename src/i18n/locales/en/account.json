@@ -16,6 +16,5 @@
   "save": "Save",
   "cancel": "Cancel",
   "changePassword": "Change password",
-  "photoNote": "Photo previews aren't saved yet in this preview build",
   "saveError": "Couldn't save your changes"
 }

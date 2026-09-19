@@ -9,19 +9,50 @@ import Button from "../../design/components/Button/Button";
 import Input from "../../design/components/Input/Input";
 import styles from "./Account.module.css";
 import { getMe, updateMe } from "../../services/user.service";
+import { useAuth } from "../../context/AuthContext";
 import LoadingState from "../../components/shared/LoadingState/LoadingState";
 import ErrorState from "../../components/shared/ErrorState/ErrorState";
+
+// Resizes/compresses the picked file client-side before it's sent as a JSON
+// string (mock/server.js's PUT /api/users/me stores profile_image verbatim
+// in mock/db.json, which lowdb rewrites in full on every write — an
+// unresized camera photo would bloat that file for no visual benefit at
+// avatar size).
+function resizeImageToDataUrl(file, maxDim = 256, quality = 0.8) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(reader.error);
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error("invalid image"));
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > height && width > maxDim) {
+          height = Math.round((height * maxDim) / width);
+          width = maxDim;
+        } else if (height > maxDim) {
+          width = Math.round((width * maxDim) / height);
+          height = maxDim;
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
 const Account = ({ onClose }) => {
   const { t } = useTranslation("account");
   const navigate = useNavigate();
+  const { refreshUser } = useAuth();
   const handleClose = onClose ?? (() => navigate(-1));
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
-  // Preview-only: there's no file-upload endpoint in the mock, so this never
-  // reaches the server (see mock/README.md). Real persistence would need a
-  // multipart upload route the current API contract doesn't define.
-  const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
 
   const [person, setPerson] = useState(null);
@@ -45,12 +76,19 @@ const Account = ({ onClose }) => {
     loadMe();
   }, []);
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setImagePreview(URL.createObjectURL(file));
+    e.target.value = "";
+    if (!file) return;
+    try {
+      const dataUrl = await resizeImageToDataUrl(file);
+      await handleSave({ profile_image: dataUrl });
+    } catch {
+      setSaveError(t("saveError"));
     }
   };
+
+  const handleDeletePhoto = () => handleSave({ profile_image: null });
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -84,13 +122,14 @@ const Account = ({ onClose }) => {
     setEditingField(field);
   };
 
-  const handleSave = async () => {
+  const handleSave = async (payload = draft) => {
     setSaving(true);
     setSaveError(null);
     try {
-      const updated = await updateMe(draft);
+      const updated = await updateMe(payload);
       setPerson(updated);
       setEditingField(null);
+      await refreshUser();
     } catch (err) {
       setSaveError(err.message || t("saveError"));
     } finally {
@@ -149,8 +188,8 @@ const Account = ({ onClose }) => {
                 tabIndex={0}
                 onKeyDown={(e) => e.key === "Enter" && setOpen((o) => !o)}
               >
-                {imagePreview || person.profile_image ? (
-                  <img src={imagePreview ?? person.profile_image} className={styles.avatarImg} />
+                {person.profile_image ? (
+                  <img src={person.profile_image} className={styles.avatarImg} />
                 ) : (
                   <VscAccount className={styles.icon} />
                 )}
@@ -174,28 +213,31 @@ const Account = ({ onClose }) => {
                     {t("addPhoto")}
                   </li>
 
-                  <li
-                    onClick={() => {
-                      if (imagePreview) window.open(imagePreview);
-                      setOpen(false);
-                    }}
-                  >
-                    {t("viewPhoto")}
-                  </li>
+                  {person.profile_image && (
+                    <li
+                      onClick={() => {
+                        window.open(person.profile_image);
+                        setOpen(false);
+                      }}
+                    >
+                      {t("viewPhoto")}
+                    </li>
+                  )}
 
-                  <li
-                    onClick={() => {
-                      setImagePreview(null);
-                      setOpen(false);
-                    }}
-                    className={styles.dropdownDanger}
-                  >
-                    {t("delete")}
-                  </li>
+                  {person.profile_image && (
+                    <li
+                      onClick={() => {
+                        handleDeletePhoto();
+                        setOpen(false);
+                      }}
+                      className={styles.dropdownDanger}
+                    >
+                      {t("delete")}
+                    </li>
+                  )}
                 </ul>
               )}
             </div>
-            {imagePreview && <p className={styles.hint}>{t("photoNote")}</p>}
 
             <div className={styles.form}>
               <div className={styles.row}>
@@ -212,7 +254,7 @@ const Account = ({ onClose }) => {
                       onChange={(e) => setDraft((d) => ({ ...d, last_name: e.target.value }))}
                       placeholder={t("lastName")}
                     />
-                    <Button variant="primary" onClick={handleSave} disabled={saving}>
+                    <Button variant="primary" onClick={() => handleSave()} disabled={saving}>
                       {t("save")}
                     </Button>
                     <Button variant="secondary" onClick={() => setEditingField(null)}>
@@ -243,7 +285,7 @@ const Account = ({ onClose }) => {
                       onChange={(e) => setDraft((d) => ({ ...d, cellphone: e.target.value }))}
                       placeholder={t("phone")}
                     />
-                    <Button variant="primary" onClick={handleSave} disabled={saving}>
+                    <Button variant="primary" onClick={() => handleSave()} disabled={saving}>
                       {t("save")}
                     </Button>
                     <Button variant="secondary" onClick={() => setEditingField(null)}>

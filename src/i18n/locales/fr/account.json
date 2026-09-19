@@ -16,6 +16,5 @@
   "save": "Enregistrer",
   "cancel": "Annuler",
   "changePassword": "Changer le mot de passe",
-  "photoNote": "L'aperçu de la photo n'est pas encore enregistré dans cette version d'essai",
   "saveError": "Impossible d'enregistrer vos modifications"
 }
