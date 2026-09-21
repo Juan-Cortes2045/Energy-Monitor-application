@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 import Card from "../../../../design/components/Card/Card";
 import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
+import { codeSchema } from "../../validation/codeSchema.js";
 import styles from "./VerifyAccount.module.css";
 import { useTranslation } from "react-i18next";
 
 const VerifyEmail = () => {
   const { t } = useTranslation("auth");
+  const { t: v } = useTranslation("validations");
+  const [error, setError] = useState("");
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputsRef = useRef([]);
   const navigate = useNavigate();
@@ -33,6 +36,12 @@ const VerifyEmail = () => {
   const handleVerify = (e) => {
     e.preventDefault();
     const finalCode = code.join("");
+    const result = codeSchema(v).safeParse(finalCode);
+    if (!result.success) {
+      setError(result.error.issues[0].message);
+      return;
+    }
+    setError("");
     console.log("Código:", finalCode);
     navigate("/login");
   };
@@ -63,6 +72,8 @@ const VerifyEmail = () => {
               />
             ))}
           </div>
+
+          {error && <p className={styles.error}>{error}</p>}
 
           <Button variant="primary" onClick={handleVerify}>
             {t("verify.confirm")}

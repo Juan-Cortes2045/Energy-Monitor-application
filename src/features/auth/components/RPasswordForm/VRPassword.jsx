@@ -4,9 +4,12 @@ import { useTranslation } from "react-i18next";
 import Card from "../../../../design/components/Card/Card";
 import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
+import { codeSchema } from "../../validation/codeSchema.js";
 
 const VRPassword = () => {
   const { t } = useTranslation("recoverPassword");
+  const { t: v } = useTranslation("validations");
+  const [error, setError] = useState("");
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputsRef = useRef([]);
 
@@ -30,6 +33,12 @@ const VRPassword = () => {
 
   const handleVerify = () => {
     const finalCode = code.join("");
+    const result = codeSchema(v).safeParse(finalCode);
+    if (!result.success) {
+      setError(result.error.issues[0].message);
+      return;
+    }
+    setError("");
     console.log("Código:", finalCode);
   };
 
@@ -58,6 +67,7 @@ const VRPassword = () => {
             />
           ))}
         </div>
+        {error && <p className={styles.error}>{error}</p>}
         <div className={styles.center}>
           <Button onClick={handleVerify} variant="primary">
             {t("confirmCode")}

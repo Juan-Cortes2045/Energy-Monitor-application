@@ -9,6 +9,7 @@
     "passwordSpecial": "Debe tener un carácter especial",
     "repeatPassword": "Confirma tu contraseña",
     "terms": "Debes aceptar los términos y condiciones",
-    "passwordMatch": "Las contraseñas no coinciden"
+    "passwordMatch": "Las contraseñas no coinciden",
+    "codeInvalid": "El código debe tener 6 dígitos"
   }
 }
