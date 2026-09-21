@@ -7,6 +7,7 @@ import VerifyAccount from "../features/auth/pages/VerifyAccount";
 import RecoverPassword from "../features/auth/pages/RecoverPassword";
 import VerifyRecoverPassword from "../features/auth/pages/VerifyRecoverPassword";
 import Account from "../features/Account/Account";
+import HomeRoute from "./HomeRoute";
 import Consumption from "../features/DetailHome/Consumption/Consumption";
 import Favorites from "../features/Favorites/Favorites";
 import Notifications from "../features/Notifications/Notifications";
@@ -27,17 +28,15 @@ const AppRoutes = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/VerifyAccount" element={<VerifyAccount />} />
         <Route path="/recover-password" element={<RecoverPassword />} />
-        <Route path="/account" element={<Account />} />|
-        <Route>
-          <Route element={<MainLayout />}>
-            <Route path="/dashboard" element={<DashboarPage />}></Route>
-            <Route path="/consumption" element={<Consumption />} />
-
-            <Route path="/favorites" element={<Favorites />} />
-            <Route path="/notifications" element={<Notifications />} />
-
-            <Route path="/settings" element={<Settings />} />
+        <Route path="/account" element={<Account />} />
+        <Route element={<MainLayout />}>
+          <Route path="/dashboard" element={<DashboarPage />} />
+          <Route path="/homes/:homeId" element={<HomeRoute />}>
+            <Route index element={<Consumption />} />
           </Route>
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/settings" element={<Settings />} />
         </Route>
         <Route
           path="/verifyRecoverPassword"
