@@ -258,31 +258,6 @@
   color: var(--color-primary);
 }
 
-.deleteBtn {
-  width: 28px;
-  height: 28px;
-  border-radius: var(--radius-sm);
-  border: none;
-  background-color: var(--color-danger-soft);
-  color: var(--color-danger-text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition:
-    background-color 0.15s ease,
-    transform 0.1s ease;
-}
-
-.deleteBtn:hover {
-  background-color: var(--color-danger-soft-hover);
-}
-
-.deleteBtn:active {
-  transform: scale(0.95);
-}
-
 /* ── Badges de estado ─────────────────────────────────────────────── */
 .badge {
   font-size: 10px;

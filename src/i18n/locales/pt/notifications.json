@@ -4,7 +4,7 @@
     "current": "Notificações"
   },
   "title": "Notificações",
-  "subtitle": "Alertas e recomendações gerados a partir do consumo dos seus projetos.",
+  "subtitle": "Alertas e recomendações gerados a partir do consumo das suas casas.",
   "tabs": {
     "all": "Todas",
     "alerts": "Alertas",
@@ -17,47 +17,47 @@
     "read": "Lida"
   },
   "actions": {
-    "resolve": "Resolver",
     "markRead": "Marcar como lida",
-    "markAllRead": "Marcar todas como lidas",
-    "delete": "Excluir"
+    "markAllRead": "Marcar todas como lidas"
   },
-  "mockAlerts": {
-    "dailyLimit": {
+  "threshold": {
+    "dailyExceeded": {
       "title": "Limite diário excedido",
-      "message": "\"{{device}}\" ultrapassou o limite diário de consumo configurado para este projeto."
+      "message": "A casa \"{{home}}\" ultrapassou o limite diário de consumo configurado."
     },
-    "deviceOffline": {
-      "title": "Dispositivo desconectado",
-      "message": "\"{{device}}\" parou de enviar dados de consumo. Verifique a conexão WiFi dele."
-    },
-    "monthlyNearLimit": {
+    "monthlyApproaching": {
       "title": "Perto do limite mensal",
-      "message": "\"{{device}}\" está perto de atingir o limite mensal de consumo configurado."
-    },
-    "consumptionSpike": {
-      "title": "Pico de consumo detectado",
-      "message": "Foi detectado um pico incomum de consumo no projeto. Verifique seus dispositivos conectados."
+      "message": "A casa \"{{home}}\" está perto de atingir o limite mensal de consumo configurado."
     }
   },
-  "mockRecommendations": {
-    "acPeak": {
-      "title": "Otimize seu ar-condicionado",
-      "message": "Reduza o uso nos horários de pico para economizar energia e diminuir sua conta."
+  "connectivity": {
+    "deviceOffline": {
+      "title": "Dispositivo desconectado",
+      "message": "Um dispositivo de \"{{home}}\" parou de enviar dados de consumo. Verifique a conexão WiFi dele."
+    }
+  },
+  "recommendation": {
+    "shiftUsageOffPeak": {
+      "title": "Mova o consumo para fora do horário de pico",
+      "message": "Transfira o uso dos seus equipamentos em \"{{home}}\" para horários de menor demanda para economizar energia e reduzir sua conta."
     },
-    "standby": {
-      "title": "Desligue dispositivos em standby",
-      "message": "Considere desligar à noite os dispositivos que você não usa; o consumo em standby se acumula."
+    "reduceStandby": {
+      "title": "Reduza o consumo em standby",
+      "message": "Desligue em \"{{home}}\" os dispositivos que você não usa; o consumo em standby se acumula."
     },
-    "improvement": {
-      "title": "Você está melhorando!",
-      "message": "Seu consumo caiu 12% este mês em relação ao anterior. Continue assim para se manter dentro dos limites."
+    "scheduleMaintenance": {
+      "title": "Agende uma manutenção",
+      "message": "Alguns equipamentos de \"{{home}}\" estão consumindo mais que o habitual. Uma manutenção pode melhorar a eficiência deles."
+    },
+    "upgradeAppliance": {
+      "title": "Considere renovar um eletrodoméstico",
+      "message": "Um eletrodoméstico de \"{{home}}\" consome muito mais que um modelo eficiente atual. Renová-lo pode reduzir sua conta."
     }
   },
   "empty": {
     "all": {
       "title": "Sem notificações",
-      "description": "Quando o sistema detectar algo relevante nos seus projetos, você verá aqui."
+      "description": "Quando o sistema detectar algo relevante nas suas casas, você verá aqui."
     },
     "alerts": {
       "title": "Sem alertas ativos",
@@ -65,7 +65,7 @@
     },
     "recommendations": {
       "title": "Sem recomendações",
-      "description": "Ainda não há recomendações geradas para seus projetos."
+      "description": "Ainda não há recomendações geradas para as suas casas."
     }
   }
 }
