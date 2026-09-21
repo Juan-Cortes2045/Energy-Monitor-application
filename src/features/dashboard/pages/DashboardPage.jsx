@@ -14,7 +14,7 @@ import { useHomes } from "../../../context/HomeContext";
 
 const DashboardPage = () => {
   const { t } = useTranslation("dashboard");
-  const { homes, addHome } = useHomes();
+  const { homes, addHome, setFavorite } = useHomes();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
   const navigate = useNavigate();
@@ -97,6 +97,7 @@ const DashboardPage = () => {
                 key={home.id}
                 home={home}
                 onClick={() => handleCardClick(home)}
+                onToggleFavorite={setFavorite}
               />
             ))}
           </div>

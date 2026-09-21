@@ -9,8 +9,12 @@ export const HomeProvider = ({ children }) => {
     setHomes((prev) => [home, ...prev]);
   };
 
+  const setFavorite = (id, favorite) => {
+    setHomes((prev) => prev.map((h) => (h.id === id ? { ...h, favorite } : h)));
+  };
+
   return (
-    <HomeContext.Provider value={{ homes, setHomes, addHome }}>
+    <HomeContext.Provider value={{ homes, setHomes, addHome, setFavorite }}>
       {children}
     </HomeContext.Provider>
   );

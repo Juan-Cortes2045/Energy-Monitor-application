@@ -6,9 +6,9 @@ import { useTranslation } from "react-i18next";
 
 const DESCRIPTION_LIMIT = 150;
 
-const HomeCard = ({ home, onClick }) => {
+const HomeCard = ({ home, onClick, onToggleFavorite }) => {
   const { t } = useTranslation("homeCard");
-  const [favorite, setFavorite] = useState(home.favorite || false);
+  const favorite = Boolean(home.favorite);
   const [expanded, setExpanded] = useState(false);
 
   const headerColor = home.color
@@ -19,7 +19,7 @@ const HomeCard = ({ home, onClick }) => {
 
   const toggleFavorite = (e) => {
     e.stopPropagation();
-    setFavorite((prev) => !prev);
+    onToggleFavorite?.(home.id, !favorite);
   };
 
   const description = home.description || home.descripcion || "";
