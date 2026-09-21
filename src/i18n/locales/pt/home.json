@@ -29,7 +29,10 @@
     "responsible": "Responsável"
   },
   "confirm": {
+    "leaveTitle": "Sair do lar?",
     "leave": "Tem certeza de que deseja sair deste lar?",
-    "delete": "Excluir este lar? Esta ação não pode ser desfeita."
+    "deleteTitle": "Excluir o lar?",
+    "delete": "Excluir este lar? Esta ação não pode ser desfeita.",
+    "cancel": "Cancelar"
   }
 }

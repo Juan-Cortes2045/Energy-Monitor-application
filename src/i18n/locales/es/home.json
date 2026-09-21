@@ -29,7 +29,10 @@
     "responsible": "Responsable"
   },
   "confirm": {
+    "leaveTitle": "¿Salirte del hogar?",
     "leave": "¿Seguro que deseas salirte de este hogar?",
-    "delete": "¿Eliminar este hogar? Esta acción no se puede deshacer."
+    "deleteTitle": "¿Eliminar hogar?",
+    "delete": "¿Eliminar este hogar? Esta acción no se puede deshacer.",
+    "cancel": "Cancelar"
   }
 }

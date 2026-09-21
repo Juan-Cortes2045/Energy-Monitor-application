@@ -29,7 +29,10 @@
     "responsible": "Responsible"
   },
   "confirm": {
+    "leaveTitle": "Leave this home?",
     "leave": "Are you sure you want to leave this home?",
-    "delete": "Delete this home? This action cannot be undone."
+    "deleteTitle": "Delete this home?",
+    "delete": "Delete this home? This action cannot be undone.",
+    "cancel": "Cancel"
   }
 }

@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import Card from "../../../design/components/Card/Card";
 import Button from "../../../design/components/Button/Button";
+import ConfirmModal from "../../../components/shared/ConfirmModal/ConfirmModal";
 import styles from "./Home.module.css";
 import { useTranslation } from "react-i18next";
 
@@ -62,6 +63,8 @@ const Field = ({ label, fullWidth = false, children }) => (
 const HomeDetail = ({ home, isOwner = false, onLeave, onDelete }) => {
   const { t } = useTranslation("home");
   const [copied, setCopied] = useState(false);
+  // Diálogo abierto: null | "leave" | "delete"
+  const [confirming, setConfirming] = useState(null);
 
   const data = emptyHome;
 
@@ -73,16 +76,10 @@ const HomeDetail = ({ home, isOwner = false, onLeave, onDelete }) => {
     });
   };
 
-  const handleLeave = () => {
-    if (window.confirm(t("confirm.leave"))) {
-      onLeave?.();
-    }
-  };
-
-  const handleDelete = () => {
-    if (window.confirm(t("confirm.delete"))) {
-      onDelete?.();
-    }
+  const handleConfirm = () => {
+    const action = confirming === "leave" ? onLeave : onDelete;
+    setConfirming(null);
+    action?.();
   };
 
   return (
@@ -160,12 +157,12 @@ const HomeDetail = ({ home, isOwner = false, onLeave, onDelete }) => {
 
           <div className={styles.actionRow}>
             {isOwner ? (
-              <Button variant="Danger" onClick={handleDelete}>
+              <Button variant="Danger" onClick={() => setConfirming("delete")}>
                 <Trash2 size={15} className={styles.icon} />
                 {t("buttons.deleteHome")}
               </Button>
             ) : (
-              <Button variant="Danger" onClick={handleLeave}>
+              <Button variant="Danger" onClick={() => setConfirming("leave")}>
                 <LogOut size={15} className={styles.icon} />
                 {t("buttons.leaveHome")}
               </Button>
@@ -213,6 +210,19 @@ const HomeDetail = ({ home, isOwner = false, onLeave, onDelete }) => {
           </div>
         </div>
       </Card>
+
+      {confirming && (
+        <ConfirmModal
+          title={t(`confirm.${confirming}Title`)}
+          message={t(`confirm.${confirming}`)}
+          confirmLabel={t(
+            confirming === "leave" ? "buttons.leaveHome" : "buttons.deleteHome",
+          )}
+          cancelLabel={t("confirm.cancel")}
+          onConfirm={handleConfirm}
+          onCancel={() => setConfirming(null)}
+        />
+      )}
     </div>
   );
 };

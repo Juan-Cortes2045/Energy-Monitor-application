@@ -29,7 +29,10 @@
     "responsible": "Responsable"
   },
   "confirm": {
+    "leaveTitle": "Quitter la maison ?",
     "leave": "Êtes-vous sûr de vouloir quitter cette maison ?",
-    "delete": "Supprimer cette maison ? Cette action est irréversible."
+    "deleteTitle": "Supprimer la maison ?",
+    "delete": "Supprimer cette maison ? Cette action est irréversible.",
+    "cancel": "Annuler"
   }
 }
