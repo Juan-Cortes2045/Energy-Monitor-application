@@ -111,3 +111,8 @@
   font-size: var(--font-size-sm);
   color: var(--color-danger);
 }
+
+.success {
+  font-size: var(--font-size-sm);
+  color: var(--color-success);
+}
