@@ -14,28 +14,17 @@ import {
 import Card from "../../../design/components/Card/Card";
 import Button from "../../../design/components/Button/Button";
 import ConfirmModal from "../../../components/shared/ConfirmModal/ConfirmModal";
+import { HOME_TYPES } from "../../shared/homeTypes";
 import styles from "./Home.module.css";
 import { useTranslation } from "react-i18next";
 
-const emptyHome = {
-  home_code: "",
-  name: "",
-  address: "",
-  homeType: "",
-  access_code: "",
-  description: "",
-  creation_date: null,
-  responsible: { name: "", email: "", cellphone: "" },
-};
-
 const HOME_TYPE_ICONS = {
-  Casa: <Home size={12} />,
-  Apartamento: <Building2 size={12} />,
-  "Apta estudio": <Building2 size={12} />,
-  Oficina: <Building2 size={12} />,
-  Local: <Building2 size={12} />,
-  Otro: <Building2 size={12} />,
+  house: <Home size={12} />,
+  apartment: <Building2 size={12} />,
+  studio: <Building2 size={12} />,
+  other: <Building2 size={12} />,
 };
+const DEFAULT_HOME_TYPE_ICON = <Building2 size={12} />;
 
 const formatDate = (iso) => {
   if (!iso) return "—";
@@ -62,11 +51,26 @@ const Field = ({ label, fullWidth = false, children }) => (
 
 const HomeDetail = ({ home, isOwner = false, onLeave, onDelete }) => {
   const { t } = useTranslation("home");
+  const { t: tTypes } = useTranslation("createHomeModal");
   const [copied, setCopied] = useState(false);
   // Diálogo abierto: null | "leave" | "delete"
   const [confirming, setConfirming] = useState(null);
 
-  const data = emptyHome;
+  const typeKey = HOME_TYPES.find((type) => type.id === home?.homeTypeId)?.key;
+  const typeLabel = typeKey
+    ? typeKey === "other" && home.otherHomeType
+      ? home.otherHomeType
+      : tTypes(`homeTypes.${typeKey}`)
+    : "";
+
+  const data = {
+    name: home?.name ?? "",
+    address: home?.address ?? "",
+    description: home?.description ?? "",
+    access_code: "",
+    creation_date: null,
+    responsible: { name: home?.userResponsible ?? "", email: "", cellphone: "" },
+  };
 
   const handleCopy = () => {
     if (!data.access_code) return;
@@ -97,12 +101,10 @@ const HomeDetail = ({ home, isOwner = false, onLeave, onDelete }) => {
             </Field>
 
             <Field label={t("fields.homeType")}>
-              {data.homeType ? (
+              {typeLabel ? (
                 <span className={styles.typeBadge}>
-                  {HOME_TYPE_ICONS[data.homeType] ?? (
-                    <Building2 size={12} />
-                  )}
-                  {data.homeType}
+                  {HOME_TYPE_ICONS[typeKey] ?? DEFAULT_HOME_TYPE_ICON}
+                  {typeLabel}
                 </span>
               ) : (
                 <span>{t("placeholders.empty")}</span>
