@@ -4,14 +4,8 @@ import { useTranslation } from "react-i18next";
 import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
 import AddressInput from "../AddressInput/AddressInput";
+import { HOME_TYPES } from "../../../shared/homeTypes";
 import styles from "./CreateHomeModal.module.css";
-
-const HOME_TYPES = [
-  { id: "HT001", key: "house" },
-  { id: "HT002", key: "apartment" },
-  { id: "HT003", key: "studio" },
-  { id: "HT004", key: "other" },
-];
 
 const INITIAL_FORM = {
   name: "",
