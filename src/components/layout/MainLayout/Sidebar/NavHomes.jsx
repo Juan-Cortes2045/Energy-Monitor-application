@@ -42,9 +42,7 @@ const NavHomes = ({ icon, label, collapsed, onNavigate }) => {
                 className={styles.homeItem}
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate("/Consumption", {
-                    state: { home: h, isOwner: h.variant === "owned" },
-                  });
+                  navigate(`/homes/${h.id}`);
                   onNavigate?.();
                 }}
               >

@@ -29,6 +29,7 @@ import esLinkDeviceModal from "./locales/es/linkDeviceModal.json";
 import esAuthLayout from "./locales/es/authLayout.json";
 import esThresholds from "./locales/es/thresholds.json";
 import esNotifications from "./locales/es/notifications.json";
+import esHomeNotFound from "./locales/es/homeNotFound.json";
 import esAbout from "./locales/es/about.json";
 import esLegalModal from "./locales/es/legalModal.json";
 
@@ -60,6 +61,7 @@ import enLinkDeviceModal from "./locales/en/linkDeviceModal.json";
 import enAuthLayout from "./locales/en/authLayout.json";
 import enThresholds from "./locales/en/thresholds.json";
 import enNotifications from "./locales/en/notifications.json";
+import enHomeNotFound from "./locales/en/homeNotFound.json";
 import enAbout from "./locales/en/about.json";
 import enLegalModal from "./locales/en/legalModal.json";
 
@@ -91,6 +93,7 @@ import frLinkDeviceModal from "./locales/fr/linkDeviceModal.json";
 import frAuthLayout from "./locales/fr/authLayout.json";
 import frThresholds from "./locales/fr/thresholds.json";
 import frNotifications from "./locales/fr/notifications.json";
+import frHomeNotFound from "./locales/fr/homeNotFound.json";
 import frAbout from "./locales/fr/about.json";
 import frLegalModal from "./locales/fr/legalModal.json";
 
@@ -122,6 +125,7 @@ import ptLinkDeviceModal from "./locales/pt/linkDeviceModal.json";
 import ptAuthLayout from "./locales/pt/authLayout.json";
 import ptThresholds from "./locales/pt/thresholds.json";
 import ptNotifications from "./locales/pt/notifications.json";
+import ptHomeNotFound from "./locales/pt/homeNotFound.json";
 import ptAbout from "./locales/pt/about.json";
 import ptLegalModal from "./locales/pt/legalModal.json"
 
@@ -158,6 +162,7 @@ i18n.use(initReactI18next).init({
       authLayout: esAuthLayout,
       thresholds: esThresholds,
       notifications: esNotifications,
+      homeNotFound: esHomeNotFound,
       about: esAbout,
       legalModal: esLegalModal
     },
@@ -188,6 +193,7 @@ i18n.use(initReactI18next).init({
       authLayout: enAuthLayout,
       thresholds: enThresholds,
       notifications: enNotifications,
+      homeNotFound: enHomeNotFound,
       about: enAbout,
       legalModal: enLegalModal
     },
@@ -218,6 +224,7 @@ i18n.use(initReactI18next).init({
       authLayout: frAuthLayout,
       thresholds: frThresholds,
       notifications: frNotifications,
+      homeNotFound: frHomeNotFound,
       about: frAbout,
       legalModal: frLegalModal
     },
@@ -248,6 +255,7 @@ i18n.use(initReactI18next).init({
       authLayout: ptAuthLayout,
       thresholds: ptThresholds,
       notifications: ptNotifications,
+      homeNotFound: ptHomeNotFound,
       about: ptAbout,
       legalModal: ptLegalModal
     },

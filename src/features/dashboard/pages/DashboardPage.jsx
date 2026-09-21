@@ -71,12 +71,7 @@ const DashboardPage = () => {
   };
 
   const handleCardClick = (home) => {
-    navigate("/Consumption", {
-      state: {
-        home,
-        isOwner: home.variant === "owned",
-      },
-    });
+    navigate(`/homes/${home.id}`);
   };
 
   return (

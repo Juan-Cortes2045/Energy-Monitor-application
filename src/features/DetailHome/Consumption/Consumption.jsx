@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 import {
   AreaChart,
@@ -83,9 +83,8 @@ const CustomPieTooltip = ({ active, payload }) => {
 
 const Consumption = () => {
   const { t, i18n } = useTranslation("consumption");
-  const location = useLocation();
   const navigate = useNavigate();
-  const { home, isOwner = false } = location.state ?? {};
+  const { home, isOwner } = useOutletContext();
   const onBack = () => navigate(-1);
   const [activeTab, setActiveTab] = useState("Consumo");
   const { currentTheme } = useTheme();
