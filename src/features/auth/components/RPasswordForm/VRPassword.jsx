@@ -4,12 +4,15 @@ import { useTranslation } from "react-i18next";
 import Card from "../../../../design/components/Card/Card";
 import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
+import { useResendCooldown } from "../../hooks/useResendCooldown.js";
 import { codeSchema } from "../../validation/codeSchema.js";
 
 const VRPassword = () => {
   const { t } = useTranslation("recoverPassword");
   const { t: v } = useTranslation("validations");
   const [error, setError] = useState("");
+  const [info, setInfo] = useState("");
+  const { secondsLeft, isCoolingDown, start: startCooldown } = useResendCooldown();
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputsRef = useRef([]);
 
@@ -29,6 +32,16 @@ const VRPassword = () => {
     if (e.key === "Backspace" && !code[index] && index > 0) {
       inputsRef.current[index - 1]?.focus();
     }
+  };
+
+
+  const handleResend = () => {
+    // TODO backend: aquí irá la llamada real de reenvío. Hoy no se envía nada.
+    setCode(["", "", "", "", "", ""]);
+    setError("");
+    setInfo(t("resendSent"));
+    inputsRef.current[0]?.focus();
+    startCooldown();
   };
 
   const handleVerify = () => {
@@ -68,6 +81,7 @@ const VRPassword = () => {
           ))}
         </div>
         {error && <p className={styles.error}>{error}</p>}
+        {info && <p className={styles.success}>{info}</p>}
         <div className={styles.center}>
           <Button onClick={handleVerify} variant="primary">
             {t("confirmCode")}
@@ -75,7 +89,14 @@ const VRPassword = () => {
 
           <p className={styles.text}>{t("notReceived")}</p>
 
-          <Button variant="secondary">{t("resend")}</Button>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={handleResend}
+            disabled={isCoolingDown}
+          >
+            {isCoolingDown ? t("resendIn", { seconds: secondsLeft }) : t("resend")}
+          </Button>
         </div>
         <p className={styles.register}>
           {t("comeBack")}.{" "}
