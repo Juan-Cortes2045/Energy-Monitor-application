@@ -7,9 +7,7 @@
   },
   "dates": {
     "day": "Dernières 24 heures",
-    "week": "7 derniers jours",
-    "month": "01 avril 2026 - 30 avril 2026",
-    "year": "Janvier 2026 - Décembre 2026"
+    "week": "7 derniers jours"
   },
   "chart": {
     "title": "RÉPARTITION DE LA CONSOMMATION PAR APPAREIL",

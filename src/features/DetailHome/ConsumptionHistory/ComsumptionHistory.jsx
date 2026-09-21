@@ -20,49 +20,61 @@ import styles from "./ConsumptionHistory.module.css";
 
 const FILTERS = ["day", "week", "month", "year"];
 
-// Datos mock por rango de tiempo, uno por applianceType presente en el
-// hogar (no por nombre en español: se traduce al mostrar, no al generar).
-const generateMockData = (categoryTypes) => {
-  const randomValue = (base, range) => Math.floor(Math.random() * range) + base;
+const pad = (n) => String(n).padStart(2, "0");
+const isoDay = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 
-  const day = Array.from({ length: 24 }, (_, i) => {
-    const entry = { label: `${i}:00` };
+// Los puntos se identifican con fechas reales en formato neutro (nada de
+// nombres de día o mes): day → hora (0-23), week/month → "YYYY-MM-DD",
+// year → "YYYY-MM". Las etiquetas se generan al renderizar, con el idioma activo.
+const generateMockData = (categoryTypes, now = new Date()) => {
+  const randomValue = (base, range) => Math.floor(Math.random() * range) + base;
+  const makePoint = (key, base, range) => {
+    const entry = { key };
     categoryTypes.forEach((type) => {
-      entry[type] = randomValue(0, 8);
+      entry[type] = randomValue(base, range);
     });
     return entry;
-  });
+  };
 
-  const week = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"].map(
-    (dayName) => {
-      const entry = { label: dayName };
-      categoryTypes.forEach((type) => {
-        entry[type] = randomValue(5, 20);
-      });
-      return entry;
-    }
+  const day = Array.from({ length: 24 }, (_, i) => makePoint(i, 0, 8));
+
+  const week = Array.from({ length: 7 }, (_, i) =>
+    makePoint(
+      isoDay(new Date(now.getFullYear(), now.getMonth(), now.getDate() - (6 - i))),
+      5,
+      20
+    )
   );
 
-  const month = Array.from({ length: 30 }, (_, i) => {
-    const entry = { label: String(i + 1).padStart(2, "0") };
-    categoryTypes.forEach((type) => {
-      entry[type] = randomValue(10, 30);
-    });
-    return entry;
-  });
+  const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  const month = Array.from({ length: daysInMonth }, (_, i) =>
+    makePoint(isoDay(new Date(now.getFullYear(), now.getMonth(), i + 1)), 10, 30)
+  );
 
-  const year = [
-    "Ene", "Feb", "Mar", "Abr", "May", "Jun",
-    "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",
-  ].map((monthName) => {
-    const entry = { label: monthName };
-    categoryTypes.forEach((type) => {
-      entry[type] = randomValue(100, 200);
-    });
-    return entry;
-  });
+  const year = Array.from({ length: 12 }, (_, i) =>
+    makePoint(`${now.getFullYear()}-${pad(i + 1)}`, 100, 200)
+  );
 
   return { day, week, month, year };
+};
+
+// "YYYY-MM-DD" / "YYYY-MM" / hora → Date local (evita el desfase UTC de new Date("YYYY-MM-DD")).
+const keyToDate = (key) => {
+  if (typeof key === "number") return new Date(2000, 0, 1, key);
+  const [y, m, d = 1] = key.split("-").map(Number);
+  return new Date(y, m - 1, d);
+};
+
+const LABEL_OPTIONS = {
+  day: { hour: "2-digit", minute: "2-digit", hourCycle: "h23" },
+  week: { weekday: "short" },
+  month: { day: "2-digit" },
+  year: { month: "short" },
+};
+
+const RANGE_OPTIONS = {
+  month: { day: "numeric", month: "long", year: "numeric" },
+  year: { month: "long", year: "numeric" },
 };
 
 const SUBFILTERS_CONFIG = {
@@ -77,7 +89,7 @@ const SUBFILTERS_CONFIG = {
     { key: "sem1", range: [0, 7] },
     { key: "sem2", range: [7, 14] },
     { key: "sem3", range: [14, 21] },
-    { key: "sem4", range: [21, 30] },
+    { key: "sem4", range: [21, Infinity] },
   ],
   year: [
     { key: "q1", range: [0, 3] },
@@ -121,6 +133,8 @@ const ConsumptionHistory = ({ devices }) => {
     return APPLIANCE_TYPE_IDS.filter((id) => present.has(id));
   }, [devices]);
 
+  // Los valores dependen solo de los tipos de dispositivo; el idioma no
+  // interviene aquí, así que cambiarlo no regenera los datos aleatorios.
   const mockDataByFilter = useMemo(
     () => generateMockData(categoryTypes),
     [categoryTypes]
@@ -163,8 +177,23 @@ const ConsumptionHistory = ({ devices }) => {
   // actualmente seleccionado.
   const timeSeriesData = useMemo(() => {
     if (!selectedType) return [];
-    return rows.map((row) => ({ label: row.label, value: row[selectedType] }));
-  }, [rows, selectedType]);
+    const formatter = new Intl.DateTimeFormat(i18n.language, LABEL_OPTIONS[activeFilter]);
+    return rows.map((row) => ({
+      label: formatter.format(keyToDate(row.key)),
+      value: row[selectedType],
+    }));
+  }, [rows, selectedType, activeFilter, i18n.language]);
+
+  // Encabezado: mes/año se calculan del primer y último punto del periodo;
+  // día/semana usan los textos relativos traducidos.
+  const dateRangeText = useMemo(() => {
+    const options = RANGE_OPTIONS[activeFilter];
+    if (!options) return t(`dates.${activeFilter}`);
+    return new Intl.DateTimeFormat(i18n.language, options).formatRange(
+      keyToDate(fullData[0].key),
+      keyToDate(fullData[fullData.length - 1].key)
+    );
+  }, [activeFilter, fullData, t, i18n.language]);
 
   const rankingData = useMemo(() => {
     return [...categoryTotals]
@@ -195,7 +224,7 @@ const ConsumptionHistory = ({ devices }) => {
             </button>
           ))}
         </div>
-        <p className={styles.date}>{t(`dates.${activeFilter}`)}</p>
+        <p className={styles.date}>{dateRangeText}</p>
       </div>
 
       {SUBFILTERS_CONFIG[activeFilter] && (
