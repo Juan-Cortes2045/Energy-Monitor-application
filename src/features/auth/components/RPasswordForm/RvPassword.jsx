@@ -4,13 +4,22 @@ import Button from "../../../../design/components/Button/Button";
 import styles from "./RecoverPassword.module.css";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { recoverSchema } from "../../validation/recoverSchema.js";
 
 const RvPassword = () => {
   const { t } = useTranslation("recoverPassword");
+  const { t: v } = useTranslation("validations");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(recoverSchema(v)) });
+
+  const onSubmit = () => {
     console.log("Enviar código");
     navigate("/VerifyRecoverPassword");
   };
@@ -22,11 +31,14 @@ const RvPassword = () => {
 
         <p className={styles.description}>{t("description")}</p>
 
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <div className={styles.field}>
-            <Input id="email" type="email" placeholder="*">
+            <Input id="email" type="email" placeholder="*" {...register("email")}>
               {t("emailLabel")}
             </Input>
+            {errors.email && (
+              <span className={styles.error}>{errors.email.message}</span>
+            )}
           </div>
 
           <Button type="submit" variant="primary">
