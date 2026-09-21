@@ -66,7 +66,7 @@ const UserRow = ({ user, index, isOwner, onRemove, t }) => (
   </div>
 );
 
-const Users = ({ project, isOwner = false }) => {
+const Users = ({ home, isOwner = false }) => { 
   const { t } = useTranslation("users");
 
   const [users, setUsers] = useState(mockUsers);

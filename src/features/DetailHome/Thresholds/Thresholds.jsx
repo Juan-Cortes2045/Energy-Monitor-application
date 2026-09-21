@@ -9,7 +9,7 @@ import styles from "./Thresholds.module.css";
 
 const DEFAULT_THRESHOLDS = { daily: 10, monthly: 300 };
 
-const Thresholds = ({ project, isOwner = false }) => {
+const Thresholds = ({ home, isOwner = false }) => {
   const { t } = useTranslation("thresholds");
 
   const [useDefaults, setUseDefaults] = useState(true);
