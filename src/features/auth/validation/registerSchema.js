@@ -1,15 +1,14 @@
 import { z } from "zod";
+import { emailRule, passwordRule } from "./sharedRules";
 
 export const registerSchema = (t) =>
   z
     .object({
       name: z.string().min(1, t("errors.required")),
 
-      email: z.string().min(1, t("errors.required")),
+      email: emailRule(t),
 
-      password: z
-        .string()
-        .min(8, t("errors.passwordMin"))
+      password: passwordRule(t)
         .regex(/[A-Z]/, t("errors.passwordUpper"))
         .regex(/(.*[a-z]){3,}/, t("errors.passwordLower"))
         .regex(/(.*[0-9]){3,}/, t("errors.passwordNumber"))
