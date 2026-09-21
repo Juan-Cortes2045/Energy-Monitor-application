@@ -3,9 +3,13 @@ import Header from "../../design/components/Header/Header";
 import HomeCard from "../dashboard/components/HomeCard/HomeCard";
 import { Heart } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { useHomes } from "../../context/HomeContext";
 
-const Favorites = ({ homes = [], onToggleFavorite, onCardClick }) => {
+const Favorites = () => {
   const { t } = useTranslation("favorites");
+  const navigate = useNavigate();
+  const { homes, setFavorite } = useHomes();
   const breadcrumbItems = [
     { label: t("favorites.breadcrumb.home"), path: "/dashboard" },
     { label: t("favorites.breadcrumb.current") },
@@ -38,8 +42,8 @@ const Favorites = ({ homes = [], onToggleFavorite, onCardClick }) => {
                 <HomeCard
                   key={home.id}
                   home={home}
-                  onClick={() => onCardClick?.(home)}
-                  onToggleFavorite={onToggleFavorite}
+                  onClick={() => navigate(`/homes/${home.id}`)}
+                  onToggleFavorite={setFavorite}
                 />
               ))}
             </div>
