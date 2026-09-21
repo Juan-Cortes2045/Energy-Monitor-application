@@ -20,7 +20,13 @@
     "currentLimit": "Limite atual: ",
     "noLimit": "Sem limite configurado",
     "allOperational": "Todos operacionais",
-    "noData": "Sem dados"
+    "noData": "Sem dados",
+    "levels": {
+      "LOW": "Baixo",
+      "MEDIUM": "Médio",
+      "HIGH": "Alto",
+      "CRITICAL": "Crítico"
+    }
   },
   "charts": {
     "globalConsumption": "Consumo Global —",

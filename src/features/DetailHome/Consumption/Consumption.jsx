@@ -34,7 +34,7 @@ import { useTranslation } from "react-i18next";
 
 const mockConsumptionData = {
   potencia: 2.4,               // kW
-  nivelPotencia: "Medio",
+  nivelPotencia: "MEDIUM",        // LOW | MEDIUM | HIGH | CRITICAL
   consumoHoy: 18.5,            // kWh
   limiteConsumo: 30,           // kWh (límite diario configurado)
   limitesDiario: {
@@ -312,7 +312,7 @@ const Consumption = () => {
                     </span>
                   </p>
                   <p className={styles.kpiSub}>
-                    {t("kpi.level")} {data.nivelPotencia}
+                    {t("kpi.level")} {t(`kpi.levels.${data.nivelPotencia}`)}
                   </p>
                 </div>
               </div>
@@ -327,7 +327,7 @@ const Consumption = () => {
                   </p>
                   <p className={styles.kpiSub}>
                     {data.limiteConsumo != null
-                      ? `t("kpi.currentLimit") ${data.limiteConsumo} kWh`
+                      ? `${t("kpi.currentLimit")}${data.limiteConsumo} kWh`
                       : t("kpi.noLimit")}
                   </p>
                 </div>
