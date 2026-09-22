@@ -174,6 +174,7 @@ const Support = () => {
           <Search size={16} className={styles.searchIcon} aria-hidden="true" />
           <Input
             type="search"
+            variant="bare"
             placeholder={t("hero.searchPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -181,11 +182,6 @@ const Support = () => {
               "hero.searchAriaLabel",
               "Buscar en preguntas frecuentes",
             )}
-            style={{
-              border: "none",
-              boxShadow: "none",
-              background: "transparent",
-            }}
           />
         </div>
 
