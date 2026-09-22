@@ -69,6 +69,19 @@
   box-shadow: none;
 }
 
+/* ── Bare variant: sin marco, para usar dentro de un contenedor propio ── */
+.wrapperBare {
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+.wrapperBare:focus-within {
+  border: none;
+  box-shadow: none;
+}
+
 /* ── Icon ─────────────────────────────────────────────────────────── */
 .icon {
   width: 20px;
