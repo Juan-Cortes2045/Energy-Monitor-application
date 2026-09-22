@@ -1,13 +1,14 @@
 {
   "title": "Comment fonctionne EnergyMonitor ?",
   "subtitle": "Surveillez, analysez et optimisez votre consommation d'énergie en quelques étapes.",
+  "imageAlt": "Illustration du tableau de bord EnergyMonitor",
   "steps": {
     "step1": {
       "title": "Inscrivez-vous ou connectez-vous",
       "description": "Créez votre compte facilement ou connectez-vous avec Google pour utiliser la plateforme en toute sécurité."
     },
     "step2": {
-      "title": "Créez et configurez votre projet",
+      "title": "Créez et configurez votre maison",
       "description": "Enregistrez votre maison, connectez des appareils électriques et définissez des limites de consommation personnalisées."
     },
     "step3": {

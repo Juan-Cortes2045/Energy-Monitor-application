@@ -1,13 +1,14 @@
 {
   "title": "How does EnergyMonitor work?",
   "subtitle": "Monitor, analyze, and optimize your energy consumption in just a few steps.",
+  "imageAlt": "Illustration of the EnergyMonitor dashboard",
   "steps": {
     "step1": {
       "title": "Sign up or log in",
       "description": "Create your account easily or sign in with Google to start using the platform securely."
     },
     "step2": {
-      "title": "Create and configure your project",
+      "title": "Create and configure your home",
       "description": "Register your home, connect electrical devices, and set custom consumption limits."
     },
     "step3": {
