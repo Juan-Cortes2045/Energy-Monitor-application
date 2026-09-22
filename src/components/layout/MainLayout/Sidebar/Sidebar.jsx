@@ -80,6 +80,7 @@ const Sidebar = () => {
               icon={<CloudLightning size={24} />}
               label={t("homes")}
               collapsed={collapsed}
+              onExpand={() => setCollapsed(false)}
               onNavigate={() => setIsOpen(false)}
             />
           </div>

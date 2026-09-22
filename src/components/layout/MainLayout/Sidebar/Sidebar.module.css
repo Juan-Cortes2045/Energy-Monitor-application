@@ -213,6 +213,15 @@
 
 .navGroup { display: flex; flex-direction: column; position: relative; }
 
+.homesToggle {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
 .modalOverlay {
   position: fixed;
   top: 0;
