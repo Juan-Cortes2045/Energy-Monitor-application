@@ -4,7 +4,7 @@ import HomeCard from "../dashboard/components/HomeCard/HomeCard";
 import { Heart } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useHomes } from "../../context/HomeContext";
+import { useHomes } from "../../context/useHomes";
 
 const Favorites = () => {
   const { t } = useTranslation("favorites");
@@ -40,9 +40,9 @@ const Favorites = () => {
             <div className={styles.grid}>
               {favoriteHomes.map((home) => (
                 <HomeCard
-                  key={home.id}
+                  key={home.idHome}
                   home={home}
-                  onClick={() => navigate(`/homes/${home.id}`)}
+                  onClick={() => navigate(`/homes/${home.idHome}`)}
                   onToggleFavorite={setFavorite}
                 />
               ))}

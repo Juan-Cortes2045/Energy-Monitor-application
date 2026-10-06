@@ -3,7 +3,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import styles from "../Sidebar/Sidebar.module.css";
-import { useHomes } from "../../../../context/HomeContext";
+import { useHomes } from "../../../../context/useHomes";
 
 const NavHomes = ({ icon, label, collapsed, onExpand, onNavigate }) => {
   const [open, setOpen] = useState(false);
@@ -61,11 +61,11 @@ const NavHomes = ({ icon, label, collapsed, onExpand, onNavigate }) => {
           ) : (
             homes.map((h) => (
               <div
-                key={h.id}
+                key={h.idHome}
                 className={styles.homeItem}
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate(`/homes/${h.id}`);
+                  navigate(`/homes/${h.idHome}`);
                   onNavigate?.();
                 }}
               >
