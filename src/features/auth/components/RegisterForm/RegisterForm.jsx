@@ -25,19 +25,27 @@ const RegisterForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(registerSchema(v)),
     mode: "onChange",
   });
 
-  const password = watch("password");
-  const repeatPassword = watch("repeatPassword");
-
   const navigate = useNavigate();
   const onSubmit = async (data) => {
-    console.log("register:", data);
+    // Cuerpo de `POST /api/v1/auth/register` (`RegisterRequest`): se listan los
+    // campos a propósito para no filtrar `repeatPassword` ni `terms`, que son
+    // controles del formulario. TEMPORAL: solo falta la llamada.
+    const { name, lastName, email, password } = data;
+    const payload = {
+      name: name.trim(),
+      lastName: lastName.trim(),
+      email: email.trim(),
+      password,
+    };
+
+    if (import.meta.env.DEV) console.log("register payload:", payload);
+
     navigate("/VerifyAccount");
   };
 
@@ -48,15 +56,36 @@ const RegisterForm = () => {
           <h2 className={styles.title}>{t("register.title")}</h2>
 
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-            {/* NAME */}
-            <Input id="name" type="text" placeholder="*" {...register("name")}>
-              {t("register.name")}
-            </Input>
-            {errors.name && (
-              <span className={styles.error}>
-                {errors.name.message}
-              </span>
-            )}
+            {/* NOMBRE + APELLIDO */}
+            <div className={styles.nameRow}>
+              <div className={styles.nameCell}>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="*"
+                  {...register("name")}
+                >
+                  {t("register.name")}
+                </Input>
+                {errors.name && (
+                  <span className={styles.error}>{errors.name.message}</span>
+                )}
+              </div>
+
+              <div className={styles.nameCell}>
+                <Input
+                  id="lastName"
+                  type="text"
+                  placeholder="*"
+                  {...register("lastName")}
+                >
+                  {t("register.lastName")}
+                </Input>
+                {errors.lastName && (
+                  <span className={styles.error}>{errors.lastName.message}</span>
+                )}
+              </div>
+            </div>
 
             {/* EMAIL */}
             <Input

@@ -10,8 +10,7 @@
     "address": "Address",
     "description": "Description",
     "creationDate": "Creation Date",
-    "email": "Email",
-    "phone": "Phone"
+    "email": "Email"
   },
   "placeholders": {
     "empty": "—",

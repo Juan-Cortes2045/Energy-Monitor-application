@@ -6,7 +6,6 @@ import {
   Key,
   User,
   Mail,
-  Phone,
   Copy,
   LogOut,
   Check,
@@ -36,11 +35,11 @@ const formatDate = (iso) => {
   });
 };
 
-const getInitials = (name = "") =>
-  name
-    .split(" ")
-    .slice(0, 2)
-    .map((w) => w[0]?.toUpperCase() ?? "")
+// El backend separa `name` y `lastName`; las iniciales se siguen tomando de los
+// dos para no perder la que aportaba el apellido dentro del nombre completo.
+const getInitials = (name = "", lastName = "") =>
+  [name, lastName]
+    .map((word) => word.trim().split(" ")[0]?.[0]?.toUpperCase() ?? "")
     .join("");
 
 const Field = ({ label, fullWidth = false, children }) => (
@@ -73,11 +72,26 @@ const HomeDetail = ({ home, isOwner = false }) => {
     name: home?.name ?? "",
     address: home?.address ?? "",
     description: home?.description ?? "",
+    access_code: "",
+    creation_date: null,
+    responsible: {
+      name: home?.userResponsible ?? "",
+      lastName: home?.userResponsibleLastName ?? "",
+      email: "",
+    },
     access_code: home?.accessCode ?? "",
     creation_date: home?.creationDate ?? null,
     // La API no expone nombre del responsable, solo el id de usuario.
-    responsible: { name: home?.role === "OWNER" ? t("status.you") : "", email: "", cellphone: "" },
+    responsible: {
+      name: home?.role === "OWNER" ? t("status.you") : "",
+      email: "",
+      cellphone: "",
+    },
   };
+
+  const responsibleName = [data.responsible.name, data.responsible.lastName]
+    .filter(Boolean)
+    .join(" ");
 
   const handleCopy = () => {
     if (!data.access_code) return;
@@ -181,7 +195,11 @@ const HomeDetail = ({ home, isOwner = false }) => {
           )}
 
           <div className={styles.actionRow}>
-            <Button variant="Danger" onClick={() => setConfirming(true)} disabled={leaving}>
+            <Button
+              variant="Danger"
+              onClick={() => setConfirming(true)}
+              disabled={leaving}
+            >
               <LogOut size={15} className={styles.icon} />
               {leaving ? t("buttons.leaving") : t("buttons.leaveHome")}
             </Button>
@@ -198,11 +216,14 @@ const HomeDetail = ({ home, isOwner = false }) => {
 
           <div className={styles.ownerRow}>
             <div className={styles.ownerAvatar}>
-              {getInitials(data.responsible.name) || <User size={16} />}
+              {getInitials(
+                data.responsible.name,
+                data.responsible.lastName,
+              ) || <User size={16} />}
             </div>
             <div className={styles.ownerMeta}>
               <span className={styles.ownerName}>
-                {data.responsible.name || t("placeholders.empty")}
+                {responsibleName || t("placeholders.empty")}
               </span>
               <span className={styles.ownerBadge}>
                 {t("status.responsible")}
@@ -213,16 +234,10 @@ const HomeDetail = ({ home, isOwner = false }) => {
           <div className={styles.divider} />
 
           <div className={styles.fieldGrid}>
-            <Field label={t("fields.email")}>
+            <Field label={t("fields.email")} fullWidth>
               <span className={styles.fieldValueWithIcon}>
                 <Mail size={12} aria-hidden="true" />
                 {data.responsible.email || t("placeholders.empty")}
-              </span>
-            </Field>
-            <Field label={t("fields.phone")}>
-              <span className={styles.fieldValueWithIcon}>
-                <Phone size={12} aria-hidden="true" />
-                {data.responsible.cellphone || t("placeholders.empty")}
               </span>
             </Field>
           </div>
