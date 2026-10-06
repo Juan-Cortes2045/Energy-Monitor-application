@@ -53,3 +53,9 @@
   gap: var(--spacing-lg);
   align-items: flex-start;
 }
+
+.state {
+  padding: var(--spacing-lg);
+  text-align: center;
+  color: var(--text-secondary, #555);
+}

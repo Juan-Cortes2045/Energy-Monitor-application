@@ -13,7 +13,12 @@ function validate(code, t) {
   return null;
 }
 
-const JoinHomeModal = ({ onClose, onSubmit }) => {
+/**
+ * Modal de unirse a un hogar conectado al backend.
+ * @param {import("../../../services/home").ApiError | null} props.serverError
+ * @param {(code: string) => Promise<boolean>} props.onSubmit devuelve true si se unió
+ */
+const JoinHomeModal = ({ serverError = null, onClose, onSubmit }) => {
   const { t } = useTranslation("joinHomeModal");
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
@@ -32,8 +37,11 @@ const JoinHomeModal = ({ onClose, onSubmit }) => {
 
     setLoading(true);
     try {
-      onSubmit?.(code);
-      onClose?.();
+      const ok = await onSubmit?.(code);
+      if (ok) {
+        setCode("");
+        onClose?.();
+      }
     } finally {
       setLoading(false);
     }
@@ -71,6 +79,10 @@ const JoinHomeModal = ({ onClose, onSubmit }) => {
           </div>
 
           <p className={styles.description}>{t("description")}</p>
+
+          {serverError && (
+            <p className={styles.errorMsg} role="alert">{serverError.message}</p>
+          )}
 
           <div className={styles.field}>
             <label className={styles.label} htmlFor="join-code">

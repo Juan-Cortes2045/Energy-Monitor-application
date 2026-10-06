@@ -13,13 +13,13 @@ const HomeCard = ({ home, onClick, onToggleFavorite }) => {
 
   const headerColor = home.color
     ? home.color
-    : home.variant === "joined"
+    : home.role === "MEMBER"
       ? "var(--color-secondary)"
       : "var(--color-primary)";
 
   const toggleFavorite = (e) => {
     e.stopPropagation();
-    onToggleFavorite?.(home.id, !favorite);
+    onToggleFavorite?.(home.idHome, !favorite);
   };
 
   const description = home.description || home.descripcion || "";
@@ -50,7 +50,7 @@ const HomeCard = ({ home, onClick, onToggleFavorite }) => {
       >
         <div className={styles.headerText}>
           <h3 className={styles.title}>{home.name}</h3>
-          <p className={styles.responsible}>{home.userResponsible}</p>
+          <p className={styles.responsible}>{home.role === "MEMBER" ? t("member") : t("owner")}</p>
         </div>
 
         <button

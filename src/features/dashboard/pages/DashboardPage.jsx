@@ -10,13 +10,18 @@ import HomeCard from "../components/HomeCard/HomeCard";
 import CreateHomeModal from "../components/ModalCreateHome/CreateHomeModal";
 import JoinHomeModal from "../components/ModalJoinHome/JoinHomeModal";
 import { FolderPlus, Users } from "lucide-react";
-import { useHomes } from "../../../context/HomeContext";
+import { useHomes } from "../../../context/useHomes";
+import * as homeApi from "../../../services/home";
 
 const DashboardPage = () => {
   const { t } = useTranslation("dashboard");
-  const { homes, addHome, setFavorite } = useHomes();
+  const { homes, loading, error, reload, addHome, joinHome, setFavorite } =
+    useHomes();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
+  const [homeTypes, setHomeTypes] = useState([]);
+  const [createError, setCreateError] = useState(null);
+  const [joinError, setJoinError] = useState(null);
   const navigate = useNavigate();
 
   const breadcrumbItems = [{ label: t("breadcrumb.home") }];
@@ -36,42 +41,48 @@ const DashboardPage = () => {
 
   const handleMenuItemClick = (item) => {
     if (item.action === "create-home") {
+      setCreateError(null);
+      // Carga el catálogo de tipos cada vez que se abre el modal
+      homeApi.homeApi
+        .listHomeTypes()
+        .then(setHomeTypes)
+        .catch(() => setHomeTypes([]));
       setShowCreateModal(true);
       return;
     }
     if (item.action === "join-home") {
+      setJoinError(null);
       setShowJoinModal(true);
     }
   };
 
-  const handleJoinHome = (code) => {
-    addHome({
-      id: Date.now(),
-      name: t("home.joinedName"),
-      userResponsible: t("home.responsible"),
-      address: "Av. Central 45, Oficina 3",
-      description: t("home.joinedDescription"),
-      variant: "joined",
-      favorite: false,
-    });
-  };
-
-  const handleHomeCreated = (formData) => {
-    addHome({
-      id: Date.now(),
+  const handleCreateHome = async (formData) => {
+    const err = await addHome({
       name: formData.name,
+      homeTypeId: formData.homeTypeId,
       address: formData.address,
       description: formData.description,
-      homeTypeId: formData.homeTypeId,
-      otherHomeType: formData.otherHomeType,
-      userResponsible: "Tú",
-      variant: "owned",
-      favorite: false,
     });
+    if (err) {
+      setCreateError(err);
+      return false;
+    }
+    setShowCreateModal(false);
+    return true;
+  };
+
+  const handleJoinHome = async (code) => {
+    const err = await joinHome(code);
+    if (err) {
+      setJoinError(err);
+      return false;
+    }
+    setShowJoinModal(false);
+    return true;
   };
 
   const handleCardClick = (home) => {
-    navigate(`/homes/${home.id}`);
+    navigate(`/homes/${home.idHome}`);
   };
 
   return (
@@ -85,19 +96,30 @@ const DashboardPage = () => {
           />
         </Header>
 
-        {homes.length === 0 ? (
+        {loading && <p className={styles.state} role="status">{t("state.loading")}</p>}
+
+        {error && (
+          <div className={styles.state} role="alert">
+            <p>{t("state.error")}</p>
+            <button type="button" onClick={reload}>{t("state.retry")}</button>
+          </div>
+        )}
+
+        {!loading && !error && homes.length === 0 && (
           <EmptyState
-            onCreateHome={() => setShowCreateModal(true)}
-            onJoinHome={() => setShowJoinModal(true)}
+            onCreateHome={() => handleMenuItemClick({ action: "create-home" })}
+            onJoinHome={() => handleMenuItemClick({ action: "join-home" })}
           />
-        ) : (
+        )}
+
+        {!loading && !error && homes.length > 0 && (
           <div className={styles.homesGrid}>
             {homes.map((home) => (
               <HomeCard
-                key={home.id}
+                key={home.idHome}
                 home={home}
                 onClick={() => handleCardClick(home)}
-                onToggleFavorite={setFavorite}
+                onToggleFavorite={(id) => setFavorite(id)}
               />
             ))}
           </div>
@@ -105,13 +127,16 @@ const DashboardPage = () => {
 
         {showCreateModal && (
           <CreateHomeModal
+            types={homeTypes}
+            serverError={createError}
             onClose={() => setShowCreateModal(false)}
-            onSubmit={handleHomeCreated}
+            onSubmit={handleCreateHome}
           />
         )}
 
         {showJoinModal && (
           <JoinHomeModal
+            serverError={joinError}
             onClose={() => setShowJoinModal(false)}
             onSubmit={handleJoinHome}
           />

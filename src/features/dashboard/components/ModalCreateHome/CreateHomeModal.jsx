@@ -4,18 +4,16 @@ import { useTranslation } from "react-i18next";
 import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
 import AddressInput from "../AddressInput/AddressInput";
-import { HOME_TYPES } from "../../../shared/homeTypes";
 import styles from "./CreateHomeModal.module.css";
 
 const INITIAL_FORM = {
   name: "",
   homeTypeId: "",
-  otherHomeType: "",
   address: "",
   description: "",
 };
 
-function validate(form, t, isOther) {
+function validate(form, t) {
   const errors = {};
 
   if (!form.name.trim()) errors.name = t("errors.nameRequired");
@@ -23,27 +21,11 @@ function validate(form, t, isOther) {
 
   if (!form.homeTypeId) errors.homeTypeId = t("errors.typeRequired");
 
-  if (isOther && !form.otherHomeType.trim())
-    errors.otherHomeType = t("errors.otherRequired");
-  else if (isOther && form.otherHomeType.trim().length > 50)
-    errors.otherHomeType = t("errors.otherMax");
-
   const addr = form.address.trim();
   if (!addr) {
     errors.address = t("errors.addressRequired");
   } else if (addr.length > 200) {
     errors.address = t("errors.addressMax");
-  } else if (/[<>{}[\]|"`']/.test(form.address)) {
-    errors.address = t("errors.addressInvalidChars");
-  } else if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ0-9\s#\-.,()/]+$/.test(addr)) {
-    errors.address = t("errors.addressInvalidChars");
-  } else {
-    const hasHash = /#/.test(addr);
-    const hasNo = /No\.?\s+\d/i.test(addr);
-    const hasKeyword = /\b(Calle|Cra\.?|Carrera|Av\.?|Avenida|Transversal|Diagonal|Vereda|Finca|Apartamento|Apto|Oficina|Local)\b/i.test(addr);
-    if (!hasHash && !hasNo && !hasKeyword) {
-      errors.address = t("errors.addressInvalidFormat");
-    }
   }
 
   if (form.description.length > 200)
@@ -52,34 +34,29 @@ function validate(form, t, isOther) {
   return errors;
 }
 
-const CreateHomeModal = ({ onClose, onSubmit }) => {
+/**
+ * Modal de crear hogar conectado al backend.
+ * @param {Object} props
+ * @param {Array<{idHomeType: string, name: string}>} props.types catálogo de GET /home-types
+ * @param {import("../../../services/home").ApiError | null} props.serverError
+ * @param {(payload: Object) => Promise<boolean>} props.onSubmit devuelve true si se creó
+ */
+const CreateHomeModal = ({ types = [], serverError = null, onClose, onSubmit }) => {
   const { t } = useTranslation("createHomeModal");
 
   const [form, setForm] = useState(INITIAL_FORM);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const selectedType = HOME_TYPES.find((t) => t.id === form.homeTypeId);
-  const isOther = selectedType?.key === "other";
-
   const handleChange = (field) => (e) => {
     const value = e.target.value;
-    setForm((prev) => {
-      const next = { ...prev, [field]: value };
-
-      if (field === "homeTypeId") {
-        const type = HOME_TYPES.find((t) => t.id === value);
-        if (type?.key !== "other") next.otherHomeType = "";
-      }
-      return next;
-    });
-
+    setForm((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
   };
 
   const handleSubmit = async (e) => {
     e?.preventDefault();
-    const newErrors = validate(form, t, isOther);
+    const newErrors = validate(form, t);
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -91,13 +68,16 @@ const CreateHomeModal = ({ onClose, onSubmit }) => {
       const payload = {
         name: form.name.trim(),
         homeTypeId: form.homeTypeId,
-        otherHomeType: isOther ? form.otherHomeType.trim() : "",
         address: form.address.trim(),
-        description: form.description.trim(),
+        description: form.description.trim() || undefined,
       };
 
-      onSubmit?.(payload);
-      onClose?.();
+      const ok = await onSubmit?.(payload);
+      if (ok) {
+        setForm(INITIAL_FORM);
+        setErrors({});
+        onClose?.();
+      }
     } finally {
       setLoading(false);
     }
@@ -126,12 +106,20 @@ const CreateHomeModal = ({ onClose, onSubmit }) => {
           </button>
         </div>
 
+        {types.length === 0 && (
+          <p className={styles.errorMsg} role="alert">{t("errors.noTypesAvailable")}</p>
+        )}
+        {serverError && (
+          <p className={styles.errorMsg} role="alert">{serverError.message}</p>
+        )}
+
         <form className={styles.body} onSubmit={handleSubmit} noValidate>
           <div className={styles.field}>
-            <label className={styles.label}>
+            <label className={styles.label} htmlFor="create-name">
               {t("fields.name")} <span>*</span>
             </label>
             <Input
+              id="create-name"
               placeholder={t("placeholders.name")}
               value={form.name}
               onChange={handleChange("name")}
@@ -142,10 +130,11 @@ const CreateHomeModal = ({ onClose, onSubmit }) => {
           </div>
 
           <div className={styles.field}>
-            <label className={styles.label}>
+            <label className={styles.label} htmlFor="create-type">
               {t("fields.type")} <span>*</span>
             </label>
             <select
+              id="create-type"
               className={styles.select}
               value={form.homeTypeId}
               onChange={handleChange("homeTypeId")}
@@ -153,38 +142,21 @@ const CreateHomeModal = ({ onClose, onSubmit }) => {
               <option value="" disabled>
                 {t("placeholders.type")}
               </option>
-              {HOME_TYPES.map((type) => (
-                <option key={type.id} value={type.id}>
-                  {t(`homeTypes.${type.key}`)}
+              {types.map((type) => (
+                <option key={type.idHomeType} value={type.idHomeType}>
+                  {type.name}
                 </option>
               ))}
             </select>
             {errors.homeTypeId && <span className={styles.errorMsg}>{errors.homeTypeId}</span>}
           </div>
 
-          {isOther && (
-            <div className={styles.field}>
-              <label className={styles.label}>
-                {t("fields.other")} <span>*</span>
-              </label>
-              <Input
-                placeholder={t("placeholders.other")}
-                value={form.otherHomeType}
-                onChange={handleChange("otherHomeType")}
-                error={errors.otherHomeType}
-                maxLength={50}
-              />
-              {errors.otherHomeType && (
-                <span className={styles.errorMsg}>{errors.otherHomeType}</span>
-              )}
-            </div>
-          )}
-
           <div className={styles.field}>
-            <label className={styles.label}>
+            <label className={styles.label} htmlFor="create-address">
               {t("fields.address")} <span>*</span>
             </label>
             <AddressInput
+              id="create-address"
               placeholder={t("placeholders.address")}
               value={form.address}
               onChange={handleChange("address")}
@@ -194,11 +166,12 @@ const CreateHomeModal = ({ onClose, onSubmit }) => {
           </div>
 
           <div className={styles.field}>
-            <label className={styles.label}>
+            <label className={styles.label} htmlFor="create-description">
               {t("fields.description")}
               <span> {t("fields.optional")}</span>
             </label>
             <textarea
+              id="create-description"
               className={styles.textarea}
               placeholder={t("placeholders.description")}
               value={form.description}
@@ -214,7 +187,7 @@ const CreateHomeModal = ({ onClose, onSubmit }) => {
           <Button onClick={onClose} disabled={loading}>
             {t("buttons.cancel")}
           </Button>
-          <Button onClick={handleSubmit} disabled={loading}>
+          <Button onClick={handleSubmit} disabled={loading || types.length === 0}>
             {loading ? t("buttons.creating") : t("buttons.create")}
           </Button>
         </div>
