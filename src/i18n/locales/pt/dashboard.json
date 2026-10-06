@@ -11,5 +11,10 @@
     "responsible": "Responsável pelo lar",
     "joinedDescription": "Lar no qual você entrou como usuário comum.",
     "you": "Você"
+  },
+  "state": {
+    "loading": "Carregando lares...",
+    "error": "Não foi possível carregar os lares.",
+    "retry": "Tentar novamente"
   }
 }

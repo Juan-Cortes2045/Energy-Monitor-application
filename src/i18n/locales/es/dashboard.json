@@ -11,5 +11,10 @@
     "responsible": "Responsable del hogar",
     "joinedDescription": "Hogar al que te has unido como usuario regular.",
     "you": "Tú"
+  },
+  "state": {
+    "loading": "Cargando hogares...",
+    "error": "No se pudo cargar la lista de hogares.",
+    "retry": "Reintentar"
   }
 }

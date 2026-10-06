@@ -11,5 +11,10 @@
     "responsible": "Propriétaire de la maison",
     "joinedDescription": "Maison que vous avez rejointe en tant qu'utilisateur standard.",
     "you": "Vous"
+  },
+  "state": {
+    "loading": "Chargement des maisons...",
+    "error": "Impossible de charger les maisons.",
+    "retry": "Réessayer"
   }
 }

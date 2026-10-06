@@ -1,5 +1,7 @@
 {
   "title": "Hogar no disponible",
   "description": "No pudimos encontrar este hogar. Puede que no exista, que no tengas acceso o que la página se haya recargado.",
-  "backToDashboard": "Volver al dashboard"
+  "backToDashboard": "Volver al dashboard",
+  "loading": "Cargando…",
+  "retry": "Reintentar"
 }

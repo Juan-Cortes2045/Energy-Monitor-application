@@ -5,5 +5,7 @@
   "address": "Endereço",
   "description": "Descrição",
   "showMore": "Ver mais",
-  "showLess": "Ver menos"
+  "showLess": "Ver menos",
+  "owner": "Responsável",
+  "member": "Membro"
 }

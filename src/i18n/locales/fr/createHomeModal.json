@@ -32,7 +32,8 @@
     "addressMax": "200 caractères maximum",
     "addressInvalidChars": "Caractères non autorisés (< > { } [ ] | \" ` ')",
     "addressInvalidFormat": "Format d'adresse non valide. Ex: Cra. 15 # 93-47",
-    "descriptionMax": "200 caractères maximum."
+    "descriptionMax": "200 caractères maximum.",
+    "noTypesAvailable": "Aucun type de maison disponible. Impossible de créer une maison."
   },
   "homeTypes": {
     "house": "Maison",

@@ -32,7 +32,8 @@
     "addressMax": "Máximo de 200 caracteres",
     "addressInvalidChars": "Caracteres não permitidos (< > { } [ ] | \" ` ')",
     "addressInvalidFormat": "Formato de endereço inválido. Ex: Cra. 15 # 93-47",
-    "descriptionMax": "Máximo de 200 caracteres."
+    "descriptionMax": "Máximo de 200 caracteres.",
+    "noTypesAvailable": "Nenhum tipo de lar disponível. Não é possível criar um lar."
   },
   "homeTypes": {
     "house": "Casa",

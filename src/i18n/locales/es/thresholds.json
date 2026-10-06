@@ -24,9 +24,15 @@
   "scopeNote": "Cada hogar guarda sus propios umbrales; cambiarlos aquí no afecta a tus otros hogares.",
   "buttons": {
     "save": "Guardar cambios",
-    "saved": "Guardado"
+    "saved": "Guardado",
+    "saving": "Guardando..."
   },
   "errors": {
-    "invalid": "Ingresa un valor mayor a 0"
-  }
+    "invalid": "Ingresa un valor mayor a 0",
+    "order": "El límite diario no puede superar al mensual",
+    "forbidden": "No tienes permisos para modificar estos umbrales."
+  },
+  "loading": "Cargando umbrales...",
+  "error": "No se pudieron cargar los umbrales.",
+  "retry": "Reintentar"
 }

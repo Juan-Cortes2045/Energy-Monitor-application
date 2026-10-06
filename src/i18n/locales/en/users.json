@@ -9,7 +9,8 @@
     "member": "Member"
   },
   "members": {
-    "title": "Project members"
+    "title": "Project members",
+    "empty": "No members in this home."
   },
   "invite": {
     "title": "Invite user by email",
@@ -30,5 +31,13 @@
   },
   "actions": {
     "removeUser": "Remove {{name}}"
+  },
+  "state": {
+    "loading": "Loading members...",
+    "error": "Could not load members.",
+    "retry": "Retry"
+  },
+  "removeErrors": {
+    "conflict": "This member cannot be removed."
   }
 }

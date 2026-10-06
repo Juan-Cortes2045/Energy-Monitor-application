@@ -24,9 +24,15 @@
   "scopeNote": "Each home keeps its own thresholds; changing these won't affect your other homes.",
   "buttons": {
     "save": "Save changes",
-    "saved": "Saved"
+    "saved": "Saved",
+    "saving": "Saving..."
   },
   "errors": {
-    "invalid": "Enter a value greater than 0"
-  }
+    "invalid": "Enter a value greater than 0",
+    "order": "Daily limit cannot exceed the monthly limit",
+    "forbidden": "You do not have permission to change these thresholds."
+  },
+  "loading": "Loading thresholds...",
+  "error": "Could not load thresholds.",
+  "retry": "Retry"
 }

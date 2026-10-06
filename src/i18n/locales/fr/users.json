@@ -9,7 +9,8 @@
     "member": "Membre"
   },
   "members": {
-    "title": "Membres du projet"
+    "title": "Membres du projet",
+    "empty": "Aucun membre dans cette maison."
   },
   "invite": {
     "title": "Inviter un utilisateur par e-mail",
@@ -30,5 +31,13 @@
   },
   "actions": {
     "removeUser": "Supprimer {{name}}"
+  },
+  "state": {
+    "loading": "Chargement des membres...",
+    "error": "Impossible de charger les membres.",
+    "retry": "Réessayer"
+  },
+  "removeErrors": {
+    "conflict": "Ce membre ne peut pas être supprimé."
   }
 }

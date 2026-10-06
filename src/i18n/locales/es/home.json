@@ -23,10 +23,15 @@
   "buttons": {
     "copy": "Copiar código de acceso",
     "deleteHome": "Eliminar hogar",
-    "leaveHome": "Salirse del hogar"
+    "leaveHome": "Salirse del hogar",
+    "leaving": "Saliendo..."
+  },
+  "errors": {
+    "lastOwner": "Eres el único propietario: no puedes abandonar el hogar."
   },
   "status": {
-    "responsible": "Responsable"
+    "responsible": "Responsable",
+    "you": "Tú"
   },
   "confirm": {
     "leaveTitle": "¿Salirte del hogar?",

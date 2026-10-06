@@ -23,10 +23,15 @@
   "buttons": {
     "copy": "Copier le code d'accès",
     "deleteHome": "Supprimer la maison",
-    "leaveHome": "Quitter la maison"
+    "leaveHome": "Quitter la maison",
+    "leaving": "Départ..."
+  },
+  "errors": {
+    "lastOwner": "Vous êtes le seul propriétaire : vous ne pouvez pas quitter la maison."
   },
   "status": {
-    "responsible": "Responsable"
+    "responsible": "Responsable",
+    "you": "Vous"
   },
   "confirm": {
     "leaveTitle": "Quitter la maison ?",

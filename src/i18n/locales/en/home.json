@@ -23,10 +23,15 @@
   "buttons": {
     "copy": "Copy access code",
     "deleteHome": "Delete home",
-    "leaveHome": "Leave home"
+    "leaveHome": "Leave home",
+    "leaving": "Leaving..."
+  },
+  "errors": {
+    "lastOwner": "You are the only owner: you cannot leave the home."
   },
   "status": {
-    "responsible": "Responsible"
+    "responsible": "Responsible",
+    "you": "You"
   },
   "confirm": {
     "leaveTitle": "Leave this home?",

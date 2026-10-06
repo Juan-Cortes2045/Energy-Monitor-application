@@ -24,9 +24,15 @@
   "scopeNote": "Cada lar mantém seus próprios limites; alterá-los aqui não afeta seus outros lares.",
   "buttons": {
     "save": "Salvar alterações",
-    "saved": "Salvo"
+    "saved": "Salvo",
+    "saving": "Salvando..."
   },
   "errors": {
-    "invalid": "Digite um valor maior que 0"
-  }
+    "invalid": "Digite um valor maior que 0",
+    "order": "O limite diário não pode superar o mensual",
+    "forbidden": "Você não tem permissão para alterar esses limites."
+  },
+  "loading": "Carregando limites...",
+  "error": "Não foi possível carregar os limites.",
+  "retry": "Tentar novamente"
 }

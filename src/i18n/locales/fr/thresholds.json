@@ -24,9 +24,15 @@
   "scopeNote": "Chaque maison conserve ses propres seuils ; les modifier ici n'affecte pas vos autres maisons.",
   "buttons": {
     "save": "Enregistrer les modifications",
-    "saved": "Enregistré"
+    "saved": "Enregistré",
+    "saving": "Enregistrement..."
   },
   "errors": {
-    "invalid": "Entrez une valeur supérieure à 0"
-  }
+    "invalid": "Entrez une valeur supérieure à 0",
+    "order": "Le seuil quotidien ne peut pas dépasser le seuil mensuel",
+    "forbidden": "Vous n'avez pas la permission de modifier ces seuils."
+  },
+  "loading": "Chargement des seuils...",
+  "error": "Impossible de charger les seuils.",
+  "retry": "Réessayer"
 }

@@ -9,7 +9,8 @@
     "member": "Membro"
   },
   "members": {
-    "title": "Membros do projeto"
+    "title": "Membros do projeto",
+    "empty": "Nenhum membro neste lar."
   },
   "invite": {
     "title": "Convidar usuário por e-mail",
@@ -30,5 +31,13 @@
   },
   "actions": {
     "removeUser": "Remover {{name}}"
+  },
+  "state": {
+    "loading": "Carregando membros...",
+    "error": "Não foi possível carregar os membros.",
+    "retry": "Tentar novamente"
+  },
+  "removeErrors": {
+    "conflict": "Este membro não pode ser removido."
   }
 }

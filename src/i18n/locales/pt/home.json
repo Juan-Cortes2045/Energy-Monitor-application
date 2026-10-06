@@ -23,10 +23,15 @@
   "buttons": {
     "copy": "Copiar código de acesso",
     "deleteHome": "Excluir lar",
-    "leaveHome": "Sair do lar"
+    "leaveHome": "Sair do lar",
+    "leaving": "Saindo..."
+  },
+  "errors": {
+    "lastOwner": "Você é o único responsável: não pode sair do lar."
   },
   "status": {
-    "responsible": "Responsável"
+    "responsible": "Responsável",
+    "you": "Você"
   },
   "confirm": {
     "leaveTitle": "Sair do lar?",
