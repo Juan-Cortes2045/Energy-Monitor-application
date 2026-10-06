@@ -132,16 +132,16 @@ const Account = ({ onClose }) => {
               </div>
 
               <div className={styles.row}>
-                <label className={styles.label}>{t("email")}</label>
-                <p className={styles.value}>Usuario001@email.com</p>
+                <label className={styles.label}>{t("lastName")}</label>
+                <p className={styles.value}>Apellido001</p>
                 <Button variant="primary" className={styles.btnEdit}>
                   <FiEdit3 />
                 </Button>
               </div>
 
               <div className={styles.row}>
-                <label className={styles.label}>{t("phone")}</label>
-                <p className={styles.value}>{t("noPhone")}</p>
+                <label className={styles.label}>{t("email")}</label>
+                <p className={styles.value}>Usuario001@email.com</p>
                 <Button variant="primary" className={styles.btnEdit}>
                   <FiEdit3 />
                 </Button>

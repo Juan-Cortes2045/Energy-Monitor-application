@@ -8,42 +8,47 @@ import { useTranslation } from "react-i18next";
 const mockUsers = [
   {
     id: 1,
-    name: "Carlos García",
+    name: "Carlos",
+    lastName: "García",
     email: "carlos.garcia@email.com",
     role: "owner",
   },
-  { id: 2, name: "Ana Martínez", email: "ana.m@email.com", role: "member" },
-  { id: 3, name: "Luis Pérez", email: "luis.perez@email.com", role: "member" },
+  { id: 2, name: "Ana", lastName: "Martínez", email: "ana.m@email.com", role: "member" },
+  { id: 3, name: "Luis", lastName: "Pérez", email: "luis.perez@email.com", role: "member" },
   {
     id: 4,
-    name: "Sofía Ramos",
+    name: "Sofía",
+    lastName: "Ramos",
     email: "sofia.ramos@empresa.co",
     role: "member",
   },
 ];
 
-const getInitials = (name = "") =>
-  name
-    .split(" ")
-    .slice(0, 2)
-    .map((w) => w[0]?.toUpperCase() ?? "")
+// El backend separa `name` y `lastName`; las iniciales se siguen tomando de los
+// dos para no perder la que aportaba el apellido dentro del nombre completo.
+const getInitials = (name = "", lastName = "") =>
+  [name, lastName]
+    .map((word) => word.trim().split(" ")[0]?.[0]?.toUpperCase() ?? "")
     .join("");
+
+const fullName = (user) =>
+  [user.name, user.lastName].filter(Boolean).join(" ");
 
 const AVATAR_COLORS = ["blue", "green", "amber", "purple"];
 
-const Avatar = ({ name, index }) => (
+const Avatar = ({ name, lastName, index }) => (
   <div
     className={`${styles.avatar} ${styles[`avatar_${AVATAR_COLORS[index % AVATAR_COLORS.length]}`]}`}
   >
-    {getInitials(name)}
+    {getInitials(name, lastName)}
   </div>
 );
 
 const UserRow = ({ user, index, isOwner, onRemove, t }) => (
   <div className={styles.userRow}>
-    <Avatar name={user.name} index={index} />
+    <Avatar name={user.name} lastName={user.lastName} index={index} />
     <div className={styles.userInfo}>
-      <p className={styles.userName}>{user.name}</p>
+      <p className={styles.userName}>{fullName(user)}</p>
       <p className={styles.userEmail}>{user.email}</p>
     </div>
     <span
@@ -58,7 +63,7 @@ const UserRow = ({ user, index, isOwner, onRemove, t }) => (
         type="button"
         className={styles.removeBtn}
         onClick={() => onRemove(user.id)}
-        aria-label={t("actions.removeUser", { name: user.name })}
+        aria-label={t("actions.removeUser", { name: fullName(user) })}
       >
         ×
       </button>

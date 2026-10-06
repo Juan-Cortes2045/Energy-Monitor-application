@@ -5,9 +5,8 @@
   "viewPhoto": "Ver foto",
   "delete": "Eliminar",
   "name": "Nombre",
+  "lastName": "Apellido",
   "email": "Correo",
-  "phone": "Teléfono",
-  "noPhone": "No tienes en el momento",
   "password": "Contraseña",
   "deleteQuestion": "¿Deseas eliminar tu cuenta?",
   "deleteAccount": "Eliminar cuenta"
