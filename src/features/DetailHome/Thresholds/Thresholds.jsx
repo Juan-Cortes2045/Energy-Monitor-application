@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Gauge, Info, Check, Lock } from "lucide-react";
 
@@ -6,88 +6,78 @@ import Card from "../../../design/components/Card/Card";
 import Button from "../../../design/components/Button/Button";
 import Input from "../../../design/components/Input/Input";
 import styles from "./Thresholds.module.css";
+import { useThresholds } from "../../home/hooks/useThresholds";
 
-const DEFAULT_THRESHOLDS = { daily: 10, monthly: 300 };
-
+/**
+ * Umbrales conectados al backend:
+ * - GET /homes/{id}/thresholds al montar
+ * - PUT /homes/{id}/thresholds al guardar (useSystemDefault pasa a false)
+ * - Solo OWNER puede editar; el 403 del servidor se muestra igual.
+ */
 const Thresholds = ({ home, isOwner = false }) => {
   const { t } = useTranslation("thresholds");
+  const homeId = home?.idHome;
+  const { thresholds, loading, error, reload, save } = useThresholds(homeId);
 
-  const [useDefaults, setUseDefaults] = useState(true);
-  const [periodicity, setPeriodicity] = useState("daily");
-  const [daily, setDaily] = useState(String(DEFAULT_THRESHOLDS.daily));
-  const [monthly, setMonthly] = useState(String(DEFAULT_THRESHOLDS.monthly));
+  const [daily, setDaily] = useState("");
+  const [monthly, setMonthly] = useState("");
   const [errors, setErrors] = useState({});
   const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [serverError, setServerError] = useState(null);
 
-  const isDaily = periodicity === "daily";
-
-  const calculatedValue = useMemo(() => {
-    if (isDaily) {
-      const num = Number(daily);
-      return !daily.trim() || Number.isNaN(num) || num <= 0 ? "" : String(Math.round(num * 30));
-    } else {
-      const num = Number(monthly);
-      return !monthly.trim() || Number.isNaN(num) || num <= 0 ? "" : (num / 30).toFixed(1).replace(/\.0$/, "");
-    }
-  }, [daily, monthly, isDaily]);
-
-  const handleToggleDefaults = () => {
-    if (!isOwner) return;
-    setUseDefaults((prev) => {
-      const next = !prev;
-      if (next) {
-        setDaily(String(DEFAULT_THRESHOLDS.daily));
-        setMonthly(String(DEFAULT_THRESHOLDS.monthly));
-        setErrors({});
-      }
-      return next;
-    });
-    setSaved(false);
-  };
-
-  const handlePeriodicityToggle = () => {
-    if (!isOwner || useDefaults) return;
-    setPeriodicity((prev) => (prev === "daily" ? "monthly" : "daily"));
-    setErrors({});
-    setSaved(false);
-  };
-
-  const handleActiveFieldChange = (e) => {
-    if (isDaily) {
-      setDaily(e.target.value);
-    } else {
-      setMonthly(e.target.value);
-    }
-    setSaved(false);
-  };
+  // Sincroniza los campos con los valores cargados
+  const loadedDaily = thresholds?.dailyLimit;
+  const loadedMonthly = thresholds?.monthlyLimit;
+  const syncedDaily = daily === "" && loadedDaily != null;
+  const syncedMonthly = monthly === "" && loadedMonthly != null;
+  const displayDaily = syncedDaily ? String(loadedDaily) : daily;
+  const displayMonthly = syncedMonthly ? String(loadedMonthly) : monthly;
 
   const validate = () => {
     const nextErrors = {};
-    if (isDaily) {
-      const dailyNum = Number(daily);
-      if (!daily.trim() || Number.isNaN(dailyNum) || dailyNum <= 0) {
-        nextErrors.daily = t("errors.invalid");
-      }
-    } else {
-      const monthlyNum = Number(monthly);
-      if (!monthly.trim() || Number.isNaN(monthlyNum) || monthlyNum <= 0) {
-        nextErrors.monthly = t("errors.invalid");
-      }
+    const d = Number(displayDaily);
+    const m = Number(displayMonthly);
+    if (!displayDaily.trim() || Number.isNaN(d) || d <= 0) {
+      nextErrors.daily = t("errors.invalid");
+    }
+    if (!displayMonthly.trim() || Number.isNaN(m) || m <= 0) {
+      nextErrors.monthly = t("errors.invalid");
+    }
+    if (!nextErrors.daily && !nextErrors.monthly && d > m) {
+      nextErrors.monthly = t("errors.order");
     }
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
   };
 
-  const handleSave = () => {
-    if (useDefaults) {
-      setSaved(true);
-      setTimeout(() => setSaved(false), 2000);
+  const handleSave = async () => {
+    if (!validate()) return;
+    setSaving(true);
+    setServerError(null);
+    setSaved(false);
+    const err = await save(Number(displayDaily), Number(displayMonthly));
+    setSaving(false);
+    if (err) {
+      setServerError(err);
       return;
     }
-    if (!validate()) return;
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
+
+  if (loading) {
+    return <p className={styles.infoNote} role="status">{t("loading")}</p>;
+  }
+
+  if (error) {
+    return (
+      <div className={styles.infoNote} role="alert">
+        <span>{t("error")}</span>
+        <Button variant="secondary" onClick={reload}>{t("retry")}</Button>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.page}>
@@ -105,9 +95,14 @@ const Thresholds = ({ home, isOwner = false }) => {
         </div>
       )}
 
+      {serverError && (
+        <div className={styles.readOnlyNotice} role="alert">
+          <span>{serverError.status === 403 ? t("errors.forbidden") : serverError.message}</span>
+        </div>
+      )}
+
       <Card>
         <div className={styles.container}>
-          {/* Toggle defaults */}
           <div className={styles.row}>
             <div className={styles.rowLeft}>
               <div className={styles.rowIcon}>
@@ -122,112 +117,65 @@ const Thresholds = ({ home, isOwner = false }) => {
             <div className={styles.rowRight}>
               <span
                 className={`${styles.status} ${
-                  useDefaults ? styles.active : styles.inactive
+                  thresholds?.useSystemDefault ? styles.active : styles.inactive
                 }`}
               >
-                {useDefaults ? t("defaults.on") : t("defaults.off")}
+                {thresholds?.useSystemDefault ? t("defaults.on") : t("defaults.off")}
               </span>
-              <button
-                type="button"
-                className={`${styles.switch} ${useDefaults ? styles.switchOn : ""}`}
-                onClick={handleToggleDefaults}
-                disabled={!isOwner}
-                aria-label={t("defaults.label")}
-              >
-                <span className={styles.thumb} />
-              </button>
             </div>
           </div>
 
           <div className={styles.divider} />
 
-          {/* Periodicity selector */}
-          {!useDefaults && (
-            <>
-              <div className={styles.row}>
-                <div className={styles.rowLeft}>
-                  <div>
-                    <h4>{t("periodicity.label")}</h4>
-                  </div>
-                </div>
-                <div className={styles.rowRight}>
-                  <span className={styles.periodicityLabel}>
-                    {isDaily ? t("periodicity.daily") : t("periodicity.monthly")}
-                  </span>
-                  <button
-                    type="button"
-                    className={`${styles.switch} ${!isDaily ? styles.switchOn : ""}`}
-                    onClick={handlePeriodicityToggle}
-                    disabled={!isOwner}
-                    aria-label={t("periodicity.label")}
-                  >
-                    <span className={styles.thumb} />
-                  </button>
-                </div>
-              </div>
-
-              <div className={styles.divider} />
-            </>
-          )}
-
-          {/* Threshold fields */}
           <div className={styles.fieldsGrid}>
-            {/* Daily field */}
             <div className={styles.field}>
               <Input
                 id="threshold-daily"
                 type="number"
                 min="0"
-                value={isDaily ? daily : calculatedValue}
-                onChange={isDaily ? handleActiveFieldChange : undefined}
-                disabled={useDefaults || !isOwner || !isDaily}
+                value={displayDaily}
+                onChange={(e) => setDaily(e.target.value)}
+                disabled={!isOwner}
                 placeholder="0"
               >
                 {t("fields.daily")}
               </Input>
               <span className={styles.unit}>{t("unit")}</span>
-              {!isDaily && !useDefaults && calculatedValue && (
-                <span className={styles.calculatedBadge}>{t("calculated")}</span>
-              )}
               {errors.daily && (
                 <span className={styles.errorMsg}>{errors.daily}</span>
               )}
             </div>
 
-            {/* Monthly field */}
             <div className={styles.field}>
               <Input
                 id="threshold-monthly"
                 type="number"
                 min="0"
-                value={isDaily ? calculatedValue : monthly}
-                onChange={!isDaily ? handleActiveFieldChange : undefined}
-                disabled={useDefaults || !isOwner || isDaily}
+                value={displayMonthly}
+                onChange={(e) => setMonthly(e.target.value)}
+                disabled={!isOwner}
                 placeholder="0"
               >
                 {t("fields.monthly")}
               </Input>
               <span className={styles.unit}>{t("unit")}</span>
-              {isDaily && !useDefaults && calculatedValue && (
-                <span className={styles.calculatedBadge}>{t("calculated")}</span>
-              )}
               {errors.monthly && (
                 <span className={styles.errorMsg}>{errors.monthly}</span>
               )}
             </div>
           </div>
 
+          {saved && (
+            <p role="status" className={styles.saved}>
+              <Check size={15} className={styles.icon} />
+              {t("buttons.saved")}
+            </p>
+          )}
+
           {isOwner && (
             <div className={styles.actions}>
-              <Button variant="primary" onClick={handleSave}>
-                {saved ? (
-                  <>
-                    <Check size={15} className={styles.icon} />
-                    {t("buttons.saved")}
-                  </>
-                ) : (
-                  t("buttons.save")
-                )}
+              <Button variant="primary" onClick={handleSave} disabled={saving}>
+                {saving ? t("buttons.saving") : t("buttons.save")}
               </Button>
             </div>
           )}

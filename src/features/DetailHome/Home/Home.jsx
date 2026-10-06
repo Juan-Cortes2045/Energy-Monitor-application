@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Building2,
   Home,
@@ -7,7 +8,6 @@ import {
   Mail,
   Phone,
   Copy,
-  Trash2,
   LogOut,
   Check,
 } from "lucide-react";
@@ -17,6 +17,7 @@ import ConfirmModal from "../../../components/shared/ConfirmModal/ConfirmModal";
 import { HOME_TYPES } from "../../shared/homeTypes";
 import styles from "./Home.module.css";
 import { useTranslation } from "react-i18next";
+import { useHomes } from "../../../context/useHomes";
 
 const HOME_TYPE_ICONS = {
   house: <Home size={12} />,
@@ -49,27 +50,33 @@ const Field = ({ label, fullWidth = false, children }) => (
   </div>
 );
 
-const HomeDetail = ({ home, isOwner = false, onLeave, onDelete }) => {
+/**
+ * Detalle de hogar conectado al backend.
+ * - accessCode y creationDate vienen de GET /homes.
+ * - Abandonar llama a DELETE /homes/{id}/members/me.
+ * - Eliminar hogar no existe en la API (brecha reportada): no se muestra.
+ */
+const HomeDetail = ({ home, isOwner = false }) => {
   const { t } = useTranslation("home");
   const { t: tTypes } = useTranslation("createHomeModal");
+  const { leaveHome } = useHomes();
+  const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
-  // Diálogo abierto: null | "leave" | "delete"
-  const [confirming, setConfirming] = useState(null);
+  const [confirming, setConfirming] = useState(false);
+  const [leaveError, setLeaveError] = useState(null);
+  const [leaving, setLeaving] = useState(false);
 
   const typeKey = HOME_TYPES.find((type) => type.id === home?.homeTypeId)?.key;
-  const typeLabel = typeKey
-    ? typeKey === "other" && home.otherHomeType
-      ? home.otherHomeType
-      : tTypes(`homeTypes.${typeKey}`)
-    : "";
+  const typeLabel = typeKey ? tTypes(`homeTypes.${typeKey}`) : "";
 
   const data = {
     name: home?.name ?? "",
     address: home?.address ?? "",
     description: home?.description ?? "",
-    access_code: "",
-    creation_date: null,
-    responsible: { name: home?.userResponsible ?? "", email: "", cellphone: "" },
+    access_code: home?.accessCode ?? "",
+    creation_date: home?.creationDate ?? null,
+    // La API no expone nombre del responsable, solo el id de usuario.
+    responsible: { name: home?.role === "OWNER" ? t("status.you") : "", email: "", cellphone: "" },
   };
 
   const handleCopy = () => {
@@ -80,10 +87,18 @@ const HomeDetail = ({ home, isOwner = false, onLeave, onDelete }) => {
     });
   };
 
-  const handleConfirm = () => {
-    const action = confirming === "leave" ? onLeave : onDelete;
-    setConfirming(null);
-    action?.();
+  const handleLeave = async () => {
+    setConfirming(false);
+    setLeaving(true);
+    setLeaveError(null);
+    const err = await leaveHome(home.idHome);
+    setLeaving(false);
+    if (err) {
+      // 409: el único OWNER no puede abandonar el hogar
+      setLeaveError(err);
+      return;
+    }
+    navigate("/dashboard");
   };
 
   return (
@@ -157,18 +172,19 @@ const HomeDetail = ({ home, isOwner = false, onLeave, onDelete }) => {
             ) : null}
           </div>
 
+          {leaveError && (
+            <p className={styles.errorText} role="alert">
+              {leaveError.status === 409
+                ? t("errors.lastOwner")
+                : leaveError.message}
+            </p>
+          )}
+
           <div className={styles.actionRow}>
-            {isOwner ? (
-              <Button variant="Danger" onClick={() => setConfirming("delete")}>
-                <Trash2 size={15} className={styles.icon} />
-                {t("buttons.deleteHome")}
-              </Button>
-            ) : (
-              <Button variant="Danger" onClick={() => setConfirming("leave")}>
-                <LogOut size={15} className={styles.icon} />
-                {t("buttons.leaveHome")}
-              </Button>
-            )}
+            <Button variant="Danger" onClick={() => setConfirming(true)} disabled={leaving}>
+              <LogOut size={15} className={styles.icon} />
+              {leaving ? t("buttons.leaving") : t("buttons.leaveHome")}
+            </Button>
           </div>
         </div>
       </Card>
@@ -215,14 +231,12 @@ const HomeDetail = ({ home, isOwner = false, onLeave, onDelete }) => {
 
       {confirming && (
         <ConfirmModal
-          title={t(`confirm.${confirming}Title`)}
-          message={t(`confirm.${confirming}`)}
-          confirmLabel={t(
-            confirming === "leave" ? "buttons.leaveHome" : "buttons.deleteHome",
-          )}
+          title={t("confirm.leaveTitle")}
+          message={t("confirm.leave")}
+          confirmLabel={t("buttons.leaveHome")}
           cancelLabel={t("confirm.cancel")}
-          onConfirm={handleConfirm}
-          onCancel={() => setConfirming(null)}
+          onConfirm={handleLeave}
+          onCancel={() => setConfirming(false)}
         />
       )}
     </div>

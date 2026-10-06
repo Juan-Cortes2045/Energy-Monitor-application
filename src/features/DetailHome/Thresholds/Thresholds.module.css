@@ -221,6 +221,14 @@
   margin-right: 4px;
 }
 
+.saved {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-xs);
+  color: var(--color-success, var(--color-primary));
+}
+
 /* ── Nota de alcance ─────────────────────────────────────────────── */
 .infoNote {
   display: flex;

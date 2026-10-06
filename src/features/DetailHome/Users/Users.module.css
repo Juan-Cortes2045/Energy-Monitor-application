@@ -88,6 +88,13 @@
 }
 
 /* ── Lista de usuarios / pendientes ──────────────────────────────── */
+.state {
+  padding: var(--spacing-md);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
 .listBlock {
   display: flex;
   flex-direction: column;

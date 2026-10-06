@@ -2,7 +2,7 @@ import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Home } from "lucide-react";
 
-import { useHomes } from "../context/HomeContext";
+import { useHomes } from "../context/useHomes";
 import Button from "../design/components/Button/Button";
 import styles from "./HomeRoute.module.css";
 
@@ -23,16 +23,24 @@ const HomeNotFound = () => {
 };
 
 const HomeRoute = () => {
+  const { t } = useTranslation("homeNotFound");
   const { homeId } = useParams();
-  const { homes } = useHomes();
+  const { homes, loading, error, reload } = useHomes();
 
-  // useParams devuelve string y los ids actuales son números: se normalizan
-  // ambos lados a string.
-  const home = homes.find((h) => String(h.id) === String(homeId));
+  // useParams devuelve string; los idHome del backend también: se comparan tal cual.
+  const home = homes.find((h) => String(h.idHome) === String(homeId));
 
+  if (loading) return <p className={styles.loading} role="status">{t("loading")}</p>;
+  if (error)
+    return (
+      <div className={styles.notFound} role="alert">
+        <p>{error.message}</p>
+        <Button variant="primary" onClick={reload}>{t("retry")}</Button>
+      </div>
+    );
   if (!home) return <HomeNotFound />;
 
-  return <Outlet context={{ home, isOwner: home.variant === "owned" }} />;
+  return <Outlet context={{ home, isOwner: home.role === "OWNER" }} />;
 };
 
 export default HomeRoute;

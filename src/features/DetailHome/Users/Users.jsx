@@ -1,26 +1,9 @@
 import { useState } from "react";
 import Card from "../../../design/components/Card/Card";
-import Button from "../../../design/components/Button/Button";
-import Input from "../../../design/components/Input/Input";
 import styles from "./Users.module.css";
 import { useTranslation } from "react-i18next";
-
-const mockUsers = [
-  {
-    id: 1,
-    name: "Carlos García",
-    email: "carlos.garcia@email.com",
-    role: "owner",
-  },
-  { id: 2, name: "Ana Martínez", email: "ana.m@email.com", role: "member" },
-  { id: 3, name: "Luis Pérez", email: "luis.perez@email.com", role: "member" },
-  {
-    id: 4,
-    name: "Sofía Ramos",
-    email: "sofia.ramos@empresa.co",
-    role: "member",
-  },
-];
+import { useMembers } from "../../home/hooks/useMembers";
+import { useHomes } from "../../../context/useHomes";
 
 const getInitials = (name = "") =>
   name
@@ -39,64 +22,25 @@ const Avatar = ({ name, index }) => (
   </div>
 );
 
-const UserRow = ({ user, index, isOwner, onRemove, t }) => (
-  <div className={styles.userRow}>
-    <Avatar name={user.name} index={index} />
-    <div className={styles.userInfo}>
-      <p className={styles.userName}>{user.name}</p>
-      <p className={styles.userEmail}>{user.email}</p>
-    </div>
-    <span
-      className={`${styles.badge} ${
-        user.role === "owner" ? styles.badgeOwner : styles.badgeMember
-      }`}
-    >
-      {user.role === "owner" ? t("roles.owner") : t("roles.member")}
-    </span>
-    {isOwner && user.role !== "owner" && (
-      <button
-        type="button"
-        className={styles.removeBtn}
-        onClick={() => onRemove(user.id)}
-        aria-label={t("actions.removeUser", { name: user.name })}
-      >
-        ×
-      </button>
-    )}
-  </div>
-);
-
-const Users = ({ home, isOwner = false }) => { 
+/**
+ * Miembros conectados al backend:
+ * - GET /homes/{id}/members al montar
+ * - DELETE /homes/{id}/members/{userId} para remover (solo OWNER)
+ * La API no expone nombres ni invitaciones: se muestra el userId.
+ */
+const Users = ({ home, isOwner = false }) => {
   const { t } = useTranslation("users");
+  const { removeMember } = useHomes();
+  const { members, loading, error, reload } = useMembers(home?.idHome);
+  const [removingId, setRemovingId] = useState(null);
+  const [removeError, setRemoveError] = useState(null);
 
-  const [users, setUsers] = useState(mockUsers);
-  const [pending, setPending] = useState([]);
-  const [inviteEmail, setInviteEmail] = useState("");
-  const [inviteError, setInviteError] = useState("");
-
-  const handleInvite = () => {
-    const email = inviteEmail.trim().toLowerCase();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!email) return setInviteError(t("invite.errors.empty"));
-    if (!emailRegex.test(email))
-      return setInviteError(t("invite.errors.invalid"));
-    if (users.some((u) => u.email === email))
-      return setInviteError(t("invite.errors.alreadyMember"));
-    if (pending.some((p) => p.email === email))
-      return setInviteError(t("invite.errors.alreadyInvited"));
-
-    setPending((prev) => [...prev, { id: Date.now(), email }]);
-    setInviteEmail("");
-    setInviteError("");
-  };
-
-  const handleCancelInvite = (id) => {
-    setPending((prev) => prev.filter((p) => p.id !== id));
-  };
-
-  const handleRemove = (userId) => {
-    setUsers((prev) => prev.filter((u) => u.id !== userId));
+  const handleRemove = async (userId) => {
+    setRemovingId(userId);
+    setRemoveError(null);
+    const err = await removeMember(home.idHome, userId);
+    setRemovingId(null);
+    if (err) setRemoveError(err);
   };
 
   return (
@@ -104,91 +48,62 @@ const Users = ({ home, isOwner = false }) => {
       <div className={styles.sectionHeader}>
         <h2 className={styles.sectionTitle}>{t("header.title")}</h2>
         <p className={styles.sectionSub}>
-          {t("header.membersCount", { count: users.length })}
+          {t("header.membersCount", { count: members.length })}
         </p>
       </div>
 
-      <div className={styles.cardMembers}>
-        <Card>
-          <div className={styles.listBlock}>
-            <p className={styles.blockTitle}>{t("members.title")}</p>
-            <div className={styles.userList}>
-              {users.map((user, i) => (
-                <UserRow
-                  key={user.id}
-                  user={user}
-                  index={i}
-                  isOwner={isOwner}
-                  onRemove={handleRemove}
-                  t={t}
-                />
-              ))}
-            </div>
-          </div>
-        </Card>
-      </div>
+      {loading && <p className={styles.state} role="status">{t("state.loading")}</p>}
 
-      {isOwner && (
-        <div className={styles.cardInvite}>
-          <Card>
-            <div className={styles.inviteBlock}>
-              <p className={styles.blockTitle}>{t("invite.title")}</p>
-              <div className={styles.inviteRow}>
-                <div className={styles.inviteInputWrap}>
-                  <Input
-                    id="invite-email"
-                    type="email"
-                    value={inviteEmail}
-                    placeholder={t("invite.placeholder")}
-                    onChange={(e) => {
-                      setInviteEmail(e.target.value);
-                      setInviteError("");
-                    }}
-                    onKeyDown={(e) => e.key === "Enter" && handleInvite()}
-                  />
-                </div>
-                <Button variant="primary" onClick={handleInvite}>
-                  {t("invite.button")}
-                </Button>
-              </div>
-              {inviteError && (
-                <p className={styles.inviteError}>{inviteError}</p>
-              )}
-            </div>
-          </Card>
+      {error && (
+        <div className={styles.state} role="alert">
+          <p>{t("state.error")}</p>
+          <button type="button" onClick={reload}>{t("state.retry")}</button>
         </div>
       )}
 
-      {isOwner && (
-        <div className={styles.cardPending}>
+      {!loading && !error && (
+        <div className={styles.cardMembers}>
           <Card>
             <div className={styles.listBlock}>
-              <p className={styles.blockTitle}>{t("pending.title")}</p>
-              {pending.length === 0 ? (
-                <div className={styles.emptyPending}>{t("pending.empty")}</div>
-              ) : (
-                <div className={styles.userList}>
-                  {pending.map((p) => (
-                    <div key={p.id} className={styles.pendingRow}>
-                      <div className={`${styles.avatar} ${styles.avatar_gray}`}>
-                        ✉
-                      </div>
-                      <div className={styles.userInfo}>
-                        <p className={styles.userEmail}>{p.email}</p>
-                        <p className={styles.pendingLabel}>
-                          {t("pending.sent")}
-                        </p>
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="small"
-                        onClick={() => handleCancelInvite(p.id)}
-                      >
-                        {t("pending.cancel")}
-                      </Button>
+              <p className={styles.blockTitle}>{t("members.title")}</p>
+              {members.length === 0 && (
+                <p className={styles.state}>{t("members.empty")}</p>
+              )}
+              <div className={styles.userList}>
+                {members.map((user, i) => (
+                  <div key={user.userId} className={styles.userRow}>
+                    <Avatar name={user.userId} index={i} />
+                    <div className={styles.userInfo}>
+                      <p className={styles.userName}>{user.userId}</p>
+                      <p className={styles.userEmail}>{user.userId}</p>
                     </div>
-                  ))}
-                </div>
+                    <span
+                      className={`${styles.badge} ${
+                        user.role === "OWNER" ? styles.badgeOwner : styles.badgeMember
+                      }`}
+                    >
+                      {user.role === "OWNER" ? t("roles.owner") : t("roles.member")}
+                    </span>
+                    {isOwner && user.role !== "OWNER" && (
+                      <button
+                        type="button"
+                        className={styles.removeBtn}
+                        onClick={() => handleRemove(user.userId)}
+                        disabled={removingId === user.userId}
+                        aria-label={t("actions.removeUser", { name: user.userId })}
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+              {removeError && (
+                <p className={styles.inviteError} role="alert">
+                  {removeError.status === 409
+                    ? t("removeErrors.conflict")
+                    : removeError.message}
+                </p>
               )}
             </div>
           </Card>
