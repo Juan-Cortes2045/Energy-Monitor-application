@@ -10,8 +10,7 @@
     "address": "Endereço",
     "description": "Descrição",
     "creationDate": "Data de criação",
-    "email": "E-mail",
-    "phone": "Telefone"
+    "email": "E-mail"
   },
   "placeholders": {
     "empty": "—",
