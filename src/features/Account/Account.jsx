@@ -5,6 +5,10 @@ import { useTranslation } from "react-i18next";
 
 import Card from "../../design/components/Card/Card";
 import Button from "../../design/components/Button/Button";
+import { getSession } from "../../services/auth/session";
+import { updateProfile } from "../../services/auth/authApi";
+import ChangePasswordModal from "./ChangePasswordModal";
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import styles from "./Account.module.css";
 
 const Account = ({ onClose }) => {
@@ -13,6 +17,58 @@ const Account = ({ onClose }) => {
   const wrapperRef = useRef(null);
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
+
+  // GET /auth/account no trae nombre/apellido: se muestran los guardados en la sesión.
+  const saved = {
+    name: getSession()?.profile?.name ?? "",
+    lastName: getSession()?.profile?.lastName ?? "",
+    email: getSession()?.account?.email ?? "",
+  };
+  const [values, setValues] = useState(saved);
+  const [draft, setDraft] = useState(saved);
+  const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState({ type: "", text: "" });
+  const [modal, setModal] = useState(null); // null | "password" | "delete"
+
+  const startEdit = () => {
+    setDraft(values);
+    setMessage({ type: "", text: "" });
+    setEditing(true);
+  };
+
+  const handleSave = async () => {
+    const name = draft.name.trim();
+    const lastName = draft.lastName.trim();
+    const email = draft.email.trim();
+    if (!name || !lastName) {
+      return setMessage({ type: "error", text: t("nameRequired") });
+    }
+    setSaving(true);
+    try {
+      await updateProfile({
+        name,
+        lastName,
+        newEmail: email && email !== values.email ? email : undefined,
+      });
+      setValues({ name, lastName, email: email || values.email });
+      setEditing(false);
+      setMessage({ type: "ok", text: t("saved") });
+    } catch (e) {
+      setMessage({
+        type: "error",
+        text: e.status === 409 ? t("emailTaken") : t("profileError"),
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const fields = [
+    ["name", "name", "text"],
+    ["lastName", "lastName", "text"],
+    ["email", "email", "email"],
+  ];
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -123,38 +179,65 @@ const Account = ({ onClose }) => {
 
             {/* ── Campos de información ─────────────────────────────── */}
             <div className={styles.form}>
-              <div className={styles.row}>
-                <label className={styles.label}>{t("name")}</label>
-                <p className={styles.value}>Usuario001</p>
-                <Button variant="primary" className={styles.btnEdit}>
-                  <FiEdit3 />
-                </Button>
-              </div>
-
-              <div className={styles.row}>
-                <label className={styles.label}>{t("lastName")}</label>
-                <p className={styles.value}>Apellido001</p>
-                <Button variant="primary" className={styles.btnEdit}>
-                  <FiEdit3 />
-                </Button>
-              </div>
-
-              <div className={styles.row}>
-                <label className={styles.label}>{t("email")}</label>
-                <p className={styles.value}>Usuario001@email.com</p>
-                <Button variant="primary" className={styles.btnEdit}>
-                  <FiEdit3 />
-                </Button>
-              </div>
+              {fields.map(([key, label, type]) => (
+                <div className={styles.row} key={key}>
+                  <label className={styles.label} htmlFor={`field-${key}`}>
+                    {t(label)}
+                  </label>
+                  {editing ? (
+                    <input
+                      id={`field-${key}`}
+                      type={type}
+                      className={styles.input}
+                      value={draft[key]}
+                      maxLength={key === "email" ? 255 : 100}
+                      onChange={(e) => setDraft({ ...draft, [key]: e.target.value })}
+                    />
+                  ) : (
+                    <p className={styles.value}>{values[key] || "—"}</p>
+                  )}
+                  <Button
+                    variant="primary"
+                    className={styles.btnEdit}
+                    onClick={startEdit}
+                    disabled={editing}
+                  >
+                    <FiEdit3 aria-label={t("edit")} />
+                  </Button>
+                </div>
+              ))}
 
               <div className={styles.row}>
                 <label className={styles.label}>{t("password")}</label>
                 <p className={styles.value}>••••••••</p>
-                <Button variant="primary" className={styles.btnEdit}>
+                <Button
+                  variant="primary"
+                  className={styles.btnEdit}
+                  onClick={() => setModal("password")}
+                >
                   <FiEdit3 />
                 </Button>
               </div>
             </div>
+
+            {editing && (
+              <div className={styles.editActions}>
+                <Button variant="secondary" onClick={() => setEditing(false)}>
+                  {t("cancel")}
+                </Button>
+                <Button variant="primary" onClick={handleSave} disabled={saving}>
+                  {t("save")}
+                </Button>
+              </div>
+            )}
+            {message.text && (
+              <p
+                role="status"
+                className={message.type === "error" ? styles.msgError : styles.msgOk}
+              >
+                {message.text}
+              </p>
+            )}
 
             {/* ── Eliminar cuenta ───────────────────────────────────── */}
             <div className={styles.deleteSection}>
@@ -163,6 +246,7 @@ const Account = ({ onClose }) => {
                 variant="secondary"
                 className={styles.btnDelete}
                 style={{ color: "var(--color-danger)" }}
+                onClick={() => setModal("delete")}
               >
                 {t("deleteAccount")}
               </Button>
@@ -170,6 +254,26 @@ const Account = ({ onClose }) => {
           </div>
         </Card>
       </div>
+
+      {modal === "password" && (
+        <ChangePasswordModal
+          onClose={() => setModal(null)}
+          onDone={() => {
+            setModal(null);
+            setMessage({ type: "ok", text: t("changePassword.success") });
+          }}
+        />
+      )}
+      {modal === "delete" && (
+        <ConfirmDeleteModal
+          onClose={() => setModal(null)}
+          // TODO: el backend aún no expone eliminación de cuenta; conectar aquí cuando exista.
+          onConfirm={() => {
+            setModal(null);
+            setMessage({ type: "error", text: t("deleteModal.unavailable") });
+          }}
+        />
+      )}
     </div>
   );
 };

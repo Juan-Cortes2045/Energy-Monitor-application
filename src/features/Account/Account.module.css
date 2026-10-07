@@ -316,3 +316,44 @@
     font-size: 84px;
   }
 }
+
+/* ── Edición ────────────────────────────────────────────────── */
+.input {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 6px var(--spacing-sm);
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.editActions {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  width: 100%;
+}
+
+.msgOk,
+.msgError {
+  font-size: var(--font-size-sm);
+  margin: 0;
+  text-align: center;
+}
+
+.msgOk {
+  color: var(--color-success-text);
+}
+
+.msgError {
+  color: var(--color-danger);
+}
