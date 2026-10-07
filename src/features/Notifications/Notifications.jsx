@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Bell,
@@ -12,41 +12,11 @@ import {
 
 import Header from "../../design/components/Header/Header";
 import Card from "../../design/components/Card/Card";
+import { useHomes } from "../../context/useHomes";
+import { listAlerts, resolveAlert, toUiAlert } from "./alertApi";
 import styles from "./Notifications.module.css";
 
-const INITIAL_ALERTS = [
-  {
-    id: "a1",
-    kind: "alert",
-    type: "threshold",
-    severity: "critical",
-    key: "threshold.dailyExceeded",
-    home: "Casa Principal",
-    date: "2026-07-07T09:12:00",
-    resolved: false,
-  },
-  {
-    id: "a2",
-    kind: "alert",
-    type: "connectivity",
-    severity: "warning",
-    key: "connectivity.deviceOffline",
-    home: "Casa Principal",
-    date: "2026-07-06T22:40:00",
-    resolved: false,
-  },
-  {
-    id: "a3",
-    kind: "alert",
-    type: "threshold",
-    severity: "warning",
-    key: "threshold.monthlyApproaching",
-    home: "Oficina Norte",
-    date: "2026-07-05T18:05:00",
-    resolved: true,
-  },
-];
-
+// TODO: el backend aún no expone recomendaciones; estos datos son de ejemplo.
 // ── Recomendaciones generadas a partir del comportamiento de consumo
 // detectado, incluso sin situaciones críticas (ERF4.4). ──
 const INITIAL_RECOMMENDATIONS = [
@@ -86,13 +56,14 @@ const INITIAL_RECOMMENDATIONS = [
 
 const TABS = ["all", "alerts", "recommendations"];
 
-const getAlertIcon = (alert) => {
-  if (alert.type === "connectivity") return WifiOff;
-  return alert.severity === "critical" ? Zap : AlertTriangle;
+const ALERT_ICONS = {
+  connectivity: WifiOff,
+  critical: Zap,
+  warning: AlertTriangle,
 };
 
-const AlertRow = ({ alert, t, formatDate }) => {
-  const Icon = getAlertIcon(alert);
+const AlertRow = ({ alert, t, formatDate, onResolve }) => {
+  const Icon = ALERT_ICONS[alert.type === "connectivity" ? "connectivity" : alert.severity];
 
   return (
     <div className={`${styles.row} ${alert.resolved ? styles.rowMuted : ""}`}>
@@ -130,6 +101,19 @@ const AlertRow = ({ alert, t, formatDate }) => {
           <span>{formatDate(alert.date)}</span>
         </div>
       </div>
+
+      {!alert.resolved && (
+        <div className={styles.rowActions}>
+          <button
+            type="button"
+            className={styles.actionBtn}
+            onClick={() => onResolve(alert.id)}
+          >
+            <Check size={13} />
+            {t("status.resolved")}
+          </button>
+        </div>
+      )}
     </div>
   );
 };
@@ -182,9 +166,29 @@ const RecommendationRow = ({ recommendation, t, formatDate, onMarkRead }) => (
 
 const Notifications = () => {
   const { t, i18n } = useTranslation("notifications");
-  const [alerts] = useState(INITIAL_ALERTS);
+  const { homes } = useHomes();
+  const [alerts, setAlerts] = useState([]);
   const [recommendations, setRecommendations] = useState(INITIAL_RECOMMENDATIONS);
   const [activeTab, setActiveTab] = useState("all");
+
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all(
+      homes.map((h) =>
+        listAlerts(h.idHome)
+          .then((list) => list.map((a) => toUiAlert(a, h.name)))
+          .catch(() => []),
+      ),
+    ).then((lists) => !cancelled && setAlerts(lists.flat()));
+    return () => {
+      cancelled = true;
+    };
+  }, [homes]);
+
+  const handleResolve = async (id) => {
+    await resolveAlert(id);
+    setAlerts((prev) => prev.map((a) => (a.id === id ? { ...a, resolved: true } : a)));
+  };
 
   const breadcrumbItems = [
     { label: t("breadcrumb.home"), path: "/dashboard" },
@@ -300,6 +304,7 @@ const Notifications = () => {
                       alert={item}
                       t={t}
                       formatDate={formatDate}
+                      onResolve={handleResolve}
                     />
                   ) : (
                     <RecommendationRow
