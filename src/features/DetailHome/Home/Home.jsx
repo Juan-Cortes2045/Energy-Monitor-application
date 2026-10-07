@@ -16,6 +16,7 @@ import ConfirmModal from "../../../components/shared/ConfirmModal/ConfirmModal";
 import { HOME_TYPES } from "../../shared/homeTypes";
 import styles from "./Home.module.css";
 import { useTranslation } from "react-i18next";
+import { getCurrentPerson } from "../../../services/auth/session";
 import { useHomes } from "../../../context/useHomes";
 
 const HOME_TYPE_ICONS = {
@@ -70,24 +71,19 @@ const HomeDetail = ({ home, isOwner = false }) => {
   const typeKey = HOME_TYPES.find((type) => type.id === home?.homeTypeId)?.key;
   const typeLabel = typeKey ? tTypes(`homeTypes.${typeKey}`) : "";
 
+  // El backend manda al responsable en userResponsible*; si faltan y el usuario en
+  // sesión es el responsable, se usan sus datos de sesión.
+  const me = home?.role === "OWNER" ? getCurrentPerson() : null;
   const data = {
     name: home?.name ?? "",
     address: home?.address ?? "",
     description: home?.description ?? "",
-    access_code: "",
-    creation_date: null,
-    responsible: {
-      name: home?.userResponsible ?? "",
-      lastName: home?.userResponsibleLastName ?? "",
-      email: "",
-    },
     access_code: home?.accessCode ?? "",
     creation_date: home?.creationDate ?? null,
-    // La API no expone nombre del responsable, solo el id de usuario.
     responsible: {
-      name: home?.role === "OWNER" ? t("status.you") : "",
-      email: "",
-      cellphone: "",
+      name: home?.userResponsible || me?.name || "",
+      lastName: home?.userResponsibleLastName || me?.lastName || "",
+      email: home?.userResponsibleEmail || me?.email || "",
     },
   };
 
