@@ -1,3 +1,4 @@
+import ErrorState from "../components/shared/ErrorState/ErrorState";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Home } from "lucide-react";
@@ -31,13 +32,7 @@ const HomeRoute = () => {
   const home = homes.find((h) => String(h.idHome) === String(homeId));
 
   if (loading) return <p className={styles.loading} role="status">{t("loading")}</p>;
-  if (error)
-    return (
-      <div className={styles.notFound} role="alert">
-        <p>{error.message}</p>
-        <Button variant="primary" onClick={reload}>{t("retry")}</Button>
-      </div>
-    );
+  if (error) return <ErrorState error={error} onRetry={reload} />;
   if (!home) return <HomeNotFound />;
 
   return <Outlet context={{ home, isOwner: home.role === "OWNER" }} />;

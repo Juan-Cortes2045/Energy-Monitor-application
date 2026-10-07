@@ -1,3 +1,4 @@
+import ErrorState from "../../../components/shared/ErrorState/ErrorState";
 import { useState } from "react";
 import Card from "../../../design/components/Card/Card";
 import styles from "./Users.module.css";
@@ -119,14 +120,7 @@ const Users = ({ home, isOwner = false }) => {
           </p>
         )}
 
-        {error && (
-          <div className={styles.state} role="alert">
-            <p>{t("state.error")}</p>
-            <button type="button" onClick={reload}>
-              {t("state.retry")}
-            </button>
-          </div>
-        )}
+        {error && <ErrorState error={error} onRetry={reload} />}
 
         {!loading && !error && (
           <div className={styles.cardMembers}>

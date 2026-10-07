@@ -1,3 +1,4 @@
+import ErrorState from "../../components/shared/ErrorState/ErrorState";
 import styles from "./Favorites.module.css";
 import Header from "../../design/components/Header/Header";
 import HomeCard from "../dashboard/components/HomeCard/HomeCard";
@@ -9,7 +10,7 @@ import { useHomes } from "../../context/useHomes";
 const Favorites = () => {
   const { t } = useTranslation("favorites");
   const navigate = useNavigate();
-  const { homes, setFavorite } = useHomes();
+  const { homes, error, reload, setFavorite } = useHomes();
   const breadcrumbItems = [
     { label: t("favorites.breadcrumb.home"), path: "/dashboard" },
     { label: t("favorites.breadcrumb.current") },
@@ -28,7 +29,9 @@ const Favorites = () => {
         </div>
 
         <div className={styles.gridBox}>
-          {favoriteHomes.length === 0 ? (
+          {error ? (
+            <ErrorState error={error} onRetry={reload} />
+          ) : favoriteHomes.length === 0 ? (
             <div className={styles.emptyState}>
               <Heart size={40} className={styles.emptyIcon} />
               <p className={styles.emptyTitle}>{t("favorites.empty.title")}</p>

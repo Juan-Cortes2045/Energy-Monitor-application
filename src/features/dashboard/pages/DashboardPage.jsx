@@ -1,3 +1,4 @@
+import ErrorState from "../../../components/shared/ErrorState/ErrorState";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./DashboardPage.module.css";
@@ -98,12 +99,7 @@ const DashboardPage = () => {
 
         {loading && <p className={styles.state} role="status">{t("state.loading")}</p>}
 
-        {error && (
-          <div className={styles.state} role="alert">
-            <p>{t("state.error")}</p>
-            <button type="button" onClick={reload}>{t("state.retry")}</button>
-          </div>
-        )}
+        {error && <ErrorState error={error} onRetry={reload} />}
 
         {!loading && !error && homes.length === 0 && (
           <EmptyState
