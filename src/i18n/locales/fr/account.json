@@ -30,6 +30,10 @@
     "title": "Supprimer le compte",
     "message": "Cette action est définitive : vous perdrez l'accès à votre compte et à vos données. Voulez-vous vraiment continuer ?",
     "confirm": "Oui, supprimer",
-    "unavailable": "La suppression du compte n'est pas encore disponible."
-  }
+    "password": "Confirmez votre mot de passe",
+    "wrongPassword": "Le mot de passe est incorrect.",
+    "error": "Impossible de supprimer le compte. Réessayez."
+  },
+  "photoSaved": "Photo mise à jour.",
+  "photoError": "Impossible d'enregistrer la photo. Réessayez."
 }

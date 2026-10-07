@@ -30,6 +30,10 @@
     "title": "Eliminar cuenta",
     "message": "Esta acción es permanente: perderás el acceso a tu cuenta y a tus datos. ¿Seguro que quieres continuar?",
     "confirm": "Sí, eliminar",
-    "unavailable": "La eliminación de cuenta aún no está disponible."
-  }
+    "password": "Confirma tu contraseña",
+    "wrongPassword": "La contraseña no es correcta.",
+    "error": "No pudimos eliminar la cuenta. Intenta de nuevo."
+  },
+  "photoSaved": "Foto actualizada.",
+  "photoError": "No pudimos guardar la foto. Intenta de nuevo."
 }

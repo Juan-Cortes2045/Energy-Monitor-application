@@ -1,12 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { VscAccount } from "react-icons/vsc";
 import { FiEdit3 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import Card from "../../design/components/Card/Card";
 import Button from "../../design/components/Button/Button";
-import { getSession } from "../../services/auth/session";
-import { updateProfile } from "../../services/auth/authApi";
+import { useCurrentPerson } from "../../services/auth/useCurrentPerson";
+import { deleteAccount, refreshProfile, updateProfile } from "../../services/auth/authApi";
+import { resizeImage } from "./resizeImage";
 import ChangePasswordModal from "./ChangePasswordModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import styles from "./Account.module.css";
@@ -15,17 +17,19 @@ const Account = ({ onClose }) => {
   const { t } = useTranslation("account");
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
-  const [image, setImage] = useState(null);
+  const navigate = useNavigate();
+  const [deleteError, setDeleteError] = useState("");
   const fileInputRef = useRef(null);
 
-  // GET /auth/account no trae nombre/apellido: se muestran los guardados en la sesión.
-  const saved = {
-    name: getSession()?.profile?.name ?? "",
-    lastName: getSession()?.profile?.lastName ?? "",
-    email: getSession()?.account?.email ?? "",
+  // Datos del usuario en sesión (reactivos): se refrescan al abrir con el backend.
+  const person = useCurrentPerson();
+  const values = {
+    name: person?.name ?? "",
+    lastName: person?.lastName ?? "",
+    email: person?.email ?? "",
   };
-  const [values, setValues] = useState(saved);
-  const [draft, setDraft] = useState(saved);
+  const image = person?.profileImage ?? null;
+  const [draft, setDraft] = useState(values);
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
@@ -46,7 +50,6 @@ const Account = ({ onClose }) => {
     setSaving(true);
     try {
       await updateProfile({ name, lastName });
-      setValues((v) => ({ ...v, name, lastName }));
       setEditing(false);
       setMessage({ type: "ok", text: t("saved") });
     } catch {
@@ -62,10 +65,50 @@ const Account = ({ onClose }) => {
     ["lastName", "lastName"],
   ];
 
-  const handleImageChange = (e) => {
+  useEffect(() => {
+    refreshProfile().catch(() => {}); // sin conexión: se queda con lo guardado en la sesión
+  }, []);
+
+  const savePhoto = async (profileImage) => {
+    setMessage({ type: "", text: "" });
+    try {
+      await updateProfile({ profileImage });
+      setMessage({ type: "ok", text: t("photoSaved") });
+    } catch {
+      setMessage({ type: "error", text: t("photoError") });
+    }
+  };
+
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setImage(URL.createObjectURL(file));
+    e.target.value = ""; // permite volver a elegir el mismo archivo
+    if (!file) return;
+    try {
+      await savePhoto(await resizeImage(file));
+    } catch {
+      setMessage({ type: "error", text: t("photoError") });
+    }
+  };
+
+  const viewPhoto = async () => {
+    if (!image) return;
+    const blob = await (await fetch(image)).blob(); // los data-URL no abren en pestaña nueva
+    window.open(URL.createObjectURL(blob));
+  };
+
+  const handleDeleteAccount = async (password) => {
+    setDeleteError("");
+    try {
+      await deleteAccount(password);
+      navigate("/login", { replace: true, state: { notice: "accountDeleted" } });
+    } catch (e) {
+      setDeleteError(
+        e.status === 401
+          ? t("deleteModal.wrongPassword")
+          : e.status === 409
+            ? e.message
+            : t("deleteModal.error"),
+      );
     }
   };
 
@@ -149,7 +192,7 @@ const Account = ({ onClose }) => {
 
                   <li
                     onClick={() => {
-                      if (image) window.open(image);
+                      viewPhoto();
                       setOpen(false);
                     }}
                   >
@@ -158,7 +201,7 @@ const Account = ({ onClose }) => {
 
                   <li
                     onClick={() => {
-                      setImage(null);
+                      if (image) savePhoto("");
                       setOpen(false);
                     }}
                     className={styles.dropdownDanger}
@@ -263,12 +306,12 @@ const Account = ({ onClose }) => {
       )}
       {modal === "delete" && (
         <ConfirmDeleteModal
-          onClose={() => setModal(null)}
-          // TODO: el backend aún no expone eliminación de cuenta; conectar aquí cuando exista.
-          onConfirm={() => {
+          error={deleteError}
+          onClose={() => {
             setModal(null);
-            setMessage({ type: "error", text: t("deleteModal.unavailable") });
+            setDeleteError("");
           }}
+          onConfirm={handleDeleteAccount}
         />
       )}
     </div>

@@ -4,16 +4,30 @@ import userEvent from "@testing-library/user-event";
 import { ApiError } from "../../services/http/errors";
 import Account from "./Account";
 import ChangePasswordModal from "./ChangePasswordModal";
-import { changePassword, updateProfile } from "../../services/auth/authApi";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { changePassword, deleteAccount, refreshProfile, updateProfile } from "../../services/auth/authApi";
 import { saveSession } from "../../services/auth/session";
 
 vi.mock("../../services/auth/authApi", () => ({
   changePassword: vi.fn(),
   updateProfile: vi.fn(),
+  refreshProfile: vi.fn(),
+  deleteAccount: vi.fn(),
 }));
+
+const renderAccount = () =>
+  render(
+    <MemoryRouter initialEntries={["/account"]}>
+      <Routes>
+        <Route path="/account" element={<Account />} />
+        <Route path="/login" element={<p>login-page</p>} />
+      </Routes>
+    </MemoryRouter>,
+  );
 
 beforeEach(() => {
   vi.clearAllMocks();
+  refreshProfile.mockResolvedValue();
   localStorage.clear();
   saveSession({
     accessToken: "a",
@@ -26,7 +40,7 @@ beforeEach(() => {
 describe("Account", () => {
   it("edita nombre y apellido; el correo nunca es editable", async () => {
     updateProfile.mockResolvedValue({});
-    render(<Account />);
+    renderAccount();
     await userEvent.click(screen.getAllByRole("button", { name: "edit" })[0]);
     const name = screen.getByLabelText("name");
     await userEvent.clear(name);
@@ -42,11 +56,31 @@ describe("Account", () => {
   });
 
   it("pide confirmación antes de eliminar la cuenta", async () => {
-    render(<Account />);
+    renderAccount();
     await userEvent.click(screen.getByText("deleteAccount"));
     expect(screen.getByText("deleteModal.title")).toBeInTheDocument();
     await userEvent.click(screen.getByText("cancel"));
     expect(screen.queryByText("deleteModal.title")).not.toBeInTheDocument();
+    expect(deleteAccount).not.toHaveBeenCalled();
+  });
+
+  it("elimina la cuenta con la contraseña y va a /login", async () => {
+    deleteAccount.mockResolvedValue();
+    renderAccount();
+    await userEvent.click(screen.getByText("deleteAccount"));
+    await userEvent.type(screen.getByLabelText("deleteModal.password"), "Secret1!");
+    await userEvent.click(screen.getByText("deleteModal.confirm"));
+    await waitFor(() => expect(deleteAccount).toHaveBeenCalledWith("Secret1!"));
+    expect(await screen.findByText("login-page")).toBeInTheDocument();
+  });
+
+  it("contraseña incorrecta al eliminar: muestra el error y no sale", async () => {
+    deleteAccount.mockRejectedValue(new ApiError(401, "x"));
+    renderAccount();
+    await userEvent.click(screen.getByText("deleteAccount"));
+    await userEvent.type(screen.getByLabelText("deleteModal.password"), "bad");
+    await userEvent.click(screen.getByText("deleteModal.confirm"));
+    expect(await screen.findByText("deleteModal.wrongPassword")).toBeInTheDocument();
   });
 });
 
