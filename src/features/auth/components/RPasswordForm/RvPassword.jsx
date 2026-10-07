@@ -3,9 +3,11 @@ import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
 import styles from "./RecoverPassword.module.css";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { forgotPassword } from "../../services/authApi";
 import { recoverSchema } from "../../validation/recoverSchema.js";
 
 const RvPassword = () => {
@@ -19,9 +21,18 @@ const RvPassword = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(recoverSchema(v)) });
 
-  const onSubmit = () => {
-    console.log("Enviar código");
-    navigate("/VerifyRecoverPassword");
+  const [waitMinutes, setWaitMinutes] = useState(0);
+
+  const onSubmit = async ({ email }) => {
+    setWaitMinutes(0);
+    try {
+      await forgotPassword(email);
+    } catch (e) {
+      // El límite por IP no depende de la cuenta; cualquier otro fallo se
+      // oculta para no distinguir correos registrados.
+      if (e.status === 429) return setWaitMinutes(Math.ceil(e.retryAfter / 60));
+    }
+    navigate("/VerifyRecoverPassword", { state: { email } });
   };
 
   return (
@@ -40,6 +51,10 @@ const RvPassword = () => {
               <span className={styles.error}>{errors.email.message}</span>
             )}
           </div>
+
+          {waitMinutes > 0 && (
+            <span className={styles.error}>{t("rateLimited", { minutes: waitMinutes })}</span>
+          )}
 
           <Button type="submit" variant="primary">
             {t("sendCode")}

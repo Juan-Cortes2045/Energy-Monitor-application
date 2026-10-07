@@ -13,7 +13,11 @@ export function useResendCooldown() {
     return () => clearTimeout(id);
   }, [secondsLeft]);
 
-  const start = useCallback(() => setSecondsLeft(RESEND_COOLDOWN_SECONDS), []);
+  const start = useCallback(
+    (seconds) =>
+      setSecondsLeft(typeof seconds === "number" ? seconds : RESEND_COOLDOWN_SECONDS),
+    [],
+  );
 
   return { secondsLeft, isCoolingDown: secondsLeft > 0, start };
 }
