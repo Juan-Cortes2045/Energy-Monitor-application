@@ -22,17 +22,13 @@
     "new": "Nova senha",
     "repeat": "Confirmar senha",
     "submit": "Alterar senha",
-    "wrong": "A senha atual não está correta.",
-    "success": "Senha atualizada.",
-    "error": "Não foi possível alterar a senha. Tente novamente."
+    "success": "Senha atualizada."
   },
   "deleteModal": {
     "title": "Excluir conta",
     "message": "Esta ação é permanente: você perderá o acesso à sua conta e aos seus dados. Tem certeza de que deseja continuar?",
     "confirm": "Sim, excluir",
-    "password": "Confirme sua senha",
-    "wrongPassword": "A senha não está correta.",
-    "error": "Não foi possível excluir a conta. Tente novamente."
+    "password": "Confirme sua senha"
   },
   "photoSaved": "Foto atualizada.",
   "photoError": "Não foi possível salvar a foto. Tente novamente."

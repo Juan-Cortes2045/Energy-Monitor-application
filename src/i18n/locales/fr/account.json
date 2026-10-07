@@ -22,17 +22,13 @@
     "new": "Nouveau mot de passe",
     "repeat": "Confirmer le mot de passe",
     "submit": "Changer le mot de passe",
-    "wrong": "Le mot de passe actuel est incorrect.",
-    "success": "Mot de passe mis à jour.",
-    "error": "Impossible de changer le mot de passe. Réessayez."
+    "success": "Mot de passe mis à jour."
   },
   "deleteModal": {
     "title": "Supprimer le compte",
     "message": "Cette action est définitive : vous perdrez l'accès à votre compte et à vos données. Voulez-vous vraiment continuer ?",
     "confirm": "Oui, supprimer",
-    "password": "Confirmez votre mot de passe",
-    "wrongPassword": "Le mot de passe est incorrect.",
-    "error": "Impossible de supprimer le compte. Réessayez."
+    "password": "Confirmez votre mot de passe"
   },
   "photoSaved": "Photo mise à jour.",
   "photoError": "Impossible d'enregistrer la photo. Réessayez."

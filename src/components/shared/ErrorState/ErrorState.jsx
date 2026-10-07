@@ -2,12 +2,13 @@ import { AlertTriangle, WifiOff } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import Button from "../../../design/components/Button/Button";
+import { errorMessage } from "../../../services/http/errorMessages";
 import styles from "./ErrorState.module.css";
 
 /**
  * Pantalla de fallo al cargar datos del backend.
  * Sin respuesta del servidor (`error.status === null`) muestra "sin conexión";
- * con cualquier otro error, el mensaje que trajo el ApiError.
+ * con cualquier otro error, el texto traducido según su status (nunca el del servidor).
  *
  * @param {{ error?: { status?: number | null, message?: string } | null, onRetry: () => void }} props
  */
@@ -21,7 +22,7 @@ const ErrorState = ({ error, onRetry }) => {
       <Icon size={40} className={styles.icon} />
       <p className={styles.title}>{offline ? t("connection.title") : t("generic.title")}</p>
       <p className={styles.description}>
-        {offline ? t("connection.description") : error?.message || t("generic.description")}
+        {offline ? t("connection.description") : errorMessage(t, error)}
       </p>
       <Button variant="primary" onClick={onRetry}>
         {t("retry")}

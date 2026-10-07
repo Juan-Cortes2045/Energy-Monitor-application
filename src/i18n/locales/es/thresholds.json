@@ -29,8 +29,7 @@
   },
   "errors": {
     "invalid": "Ingresa un valor mayor a 0",
-    "order": "El límite diario no puede superar al mensual",
-    "forbidden": "No tienes permisos para modificar estos umbrales."
+    "order": "El límite diario no puede superar al mensual"
   },
   "loading": "Cargando umbrales...",
   "error": "No se pudieron cargar los umbrales.",

@@ -17,6 +17,7 @@ import { HOME_TYPES } from "../../shared/homeTypes";
 import styles from "./Home.module.css";
 import { useTranslation } from "react-i18next";
 import { getCurrentPerson } from "../../../services/auth/session";
+import { errorMessage } from "../../../services/http/errorMessages";
 import { useHomes } from "../../../context/useHomes";
 
 const HOME_TYPE_ICONS = {
@@ -186,9 +187,8 @@ const HomeDetail = ({ home, isOwner = false }) => {
 
           {leaveError && (
             <p className={styles.errorText} role="alert">
-              {leaveError.status === 409
-                ? t("errors.lastOwner")
-                : leaveError.message}
+              {/* 409: el único OWNER no puede abandonar el hogar */}
+              {errorMessage(t, leaveError, "homeLeave")}
             </p>
           )}
 

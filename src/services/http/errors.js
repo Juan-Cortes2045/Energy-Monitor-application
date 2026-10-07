@@ -3,13 +3,16 @@
  * Toda función del cliente de API resuelve con los datos o lanza
  * un ApiError con esta forma.
  *
+ * El texto que se muestra al usuario NO viaja aquí: sale de i18n con
+ * `errorMessageKey` (./errorMessages.js). El cuerpo del backend se descarta.
+ *
  * @typedef {{ status: number | null, message: string }} ApiErrorShape
  */
 
 export class ApiError extends Error {
   /**
    * @param {number | null} status HTTP status (null si no hubo respuesta)
-   * @param {string} message mensaje legible para el usuario
+   * @param {string} message descripción técnica para logs; nunca se muestra
    */
   constructor(status, message, retryAfter = null) {
     super(message);
@@ -20,19 +23,9 @@ export class ApiError extends Error {
   }
 }
 
-export const ERROR_MESSAGES = {
-  UNAUTHORIZED: "No se pudo identificar tu usuario. Vuelve a ingresar.",
-  FORBIDDEN: "No tienes permisos para realizar esta acción en este hogar.",
-  NOT_FOUND: "No se encontró el hogar, el código de acceso o la membresía.",
-  CONFLICT: "La operación entra en conflicto con el estado actual del hogar.",
-  RATE_LIMIT: "Demasiados intentos. Espera antes de volver a intentarlo.",
-  SERVER: "Ocurrió un error inesperado. Intenta de nuevo.",
-  NETWORK: "No se pudo conectar con el servidor. Revisa tu conexión.",
-};
-
 /**
  * Convierte cualquier error de axios/red en un ApiError consistente.
- * El cuerpo de error del backend siempre tiene forma { "error": "mensaje" }.
+ * Solo conserva el status (y Retry-After en un 429).
  *
  * @param {unknown} err
  * @returns {ApiError}
@@ -47,36 +40,14 @@ export function normalizeError(err) {
     // servidor lo expone por CORS; si no, se usa ese mismo valor.
     if (status === 429) {
       const wait = Number(err.response.headers?.["retry-after"]);
-      return new ApiError(429, ERROR_MESSAGES.RATE_LIMIT, wait > 0 ? wait : 900);
+      return new ApiError(429, "HTTP 429", wait > 0 ? wait : 900);
     }
-    const serverMessage =
-      err.response.data && typeof err.response.data === "object"
-        ? (err.response.data.message ?? err.response.data.error)
-        : undefined;
-
-    if (typeof serverMessage === "string" && serverMessage.trim() !== "") {
-      return new ApiError(status, serverMessage);
-    }
-
-    switch (status) {
-      case 400:
-        return new ApiError(400, "Los datos enviados no son válidos.");
-      case 401:
-        return new ApiError(401, ERROR_MESSAGES.UNAUTHORIZED);
-      case 403:
-        return new ApiError(403, ERROR_MESSAGES.FORBIDDEN);
-      case 404:
-        return new ApiError(404, ERROR_MESSAGES.NOT_FOUND);
-      case 409:
-        return new ApiError(409, ERROR_MESSAGES.CONFLICT);
-      default:
-        return new ApiError(status, ERROR_MESSAGES.SERVER);
-    }
+    return new ApiError(status, `HTTP ${status}`);
   }
 
   if (err && typeof err === "object" && ("request" in err || err.code === "ERR_NETWORK")) {
-    return new ApiError(null, ERROR_MESSAGES.NETWORK);
+    return new ApiError(null, "Network error");
   }
 
-  return new ApiError(null, ERROR_MESSAGES.SERVER);
+  return new ApiError(null, "Unexpected error");
 }

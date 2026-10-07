@@ -59,17 +59,15 @@ describe("mapeo de errores a ApiError", () => {
     [500, "unexpected"],
   ];
 
-  it.each(cases)("status %i usa el mensaje del backend", async (status, message) => {
+  it.each(cases)("status %i conserva el status y descarta el texto del backend", async (status, message) => {
     httpClient.defaults.adapter = async () => {
       const err = new Error("Request failed");
-      err.response = { status, data: { error: message } };
+      err.response = { status, data: { error: message, message } };
       throw err;
     };
-    await expect(httpClient.get("/x")).rejects.toMatchObject({
-      name: "ApiError",
-      status,
-      message,
-    });
+    const e = await httpClient.get("/x").catch((err) => err);
+    expect(e).toMatchObject({ name: "ApiError", status });
+    expect(e.message).not.toContain(message);
   });
 
   it("red sin respuesta produce mensaje de conexión", async () => {

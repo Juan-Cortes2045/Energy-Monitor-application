@@ -4,8 +4,7 @@
     "description": "No pudimos conectarnos. Revisa tu conexión a internet e inténtalo de nuevo."
   },
   "generic": {
-    "title": "No pudimos cargar la información",
-    "description": "Ocurrió un error inesperado. Inténtalo de nuevo."
+    "title": "No pudimos cargar la información"
   },
   "retry": "Reintentar"
 }

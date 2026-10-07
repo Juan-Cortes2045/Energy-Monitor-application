@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { KeyRound } from "lucide-react";
+import { errorMessage } from "../../../../services/http/errorMessages";
 import Button from "../../../../design/components/Button/Button";
 import styles from "./JoinHomeModal.module.css";
 
@@ -81,7 +82,7 @@ const JoinHomeModal = ({ serverError = null, onClose, onSubmit }) => {
           <p className={styles.description}>{t("description")}</p>
 
           {serverError && (
-            <p className={styles.errorMsg} role="alert">{serverError.message}</p>
+            <p className={styles.errorMsg} role="alert">{errorMessage(t, serverError, "homeJoin")}</p>
           )}
 
           <div className={styles.field}>

@@ -25,9 +25,6 @@
     "leaveHome": "Leave home",
     "leaving": "Leaving..."
   },
-  "errors": {
-    "lastOwner": "You are the only owner: you cannot leave the home."
-  },
   "status": {
     "responsible": "Responsible",
     "you": "You"

@@ -39,7 +39,11 @@
     "error": "Impossible de charger les membres.",
     "retry": "Réessayer"
   },
-  "removeErrors": {
-    "conflict": "Ce membre ne peut pas être supprimé."
+  "confirmRemove": {
+    "title": "Retirer l'utilisateur ?",
+    "message": "Vous allez retirer « {{name}} » de ce foyer. Cette personne perdra l'accès à ses données et appareils et devra le rejoindre à nouveau avec le code d'accès.",
+    "confirm": "Retirer",
+    "removing": "Suppression...",
+    "cancel": "Annuler"
   }
 }

@@ -1,0 +1,55 @@
+{
+  "generic": {
+    "badRequest": "Les données envoyées ne sont pas valides. Vérifiez-les et réessayez.",
+    "unauthorized": "Votre session n'est pas valide. Reconnectez-vous.",
+    "forbidden": "Vous n'avez pas l'autorisation d'effectuer cette action.",
+    "notFound": "L'élément recherché est introuvable.",
+    "conflict": "L'opération entre en conflit avec l'état actuel.",
+    "rateLimited": "Trop de tentatives. Attendez {{minutes}} minutes avant de réessayer.",
+    "server": "Une erreur inattendue s'est produite. Réessayez.",
+    "network": "Impossible de se connecter au serveur. Vérifiez votre connexion."
+  },
+  "password": {
+    "policy": "Le mot de passe ne respecte pas la politique de sécurité."
+  },
+  "login": {
+    "invalidCredentials": "E-mail ou mot de passe incorrect.",
+    "inactive": "Votre compte est bloqué ou inactif."
+  },
+  "register": {
+    "emailTaken": "Un compte existe déjà avec cet e-mail."
+  },
+  "passwordReset": {
+    "failed": "Le mot de passe n'a pas pu être modifié. Réessayez."
+  },
+  "passwordChange": {
+    "wrongCurrent": "Le mot de passe actuel est incorrect.",
+    "failed": "Le mot de passe n'a pas pu être modifié. Réessayez."
+  },
+  "accountDelete": {
+    "wrongPassword": "Le mot de passe est incorrect.",
+    "lastOwner": "Vous êtes le seul propriétaire d'un foyer qui a encore des membres. Retirez les membres de ces foyers avant de supprimer votre compte.",
+    "failed": "Le compte n'a pas pu être supprimé. Réessayez."
+  },
+  "homeCreate": {
+    "typeNotFound": "Le type de foyer sélectionné n'existe pas.",
+    "codeCollision": "Le code d'accès du foyer n'a pas pu être généré. Réessayez."
+  },
+  "homeJoin": {
+    "codeNotFound": "Aucun foyer ne correspond à ce code d'accès.",
+    "alreadyMember": "Vous êtes déjà membre de ce foyer."
+  },
+  "homeLeave": {
+    "lastOwner": "Vous êtes le seul responsable : vous ne pouvez pas quitter le foyer.",
+    "notMember": "Vous n'êtes plus membre de ce foyer."
+  },
+  "memberRemove": {
+    "notOwner": "Seul le responsable du foyer peut retirer des membres.",
+    "notFound": "Cet utilisateur n'est plus membre du foyer.",
+    "isOwner": "Le responsable du foyer ne peut pas être retiré."
+  },
+  "thresholdsUpdate": {
+    "invalid": "Les limites ne sont pas valides : la limite journalière ne peut pas dépasser la limite mensuelle.",
+    "notOwner": "Seul le responsable du foyer peut modifier les seuils."
+  }
+}

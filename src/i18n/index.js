@@ -33,6 +33,7 @@ import esNotifications from "./locales/es/notifications.json";
 import esHomeNotFound from "./locales/es/homeNotFound.json";
 import esAbout from "./locales/es/about.json";
 import esLegalModal from "./locales/es/legalModal.json";
+import esErrors from "./locales/es/errors.json";
 
 // Inglés
 
@@ -66,6 +67,7 @@ import enNotifications from "./locales/en/notifications.json";
 import enHomeNotFound from "./locales/en/homeNotFound.json";
 import enAbout from "./locales/en/about.json";
 import enLegalModal from "./locales/en/legalModal.json";
+import enErrors from "./locales/en/errors.json";
 
 // Frances
 
@@ -99,6 +101,7 @@ import frNotifications from "./locales/fr/notifications.json";
 import frHomeNotFound from "./locales/fr/homeNotFound.json";
 import frAbout from "./locales/fr/about.json";
 import frLegalModal from "./locales/fr/legalModal.json";
+import frErrors from "./locales/fr/errors.json";
 
 // Portugués
 
@@ -132,6 +135,7 @@ import ptNotifications from "./locales/pt/notifications.json";
 import ptHomeNotFound from "./locales/pt/homeNotFound.json";
 import ptAbout from "./locales/pt/about.json";
 import ptLegalModal from "./locales/pt/legalModal.json"
+import ptErrors from "./locales/pt/errors.json";
 
 // Configuración de i18next
 i18n.use(initReactI18next).init({
@@ -169,7 +173,8 @@ i18n.use(initReactI18next).init({
       notifications: esNotifications,
       homeNotFound: esHomeNotFound,
       about: esAbout,
-      legalModal: esLegalModal
+      legalModal: esLegalModal,
+      errors: esErrors
     },
     en: {
       account: enAccount,
@@ -201,7 +206,8 @@ i18n.use(initReactI18next).init({
       notifications: enNotifications,
       homeNotFound: enHomeNotFound,
       about: enAbout,
-      legalModal: enLegalModal
+      legalModal: enLegalModal,
+      errors: enErrors
     },
     fr: {
       account: frAccount,
@@ -233,7 +239,8 @@ i18n.use(initReactI18next).init({
       notifications: frNotifications,
       homeNotFound: frHomeNotFound,
       about: frAbout,
-      legalModal: frLegalModal
+      legalModal: frLegalModal,
+      errors: frErrors
     },
     pt: {
       account: ptAccount,
@@ -265,7 +272,8 @@ i18n.use(initReactI18next).init({
       notifications: ptNotifications,
       homeNotFound: ptHomeNotFound,
       about: ptAbout,
-      legalModal: ptLegalModal
+      legalModal: ptLegalModal,
+      errors: ptErrors
     },
   },
 });

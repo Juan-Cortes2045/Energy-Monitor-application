@@ -1,0 +1,55 @@
+{
+  "generic": {
+    "badRequest": "Os dados enviados não são válidos. Verifique-os e tente novamente.",
+    "unauthorized": "Sua sessão não é válida. Entre novamente.",
+    "forbidden": "Você não tem permissão para realizar esta ação.",
+    "notFound": "O que você procura não foi encontrado.",
+    "conflict": "A operação entra em conflito com o estado atual.",
+    "rateLimited": "Muitas tentativas. Aguarde {{minutes}} minutos antes de tentar novamente.",
+    "server": "Ocorreu um erro inesperado. Tente novamente.",
+    "network": "Não foi possível conectar ao servidor. Verifique sua conexão."
+  },
+  "password": {
+    "policy": "A senha não atende à política de segurança."
+  },
+  "login": {
+    "invalidCredentials": "E-mail ou senha incorretos.",
+    "inactive": "Sua conta está bloqueada ou inativa."
+  },
+  "register": {
+    "emailTaken": "Já existe uma conta com este e-mail."
+  },
+  "passwordReset": {
+    "failed": "Não foi possível alterar a senha. Tente novamente."
+  },
+  "passwordChange": {
+    "wrongCurrent": "A senha atual não está correta.",
+    "failed": "Não foi possível alterar a senha. Tente novamente."
+  },
+  "accountDelete": {
+    "wrongPassword": "A senha não está correta.",
+    "lastOwner": "Você é o único proprietário de uma casa que ainda tem membros. Remova os membros dessas casas antes de excluir sua conta.",
+    "failed": "Não foi possível excluir a conta. Tente novamente."
+  },
+  "homeCreate": {
+    "typeNotFound": "O tipo de casa selecionado não existe.",
+    "codeCollision": "Não foi possível gerar o código de acesso da casa. Tente novamente."
+  },
+  "homeJoin": {
+    "codeNotFound": "Não existe nenhuma casa com esse código de acesso.",
+    "alreadyMember": "Você já é membro desta casa."
+  },
+  "homeLeave": {
+    "lastOwner": "Você é o único responsável: não pode sair da casa.",
+    "notMember": "Você não é mais membro desta casa."
+  },
+  "memberRemove": {
+    "notOwner": "Somente o responsável pela casa pode remover membros.",
+    "notFound": "Este usuário não é mais membro da casa.",
+    "isOwner": "O responsável pela casa não pode ser removido."
+  },
+  "thresholdsUpdate": {
+    "invalid": "Os limites não são válidos: o limite diário não pode ultrapassar o mensal.",
+    "notOwner": "Somente o responsável pela casa pode alterar os limites."
+  }
+}

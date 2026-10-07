@@ -25,9 +25,6 @@
     "leaveHome": "Salirse del hogar",
     "leaving": "Saliendo..."
   },
-  "errors": {
-    "lastOwner": "Eres el único propietario: no puedes abandonar el hogar."
-  },
   "status": {
     "responsible": "Responsable",
     "you": "Tú"

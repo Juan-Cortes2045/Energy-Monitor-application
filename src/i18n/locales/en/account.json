@@ -22,17 +22,13 @@
     "new": "New password",
     "repeat": "Confirm password",
     "submit": "Change password",
-    "wrong": "The current password is not correct.",
-    "success": "Password updated.",
-    "error": "We could not change the password. Please try again."
+    "success": "Password updated."
   },
   "deleteModal": {
     "title": "Delete account",
     "message": "This action is permanent: you will lose access to your account and your data. Are you sure you want to continue?",
     "confirm": "Yes, delete",
-    "password": "Confirm your password",
-    "wrongPassword": "The password is not correct.",
-    "error": "We could not delete the account. Please try again."
+    "password": "Confirm your password"
   },
   "photoSaved": "Photo updated.",
   "photoError": "We could not save the photo. Please try again."

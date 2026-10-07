@@ -4,8 +4,7 @@
     "description": "We couldn't connect. Check your internet connection and try again."
   },
   "generic": {
-    "title": "We couldn't load the information",
-    "description": "An unexpected error occurred. Please try again."
+    "title": "We couldn't load the information"
   },
   "retry": "Retry"
 }

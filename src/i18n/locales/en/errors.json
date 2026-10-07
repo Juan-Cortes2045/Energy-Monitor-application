@@ -1,0 +1,55 @@
+{
+  "generic": {
+    "badRequest": "The data sent is not valid. Check it and try again.",
+    "unauthorized": "Your session is not valid. Please sign in again.",
+    "forbidden": "You don't have permission to perform this action.",
+    "notFound": "What you are looking for was not found.",
+    "conflict": "The operation conflicts with the current state.",
+    "rateLimited": "Too many attempts. Wait {{minutes}} minutes before trying again.",
+    "server": "An unexpected error occurred. Please try again.",
+    "network": "Could not connect to the server. Check your connection."
+  },
+  "password": {
+    "policy": "The password does not meet the security policy."
+  },
+  "login": {
+    "invalidCredentials": "Incorrect email or password.",
+    "inactive": "Your account is blocked or inactive."
+  },
+  "register": {
+    "emailTaken": "An account with this email already exists."
+  },
+  "passwordReset": {
+    "failed": "The password could not be changed. Please try again."
+  },
+  "passwordChange": {
+    "wrongCurrent": "The current password is not correct.",
+    "failed": "The password could not be changed. Please try again."
+  },
+  "accountDelete": {
+    "wrongPassword": "The password is not correct.",
+    "lastOwner": "You are the only owner of a home that still has members. Remove the members from those homes before deleting your account.",
+    "failed": "The account could not be deleted. Please try again."
+  },
+  "homeCreate": {
+    "typeNotFound": "The selected home type does not exist.",
+    "codeCollision": "The home's access code could not be generated. Please try again."
+  },
+  "homeJoin": {
+    "codeNotFound": "There is no home with that access code.",
+    "alreadyMember": "You are already a member of this home."
+  },
+  "homeLeave": {
+    "lastOwner": "You are the only owner: you cannot leave the home.",
+    "notMember": "You are no longer a member of this home."
+  },
+  "memberRemove": {
+    "notOwner": "Only the home's owner can remove members.",
+    "notFound": "This user is no longer a member of the home.",
+    "isOwner": "The home's owner cannot be removed."
+  },
+  "thresholdsUpdate": {
+    "invalid": "The limits are not valid: the daily limit cannot exceed the monthly limit.",
+    "notOwner": "Only the home's owner can change the thresholds."
+  }
+}

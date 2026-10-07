@@ -1,4 +1,5 @@
 import ErrorState from "../../../components/shared/ErrorState/ErrorState";
+import { errorMessage } from "../../../services/http/errorMessages";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Gauge, Info, Check, Lock } from "lucide-react";
@@ -93,7 +94,7 @@ const Thresholds = ({ home, isOwner = false }) => {
 
       {serverError && (
         <div className={styles.readOnlyNotice} role="alert">
-          <span>{serverError.status === 403 ? t("errors.forbidden") : serverError.message}</span>
+          <span>{errorMessage(t, serverError, "thresholdsUpdate")}</span>
         </div>
       )}
 

@@ -22,17 +22,13 @@
     "new": "Nueva contraseña",
     "repeat": "Confirmar contraseña",
     "submit": "Cambiar contraseña",
-    "wrong": "La contraseña actual no es correcta.",
-    "success": "Contraseña actualizada.",
-    "error": "No pudimos cambiar la contraseña. Intenta de nuevo."
+    "success": "Contraseña actualizada."
   },
   "deleteModal": {
     "title": "Eliminar cuenta",
     "message": "Esta acción es permanente: perderás el acceso a tu cuenta y a tus datos. ¿Seguro que quieres continuar?",
     "confirm": "Sí, eliminar",
-    "password": "Confirma tu contraseña",
-    "wrongPassword": "La contraseña no es correcta.",
-    "error": "No pudimos eliminar la cuenta. Intenta de nuevo."
+    "password": "Confirma tu contraseña"
   },
   "photoSaved": "Foto actualizada.",
   "photoError": "No pudimos guardar la foto. Intenta de nuevo."

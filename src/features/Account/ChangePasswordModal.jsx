@@ -9,6 +9,7 @@ import Input from "../../design/components/Input/Input";
 import Button from "../../design/components/Button/Button";
 import { changePasswordSchema } from "../auth/validation/resetSchema";
 import { changePassword } from "../../services/auth/authApi";
+import { errorMessage } from "../../services/http/errorMessages";
 import styles from "./Modal.module.css";
 
 // Contraseña actual + nueva. `onDone` se llama al cambiarla; `onClose` al cancelar.
@@ -30,9 +31,7 @@ const ChangePasswordModal = ({ onClose, onDone }) => {
       await changePassword({ currentPassword, newPassword });
       onDone();
     } catch (e) {
-      if (e.status === 401) setError(t("changePassword.wrong"));
-      else if (e.status === 422) setError(e.message); // política de contraseña
-      else setError(t("changePassword.error"));
+      setError(errorMessage(t, e, "passwordChange")); // 401: actual incorrecta; 422: política
     }
   };
 

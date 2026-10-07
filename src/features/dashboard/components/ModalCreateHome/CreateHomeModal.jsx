@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { sortHomeTypes } from "../../../shared/homeTypes";
+import { errorMessage } from "../../../../services/http/errorMessages";
 
 import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
@@ -111,7 +112,7 @@ const CreateHomeModal = ({ types = [], serverError = null, onClose, onSubmit }) 
           <p className={styles.errorMsg} role="alert">{t("errors.noTypesAvailable")}</p>
         )}
         {serverError && (
-          <p className={styles.errorMsg} role="alert">{serverError.message}</p>
+          <p className={styles.errorMsg} role="alert">{errorMessage(t, serverError, "homeCreate")}</p>
         )}
 
         <form className={styles.body} onSubmit={handleSubmit} noValidate>

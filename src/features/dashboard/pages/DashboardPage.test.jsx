@@ -72,7 +72,7 @@ describe("DashboardPage (conexión al backend)", () => {
     expect(await screen.findByText("Casa")).toBeInTheDocument();
   });
 
-  it("muestra el error del servidor con botón de reintentar", async () => {
+  it("muestra un error traducido (no el del servidor) con botón de reintentar", async () => {
     useHomes.mockReturnValue({
       homes: [],
       loading: false,
@@ -87,7 +87,8 @@ describe("DashboardPage (conexión al backend)", () => {
 
     const alert = await screen.findByRole("alert");
     expect(alert).toHaveTextContent("generic.title");
-    expect(alert).toHaveTextContent("boom");
+    expect(alert).toHaveTextContent("errors:generic.server");
+    expect(alert).not.toHaveTextContent("boom");
     expect(screen.getByRole("button", { name: "retry" })).toBeInTheDocument();
   });
 

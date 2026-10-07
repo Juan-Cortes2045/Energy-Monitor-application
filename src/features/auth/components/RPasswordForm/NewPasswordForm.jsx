@@ -9,6 +9,7 @@ import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
 import { newPasswordSchema } from "../../validation/resetSchema.js";
 import { resetPassword } from "../../../../services/auth/authApi";
+import { errorMessage } from "../../../../services/http/errorMessages";
 import { useResendCooldown } from "../../hooks/useResendCooldown.js";
 
 // Paso 2: contraseña nueva. Canjea correo + código + contraseña en una sola llamada.
@@ -38,13 +39,11 @@ const NewPasswordForm = ({ email, code, onDone, onCodeRejected }) => {
         const wait = e.retryAfter ?? 900;
         block.start(wait);
         setError(t("rateLimited", { minutes: Math.ceil(wait / 60) }));
-      } else if (e.status === 422) {
-        setError(e.message); // política de contraseña, mensaje del backend
       } else if (e.status === 400) {
         onCodeRejected(); // inválido, vencido o intentos agotados: indistinguible
         return;
       } else {
-        setError(t("genericError"));
+        setError(errorMessage(t, e, "passwordReset")); // 422: política de contraseña
       }
     }
     resetField("newPassword", { defaultValue: "" });

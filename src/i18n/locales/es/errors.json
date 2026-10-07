@@ -1,0 +1,55 @@
+{
+  "generic": {
+    "badRequest": "Los datos enviados no son válidos. Revísalos e inténtalo de nuevo.",
+    "unauthorized": "Tu sesión no es válida. Vuelve a iniciar sesión.",
+    "forbidden": "No tienes permisos para realizar esta acción.",
+    "notFound": "No se encontró lo que buscas.",
+    "conflict": "La operación entra en conflicto con el estado actual.",
+    "rateLimited": "Demasiados intentos. Espera {{minutes}} minutos antes de volver a intentarlo.",
+    "server": "Ocurrió un error inesperado. Inténtalo de nuevo.",
+    "network": "No se pudo conectar con el servidor. Revisa tu conexión."
+  },
+  "password": {
+    "policy": "La contraseña no cumple la política de seguridad."
+  },
+  "login": {
+    "invalidCredentials": "Correo o contraseña incorrectos.",
+    "inactive": "Tu cuenta está bloqueada o inactiva."
+  },
+  "register": {
+    "emailTaken": "Ya existe una cuenta con este correo."
+  },
+  "passwordReset": {
+    "failed": "No se pudo cambiar la contraseña. Inténtalo de nuevo."
+  },
+  "passwordChange": {
+    "wrongCurrent": "La contraseña actual no es correcta.",
+    "failed": "No se pudo cambiar la contraseña. Inténtalo de nuevo."
+  },
+  "accountDelete": {
+    "wrongPassword": "La contraseña no es correcta.",
+    "lastOwner": "Eres el único propietario de un hogar que todavía tiene miembros. Quita a los miembros de esos hogares antes de eliminar tu cuenta.",
+    "failed": "No se pudo eliminar la cuenta. Inténtalo de nuevo."
+  },
+  "homeCreate": {
+    "typeNotFound": "El tipo de hogar seleccionado no existe.",
+    "codeCollision": "No se pudo generar el código de acceso del hogar. Inténtalo de nuevo."
+  },
+  "homeJoin": {
+    "codeNotFound": "No existe ningún hogar con ese código de acceso.",
+    "alreadyMember": "Ya eres miembro de este hogar."
+  },
+  "homeLeave": {
+    "lastOwner": "Eres el único responsable: no puedes abandonar el hogar.",
+    "notMember": "Ya no eres miembro de este hogar."
+  },
+  "memberRemove": {
+    "notOwner": "Solo el responsable del hogar puede eliminar miembros.",
+    "notFound": "Este usuario ya no es miembro del hogar.",
+    "isOwner": "No se puede eliminar al responsable del hogar."
+  },
+  "thresholdsUpdate": {
+    "invalid": "Los límites no son válidos: el límite diario no puede superar al mensual.",
+    "notOwner": "Solo el responsable del hogar puede modificar los umbrales."
+  }
+}

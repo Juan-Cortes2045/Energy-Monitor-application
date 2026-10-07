@@ -39,7 +39,11 @@
     "error": "No se pudieron cargar los miembros.",
     "retry": "Reintentar"
   },
-  "removeErrors": {
-    "conflict": "No se puede eliminar a este miembro."
+  "confirmRemove": {
+    "title": "¿Eliminar usuario?",
+    "message": "Vas a eliminar a \"{{name}}\" de este hogar. Perderá el acceso a sus datos y dispositivos, y tendrá que unirse de nuevo con el código de acceso.",
+    "confirm": "Eliminar",
+    "removing": "Eliminando...",
+    "cancel": "Cancelar"
   }
 }

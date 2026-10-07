@@ -39,7 +39,11 @@
     "error": "Could not load members.",
     "retry": "Retry"
   },
-  "removeErrors": {
-    "conflict": "This member cannot be removed."
+  "confirmRemove": {
+    "title": "Remove user?",
+    "message": "You are about to remove \"{{name}}\" from this home. They will lose access to its data and devices and will need to join again with the access code.",
+    "confirm": "Remove",
+    "removing": "Removing...",
+    "cancel": "Cancel"
   }
 }

@@ -29,8 +29,7 @@
   },
   "errors": {
     "invalid": "Enter a value greater than 0",
-    "order": "Daily limit cannot exceed the monthly limit",
-    "forbidden": "You do not have permission to change these thresholds."
+    "order": "Daily limit cannot exceed the monthly limit"
   },
   "loading": "Loading thresholds...",
   "error": "Could not load thresholds.",
