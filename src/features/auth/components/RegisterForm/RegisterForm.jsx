@@ -14,12 +14,14 @@ import LegalModal from "../LegalModal/LegalModal.jsx";
 
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import { register as registerUser } from "../../services/authApi";
 
 const RegisterForm = () => {
   const { t: v } = useTranslation("validations");
   const { t } = useTranslation("auth");
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+  const [serverError, setServerError] = useState("");
   const [legalTab, setLegalTab] = useState(null); // null | "terms" | "privacy"
 
   const {
@@ -35,7 +37,7 @@ const RegisterForm = () => {
   const onSubmit = async (data) => {
     // Cuerpo de `POST /api/v1/auth/register` (`RegisterRequest`): se listan los
     // campos a propósito para no filtrar `repeatPassword` ni `terms`, que son
-    // controles del formulario. TEMPORAL: solo falta la llamada.
+    // controles del formulario.
     const { name, lastName, email, password } = data;
     const payload = {
       name: name.trim(),
@@ -44,9 +46,14 @@ const RegisterForm = () => {
       password,
     };
 
-    if (import.meta.env.DEV) console.log("register payload:", payload);
-
-    navigate("/VerifyAccount");
+    setServerError("");
+    try {
+      await registerUser(payload);
+      // El backend envía el código de verificación al crear la cuenta.
+      navigate("/VerifyAccount", { state: { email: payload.email } });
+    } catch (e) {
+      setServerError(e.message);
+    }
   };
 
   return (
@@ -173,6 +180,8 @@ const RegisterForm = () => {
                 </span>
               )}
             </div>
+
+            {serverError && <span className={styles.error}>{serverError}</span>}
 
             {/* BUTTONS */}
             <div className={styles.buttonsContainer}>

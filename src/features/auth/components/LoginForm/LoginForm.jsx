@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../../validation/loginSchema.js";
 import styles from "../LoginForm/LoginForm.module.css";
@@ -13,12 +13,15 @@ import Card from "../../../../design/components/Card/Card.jsx";
 
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import { login } from "../../services/authApi";
 
 const LoginForm = () => {
   const { t: v } = useTranslation("validations");
   const { t } = useTranslation("auth");
   const [showPassword, setShowPassword] = useState(false);
+  const [serverError, setServerError] = useState("");
   const navigate = useNavigate();
+  const notice = useLocation().state?.notice;
 
   const {
     register,
@@ -28,9 +31,14 @@ const LoginForm = () => {
     resolver: zodResolver(loginSchema(v)),
   });
 
-  const onSubmit = (data) => {
-    console.log("login:", data);
-    navigate("/dashboard");
+  const onSubmit = async (data) => {
+    setServerError("");
+    try {
+      await login(data);
+      navigate("/dashboard");
+    } catch (e) {
+      setServerError(e.message);
+    }
   };
 
   return (
@@ -40,6 +48,8 @@ const LoginForm = () => {
       }}
     >
       <h2 className={styles.title}>{t("login.title")}</h2>
+
+      {notice && <p role="status">{t(`login.notice.${notice}`)}</p>}
 
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         {/*EMAIL*/}
@@ -86,6 +96,8 @@ const LoginForm = () => {
             {t("login.forgotPassword")}
           </a>
         </div>
+
+        {serverError && <span className={styles.error}>{serverError}</span>}
 
         <div className={styles.buttonsContainer}>
           {/*BOTON LOGIN*/}

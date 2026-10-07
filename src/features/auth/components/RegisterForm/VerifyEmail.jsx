@@ -1,10 +1,11 @@
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import Card from "../../../../design/components/Card/Card";
 import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
 import { useResendCooldown } from "../../hooks/useResendCooldown.js";
 import { codeSchema } from "../../validation/codeSchema.js";
+import { resendVerification, verifyEmail } from "../../services/authApi";
 import styles from "./VerifyAccount.module.css";
 import { useTranslation } from "react-i18next";
 
@@ -17,6 +18,9 @@ const VerifyEmail = () => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputsRef = useRef([]);
   const navigate = useNavigate();
+  // Llega desde el registro; sin correo no hay nada que verificar.
+  const email = useLocation().state?.email;
+  const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (value, index) => {
     if (!/^[0-9]?$/.test(value)) return;
@@ -37,16 +41,33 @@ const VerifyEmail = () => {
   };
 
 
-  const handleResend = () => {
-    // TODO backend: aquí irá la llamada real de reenvío. Hoy no se envía nada.
-    setCode(["", "", "", "", "", ""]);
-    setError("");
-    setInfo(t("verify.resendSent"));
-    inputsRef.current[0]?.focus();
-    startCooldown();
+  if (!email) return <Navigate to="/register" replace />;
+
+  const showRequestError = (e) => {
+    if (e.status === 429) {
+      setError(t("verify.rateLimited", { minutes: Math.ceil((e.retryAfter ?? 900) / 60) }));
+    } else if (e.status === 400) {
+      setError(t("verify.codeRejected")); // inválido o vencido: indistinguible
+    } else {
+      setError(t("verify.genericError"));
+    }
   };
 
-  const handleVerify = (e) => {
+  const handleResend = async () => {
+    setCode(["", "", "", "", "", ""]);
+    setError("");
+    setInfo("");
+    inputsRef.current[0]?.focus();
+    try {
+      await resendVerification(email);
+      setInfo(t("verify.resendSent"));
+      startCooldown();
+    } catch (e) {
+      showRequestError(e);
+    }
+  };
+
+  const handleVerify = async (e) => {
     e.preventDefault();
     const finalCode = code.join("");
     const result = codeSchema(v).safeParse(finalCode);
@@ -55,8 +76,18 @@ const VerifyEmail = () => {
       return;
     }
     setError("");
-    console.log("Código:", finalCode);
-    navigate("/login");
+    setInfo("");
+    setSubmitting(true);
+    try {
+      await verifyEmail({ email, code: finalCode });
+      navigate("/login", { replace: true, state: { notice: "verified" } });
+    } catch (err) {
+      showRequestError(err);
+      setCode(["", "", "", "", "", ""]);
+      inputsRef.current[0]?.focus();
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -89,7 +120,7 @@ const VerifyEmail = () => {
           {error && <p className={styles.error}>{error}</p>}
           {info && <p className={styles.success}>{info}</p>}
 
-          <Button variant="primary" onClick={handleVerify}>
+          <Button variant="primary" onClick={handleVerify} disabled={submitting}>
             {t("verify.confirm")}
           </Button>
 
