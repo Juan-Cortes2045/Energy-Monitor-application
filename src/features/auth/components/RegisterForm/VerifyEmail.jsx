@@ -21,6 +21,7 @@ const VerifyEmail = () => {
   // Llega desde el registro; sin correo no hay nada que verificar.
   const email = useLocation().state?.email;
   const [submitting, setSubmitting] = useState(false);
+  const [resending, setResending] = useState(false);
 
   const handleChange = (value, index) => {
     if (!/^[0-9]?$/.test(value)) return;
@@ -58,12 +59,15 @@ const VerifyEmail = () => {
     setError("");
     setInfo("");
     inputsRef.current[0]?.focus();
+    setResending(true);
     try {
       await resendVerification(email);
       setInfo(t("verify.resendSent"));
       startCooldown();
     } catch (e) {
       showRequestError(e);
+    } finally {
+      setResending(false);
     }
   };
 
@@ -120,7 +124,7 @@ const VerifyEmail = () => {
           {error && <p className={styles.error}>{error}</p>}
           {info && <p className={styles.success}>{info}</p>}
 
-          <Button variant="primary" onClick={handleVerify} disabled={submitting}>
+          <Button variant="primary" onClick={handleVerify} disabled={submitting || resending}>
             {t("verify.confirm")}
           </Button>
 
@@ -130,7 +134,7 @@ const VerifyEmail = () => {
             type="button"
             variant="secondary"
             onClick={handleResend}
-            disabled={isCoolingDown}
+            disabled={isCoolingDown || resending || submitting}
           >
             {isCoolingDown
               ? t("verify.resendIn", { seconds: secondsLeft })

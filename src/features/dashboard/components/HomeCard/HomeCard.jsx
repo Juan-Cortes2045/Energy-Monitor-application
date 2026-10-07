@@ -10,6 +10,7 @@ const HomeCard = ({ home, onClick, onToggleFavorite }) => {
   const { t } = useTranslation("homeCard");
   const favorite = Boolean(home.favorite);
   const [expanded, setExpanded] = useState(false);
+  const [togglingFavorite, setTogglingFavorite] = useState(false);
 
   const headerColor = home.color
     ? home.color
@@ -17,9 +18,14 @@ const HomeCard = ({ home, onClick, onToggleFavorite }) => {
       ? "var(--color-secondary)"
       : "var(--color-primary)";
 
-  const toggleFavorite = (e) => {
+  const toggleFavorite = async (e) => {
     e.stopPropagation();
-    onToggleFavorite?.(home.idHome, !favorite);
+    setTogglingFavorite(true);
+    try {
+      await onToggleFavorite?.(home.idHome, !favorite);
+    } finally {
+      setTogglingFavorite(false);
+    }
   };
 
   const description = home.description || home.descripcion || "";
@@ -57,6 +63,7 @@ const HomeCard = ({ home, onClick, onToggleFavorite }) => {
           type="button"
           className={`${styles.favoriteButton} ${favorite ? styles.favorited : ""}`}
           onClick={toggleFavorite}
+          disabled={togglingFavorite}
           aria-label={favorite ? t("removeFavorite") : t("addFavorite")}
         >
           <Heart size={18} />

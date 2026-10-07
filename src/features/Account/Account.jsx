@@ -8,6 +8,7 @@ import Card from "../../design/components/Card/Card";
 import Button from "../../design/components/Button/Button";
 import { useCurrentPerson } from "../../services/auth/useCurrentPerson";
 import { deleteAccount, refreshProfile, updateProfile } from "../../services/auth/authApi";
+import { errorMessage } from "../../services/http/errorMessages";
 import { resizeImage } from "./resizeImage";
 import ChangePasswordModal from "./ChangePasswordModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
@@ -32,6 +33,7 @@ const Account = ({ onClose }) => {
   const [draft, setDraft] = useState(values);
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [savingPhoto, setSavingPhoto] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
   const [modal, setModal] = useState(null); // null | "password" | "delete"
 
@@ -71,11 +73,14 @@ const Account = ({ onClose }) => {
 
   const savePhoto = async (profileImage) => {
     setMessage({ type: "", text: "" });
+    setSavingPhoto(true);
     try {
       await updateProfile({ profileImage });
       setMessage({ type: "ok", text: t("photoSaved") });
     } catch {
       setMessage({ type: "error", text: t("photoError") });
+    } finally {
+      setSavingPhoto(false);
     }
   };
 
@@ -102,13 +107,8 @@ const Account = ({ onClose }) => {
       await deleteAccount(password);
       navigate("/login", { replace: true, state: { notice: "accountDeleted" } });
     } catch (e) {
-      setDeleteError(
-        e.status === 401
-          ? t("deleteModal.wrongPassword")
-          : e.status === 409
-            ? e.message
-            : t("deleteModal.error"),
-      );
+      // 401: contraseña incorrecta; 409: único propietario de un hogar con miembros.
+      setDeleteError(errorMessage(t, e, "accountDelete"));
     }
   };
 
@@ -159,11 +159,13 @@ const Account = ({ onClose }) => {
             <div className={styles.avatarWrapper} ref={wrapperRef}>
               <div
                 className={styles.avatarContainer}
-                onClick={() => setOpen((o) => !o)}
+                // Mientras se guarda la foto el menú queda bloqueado para no repetir la petición.
+                onClick={() => !savingPhoto && setOpen((o) => !o)}
                 aria-label={t("photoOptions")}
+                aria-disabled={savingPhoto}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && setOpen((o) => !o)}
+                onKeyDown={(e) => e.key === "Enter" && !savingPhoto && setOpen((o) => !o)}
               >
                 {image ? (
                   <img src={image} className={styles.avatarImg} />

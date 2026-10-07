@@ -1,4 +1,5 @@
 import ErrorState from "../../../components/shared/ErrorState/ErrorState";
+import ConfirmModal from "../../../components/shared/ConfirmModal/ConfirmModal";
 import { useState } from "react";
 import Card from "../../../design/components/Card/Card";
 import styles from "./Users.module.css";
@@ -7,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useMembers } from "../hooks/useMembers";
 import { useHomes } from "../../../context/useHomes";
 import { getCurrentPerson } from "../../../services/auth/session";
+import { errorMessage } from "../../../services/http/errorMessages";
 
 // El backend separa `name` y `lastName`; las iniciales se siguen tomando de los
 // dos para no perder la que aportaba el apellido dentro del nombre completo.
@@ -45,7 +47,7 @@ const UserRow = ({ user, index, isOwner, onRemove, removing = false, t }) => (
       <button
         type="button"
         className={styles.removeBtn}
-        onClick={() => onRemove(user.id)}
+        onClick={() => onRemove(user)}
         disabled={removing}
         aria-label={t("actions.removeUser", { name: fullName(user) })}
       >
@@ -79,6 +81,7 @@ const Users = ({ home, isOwner = false }) => {
   const { removeMember } = useHomes();
   const { members, loading, error, reload } = useMembers(home?.idHome);
   const [removingId, setRemovingId] = useState(null);
+  const [confirmingUser, setConfirmingUser] = useState(null);
   const [removeError, setRemoveError] = useState(null);
 
   const me = getCurrentPerson();
@@ -90,11 +93,13 @@ const Users = ({ home, isOwner = false }) => {
   rows.sort((a, b) => (a.role === "owner" ? -1 : b.role === "owner" ? 1 : 0));
   const onlyOwner = isOwner && rows.every((r) => r.role === "owner");
 
-  const handleRemove = async (userId) => {
+  const handleRemove = async () => {
+    const userId = confirmingUser.id;
     setRemovingId(userId);
     setRemoveError(null);
     const err = await removeMember(home.idHome, userId);
     setRemovingId(null);
+    setConfirmingUser(null);
     if (err) setRemoveError(err);
   };
 
@@ -127,7 +132,7 @@ const Users = ({ home, isOwner = false }) => {
                     user={user}
                     index={i}
                     isOwner={isOwner}
-                    onRemove={handleRemove}
+                    onRemove={setConfirmingUser}
                     removing={removingId === user.id}
                     t={t}
                   />
@@ -141,14 +146,26 @@ const Users = ({ home, isOwner = false }) => {
               )}
               {removeError && (
                 <p className={styles.inviteError} role="alert">
-                  {removeError.status === 409
-                    ? t("removeErrors.conflict")
-                    : removeError.message}
+                  {errorMessage(t, removeError, "memberRemove")}
                 </p>
               )}
             </div>
           </Card>
         </div>
+      )}
+
+      {confirmingUser && (
+        <ConfirmModal
+          title={t("confirmRemove.title")}
+          message={t("confirmRemove.message", { name: fullName(confirmingUser) })}
+          confirmLabel={
+            removingId ? t("confirmRemove.removing") : t("confirmRemove.confirm")
+          }
+          cancelLabel={t("confirmRemove.cancel")}
+          onConfirm={handleRemove}
+          onCancel={() => setConfirmingUser(null)}
+          disabled={Boolean(removingId)}
+        />
       )}
     </div>
   );

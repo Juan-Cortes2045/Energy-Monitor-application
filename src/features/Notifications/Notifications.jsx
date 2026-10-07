@@ -63,7 +63,7 @@ const ALERT_ICONS = {
   warning: AlertTriangle,
 };
 
-const AlertRow = ({ alert, t, formatDate, onResolve }) => {
+const AlertRow = ({ alert, t, formatDate, onResolve, resolving = false }) => {
   const Icon = ALERT_ICONS[alert.type === "connectivity" ? "connectivity" : alert.severity];
 
   return (
@@ -109,6 +109,7 @@ const AlertRow = ({ alert, t, formatDate, onResolve }) => {
             type="button"
             className={styles.actionBtn}
             onClick={() => onResolve(alert.id)}
+            disabled={resolving}
           >
             <Check size={13} />
             {t("status.resolved")}
@@ -171,6 +172,7 @@ const Notifications = () => {
   const [alertsError, setAlertsError] = useState(null);
   const [attempt, setAttempt] = useState(0);
   const [alerts, setAlerts] = useState([]);
+  const [resolvingIds, setResolvingIds] = useState(() => new Set());
   const [recommendations, setRecommendations] = useState(INITIAL_RECOMMENDATIONS);
   const [activeTab, setActiveTab] = useState("all");
 
@@ -196,8 +198,17 @@ const Notifications = () => {
   const retry = () => (homesError ? reloadHomes() : setAttempt((n) => n + 1));
 
   const handleResolve = async (id) => {
-    await resolveAlert(id);
-    setAlerts((prev) => prev.map((a) => (a.id === id ? { ...a, resolved: true } : a)));
+    setResolvingIds((prev) => new Set(prev).add(id));
+    try {
+      await resolveAlert(id);
+      setAlerts((prev) => prev.map((a) => (a.id === id ? { ...a, resolved: true } : a)));
+    } finally {
+      setResolvingIds((prev) => {
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
+    }
   };
 
   const breadcrumbItems = [
@@ -317,6 +328,7 @@ const Notifications = () => {
                       t={t}
                       formatDate={formatDate}
                       onResolve={handleResolve}
+                      resolving={resolvingIds.has(item.id)}
                     />
                   ) : (
                     <RecommendationRow

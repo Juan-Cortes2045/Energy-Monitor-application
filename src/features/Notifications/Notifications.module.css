@@ -252,10 +252,15 @@
     border-color 0.15s ease;
 }
 
-.actionBtn:hover {
+.actionBtn:hover:not(:disabled) {
   background-color: var(--color-background);
   border-color: var(--color-primary);
   color: var(--color-primary);
+}
+
+.actionBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* ── Badges de estado ─────────────────────────────────────────────── */

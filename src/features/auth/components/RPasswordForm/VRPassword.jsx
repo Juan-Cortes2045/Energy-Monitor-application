@@ -20,6 +20,7 @@ const VRPassword = ({ email, initialError = "", onVerified }) => {
   const [info, setInfo] = useState(initialError ? "" : t("neutralSent"));
   const { secondsLeft, isCoolingDown, start: startCooldown } = useResendCooldown();
   const [code, setCode] = useState(EMPTY);
+  const [resending, setResending] = useState(false);
   const inputsRef = useRef([]);
 
   const handleChange = (value, index) => {
@@ -44,6 +45,7 @@ const VRPassword = ({ email, initialError = "", onVerified }) => {
     setCode(EMPTY);
     setError("");
     inputsRef.current[0]?.focus();
+    setResending(true);
     try {
       await forgotPassword(email);
     } catch (e) {
@@ -53,6 +55,8 @@ const VRPassword = ({ email, initialError = "", onVerified }) => {
         return;
       }
       // Cualquier otro fallo se oculta: no se distingue si la cuenta existe.
+    } finally {
+      setResending(false);
     }
     setInfo(t("neutralSent"));
     startCooldown();
@@ -106,7 +110,7 @@ const VRPassword = ({ email, initialError = "", onVerified }) => {
               type="button"
               variant="secondary"
               onClick={handleResend}
-              disabled={isCoolingDown}
+              disabled={isCoolingDown || resending}
             >
               {isCoolingDown ? t("resendIn", { seconds: secondsLeft }) : t("resend")}
             </Button>

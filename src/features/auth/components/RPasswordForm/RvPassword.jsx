@@ -18,7 +18,7 @@ const RvPassword = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({ resolver: zodResolver(recoverSchema(v)) });
 
   const [waitMinutes, setWaitMinutes] = useState(0);
@@ -56,7 +56,7 @@ const RvPassword = () => {
             <span className={styles.error}>{t("rateLimited", { minutes: waitMinutes })}</span>
           )}
 
-          <Button type="submit" variant="primary">
+          <Button type="submit" variant="primary" disabled={isSubmitting}>
             {t("sendCode")}
           </Button>
         </form>

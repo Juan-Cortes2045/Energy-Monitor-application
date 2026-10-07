@@ -1,18 +1,20 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Users from "./Users";
 import { useMembers } from "../hooks/useMembers";
 import { saveSession } from "../../../services/auth/session";
 
 vi.mock("../hooks/useMembers", () => ({ useMembers: vi.fn() }));
+const removeMember = vi.fn();
 vi.mock("../../../context/useHomes", () => ({
-  useHomes: () => ({ removeMember: vi.fn() }),
+  useHomes: () => ({ removeMember }),
 }));
 
 const home = { idHome: "h1" };
 const base = { loading: false, error: null, reload: vi.fn() };
 
 beforeEach(() => {
+  removeMember.mockReset();
   localStorage.clear();
   saveSession({
     accessToken: "a",
@@ -64,5 +66,41 @@ describe("Users (datos del backend)", () => {
     expect(screen.getByText("Grace Hopper")).toBeInTheDocument();
     expect(screen.getByText("grace@mail.co")).toBeInTheDocument();
     expect(screen.getByText("Ada Lovelace")).toBeInTheDocument();
+  });
+});
+
+describe("Users (eliminar miembro)", () => {
+  const withMember = () =>
+    useMembers.mockReturnValue({
+      ...base,
+      members: [
+        { userId: "u1", role: "OWNER" },
+        { userId: "u2", role: "MEMBER", name: "Grace", lastName: "Hopper" },
+      ],
+    });
+
+  it("pide confirmación antes de eliminar y permite cancelar", () => {
+    withMember();
+    render(<Users home={home} isOwner />);
+    fireEvent.click(screen.getByLabelText("actions.removeUser"));
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(removeMember).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByText("confirmRemove.cancel"));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(removeMember).not.toHaveBeenCalled();
+  });
+
+  it("elimina al miembro al confirmar y cierra el modal", async () => {
+    removeMember.mockResolvedValue(null);
+    withMember();
+    render(<Users home={home} isOwner />);
+    fireEvent.click(screen.getByLabelText("actions.removeUser"));
+    fireEvent.click(screen.getByText("confirmRemove.confirm"));
+
+    expect(removeMember).toHaveBeenCalledWith("h1", "u2");
+    await waitFor(() =>
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
+    );
   });
 });

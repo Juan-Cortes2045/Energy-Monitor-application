@@ -15,6 +15,7 @@ import LegalModal from "../LegalModal/LegalModal.jsx";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { register as registerUser } from "../../../../services/auth/authApi";
+import { errorMessage } from "../../../../services/http/errorMessages";
 
 const RegisterForm = () => {
   const { t: v } = useTranslation("validations");
@@ -27,7 +28,7 @@ const RegisterForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(registerSchema(v)),
     mode: "onChange",
@@ -52,7 +53,7 @@ const RegisterForm = () => {
       // El backend envía el código de verificación al crear la cuenta.
       navigate("/VerifyAccount", { state: { email: payload.email } });
     } catch (e) {
-      setServerError(e.message);
+      setServerError(errorMessage(t, e, "register"));
     }
   };
 
@@ -185,7 +186,7 @@ const RegisterForm = () => {
 
             {/* BUTTONS */}
             <div className={styles.buttonsContainer}>
-              <Button type="submit" variant="primary">
+              <Button type="submit" variant="primary" disabled={isSubmitting}>
                 {t("register.submit")}
               </Button>
 

@@ -80,7 +80,7 @@ describe("Account", () => {
     await userEvent.click(screen.getByText("deleteAccount"));
     await userEvent.type(screen.getByLabelText("deleteModal.password"), "bad");
     await userEvent.click(screen.getByText("deleteModal.confirm"));
-    expect(await screen.findByText("deleteModal.wrongPassword")).toBeInTheDocument();
+    expect(await screen.findByText("errors:accountDelete.wrongPassword")).toBeInTheDocument();
   });
 });
 
@@ -96,7 +96,7 @@ describe("ChangePasswordModal", () => {
     changePassword.mockRejectedValue(new ApiError(401, "x"));
     render(<ChangePasswordModal onClose={vi.fn()} onDone={vi.fn()} />);
     await fill();
-    expect(await screen.findByText("changePassword.wrong")).toBeInTheDocument();
+    expect(await screen.findByText("errors:passwordChange.wrongCurrent")).toBeInTheDocument();
   });
 
   it("éxito: manda ambas contraseñas y llama onDone", async () => {

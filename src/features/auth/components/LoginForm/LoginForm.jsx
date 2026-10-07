@@ -14,6 +14,7 @@ import Card from "../../../../design/components/Card/Card.jsx";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { login } from "../../../../services/auth/authApi";
+import { errorMessage } from "../../../../services/http/errorMessages";
 
 const LoginForm = () => {
   const { t: v } = useTranslation("validations");
@@ -26,7 +27,7 @@ const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(loginSchema(v)),
   });
@@ -37,7 +38,7 @@ const LoginForm = () => {
       await login(data);
       navigate("/dashboard");
     } catch (e) {
-      setServerError(e.message);
+      setServerError(errorMessage(t, e, "login"));
     }
   };
 
@@ -101,7 +102,7 @@ const LoginForm = () => {
 
         <div className={styles.buttonsContainer}>
           {/*BOTON LOGIN*/}
-          <Button type="submit" variant="primary">
+          <Button type="submit" variant="primary" disabled={isSubmitting}>
             {t("login.submit")}
           </Button>
 
