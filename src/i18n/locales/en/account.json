@@ -15,7 +15,6 @@
   "cancel": "Cancel",
   "saved": "Profile updated.",
   "profileError": "We could not save the changes. Please try again.",
-  "emailTaken": "That email is already in use.",
   "nameRequired": "First and last name are required.",
   "changePassword": {
     "title": "Change password",

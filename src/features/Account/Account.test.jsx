@@ -24,7 +24,7 @@ beforeEach(() => {
 });
 
 describe("Account", () => {
-  it("edita nombre y apellido y envía solo el correo si cambió", async () => {
+  it("edita nombre y apellido; el correo nunca es editable", async () => {
     updateProfile.mockResolvedValue({});
     render(<Account />);
     await userEvent.click(screen.getAllByRole("button", { name: "edit" })[0]);
@@ -33,13 +33,12 @@ describe("Account", () => {
     await userEvent.type(name, "Grace");
     await userEvent.click(screen.getByText("save"));
     await waitFor(() =>
-      expect(updateProfile).toHaveBeenCalledWith({
-        name: "Grace",
-        lastName: "Lovelace",
-        newEmail: undefined,
-      }),
+      expect(updateProfile).toHaveBeenCalledWith({ name: "Grace", lastName: "Lovelace" }),
     );
     expect(await screen.findByText("saved")).toBeInTheDocument();
+    expect(screen.queryByLabelText("email")).not.toBeInTheDocument();
+    expect(screen.getByText("a@b.co")).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: "edit" })).toHaveLength(2);
   });
 
   it("pide confirmación antes de eliminar la cuenta", async () => {

@@ -15,7 +15,6 @@
   "cancel": "Annuler",
   "saved": "Profil mis à jour.",
   "profileError": "Impossible d'enregistrer les modifications. Réessayez.",
-  "emailTaken": "Cet email est déjà utilisé.",
   "nameRequired": "Le prénom et le nom sont obligatoires.",
   "changePassword": {
     "title": "Changer le mot de passe",

@@ -15,7 +15,6 @@
   "cancel": "Cancelar",
   "saved": "Perfil actualizado.",
   "profileError": "No pudimos guardar los cambios. Intenta de nuevo.",
-  "emailTaken": "Ese correo ya está en uso.",
   "nameRequired": "Nombre y apellido son obligatorios.",
   "changePassword": {
     "title": "Cambiar contraseña",

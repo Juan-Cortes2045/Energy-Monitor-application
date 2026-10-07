@@ -26,16 +26,12 @@ export const changePassword = ({ currentPassword, newPassword }) =>
   httpClient.post("/auth/password/change", { currentPassword, newPassword });
 
 /**
- * Edita nombre/apellido (siempre como par) y/o correo. Guarda en la sesión lo
+ * Edita nombre y apellido (siempre como par). Guarda en la sesión lo
  * que el backend confirmó, porque GET /auth/account no devuelve el nombre.
  */
-export async function updateProfile({ name, lastName, newEmail }) {
-  const { data } = await httpClient.put("/auth/profile", { name, lastName, newEmail });
-  const { account } = getSession() ?? {};
-  saveSession({
-    profile: { name: data.name, lastName: data.lastName },
-    ...(newEmail && account ? { account: { ...account, email: newEmail } } : {}),
-  });
+export async function updateProfile({ name, lastName }) {
+  const { data } = await httpClient.put("/auth/profile", { name, lastName });
+  saveSession({ profile: { name: data.name, lastName: data.lastName } });
   return data;
 }
 

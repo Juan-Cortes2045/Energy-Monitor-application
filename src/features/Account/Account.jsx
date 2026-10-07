@@ -40,34 +40,26 @@ const Account = ({ onClose }) => {
   const handleSave = async () => {
     const name = draft.name.trim();
     const lastName = draft.lastName.trim();
-    const email = draft.email.trim();
     if (!name || !lastName) {
       return setMessage({ type: "error", text: t("nameRequired") });
     }
     setSaving(true);
     try {
-      await updateProfile({
-        name,
-        lastName,
-        newEmail: email && email !== values.email ? email : undefined,
-      });
-      setValues({ name, lastName, email: email || values.email });
+      await updateProfile({ name, lastName });
+      setValues((v) => ({ ...v, name, lastName }));
       setEditing(false);
       setMessage({ type: "ok", text: t("saved") });
-    } catch (e) {
-      setMessage({
-        type: "error",
-        text: e.status === 409 ? t("emailTaken") : t("profileError"),
-      });
+    } catch {
+      setMessage({ type: "error", text: t("profileError") });
     } finally {
       setSaving(false);
     }
   };
 
+  // El correo no se edita: es la identidad de la cuenta (login y registro).
   const fields = [
-    ["name", "name", "text"],
-    ["lastName", "lastName", "text"],
-    ["email", "email", "email"],
+    ["name", "name"],
+    ["lastName", "lastName"],
   ];
 
   const handleImageChange = (e) => {
@@ -179,7 +171,7 @@ const Account = ({ onClose }) => {
 
             {/* ── Campos de información ─────────────────────────────── */}
             <div className={styles.form}>
-              {fields.map(([key, label, type]) => (
+              {fields.map(([key, label]) => (
                 <div className={styles.row} key={key}>
                   <label className={styles.label} htmlFor={`field-${key}`}>
                     {t(label)}
@@ -187,10 +179,10 @@ const Account = ({ onClose }) => {
                   {editing ? (
                     <input
                       id={`field-${key}`}
-                      type={type}
+                      type="text"
                       className={styles.input}
                       value={draft[key]}
-                      maxLength={key === "email" ? 255 : 100}
+                      maxLength={100}
                       onChange={(e) => setDraft({ ...draft, [key]: e.target.value })}
                     />
                   ) : (
@@ -206,6 +198,11 @@ const Account = ({ onClose }) => {
                   </Button>
                 </div>
               ))}
+
+              <div className={styles.row}>
+                <label className={styles.label}>{t("email")}</label>
+                <p className={styles.value}>{values.email || "—"}</p>
+              </div>
 
               <div className={styles.row}>
                 <label className={styles.label}>{t("password")}</label>
