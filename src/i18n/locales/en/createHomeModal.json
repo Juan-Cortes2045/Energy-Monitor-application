@@ -39,6 +39,8 @@
     "house": "House",
     "apartment": "Apartment",
     "studio": "Studio apartment",
+    "country_house": "Country house",
+    "cabin": "Cabin",
     "other": "Other"
   }
 }

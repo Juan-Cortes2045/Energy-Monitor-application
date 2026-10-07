@@ -39,6 +39,8 @@
     "house": "Casa",
     "apartment": "Apartamento",
     "studio": "Aparta estudio",
+    "country_house": "Casa de campo",
+    "cabin": "Cabaña",
     "other": "Otro"
   }
 }
