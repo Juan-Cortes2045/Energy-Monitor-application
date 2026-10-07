@@ -1,3 +1,4 @@
+import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -85,8 +86,28 @@ describe("DashboardPage (conexión al backend)", () => {
     renderPage();
 
     const alert = await screen.findByRole("alert");
-    expect(alert).toHaveTextContent("state.error");
-    expect(screen.getByRole("button", { name: "state.retry" })).toBeInTheDocument();
+    expect(alert).toHaveTextContent("generic.title");
+    expect(alert).toHaveTextContent("boom");
+    expect(screen.getByRole("button", { name: "retry" })).toBeInTheDocument();
+  });
+
+  it("sin respuesta del servidor muestra el fallo de conexión y reintenta", async () => {
+    const reload = vi.fn();
+    useHomes.mockReturnValue({
+      homes: [],
+      loading: false,
+      error: { status: null, message: "x" },
+      reload,
+      addHome: vi.fn(),
+      joinHome: vi.fn(),
+      setFavorite: vi.fn(),
+    });
+
+    renderPage();
+
+    expect(await screen.findByRole("alert")).toHaveTextContent("connection.title");
+    await userEvent.click(screen.getByRole("button", { name: "retry" }));
+    expect(reload).toHaveBeenCalledOnce();
   });
 
   it("muestra el estado vacío cuando no hay hogares", async () => {

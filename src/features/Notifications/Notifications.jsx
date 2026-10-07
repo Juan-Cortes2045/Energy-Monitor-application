@@ -12,6 +12,7 @@ import {
 
 import Header from "../../design/components/Header/Header";
 import Card from "../../design/components/Card/Card";
+import ErrorState from "../../components/shared/ErrorState/ErrorState";
 import { useHomes } from "../../context/useHomes";
 import { listAlerts, resolveAlert, toUiAlert } from "../../services/alerts/alertApi";
 import styles from "./Notifications.module.css";
@@ -166,7 +167,9 @@ const RecommendationRow = ({ recommendation, t, formatDate, onMarkRead }) => (
 
 const Notifications = () => {
   const { t, i18n } = useTranslation("notifications");
-  const { homes } = useHomes();
+  const { homes, error: homesError, reload: reloadHomes } = useHomes();
+  const [alertsError, setAlertsError] = useState(null);
+  const [attempt, setAttempt] = useState(0);
   const [alerts, setAlerts] = useState([]);
   const [recommendations, setRecommendations] = useState(INITIAL_RECOMMENDATIONS);
   const [activeTab, setActiveTab] = useState("all");
@@ -175,15 +178,22 @@ const Notifications = () => {
     let cancelled = false;
     Promise.all(
       homes.map((h) =>
-        listAlerts(h.idHome)
-          .then((list) => list.map((a) => toUiAlert(a, h.name)))
-          .catch(() => []),
+        listAlerts(h.idHome).then((list) => list.map((a) => toUiAlert(a, h.name))),
       ),
-    ).then((lists) => !cancelled && setAlerts(lists.flat()));
+    )
+      .then((lists) => {
+        if (cancelled) return;
+        setAlertsError(null);
+        setAlerts(lists.flat());
+      })
+      .catch((err) => !cancelled && setAlertsError(err));
     return () => {
       cancelled = true;
     };
-  }, [homes]);
+  }, [homes, attempt]);
+
+  const loadError = homesError ?? alertsError;
+  const retry = () => (homesError ? reloadHomes() : setAttempt((n) => n + 1));
 
   const handleResolve = async (id) => {
     await resolveAlert(id);
@@ -289,7 +299,9 @@ const Notifications = () => {
           </div>
 
           <Card>
-            {listToRender.length === 0 ? (
+            {loadError ? (
+              <ErrorState error={loadError} onRetry={retry} />
+            ) : listToRender.length === 0 ? (
               <div className={styles.emptyState}>
                 <Bell size={40} className={styles.emptyIcon} />
                 <p className={styles.emptyTitle}>{t(`${emptyKey}.title`)}</p>

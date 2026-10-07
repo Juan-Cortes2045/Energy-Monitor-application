@@ -1,3 +1,4 @@
+import ErrorState from "../../../components/shared/ErrorState/ErrorState";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Gauge, Info, Check, Lock } from "lucide-react";
@@ -71,12 +72,7 @@ const Thresholds = ({ home, isOwner = false }) => {
   }
 
   if (error) {
-    return (
-      <div className={styles.infoNote} role="alert">
-        <span>{t("error")}</span>
-        <Button variant="secondary" onClick={reload}>{t("retry")}</Button>
-      </div>
-    );
+    return <ErrorState error={error} onRetry={reload} />;
   }
 
   return (

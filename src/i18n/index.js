@@ -15,6 +15,7 @@ import esJoinHomeModal from "./locales/es/JoinHomeModal.json";
 import esCreateHomeModal from "./locales/es/createHomeModal.json";
 import esHomeCard from "./locales/es/homeCard.json";
 import esEmptyState from "./locales/es/emptyState.json";
+import esErrorState from "./locales/es/errorState.json";
 import esFavorites from "./locales/es/favorites.json";
 import esValidations from "./locales/es/validations.json";
 import esSettings from "./locales/es/settings.json";
@@ -47,6 +48,7 @@ import enJoinHomeModal from "./locales/en/JoinHomeModal.json";
 import enCreateHomeModal from "./locales/en/createHomeModal.json";
 import enHomeCard from "./locales/en/homeCard.json";
 import enEmptyState from "./locales/en/emptyState.json";
+import enErrorState from "./locales/en/errorState.json";
 import enFavorites from "./locales/en/favorites.json";
 import enValidations from "./locales/en/validations.json";
 import enSettings from "./locales/en/settings.json";
@@ -79,6 +81,7 @@ import frJoinHomeModal from "./locales/fr/JoinHomeModal.json";
 import frCreateHomeModal from "./locales/fr/createHomeModal.json";
 import frHomeCard from "./locales/fr/homeCard.json";
 import frEmptyState from "./locales/fr/emptyState.json";
+import frErrorState from "./locales/fr/errorState.json";
 import frFavorites from "./locales/fr/favorites.json";
 import frValidations from "./locales/fr/validations.json";
 import frSettings from "./locales/fr/settings.json";
@@ -111,6 +114,7 @@ import ptJoinHomeModal from "./locales/pt/JoinHomeModal.json";
 import ptCreateHomeModal from "./locales/pt/createHomeModal.json";
 import ptHomeCard from "./locales/pt/homeCard.json";
 import ptEmptyState from "./locales/pt/emptyState.json";
+import ptErrorState from "./locales/pt/errorState.json";
 import ptFavorites from "./locales/pt/favorites.json";
 import ptValidations from "./locales/pt/validations.json";
 import ptSettings from "./locales/pt/settings.json";
@@ -148,6 +152,7 @@ i18n.use(initReactI18next).init({
       createHomeModal: esCreateHomeModal,
       homeCard: esHomeCard,
       emptyState: esEmptyState,
+      errorState: esErrorState,
       favorites: esFavorites,
       validations: esValidations,
       settings: esSettings,
@@ -179,6 +184,7 @@ i18n.use(initReactI18next).init({
       createHomeModal: enCreateHomeModal,
       homeCard: enHomeCard,
       emptyState: enEmptyState,
+      errorState: enErrorState,
       favorites: enFavorites,
       validations: enValidations,
       settings: enSettings,
@@ -210,6 +216,7 @@ i18n.use(initReactI18next).init({
       createHomeModal: frCreateHomeModal,
       homeCard: frHomeCard,
       emptyState: frEmptyState,
+      errorState: frErrorState,
       favorites: frFavorites,
       validations: frValidations,
       settings: frSettings,
@@ -241,6 +248,7 @@ i18n.use(initReactI18next).init({
       createHomeModal: ptCreateHomeModal,
       homeCard: ptHomeCard,
       emptyState: ptEmptyState,
+      errorState: ptErrorState,
       favorites: ptFavorites,
       validations: ptValidations,
       settings: ptSettings,
