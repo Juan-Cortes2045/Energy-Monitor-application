@@ -1,4 +1,4 @@
-import { httpClient } from "../../../services/home/httpClient";
+import { httpClient } from "../http/httpClient";
 import { clearSession, getSession, getSessionId, saveSession } from "./session";
 
 export async function login({ email, password }) {
@@ -21,6 +21,23 @@ export const forgotPassword = (email) =>
 
 export const resetPassword = ({ email, resetToken, newPassword }) =>
   httpClient.post("/auth/password/reset", { email, resetToken, newPassword });
+
+export const changePassword = ({ currentPassword, newPassword }) =>
+  httpClient.post("/auth/password/change", { currentPassword, newPassword });
+
+/**
+ * Edita nombre/apellido (siempre como par) y/o correo. Guarda en la sesión lo
+ * que el backend confirmó, porque GET /auth/account no devuelve el nombre.
+ */
+export async function updateProfile({ name, lastName, newEmail }) {
+  const { data } = await httpClient.put("/auth/profile", { name, lastName, newEmail });
+  const { account } = getSession() ?? {};
+  saveSession({
+    profile: { name: data.name, lastName: data.lastName },
+    ...(newEmail && account ? { account: { ...account, email: newEmail } } : {}),
+  });
+  return data;
+}
 
 /**
  * Cierra la sesión local primero (nada en vuelo puede revivirla) y avisa al

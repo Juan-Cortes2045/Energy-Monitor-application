@@ -14,7 +14,7 @@ import LegalModal from "../LegalModal/LegalModal.jsx";
 
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { register as registerUser } from "../../services/authApi";
+import { register as registerUser } from "../../../../services/auth/authApi";
 
 const RegisterForm = () => {
   const { t: v } = useTranslation("validations");

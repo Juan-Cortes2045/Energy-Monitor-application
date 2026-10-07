@@ -5,7 +5,7 @@ import {
   clearSession,
   getSession,
   saveSession,
-} from "../../features/auth/services/session";
+} from "../auth/session";
 
 /** Origen del backend; la ruta /api/v1 es fija. */
 export const API_BASE_URL = `${

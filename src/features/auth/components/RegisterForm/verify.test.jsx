@@ -2,11 +2,11 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { ApiError } from "../../../../services/home/errors";
+import { ApiError } from "../../../../services/http/errors";
 import VerifyEmail from "./VerifyEmail";
-import { resendVerification, verifyEmail } from "../../services/authApi";
+import { resendVerification, verifyEmail } from "../../../../services/auth/authApi";
 
-vi.mock("../../services/authApi", () => ({
+vi.mock("../../../../services/auth/authApi", () => ({
   verifyEmail: vi.fn(),
   resendVerification: vi.fn(),
 }));

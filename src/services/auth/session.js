@@ -1,6 +1,6 @@
 /**
  * Sesión del usuario (tokens + idUser) en localStorage.
- * `userId` se guarda con esa clave porque services/home/currentUser.js la lee
+ * `userId` se guarda con esa clave porque services/http/currentUser.js la lee
  * para el header X-User-Id que aún exige el módulo de hogares.
  */
 const KEY = "session";

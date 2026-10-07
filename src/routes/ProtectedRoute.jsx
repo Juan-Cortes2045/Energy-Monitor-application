@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { isAuthenticated } from "../features/auth/services/session";
+import { isAuthenticated } from "../services/auth/session";
 
 const ProtectedRoute = () =>
   isAuthenticated() ? <Outlet /> : <Navigate to="/login" replace />;

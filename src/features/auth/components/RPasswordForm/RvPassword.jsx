@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { forgotPassword } from "../../services/authApi";
+import { forgotPassword } from "../../../../services/auth/authApi";
 import { recoverSchema } from "../../validation/recoverSchema.js";
 
 const RvPassword = () => {

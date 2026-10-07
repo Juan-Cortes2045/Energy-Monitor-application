@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from "vitest";
 import { httpClient } from "./httpClient";
 import { setCurrentUserIdProvider } from "./currentUser";
 import { ApiError, normalizeError } from "./errors";
-import { clearSession, saveSession } from "../../features/auth/services/session";
+import { clearSession, saveSession } from "../auth/session";
 
 const capture = async () => {
   let seen;

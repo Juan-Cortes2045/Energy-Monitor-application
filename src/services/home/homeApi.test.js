@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-vi.mock("./httpClient", () => ({
+vi.mock("../http/httpClient", () => ({
   httpClient: {
     post: vi.fn(),
     get: vi.fn(),
@@ -9,7 +9,7 @@ vi.mock("./httpClient", () => ({
   },
 }));
 
-import { httpClient } from "./httpClient";
+import { httpClient } from "../http/httpClient";
 import * as api from "./homeApi";
 
 beforeEach(() => vi.clearAllMocks());

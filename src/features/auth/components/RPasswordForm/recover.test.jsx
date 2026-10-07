@@ -2,12 +2,12 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { ApiError } from "../../../../services/home/errors";
+import { ApiError } from "../../../../services/http/errors";
 import RvPassword from "./RvPassword";
 import VerifyRecoverPassword from "../../pages/VerifyRecoverPassword";
-import { forgotPassword, resetPassword } from "../../services/authApi";
+import { forgotPassword, resetPassword } from "../../../../services/auth/authApi";
 
-vi.mock("../../services/authApi", () => ({
+vi.mock("../../../../services/auth/authApi", () => ({
   forgotPassword: vi.fn(),
   resetPassword: vi.fn(),
 }));

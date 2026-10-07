@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { AxiosError } from "axios";
-import { httpClient } from "../../../services/home/httpClient";
+import { httpClient } from "../http/httpClient";
 import { logout } from "./authApi";
 import { getSession, saveSession } from "./session";
 

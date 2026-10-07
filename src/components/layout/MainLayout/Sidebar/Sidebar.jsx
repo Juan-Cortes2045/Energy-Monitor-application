@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { logout } from "../../../../features/auth/services/authApi";
+import { logout } from "../../../../services/auth/authApi";
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { createPortal } from "react-dom";

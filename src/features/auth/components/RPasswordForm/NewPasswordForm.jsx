@@ -8,7 +8,7 @@ import Card from "../../../../design/components/Card/Card";
 import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
 import { newPasswordSchema } from "../../validation/resetSchema.js";
-import { resetPassword } from "../../services/authApi.js";
+import { resetPassword } from "../../../../services/auth/authApi";
 import { useResendCooldown } from "../../hooks/useResendCooldown.js";
 
 // Paso 2: contraseña nueva. Canjea correo + código + contraseña en una sola llamada.

@@ -1,4 +1,4 @@
-import { httpClient } from "../../services/home/httpClient";
+import { httpClient } from "../http/httpClient";
 
 export const listAlerts = (homeId) =>
   httpClient.get("/alerts", { params: { homeId } }).then((r) => r.data);

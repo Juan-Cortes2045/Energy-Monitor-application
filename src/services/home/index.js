@@ -1,4 +1,5 @@
 export * as homeApi from "./homeApi";
-export { ApiError, normalizeError, ERROR_MESSAGES } from "./errors";
-export { getCurrentUserId, setCurrentUserIdProvider } from "./currentUser";
-export { httpClient } from "./httpClient";
+// Re-exportados desde services/http para no romper a los consumidores del módulo home.
+export { ApiError, normalizeError, ERROR_MESSAGES } from "../http/errors";
+export { getCurrentUserId, setCurrentUserIdProvider } from "../http/currentUser";
+export { httpClient } from "../http/httpClient";

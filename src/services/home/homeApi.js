@@ -1,4 +1,4 @@
-import { httpClient } from "./httpClient";
+import { httpClient } from "../http/httpClient";
 
 /**
  * Cliente de API del módulo home.

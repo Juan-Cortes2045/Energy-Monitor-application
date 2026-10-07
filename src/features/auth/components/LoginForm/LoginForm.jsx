@@ -13,7 +13,7 @@ import Card from "../../../../design/components/Card/Card.jsx";
 
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { login } from "../../services/authApi";
+import { login } from "../../../../services/auth/authApi";
 
 const LoginForm = () => {
   const { t: v } = useTranslation("validations");

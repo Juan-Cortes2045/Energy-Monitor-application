@@ -13,7 +13,7 @@ import {
 import Header from "../../design/components/Header/Header";
 import Card from "../../design/components/Card/Card";
 import { useHomes } from "../../context/useHomes";
-import { listAlerts, resolveAlert, toUiAlert } from "./alertApi";
+import { listAlerts, resolveAlert, toUiAlert } from "../../services/alerts/alertApi";
 import styles from "./Notifications.module.css";
 
 // TODO: el backend aún no expone recomendaciones; estos datos son de ejemplo.

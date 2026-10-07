@@ -6,7 +6,7 @@ import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
 import { useResendCooldown } from "../../hooks/useResendCooldown.js";
 import { codeSchema } from "../../validation/codeSchema.js";
-import { forgotPassword } from "../../services/authApi.js";
+import { forgotPassword } from "../../../../services/auth/authApi";
 
 const EMPTY = ["", "", "", "", "", ""];
 

@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import axios, { AxiosError } from "axios";
 import { httpClient } from "./httpClient";
-import { getSession, saveSession } from "../../features/auth/services/session";
+import { getSession, saveSession } from "../auth/session";
 
 const reply = (config, status, data = {}) => {
   const response = { data, status, statusText: "", headers: {}, config };

@@ -5,7 +5,7 @@ import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
 import { useResendCooldown } from "../../hooks/useResendCooldown.js";
 import { codeSchema } from "../../validation/codeSchema.js";
-import { resendVerification, verifyEmail } from "../../services/authApi";
+import { resendVerification, verifyEmail } from "../../../../services/auth/authApi";
 import styles from "./VerifyAccount.module.css";
 import { useTranslation } from "react-i18next";
 
