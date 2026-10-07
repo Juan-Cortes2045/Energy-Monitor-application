@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from "vitest";
 import { httpClient } from "./httpClient";
 import { setCurrentUserIdProvider } from "./currentUser";
 import { ApiError, normalizeError } from "./errors";
+import { clearSession, saveSession } from "../../features/auth/services/session";
 
 const capture = async () => {
   let seen;
@@ -27,6 +28,24 @@ describe("httpClient interceptor X-User-Id", () => {
     setCurrentUserIdProvider(() => null);
     const config = await capture();
     expect(config.headers["X-User-Id"]).toBeUndefined();
+  });
+
+  it("no envía credenciales a los endpoints públicos de autenticación", async () => {
+    saveSession({ accessToken: "token-vencido", refreshToken: "r" });
+    try {
+      for (const url of ["/auth/register", "/auth/login", "/auth/email/verify"]) {
+        let seen;
+        httpClient.defaults.adapter = async (config) => {
+          seen = config;
+          return { data: {}, status: 200, statusText: "OK", headers: {}, config };
+        };
+        await httpClient.post(url, {});
+        expect(seen.headers.Authorization).toBeUndefined();
+        expect(seen.headers["X-User-Id"]).toBeUndefined();
+      }
+    } finally {
+      clearSession();
+    }
   });
 });
 

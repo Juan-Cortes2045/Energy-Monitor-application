@@ -11,10 +11,12 @@ export class ApiError extends Error {
    * @param {number | null} status HTTP status (null si no hubo respuesta)
    * @param {string} message mensaje legible para el usuario
    */
-  constructor(status, message) {
+  constructor(status, message, retryAfter = null) {
     super(message);
     this.name = "ApiError";
     this.status = status;
+    /** Segundos de espera pedidos por el servidor (429). */
+    this.retryAfter = retryAfter;
   }
 }
 
@@ -23,6 +25,7 @@ export const ERROR_MESSAGES = {
   FORBIDDEN: "No tienes permisos para realizar esta acción en este hogar.",
   NOT_FOUND: "No se encontró el hogar, el código de acceso o la membresía.",
   CONFLICT: "La operación entra en conflicto con el estado actual del hogar.",
+  RATE_LIMIT: "Demasiados intentos. Espera antes de volver a intentarlo.",
   SERVER: "Ocurrió un error inesperado. Intenta de nuevo.",
   NETWORK: "No se pudo conectar con el servidor. Revisa tu conexión.",
 };
@@ -39,9 +42,16 @@ export function normalizeError(err) {
 
   if (err && typeof err === "object" && "response" in err && err.response) {
     const status = err.response.status ?? null;
+
+    // El backend fija Retry-After en 900 s, pero el navegador solo lo lee si el
+    // servidor lo expone por CORS; si no, se usa ese mismo valor.
+    if (status === 429) {
+      const wait = Number(err.response.headers?.["retry-after"]);
+      return new ApiError(429, ERROR_MESSAGES.RATE_LIMIT, wait > 0 ? wait : 900);
+    }
     const serverMessage =
       err.response.data && typeof err.response.data === "object"
-        ? err.response.data.error
+        ? (err.response.data.message ?? err.response.data.error)
         : undefined;
 
     if (typeof serverMessage === "string" && serverMessage.trim() !== "") {
