@@ -10,7 +10,9 @@
   },
   "members": {
     "title": "Project members",
-    "empty": "No members in this home."
+    "empty": "No members in this home.",
+    "onlyOwnerTitle": "No other users are linked yet",
+    "onlyOwnerDescription": "Share the home's access code so other people can join."
   },
   "invite": {
     "title": "Invite user by email",

@@ -10,7 +10,9 @@
   },
   "members": {
     "title": "Membres du projet",
-    "empty": "Aucun membre dans cette maison."
+    "empty": "Aucun membre dans cette maison.",
+    "onlyOwnerTitle": "Aucun autre utilisateur n'est lié pour l'instant",
+    "onlyOwnerDescription": "Partagez le code d'accès du foyer pour que d'autres personnes le rejoignent."
   },
   "invite": {
     "title": "Inviter un utilisateur par e-mail",

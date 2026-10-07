@@ -10,7 +10,9 @@
   },
   "members": {
     "title": "Miembros del proyecto",
-    "empty": "No hay miembros en este hogar."
+    "empty": "No hay miembros en este hogar.",
+    "onlyOwnerTitle": "Aún no hay más usuarios vinculados",
+    "onlyOwnerDescription": "Comparte el código de acceso del hogar para que otras personas se unan."
   },
   "invite": {
     "title": "Invitar usuario por correo",

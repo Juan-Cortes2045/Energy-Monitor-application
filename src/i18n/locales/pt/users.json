@@ -10,7 +10,9 @@
   },
   "members": {
     "title": "Membros do projeto",
-    "empty": "Nenhum membro neste lar."
+    "empty": "Nenhum membro neste lar.",
+    "onlyOwnerTitle": "Ainda não há outros usuários vinculados",
+    "onlyOwnerDescription": "Compartilhe o código de acesso da casa para que outras pessoas entrem."
   },
   "invite": {
     "title": "Convidar usuário por e-mail",
