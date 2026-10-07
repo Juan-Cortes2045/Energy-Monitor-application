@@ -9,5 +9,28 @@
   "email": "Email",
   "password": "Mot de passe",
   "deleteQuestion": "Voulez-vous supprimer votre compte ?",
-  "deleteAccount": "Supprimer le compte"
+  "deleteAccount": "Supprimer le compte",
+  "edit": "Modifier",
+  "save": "Enregistrer",
+  "cancel": "Annuler",
+  "saved": "Profil mis à jour.",
+  "profileError": "Impossible d'enregistrer les modifications. Réessayez.",
+  "emailTaken": "Cet email est déjà utilisé.",
+  "nameRequired": "Le prénom et le nom sont obligatoires.",
+  "changePassword": {
+    "title": "Changer le mot de passe",
+    "current": "Mot de passe actuel",
+    "new": "Nouveau mot de passe",
+    "repeat": "Confirmer le mot de passe",
+    "submit": "Changer le mot de passe",
+    "wrong": "Le mot de passe actuel est incorrect.",
+    "success": "Mot de passe mis à jour.",
+    "error": "Impossible de changer le mot de passe. Réessayez."
+  },
+  "deleteModal": {
+    "title": "Supprimer le compte",
+    "message": "Cette action est définitive : vous perdrez l'accès à votre compte et à vos données. Voulez-vous vraiment continuer ?",
+    "confirm": "Oui, supprimer",
+    "unavailable": "La suppression du compte n'est pas encore disponible."
+  }
 }

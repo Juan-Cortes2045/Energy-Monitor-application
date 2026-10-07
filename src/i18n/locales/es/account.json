@@ -9,5 +9,28 @@
   "email": "Correo",
   "password": "Contraseña",
   "deleteQuestion": "¿Deseas eliminar tu cuenta?",
-  "deleteAccount": "Eliminar cuenta"
+  "deleteAccount": "Eliminar cuenta",
+  "edit": "Editar",
+  "save": "Guardar",
+  "cancel": "Cancelar",
+  "saved": "Perfil actualizado.",
+  "profileError": "No pudimos guardar los cambios. Intenta de nuevo.",
+  "emailTaken": "Ese correo ya está en uso.",
+  "nameRequired": "Nombre y apellido son obligatorios.",
+  "changePassword": {
+    "title": "Cambiar contraseña",
+    "current": "Contraseña actual",
+    "new": "Nueva contraseña",
+    "repeat": "Confirmar contraseña",
+    "submit": "Cambiar contraseña",
+    "wrong": "La contraseña actual no es correcta.",
+    "success": "Contraseña actualizada.",
+    "error": "No pudimos cambiar la contraseña. Intenta de nuevo."
+  },
+  "deleteModal": {
+    "title": "Eliminar cuenta",
+    "message": "Esta acción es permanente: perderás el acceso a tu cuenta y a tus datos. ¿Seguro que quieres continuar?",
+    "confirm": "Sí, eliminar",
+    "unavailable": "La eliminación de cuenta aún no está disponible."
+  }
 }

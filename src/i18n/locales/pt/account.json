@@ -9,5 +9,28 @@
   "email": "Email",
   "password": "Senha",
   "deleteQuestion": "Deseja excluir sua conta?",
-  "deleteAccount": "Excluir conta"
+  "deleteAccount": "Excluir conta",
+  "edit": "Editar",
+  "save": "Salvar",
+  "cancel": "Cancelar",
+  "saved": "Perfil atualizado.",
+  "profileError": "Não foi possível salvar as alterações. Tente novamente.",
+  "emailTaken": "Esse e-mail já está em uso.",
+  "nameRequired": "Nome e sobrenome são obrigatórios.",
+  "changePassword": {
+    "title": "Alterar senha",
+    "current": "Senha atual",
+    "new": "Nova senha",
+    "repeat": "Confirmar senha",
+    "submit": "Alterar senha",
+    "wrong": "A senha atual não está correta.",
+    "success": "Senha atualizada.",
+    "error": "Não foi possível alterar a senha. Tente novamente."
+  },
+  "deleteModal": {
+    "title": "Excluir conta",
+    "message": "Esta ação é permanente: você perderá o acesso à sua conta e aos seus dados. Tem certeza de que deseja continuar?",
+    "confirm": "Sim, excluir",
+    "unavailable": "A exclusão de conta ainda não está disponível."
+  }
 }

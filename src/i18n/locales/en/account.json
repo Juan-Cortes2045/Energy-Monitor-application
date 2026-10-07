@@ -9,5 +9,28 @@
   "email": "Email",
   "password": "Password",
   "deleteQuestion": "Do you want to delete your account?",
-  "deleteAccount": "Delete account"
+  "deleteAccount": "Delete account",
+  "edit": "Edit",
+  "save": "Save",
+  "cancel": "Cancel",
+  "saved": "Profile updated.",
+  "profileError": "We could not save the changes. Please try again.",
+  "emailTaken": "That email is already in use.",
+  "nameRequired": "First and last name are required.",
+  "changePassword": {
+    "title": "Change password",
+    "current": "Current password",
+    "new": "New password",
+    "repeat": "Confirm password",
+    "submit": "Change password",
+    "wrong": "The current password is not correct.",
+    "success": "Password updated.",
+    "error": "We could not change the password. Please try again."
+  },
+  "deleteModal": {
+    "title": "Delete account",
+    "message": "This action is permanent: you will lose access to your account and your data. Are you sure you want to continue?",
+    "confirm": "Yes, delete",
+    "unavailable": "Account deletion is not available yet."
+  }
 }
