@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { logout } from "../../../../features/auth/services/authApi";
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { createPortal } from "react-dom";
@@ -159,7 +160,7 @@ const Sidebar = () => {
                 <Button
                   type="submit"
                   variant="primary"
-                  onClick={() => navigate("/home")}
+                  onClick={() => logout().finally(() => navigate("/login", { replace: true }))}
                   style={{ width: "100%" }}
                 >
                   {t("profile.logout")}

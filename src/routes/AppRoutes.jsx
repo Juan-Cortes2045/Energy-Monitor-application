@@ -11,6 +11,7 @@ import HomeRoute from "./HomeRoute";
 import Consumption from "../features/DetailHome/Consumption/Consumption";
 import Favorites from "../features/Favorites/Favorites";
 import Notifications from "../features/Notifications/Notifications";
+import ProtectedRoute from "./ProtectedRoute";
 import MainLayout from "../components/layout/MainLayout/MainLayout";
 import DashboarPage from "../features/dashboard/pages/DashboardPage";
 import Settings from "../features/SettingsPage/pages/Settings";
@@ -29,6 +30,7 @@ const AppRoutes = () => {
         <Route path="/VerifyAccount" element={<VerifyAccount />} />
         <Route path="/recover-password" element={<RecoverPassword />} />
         <Route path="/account" element={<Account />} />
+        <Route element={<ProtectedRoute />}>
         <Route element={<MainLayout />}>
           <Route path="/dashboard" element={<DashboarPage />} />
           <Route path="/homes/:homeId" element={<HomeRoute />}>
@@ -37,6 +39,7 @@ const AppRoutes = () => {
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/settings" element={<Settings />} />
+        </Route>
         </Route>
         <Route
           path="/verifyRecoverPassword"
