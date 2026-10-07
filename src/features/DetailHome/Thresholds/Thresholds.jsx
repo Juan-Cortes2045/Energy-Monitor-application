@@ -6,7 +6,7 @@ import Card from "../../../design/components/Card/Card";
 import Button from "../../../design/components/Button/Button";
 import Input from "../../../design/components/Input/Input";
 import styles from "./Thresholds.module.css";
-import { useThresholds } from "../../home/hooks/useThresholds";
+import { useThresholds } from "../hooks/useThresholds";
 
 /**
  * Umbrales conectados al backend:

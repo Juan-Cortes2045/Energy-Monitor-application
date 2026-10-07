@@ -33,7 +33,7 @@ const mockUsers = [
     role: "member",
   },
 ];
-import { useMembers } from "../../home/hooks/useMembers";
+import { useMembers } from "../hooks/useMembers";
 import { useHomes } from "../../../context/useHomes";
 
 // El backend separa `name` y `lastName`; las iniciales se siguen tomando de los
