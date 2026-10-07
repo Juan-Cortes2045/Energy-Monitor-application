@@ -4,6 +4,7 @@ import { clearSession, getSession, getSessionId, saveSession } from "./session";
 export async function login({ email, password }) {
   const { data } = await httpClient.post("/auth/login", { email, password });
   saveSession(data);
+  await refreshProfile().catch(() => {}); // nombre y foto; el login ya es válido sin ellos
   return data.account;
 }
 
@@ -26,13 +27,50 @@ export const changePassword = ({ currentPassword, newPassword }) =>
   httpClient.post("/auth/password/change", { currentPassword, newPassword });
 
 /**
- * Edita nombre y apellido (siempre como par). Guarda en la sesión lo
- * que el backend confirmó, porque GET /auth/account no devuelve el nombre.
+ * Edita nombre y apellido (siempre como par) y/o la foto de perfil. Solo se
+ * envían los campos recibidos. `profileImage` es un data-URL; "" la elimina.
+ * Guarda en la sesión lo que el backend confirmó o, para la foto, lo enviado.
  */
-export async function updateProfile({ name, lastName }) {
-  const { data } = await httpClient.put("/auth/profile", { name, lastName });
-  saveSession({ profile: { name: data.name, lastName: data.lastName } });
+export async function updateProfile({ name, lastName, profileImage }) {
+  const { data } = await httpClient.put("/auth/profile", { name, lastName, profileImage });
+  saveSession({
+    profile: {
+      ...getSession()?.profile,
+      name: data.name,
+      lastName: data.lastName,
+      ...(profileImage !== undefined ? { profileImage: profileImage || null } : {}),
+    },
+  });
   return data;
+}
+
+/**
+ * GET /auth/account: refresca correo, foto, nombre y apellido. Se llama al
+ * abrir el perfil.
+ */
+export async function getAccount() {
+  const { data } = await httpClient.get("/auth/account");
+  const prev = getSession();
+  saveSession({
+    account: { ...prev?.account, email: data.email },
+    profile: {
+      ...prev?.profile,
+      ...(data.name != null ? { name: data.name, lastName: data.lastName ?? "" } : {}),
+      profileImage: data.profileImage ?? null,
+    },
+  });
+  return data;
+}
+
+/** Deja en la sesión correo, foto, nombre y apellido del usuario. */
+export async function refreshProfile() {
+  await getAccount();
+}
+
+/** Elimina la cuenta tras confirmar con la contraseña; cierra la sesión local. */
+export async function deleteAccount(password) {
+  await httpClient.post("/auth/account/delete", { password });
+  clearSession();
 }
 
 /**
