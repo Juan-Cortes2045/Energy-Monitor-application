@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getCurrentUserId } from "./currentUser";
 import { normalizeError } from "./errors";
 import {
   clearSession,
@@ -14,7 +13,8 @@ export const API_BASE_URL = `${
 
 /**
  * Instancia HTTP única.
- * - Interceptor de request: añade Authorization y X-User-Id en un solo lugar.
+ * - Interceptor de request: añade Authorization en un solo lugar. El backend
+ *   identifica al usuario por el `sub` del JWT; no se envía ninguna cabecera de id.
  * - Interceptor de response: renueva el access token (una sola vez a la vez)
  *   y traduce errores al modelo común.
  */
@@ -25,8 +25,7 @@ export const httpClient = axios.create({
 
 // Endpoints públicos de autenticación: no llevan credenciales, porque una sesión
 // guardada que ya no vale (token vencido o cuenta borrada) haría fallar el registro
-// o el login con 401, y X-User-Id dispara un preflight CORS que el backend rechaza.
-// Ahí un 401 significa "credenciales/código malos", no "token vencido".
+// o el login con 401. Ahí un 401 significa "credenciales/código malos", no "token vencido".
 const PUBLIC_AUTH =
   /\/auth\/(login|register|refresh|password\/(forgot|reset)|email\/(verify|verification\/resend))$/;
 
@@ -35,10 +34,6 @@ httpClient.interceptors.request.use((config) => {
   const token = getSession()?.accessToken;
   if (token && !config.headers.Authorization) {
     config.headers.Authorization = `Bearer ${token}`;
-  }
-  const userId = getCurrentUserId();
-  if (userId) {
-    config.headers["X-User-Id"] = userId;
   }
   return config;
 });

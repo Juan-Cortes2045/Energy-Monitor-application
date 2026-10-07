@@ -14,6 +14,7 @@ describe("logout", () => {
   beforeEach(() => {
     localStorage.clear();
     saveSession({ accessToken: jwt("SES1"), refreshToken: "r", account: { idUser: "u" } });
+    localStorage.setItem("userId", "u"); // clave antigua de X-User-Id: el logout la limpia
   });
 
   it("limpia la sesión aunque el backend falle", async () => {
@@ -27,6 +28,15 @@ describe("logout", () => {
     expect(localStorage.getItem("userId")).toBeNull();
     expect(JSON.parse(seen.data)).toEqual({ idUserSession: "SES1" });
     expect(seen.headers.Authorization).toBe(`Bearer ${jwt("SES1")}`);
+  });
+});
+
+describe("saveSession", () => {
+  it("ya no guarda la clave suelta userId", () => {
+    localStorage.clear();
+    saveSession({ accessToken: "a", refreshToken: "r", account: { idUser: "u" } });
+    expect(localStorage.getItem("userId")).toBeNull();
+    expect(getCurrentPerson().id).toBe("u");
   });
 });
 

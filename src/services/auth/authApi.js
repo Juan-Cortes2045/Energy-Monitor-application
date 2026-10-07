@@ -52,7 +52,7 @@ export async function getAccount() {
   const { data } = await httpClient.get("/auth/account");
   const prev = getSession();
   saveSession({
-    account: { ...prev?.account, email: data.email },
+    account: { ...prev?.account, idUser: data.idUser ?? prev?.account?.idUser, email: data.email },
     profile: {
       ...prev?.profile,
       ...(data.name != null ? { name: data.name, lastName: data.lastName ?? "" } : {}),

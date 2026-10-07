@@ -1,33 +1,29 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, afterEach } from "vitest";
 import { httpClient } from "./httpClient";
-import { setCurrentUserIdProvider } from "./currentUser";
 import { ApiError, normalizeError } from "./errors";
 import { clearSession, saveSession } from "../auth/session";
 
-const capture = async () => {
-  let seen;
-  httpClient.defaults.adapter = async (config) => {
-    seen = config;
-    return { data: {}, status: 200, statusText: "OK", headers: {}, config };
-  };
-  await httpClient.get("/probe");
-  return seen;
-};
-
-describe("httpClient interceptor X-User-Id", () => {
-  beforeEach(() => {
-    setCurrentUserIdProvider(() => "user-123");
+describe("httpClient interceptor de request", () => {
+  afterEach(() => {
+    clearSession();
+    localStorage.clear();
   });
 
-  it("añade X-User-Id desde el proveedor único", async () => {
-    const config = await capture();
-    expect(config.headers["X-User-Id"]).toBe("user-123");
-  });
-
-  it("no añade el header si no hay identidad", async () => {
-    setCurrentUserIdProvider(() => null);
-    const config = await capture();
-    expect(config.headers["X-User-Id"]).toBeUndefined();
+  it("ninguna petición envía X-User-Id, aunque haya sesión y la clave antigua userId", async () => {
+    localStorage.setItem("userId", "user-123");
+    saveSession({ accessToken: "tok", refreshToken: "r", account: { idUser: "user-123" } });
+    const methods = ["get", "post", "put", "delete"];
+    for (const method of methods) {
+      let seen;
+      httpClient.defaults.adapter = async (config) => {
+        seen = config;
+        return { data: {}, status: 200, statusText: "OK", headers: {}, config };
+      };
+      await httpClient.request({ url: "/homes/h1/members", method, data: {} });
+      expect(seen.headers.Authorization).toBe("Bearer tok");
+      const names = Object.keys(seen.headers.toJSON?.() ?? seen.headers).map((h) => h.toLowerCase());
+      expect(names).not.toContain("x-user-id");
+    }
   });
 
   it("no envía credenciales a los endpoints públicos de autenticación", async () => {

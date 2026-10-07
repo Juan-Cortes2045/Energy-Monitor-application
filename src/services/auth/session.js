@@ -1,9 +1,10 @@
 /**
- * Sesión del usuario (tokens + idUser) en localStorage.
- * `userId` se guarda con esa clave porque services/http/currentUser.js la lee
- * para el header X-User-Id que aún exige el módulo de hogares.
+ * Sesión del usuario (tokens + idUser) en localStorage, bajo una sola clave.
+ * El id del usuario vive en `session.account.idUser` (login y GET /auth/account).
  */
 const KEY = "session";
+// Clave suelta que guardaban versiones anteriores para el header X-User-Id.
+const LEGACY_USER_ID_KEY = "userId";
 
 export function getSession() {
   try {
@@ -18,7 +19,6 @@ export function saveSession(s) {
   const prev = getSession();
   const next = { ...prev, ...s, account: s.account ?? prev?.account };
   localStorage.setItem(KEY, JSON.stringify(next));
-  if (next.account?.idUser) localStorage.setItem("userId", next.account.idUser);
   notify();
 }
 
@@ -34,7 +34,7 @@ export const getSessionSnapshot = () => localStorage.getItem(KEY);
 export function clearSession() {
   localStorage.removeItem(KEY);
   notify();
-  localStorage.removeItem("userId");
+  localStorage.removeItem(LEGACY_USER_ID_KEY); // limpia a quien aún la tenga guardada
 }
 
 export const isAuthenticated = () => Boolean(getSession()?.accessToken);
