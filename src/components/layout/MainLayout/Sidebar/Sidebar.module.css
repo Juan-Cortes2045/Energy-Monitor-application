@@ -110,6 +110,19 @@
   border-radius: 50%;
 }
 
+.avatar {
+  object-fit: cover;
+}
+
+.avatarPlaceholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  flex-shrink: 0;
+}
+
 .menuBtn {
   margin-left: auto;
   background: transparent;

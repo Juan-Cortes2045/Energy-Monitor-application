@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useCurrentPerson } from "../../../../services/auth/useCurrentPerson";
 import { logout } from "../../../../services/auth/authApi";
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -30,6 +31,9 @@ const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const person = useCurrentPerson();
+  const displayName =
+    [person?.name, person?.lastName].filter(Boolean).join(" ") || person?.email || "";
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
@@ -118,13 +122,15 @@ const Sidebar = () => {
             }}
             style={{ cursor: "pointer" }}
           >
-            <img
-              src="https://i.pravatar.cc/40"
-              alt="user"
-              className={styles.avatar}
-            />
+            {person?.profileImage ? (
+              <img src={person.profileImage} alt={displayName} className={styles.avatar} />
+            ) : (
+              <span className={`${styles.avatar} ${styles.avatarPlaceholder}`} aria-hidden="true">
+                <User size={20} />
+              </span>
+            )}
 
-            {!collapsed && <span className={styles.profileName}>User001</span>}
+            {!collapsed && <span className={styles.profileName}>{displayName}</span>}
 
             <button
               onClick={(e) => {
@@ -160,7 +166,10 @@ const Sidebar = () => {
                 <Button
                   type="submit"
                   variant="primary"
-                  onClick={() => logout().finally(() => navigate("/login", { replace: true }))}
+                  onClick={() => {
+                    logout(); // la sesión local se borra al instante; el aviso al backend sigue en segundo plano
+                    navigate("/home", { replace: true });
+                  }}
                   style={{ width: "100%" }}
                 >
                   {t("profile.logout")}
