@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { sortHomeTypes } from "../../../shared/homeTypes";
 
 import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
@@ -142,9 +143,9 @@ const CreateHomeModal = ({ types = [], serverError = null, onClose, onSubmit }) 
               <option value="" disabled>
                 {t("placeholders.type")}
               </option>
-              {types.map((type) => (
+              {sortHomeTypes(types).map((type) => (
                 <option key={type.idHomeType} value={type.idHomeType}>
-                  {type.name}
+                  {t(`homeTypes.${type.name}`, { defaultValue: type.name })}
                 </option>
               ))}
             </select>

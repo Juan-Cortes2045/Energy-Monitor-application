@@ -22,6 +22,8 @@ const HOME_TYPE_ICONS = {
   house: <Home size={12} />,
   apartment: <Building2 size={12} />,
   studio: <Building2 size={12} />,
+  country_house: <Home size={12} />,
+  cabin: <Home size={12} />,
   other: <Building2 size={12} />,
 };
 const DEFAULT_HOME_TYPE_ICON = <Building2 size={12} />;
