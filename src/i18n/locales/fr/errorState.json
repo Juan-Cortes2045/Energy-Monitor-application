@@ -1,0 +1,11 @@
+{
+  "connection": {
+    "title": "Serveur injoignable",
+    "description": "Connexion impossible. Vérifiez votre connexion internet et réessayez."
+  },
+  "generic": {
+    "title": "Impossible de charger les informations",
+    "description": "Une erreur inattendue s'est produite. Réessayez."
+  },
+  "retry": "Réessayer"
+}

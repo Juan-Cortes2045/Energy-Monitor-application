@@ -1,0 +1,11 @@
+{
+  "connection": {
+    "title": "Sem conexão com o servidor",
+    "description": "Não foi possível conectar. Verifique sua conexão com a internet e tente novamente."
+  },
+  "generic": {
+    "title": "Não foi possível carregar as informações",
+    "description": "Ocorreu um erro inesperado. Tente novamente."
+  },
+  "retry": "Tentar novamente"
+}
