@@ -33,6 +33,12 @@ const OPERATIONS = {
     409: "memberRemove.isOwner",
   },
   thresholdsUpdate: { 400: "thresholdsUpdate.invalid", 403: "thresholdsUpdate.notOwner" },
+  deviceLink: {
+    403: "deviceLink.notOwner",
+    409: "deviceLink.otherHome",
+    default: "deviceLink.failed",
+  },
+  deviceUnlink: { 403: "deviceUnlink.notOwner", default: "deviceUnlink.failed" },
 };
 
 const GENERIC = {

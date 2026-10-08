@@ -2,11 +2,15 @@
   "title": "Link device",
   "close": "Close",
   "discover": {
-    "title": "Searching for nearby modules",
-    "hint": "Make sure the module is plugged into the outlet and in pairing mode",
-    "scanning": "Scanning...",
-    "foundTitle": "Modules found",
-    "rescan": "Search again"
+    "title": "Find your module",
+    "hint": "Plug the module in and hold its BOOT button for 3 seconds until the light blinks. Then press “Find module” and pick it in the browser window.",
+    "scanning": "Connecting over Bluetooth...",
+    "foundTitle": "Module connected",
+    "rescan": "Pick another module",
+    "search": "Find module",
+    "unsupported": "This browser cannot connect over Bluetooth. Use Chrome or Edge on a computer, or Chrome on Android.",
+    "portalFallback": "Alternative: join the “EnergyMonitor-Setup” Wi-Fi network (password energymonitor), open http://192.168.4.1 and set up the network there.",
+    "linuxFlag": "Chrome on Linux ships with Web Bluetooth turned off. Open this address in a new tab, set “Experimental Web Platform features” to Enabled, press “Relaunch” and open this window again:"
   },
   "appliance": {
     "title": "Which appliance are you going to monitor?",
@@ -14,20 +18,27 @@
   },
   "network": {
     "title": "Connect to your WiFi network",
-    "subtitle": "Select the network the module will connect to",
+    "subtitle": "These are the networks the module can see. Pick your home network.",
     "passwordLabel": "Password",
     "passwordPlaceholder": "Enter the network password",
-    "open": "Open"
+    "open": "Open",
+    "scanning": "The module is looking for networks...",
+    "rescan": "Scan again",
+    "manual": "Type the network name",
+    "pickFromList": "Pick from the list",
+    "ssidLabel": "Network name (SSID)",
+    "ssidPlaceholder": "Exact name of your Wi-Fi network"
   },
   "connecting": {
     "title": "Connecting device",
-    "step1": "Searching for network \"{{ssid}}\"",
-    "step2": "Verifying password",
-    "step3": "Syncing device"
+    "step1": "Connecting the module to “{{ssid}}”",
+    "step2": "Checking the password",
+    "step3": "Connecting to the server",
+    "step0": "Registering the device in your home"
   },
   "done": {
     "title": "Device linked!",
-    "subtitle": "Your device is now connected and sending data",
+    "subtitle": "“{{name}}” is connected and sending measurements",
     "nameLabel": "Device name",
     "roomLabel": "Location"
   },
@@ -36,9 +47,17 @@
     "back": "Back",
     "continue": "Continue",
     "connect": "Connect",
-    "finish": "Finish"
+    "finish": "Finish",
+    "retry": "Try again"
   },
   "errors": {
-    "passwordRequired": "Enter the network password"
+    "passwordRequired": "Enter the network password",
+    "bluetooth": "The Bluetooth connection to the module was lost. Move closer and try again.",
+    "wifiAuth": "The network password is wrong.",
+    "wifiNotFound": "The module cannot find that network. Check the name or move it closer to the router.",
+    "wifiFailed": "The module could not join the Wi-Fi network.",
+    "broker": "The module has Wi-Fi but cannot reach the server.",
+    "timeout": "The module did not answer in time. Check it is still on and nearby.",
+    "noBroker": "The server has no MQTT broker address configured (DEVICE_MQTT_PUBLIC_HOST)."
   }
 }

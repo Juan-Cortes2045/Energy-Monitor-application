@@ -15,47 +15,30 @@ import Card from "../../../design/components/Card/Card";
 import { APPLIANCE_TYPE_IDS } from "../shared/deviceTypes";
 import { getDeviceColor } from "../shared/deviceChartConfig";
 import EmptyChart from "../shared/EmptyChart";
+import ErrorState from "../../../components/shared/ErrorState/ErrorState";
+import { deviceApi } from "../../../services/devices";
 import { useTheme } from "../../../context/ThemeContext";
 import styles from "./ConsumptionHistory.module.css";
 
 const FILTERS = ["day", "week", "month", "year"];
 
-const pad = (n) => String(n).padStart(2, "0");
-const isoDay = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 
-// Los puntos se identifican con fechas reales en formato neutro (nada de
-// nombres de día o mes): day → hora (0-23), week/month → "YYYY-MM-DD",
-// year → "YYYY-MM". Las etiquetas se generan al renderizar, con el idioma activo.
-const generateMockData = (categoryTypes, now = new Date()) => {
-  const randomValue = (base, range) => Math.floor(Math.random() * range) + base;
-  const makePoint = (key, base, range) => {
-    const entry = { key };
+// Los puntos llegan del backend con claves neutras: day → hora local ("0".."23"),
+// week/month → "YYYY-MM-DD", year → "YYYY-MM". Las etiquetas se generan al
+// renderizar, con el idioma activo.
+const toRows = (history, devices, categoryTypes) => {
+  const typeByDevice = new Map(devices.map((d) => [d.id, d.applianceType]));
+  return history.buckets.map((bucket) => {
+    const entry = { key: history.period === "day" ? Number(bucket.key) : bucket.key };
     categoryTypes.forEach((type) => {
-      entry[type] = randomValue(base, range);
+      entry[type] = 0;
+    });
+    bucket.devices.forEach(({ deviceId, energy }) => {
+      const type = typeByDevice.get(deviceId);
+      if (type) entry[type] = (entry[type] ?? 0) + energy;
     });
     return entry;
-  };
-
-  const day = Array.from({ length: 24 }, (_, i) => makePoint(i, 0, 8));
-
-  const week = Array.from({ length: 7 }, (_, i) =>
-    makePoint(
-      isoDay(new Date(now.getFullYear(), now.getMonth(), now.getDate() - (6 - i))),
-      5,
-      20
-    )
-  );
-
-  const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-  const month = Array.from({ length: daysInMonth }, (_, i) =>
-    makePoint(isoDay(new Date(now.getFullYear(), now.getMonth(), i + 1)), 10, 30)
-  );
-
-  const year = Array.from({ length: 12 }, (_, i) =>
-    makePoint(`${now.getFullYear()}-${pad(i + 1)}`, 100, 200)
-  );
-
-  return { day, week, month, year };
+  });
 };
 
 // "YYYY-MM-DD" / "YYYY-MM" / hora → Date local (evita el desfase UTC de new Date("YYYY-MM-DD")).
@@ -99,7 +82,7 @@ const SUBFILTERS_CONFIG = {
   ],
 };
 
-const ConsumptionHistory = ({ devices }) => {
+const ConsumptionHistory = ({ homeId, devices }) => {
   const { t, i18n } = useTranslation("history");
   const { currentTheme } = useTheme();
 
@@ -107,6 +90,24 @@ const ConsumptionHistory = ({ devices }) => {
   const [activeSubFilter, setActiveSubFilter] = useState(null); // clave del subfiltro seleccionado
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [manualSelectedType, setManualSelectedType] = useState(null); // null = seguir al top consumer
+  const [history, setHistory] = useState(null);
+  const [historyError, setHistoryError] = useState(null);
+  const [attempt, setAttempt] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+    deviceApi
+      .getConsumptionHistory(homeId, activeFilter)
+      .then((data) => {
+        if (cancelled) return;
+        setHistory(data);
+        setHistoryError(null);
+      })
+      .catch((err) => !cancelled && setHistoryError(err));
+    return () => {
+      cancelled = true;
+    };
+  }, [homeId, activeFilter, attempt]);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -114,16 +115,17 @@ const ConsumptionHistory = ({ devices }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Al cambiar el filtro principal, reiniciar subfiltro
-  useEffect(() => {
+  // Al cambiar de periodo (filtro o subfiltro) se reinicia el subfiltro y se
+  // vuelve a seguir al top consumer en vez de conservar la elección manual.
+  const selectFilter = (filter) => {
+    setActiveFilter(filter);
     setActiveSubFilter(null);
-  }, [activeFilter]);
-
-  // Al cambiar de periodo (filtro o subfiltro), volver a seguir al top
-  // consumer en vez de conservar la elección manual del periodo anterior.
-  useEffect(() => {
     setManualSelectedType(null);
-  }, [activeFilter, activeSubFilter]);
+  };
+  const selectSubFilter = (subFilter) => {
+    setActiveSubFilter(subFilter);
+    setManualSelectedType(null);
+  };
 
   // Tipos de dispositivo realmente vinculados en el hogar, en orden
   // canónico (mismo orden que usa Consumption.jsx) para poder comparar
@@ -133,14 +135,12 @@ const ConsumptionHistory = ({ devices }) => {
     return APPLIANCE_TYPE_IDS.filter((id) => present.has(id));
   }, [devices]);
 
-  // Los valores dependen solo de los tipos de dispositivo; el idioma no
-  // interviene aquí, así que cambiarlo no regenera los datos aleatorios.
-  const mockDataByFilter = useMemo(
-    () => generateMockData(categoryTypes),
-    [categoryTypes]
+  // Mientras llega el periodo pedido se conserva el anterior solo si es del mismo filtro.
+  const fullData = useMemo(
+    () =>
+      history && history.period === activeFilter ? toRows(history, devices, categoryTypes) : [],
+    [history, activeFilter, devices, categoryTypes]
   );
-
-  const fullData = mockDataByFilter[activeFilter];
 
   // Filas del rango de tiempo seleccionado (recorte por subfiltro, igual
   // que antes). De aquí se derivan tanto los totales por categoría
@@ -180,7 +180,7 @@ const ConsumptionHistory = ({ devices }) => {
     const formatter = new Intl.DateTimeFormat(i18n.language, LABEL_OPTIONS[activeFilter]);
     return rows.map((row) => ({
       label: formatter.format(keyToDate(row.key)),
-      value: row[selectedType],
+      value: Number((row[selectedType] ?? 0).toFixed(3)),
     }));
   }, [rows, selectedType, activeFilter, i18n.language]);
 
@@ -188,7 +188,7 @@ const ConsumptionHistory = ({ devices }) => {
   // día/semana usan los textos relativos traducidos.
   const dateRangeText = useMemo(() => {
     const options = RANGE_OPTIONS[activeFilter];
-    if (!options) return t(`dates.${activeFilter}`);
+    if (!options || fullData.length === 0) return t(`dates.${activeFilter}`);
     return new Intl.DateTimeFormat(i18n.language, options).formatRange(
       keyToDate(fullData[0].key),
       keyToDate(fullData[fullData.length - 1].key)
@@ -207,6 +207,19 @@ const ConsumptionHistory = ({ devices }) => {
 
   const totalPeriodo = rankingData.reduce((acc, item) => acc + item.total, 0);
 
+  // Comparación con el periodo anterior completo (ayer, los 7 días previos, el mes
+  // o el año pasado). Solo tiene sentido sobre el periodo entero, sin subfiltro.
+  const previousTotal = history?.period === activeFilter ? history.previousTotal : null;
+  const comparison =
+    activeSubFilter || previousTotal == null
+      ? null
+      : previousTotal === 0
+        ? t("stats.noPrevious")
+        : (() => {
+            const pct = Math.round(((totalPeriodo - previousTotal) / previousTotal) * 100);
+            return t("stats.vsPrevious", { sign: pct > 0 ? "↑" : pct < 0 ? "↓" : "=", pct: Math.abs(pct) });
+          })();
+
   const needsScroll = timeSeriesData.length > 8;
 
   return (
@@ -217,7 +230,7 @@ const ConsumptionHistory = ({ devices }) => {
           {FILTERS.map((filter) => (
             <button
               key={filter}
-              onClick={() => setActiveFilter(filter)}
+              onClick={() => selectFilter(filter)}
               className={activeFilter === filter ? styles.active : ""}
             >
               {t(`filters.${filter}`)}
@@ -232,7 +245,7 @@ const ConsumptionHistory = ({ devices }) => {
         {SUBFILTERS_CONFIG[activeFilter].map((sf) => (
           <button
             key={sf.key}
-            onClick={() => setActiveSubFilter(sf.key)}
+            onClick={() => selectSubFilter(sf.key)}
             className={activeSubFilter === sf.key ? styles.subActive : ""}
           >
             {t(`subfilters.${activeFilter}.${sf.key}`)}
@@ -240,7 +253,7 @@ const ConsumptionHistory = ({ devices }) => {
         ))}
         {activeSubFilter && (
           <button
-            onClick={() => setActiveSubFilter(null)}
+            onClick={() => selectSubFilter(null)}
             className={styles.clearSubFilter}
           >
             {t("subfilters.showAll")}
@@ -272,8 +285,10 @@ const ConsumptionHistory = ({ devices }) => {
             </div>
           )}
 
-          {timeSeriesData.length === 0 ? (
-            <EmptyChart mensaje={t("chart.empty")} />
+          {historyError ? (
+            <ErrorState error={historyError} onRetry={() => setAttempt((n) => n + 1)} />
+          ) : timeSeriesData.length === 0 ? (
+            <EmptyChart mensaje={t(devices.length ? "chart.noData" : "chart.empty")} />
           ) : (
             <div
               className={styles.chartWrapper}
@@ -347,7 +362,7 @@ const ConsumptionHistory = ({ devices }) => {
                   <div key={item.nombre} className={styles.row}>
                     <span>{index + 1}</span>
                     <span>{item.nombre}</span>
-                    <span>{item.total.toFixed(1)} kWh</span>
+                    <span>{item.total.toFixed(2)} kWh</span>
                     <div className={styles.percent}>
                       <div
                         className={styles.bar}
@@ -366,15 +381,15 @@ const ConsumptionHistory = ({ devices }) => {
           <Card className={styles.statCard}>
             <div className={styles.stat}>
               <p>{t("stats.totalConsumption")}</p>
-              <h3>{totalPeriodo.toFixed(1)} kWh</h3>
-              <span>{t("stats.vsPrevious")}</span>
+              <h3>{totalPeriodo.toFixed(2)} kWh</h3>
+              <span>{comparison ?? t("stats.periodTotal")}</span>
             </div>
           </Card>
           <Card className={styles.statCard}>
             <div className={styles.stat}>
               <p>{t("stats.average")}</p>
               <h3>
-                {(totalPeriodo / (categoryTotals.length || 1)).toFixed(1)} kWh
+                {(totalPeriodo / (categoryTotals.length || 1)).toFixed(2)} kWh
               </h3>
               <span>{t("stats.periodAverage")}</span>
             </div>
@@ -383,7 +398,7 @@ const ConsumptionHistory = ({ devices }) => {
             <div className={styles.stat}>
               <p>{t("stats.topConsumer")}</p>
               <h3>{rankingData[0]?.nombre}</h3>
-              <span>{rankingData[0]?.total.toFixed(1)} kWh</span>
+              <span>{rankingData[0]?.total.toFixed(2)} kWh</span>
             </div>
           </Card>
         </div>

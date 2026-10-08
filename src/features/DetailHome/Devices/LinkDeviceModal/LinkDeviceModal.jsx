@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   X,
@@ -11,44 +11,41 @@ import {
   Loader2,
   Check,
   CheckCircle2,
+  AlertTriangle,
+  Bluetooth,
 } from "lucide-react";
 
 import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
-import { APPLIANCE_ICON } from "../../shared/deviceTypes";
+import { APPLIANCE_ICON, ROOM_KEYS, uiApplianceType } from "../../shared/deviceTypes";
+import {
+  connectModule,
+  deviceApi,
+  isBluetoothSupported,
+  needsLinuxBluetoothFlag,
+  signalPercent,
+} from "../../../../services/devices";
+import { errorMessage } from "../../../../services/http";
 import styles from "./LinkDeviceModal.module.css";
 
 const STEPS = ["discover", "appliance", "network", "connecting", "done"];
 
-
-const MOCK_FOUND_DEVICES = [
-  { id: "d1", code: "EM-204" },
-  { id: "d2", code: "EM-118" },
-  { id: "d3", code: "EM-076" },
-];
-
-const MOCK_NETWORKS = [
-  { id: "n1", ssid: "Casa-Principal", signal: 90, secured: true },
-  { id: "n2", ssid: "Casa-Principal-5G", signal: 78, secured: true },
-  { id: "n3", ssid: "Red-Invitados", signal: 55, secured: false },
-];
-
-
-const APPLIANCE_TYPES = Object.entries(APPLIANCE_ICON).map(([id, icon]) => ({
-  id,
-  icon,
-}));
-
-const ROOM_KEYS = ["livingRoom", "kitchen", "laundryRoom", "bedroom", "garage", "other"];
+// Progreso de la conexión: cada estado del módulo cierra los pasos anteriores.
+const PROGRESS = {
+  registering: 0,
+  sending: 1,
+  wifi_connecting: 1,
+  wifi_ok: 2,
+  mqtt_connecting: 2,
+  mqtt_ok: 3,
+};
 
 const StepDots = ({ current }) => (
   <div className={styles.stepDots}>
     {STEPS.map((step, i) => (
       <span
         key={step}
-        className={`${styles.stepDot} ${
-          STEPS.indexOf(current) >= i ? styles.stepDotActive : ""
-        }`}
+        className={`${styles.stepDot} ${STEPS.indexOf(current) >= i ? styles.stepDotActive : ""}`}
       />
     ))}
   </div>
@@ -59,192 +56,267 @@ const SignalBars = ({ signal }) => {
   return (
     <span className={styles.signalBars} aria-hidden="true">
       {[0, 1, 2].map((i) => (
-        <span
-          key={i}
-          className={`${styles.bar} ${i < bars ? styles.barActive : ""}`}
-        />
+        <span key={i} className={`${styles.bar} ${i < bars ? styles.barActive : ""}`} />
       ))}
     </span>
   );
 };
 
-const LinkDeviceModal = ({ onClose, onAddDevice }) => {
+const LinkDeviceModal = ({ homeId, onClose, onLinked }) => {
   const { t } = useTranslation("linkDeviceModal");
   const { t: tDevices } = useTranslation("devices");
+  const supported = isBluetoothSupported();
+  const linuxFlag = needsLinuxBluetoothFlag();
 
   const [step, setStep] = useState("discover");
-  const [scanning, setScanning] = useState(true);
-  const [foundDevices, setFoundDevices] = useState([]);
-  const [selectedDevice, setSelectedDevice] = useState(null);
+  const [error, setError] = useState("");
 
+  // Paso 1: módulo
+  const sessionRef = useRef(null);
+  const [module, setModule] = useState(null); // { code, name }
+  const [connectingBle, setConnectingBle] = useState(false);
+
+  // Paso 2: electrodoméstico
+  const [applianceTypes, setApplianceTypes] = useState([]);
   const [selectedAppliance, setSelectedAppliance] = useState(null);
-
-  const [selectedNetwork, setSelectedNetwork] = useState(null);
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [passwordError, setPasswordError] = useState("");
-
-  const [connectMessage, setConnectMessage] = useState(0);
-
   const [deviceName, setDeviceName] = useState("");
   const [room, setRoom] = useState(ROOM_KEYS[0]);
 
-  // ── Simular escaneo de módulos cercanos ───────────────────────────
-  useEffect(() => {
-    if (step !== "discover" || !scanning) return;
-    const timer = setTimeout(() => {
-      setFoundDevices(MOCK_FOUND_DEVICES);
-      setScanning(false);
-    }, 1800);
-    return () => clearTimeout(timer);
-  }, [step, scanning]);
+  // Paso 3: red
+  const [networks, setNetworks] = useState([]);
+  const [scanning, setScanning] = useState(false);
+  const [selectedNetwork, setSelectedNetwork] = useState(null);
+  const [manualSsid, setManualSsid] = useState("");
+  const [manual, setManual] = useState(false);
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  // ── Simular conexión: avanza mensajes y luego pasa a "done" ───────
+  // Paso 4: progreso
+  const [progress, setProgress] = useState(0);
+
+  // Catálogo de electrodomésticos del backend, con la clave de la UI.
   useEffect(() => {
-    if (step !== "connecting") return;
-    setConnectMessage(0);
-    const t1 = setTimeout(() => setConnectMessage(1), 700);
-    const t2 = setTimeout(() => setConnectMessage(2), 1500);
-    const t3 = setTimeout(() => {
-      setDeviceName(
-        selectedAppliance
-          ? tDevices(`applianceTypes.${selectedAppliance.id}`)
-          : "",
-      );
-      setStep("done");
-    }, 2400);
+    let cancelled = false;
+    deviceApi
+      .listApplianceTypes()
+      .then((list) => {
+        if (cancelled) return;
+        setApplianceTypes(
+          list.map((a) => ({ id: a.idApplianceType, uiType: uiApplianceType(a.name) })),
+        );
+      })
+      .catch((err) => !cancelled && setError(errorMessage(t, err)));
     return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
+      cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step]);
+  }, [t]);
 
-  const handleRescan = () => {
-    setFoundDevices([]);
-    setSelectedDevice(null);
+  // Al cerrar el modal se suelta la conexión Bluetooth.
+  useEffect(() => () => sessionRef.current?.disconnect(), []);
+
+  const ssid = manual ? manualSsid.trim() : (selectedNetwork?.ssid ?? "");
+  const needsPassword = manual || !!selectedNetwork?.secured;
+
+  // ── Paso 1 ─────────────────────────────────────────────────────────
+  const handleSearch = async () => {
+    setError("");
+    setConnectingBle(true);
+    try {
+      sessionRef.current?.disconnect();
+      const session = await connectModule();
+      sessionRef.current = session;
+      setModule({ code: session.identity.code, name: session.name });
+    } catch (err) {
+      // El usuario cerró el selector sin elegir: no es un error.
+      if (err?.name !== "NotFoundError") setError(t("errors.bluetooth"));
+    } finally {
+      setConnectingBle(false);
+    }
+  };
+
+  // ── Paso 3 ─────────────────────────────────────────────────────────
+  const scan = async () => {
     setScanning(true);
+    setError("");
+    try {
+      const list = await sessionRef.current.scanNetworks();
+      setNetworks(list);
+      if (list.length === 0) setManual(true);
+    } catch {
+      setError(t("errors.bluetooth"));
+    } finally {
+      setScanning(false);
+    }
   };
 
-  const handleGoToAppliance = () => {
-    if (!selectedDevice) return;
-    setStep("appliance");
-  };
-
-  const handleGoToNetwork = () => {
-    if (!selectedAppliance) return;
+  const goToNetwork = () => {
+    if (!selectedAppliance || !deviceName.trim()) return;
     setStep("network");
+    if (networks.length === 0) scan();
   };
 
-  const handleConnect = () => {
-    if (selectedNetwork?.secured && !password.trim()) {
-      setPasswordError(t("errors.passwordRequired"));
+  // ── Paso 4 ─────────────────────────────────────────────────────────
+  const handleConnect = async () => {
+    if (!ssid) return;
+    if (needsPassword && !manual && !password) {
+      setError(t("errors.passwordRequired"));
       return;
     }
-    setPasswordError("");
+    setError("");
     setStep("connecting");
+    setProgress(PROGRESS.registering);
+    const session = sessionRef.current;
+
+    let linked;
+    try {
+      linked = await deviceApi.linkDevice(homeId, {
+        deviceCode: module.code,
+        name: deviceName.trim(),
+        applianceTypeId: selectedAppliance.id,
+        location: room,
+      });
+    } catch (err) {
+      setError(errorMessage(t, err, "deviceLink"));
+      setStep("network");
+      return;
+    }
+    if (!linked.broker?.host) {
+      setError(t("errors.noBroker"));
+      setStep("network");
+      return;
+    }
+
+    const failed = (status) =>
+      status.startsWith("wifi_failed") || status.startsWith("mqtt_failed") || status === "bad_config";
+    const off = session.onStatus((status) => {
+      if (status in PROGRESS) setProgress(PROGRESS[status]);
+    });
+    try {
+      setProgress(PROGRESS.sending);
+      const result = session.waitFor((s) => s === "mqtt_ok" || failed(s), 90000);
+      await session.sendConfig({
+        ssid,
+        pass: password,
+        host: linked.broker.host,
+        port: linked.broker.port,
+        id: linked.device.idDevice,
+        key: linked.apiKey,
+      });
+      const status = await result;
+      if (status === "mqtt_ok") {
+        setProgress(PROGRESS.mqtt_ok);
+        setStep("done");
+        return;
+      }
+      setError(
+        status === "wifi_failed:auth"
+          ? t("errors.wifiAuth")
+          : status === "wifi_failed:notfound"
+            ? t("errors.wifiNotFound")
+            : status.startsWith("wifi_failed")
+              ? t("errors.wifiFailed")
+              : t("errors.broker"),
+      );
+      if (status.startsWith("wifi_failed")) setStep("network");
+    } catch {
+      setError(t("errors.timeout"));
+    } finally {
+      off();
+    }
   };
 
   const handleFinish = () => {
-    onAddDevice?.({
-      name: deviceName.trim() || tDevices(`applianceTypes.${selectedAppliance?.id ?? "other"}`),
-      applianceType: selectedAppliance?.id ?? "other",
-      roomKey: room,
-    });
+    sessionRef.current?.disconnect();
+    onLinked?.();
   };
 
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) onClose?.();
   };
 
+  const connectingFailed = step === "connecting" && !!error;
+
   return (
-    <div
-      className={styles.overlay}
-      onClick={handleOverlayClick}
-      role="dialog"
-      aria-modal="true"
-    >
+    <div className={styles.overlay} onClick={handleOverlayClick} role="dialog" aria-modal="true">
       <div className={styles.modal}>
         <div className={styles.header}>
           <div>
             <h2 className={styles.title}>{t("title")}</h2>
             <StepDots current={step} />
           </div>
-          <button
-            className={styles.closeBtn}
-            onClick={onClose}
-            aria-label={t("close")}
-          >
+          <button className={styles.closeBtn} onClick={onClose} aria-label={t("close")}>
             <X size={16} />
           </button>
         </div>
 
         <div className={styles.body}>
-          {/* ── PASO 1: Descubrir el módulo de medición ─────────────── */}
+          {/* ── PASO 1: encontrar el módulo por Bluetooth ───────────── */}
           {step === "discover" && (
             <div className={styles.stepBlock}>
               <p className={styles.stepTitle}>{t("discover.title")}</p>
-              <p className={styles.hint}>{t("discover.hint")}</p>
-
-              {scanning ? (
-                <div className={styles.scanningBox}>
-                  <span className={styles.pulseWrap}>
-                    <span className={styles.pulseRing} />
-                    <Wifi size={22} className={styles.scanIcon} />
-                  </span>
-                  <p className={styles.scanningText}>{t("discover.scanning")}</p>
+              {!supported ? (
+                <div className={styles.hint} role="alert">
+                  <p>
+                    <AlertTriangle size={14} />{" "}
+                    {linuxFlag ? t("discover.linuxFlag") : t("discover.unsupported")}
+                  </p>
+                  {linuxFlag && (
+                    <p>
+                      <code>chrome://flags/#enable-experimental-web-platform-features</code>
+                    </p>
+                  )}
+                  <p>{t("discover.portalFallback")}</p>
                 </div>
               ) : (
                 <>
-                  <p className={styles.blockLabel}>{t("discover.foundTitle")}</p>
-                  <div className={styles.deviceOptions}>
-                    {foundDevices.map((device) => {
-                      const isSelected = selectedDevice?.id === device.id;
-                      return (
-                        <button
-                          type="button"
-                          key={device.id}
-                          className={`${styles.deviceOption} ${
-                            isSelected ? styles.deviceOptionSelected : ""
-                          }`}
-                          onClick={() => setSelectedDevice(device)}
-                        >
+                  <p className={styles.hint}>{t("discover.hint")}</p>
+                  {module ? (
+                    <>
+                      <p className={styles.blockLabel}>{t("discover.foundTitle")}</p>
+                      <div className={styles.deviceOptions}>
+                        <div className={`${styles.deviceOption} ${styles.deviceOptionSelected}`}>
                           <span className={styles.deviceOptionIcon}>
                             <CircuitBoard size={16} />
                           </span>
-                          <span className={styles.deviceOptionName}>
-                            {device.code}
-                          </span>
-                          {isSelected && (
-                            <Check size={16} className={styles.deviceOptionCheck} />
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
+                          <span className={styles.deviceOptionName}>{module.code}</span>
+                          <Check size={16} className={styles.deviceOptionCheck} />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    connectingBle && (
+                      <div className={styles.scanningBox}>
+                        <span className={styles.pulseWrap}>
+                          <span className={styles.pulseRing} />
+                          <Bluetooth size={22} className={styles.scanIcon} />
+                        </span>
+                        <p className={styles.scanningText}>{t("discover.scanning")}</p>
+                      </div>
+                    )
+                  )}
                   <button
                     type="button"
                     className={styles.linkBtn}
-                    onClick={handleRescan}
+                    onClick={handleSearch}
+                    disabled={connectingBle}
                   >
                     <Search size={13} />
-                    {t("discover.rescan")}
+                    {module ? t("discover.rescan") : t("discover.search")}
                   </button>
                 </>
               )}
             </div>
           )}
 
-          {/* ── PASO 2: Qué electrodoméstico va a medir ─────────────── */}
+          {/* ── PASO 2: qué electrodoméstico mide ──────────────────── */}
           {step === "appliance" && (
             <div className={styles.stepBlock}>
               <p className={styles.stepTitle}>{t("appliance.title")}</p>
               <p className={styles.hint}>{t("appliance.hint")}</p>
 
               <div className={styles.applianceGrid}>
-                {APPLIANCE_TYPES.map((appliance) => {
-                  const Icon = appliance.icon;
+                {applianceTypes.map((appliance) => {
+                  const Icon = APPLIANCE_ICON[appliance.uiType];
                   const isSelected = selectedAppliance?.id === appliance.id;
                   return (
                     <button
@@ -253,118 +325,23 @@ const LinkDeviceModal = ({ onClose, onAddDevice }) => {
                       className={`${styles.applianceOption} ${
                         isSelected ? styles.applianceOptionSelected : ""
                       }`}
-                      onClick={() => setSelectedAppliance(appliance)}
+                      onClick={() => {
+                        setSelectedAppliance(appliance);
+                        if (!deviceName.trim()) {
+                          setDeviceName(tDevices(`applianceTypes.${appliance.uiType}`));
+                        }
+                      }}
                     >
                       <span className={styles.applianceOptionIcon}>
                         <Icon size={20} />
                       </span>
                       <span className={styles.applianceOptionName}>
-                        {tDevices(`applianceTypes.${appliance.id}`)}
+                        {tDevices(`applianceTypes.${appliance.uiType}`)}
                       </span>
-                      {isSelected && (
-                        <Check size={14} className={styles.applianceOptionCheck} />
-                      )}
+                      {isSelected && <Check size={14} className={styles.applianceOptionCheck} />}
                     </button>
                   );
                 })}
-              </div>
-            </div>
-          )}
-
-          {/* ── PASO 3: Red WiFi ────────────────────────────────────── */}
-          {step === "network" && (
-            <div className={styles.stepBlock}>
-              <p className={styles.stepTitle}>{t("network.title")}</p>
-              <p className={styles.hint}>{t("network.subtitle")}</p>
-
-              <div className={styles.networkOptions}>
-                {MOCK_NETWORKS.map((network) => {
-                  const isSelected = selectedNetwork?.id === network.id;
-                  return (
-                    <button
-                      type="button"
-                      key={network.id}
-                      className={`${styles.networkOption} ${
-                        isSelected ? styles.deviceOptionSelected : ""
-                      }`}
-                      onClick={() => {
-                        setSelectedNetwork(network);
-                        setPasswordError("");
-                      }}
-                    >
-                      <SignalBars signal={network.signal} />
-                      <span className={styles.networkName}>{network.ssid}</span>
-                      {network.secured ? (
-                        <Lock size={13} className={styles.lockIcon} />
-                      ) : (
-                        <span className={styles.openTag}>{t("network.open")}</span>
-                      )}
-                      {isSelected && (
-                        <Check size={16} className={styles.deviceOptionCheck} />
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {selectedNetwork?.secured && (
-                <div className={styles.field}>
-                  <Input
-                    id="wifi-password"
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    placeholder={t("network.passwordPlaceholder")}
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                      if (passwordError) setPasswordError("");
-                    }}
-                    icon={
-                      showPassword ? <EyeOff size={16} /> : <Eye size={16} />
-                    }
-                    onIconClick={() => setShowPassword((v) => !v)}
-                  >
-                    {t("network.passwordLabel")}
-                  </Input>
-                  {passwordError && (
-                    <span className={styles.errorMsg}>{passwordError}</span>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* ── PASO 4: Conectando ──────────────────────────────────── */}
-          {step === "connecting" && (
-            <div className={styles.stepBlock}>
-              <div className={styles.connectingBox}>
-                <Loader2 size={32} className={styles.spinner} />
-                <p className={styles.stepTitle}>{t("connecting.title")}</p>
-
-                <ul className={styles.connectingList}>
-                  <li className={connectMessage >= 0 ? styles.connectingDone : ""}>
-                    {connectMessage > 0 ? <Check size={13} /> : <span className={styles.dot} />}
-                    {t("connecting.step1", { ssid: selectedNetwork?.ssid ?? "" })}
-                  </li>
-                  <li className={connectMessage >= 1 ? styles.connectingDone : ""}>
-                    {connectMessage > 1 ? <Check size={13} /> : <span className={styles.dot} />}
-                    {t("connecting.step2")}
-                  </li>
-                  <li className={connectMessage >= 2 ? styles.connectingDone : ""}>
-                    <span className={styles.dot} />
-                    {t("connecting.step3")}
-                  </li>
-                </ul>
-              </div>
-            </div>
-          )}
-
-          {/* ── PASO 5: Listo ───────────────────────────────────────── */}
-          {step === "done" && (
-            <div className={styles.stepBlock}>
-              <div className={styles.doneBox}>
-                <CheckCircle2 size={40} className={styles.doneIcon} />
-                <p className={styles.stepTitle}>{t("done.title")}</p>
-                <p className={styles.hint}>{t("done.subtitle")}</p>
               </div>
 
               <div className={styles.field}>
@@ -373,15 +350,18 @@ const LinkDeviceModal = ({ onClose, onAddDevice }) => {
                   value={deviceName}
                   onChange={(e) => setDeviceName(e.target.value)}
                   placeholder={t("done.nameLabel")}
-                  maxLength={40}
+                  maxLength={50}
                 >
                   {t("done.nameLabel")}
                 </Input>
               </div>
 
               <div className={styles.field}>
-                <label className={styles.label}>{t("done.roomLabel")}</label>
+                <label className={styles.label} htmlFor="device-room">
+                  {t("done.roomLabel")}
+                </label>
                 <select
+                  id="device-room"
                   className={styles.select}
                   value={room}
                   onChange={(e) => setRoom(e.target.value)}
@@ -395,6 +375,149 @@ const LinkDeviceModal = ({ onClose, onAddDevice }) => {
               </div>
             </div>
           )}
+
+          {/* ── PASO 3: red Wi-Fi que ve el módulo ─────────────────── */}
+          {step === "network" && (
+            <div className={styles.stepBlock}>
+              <p className={styles.stepTitle}>{t("network.title")}</p>
+              <p className={styles.hint}>{t("network.subtitle")}</p>
+
+              {scanning ? (
+                <div className={styles.scanningBox}>
+                  <span className={styles.pulseWrap}>
+                    <span className={styles.pulseRing} />
+                    <Wifi size={22} className={styles.scanIcon} />
+                  </span>
+                  <p className={styles.scanningText}>{t("network.scanning")}</p>
+                </div>
+              ) : (
+                <>
+                  {!manual && (
+                    <div className={styles.networkOptions}>
+                      {networks.map((network) => {
+                        const isSelected = selectedNetwork?.ssid === network.ssid;
+                        return (
+                          <button
+                            type="button"
+                            key={network.ssid}
+                            className={`${styles.networkOption} ${
+                              isSelected ? styles.deviceOptionSelected : ""
+                            }`}
+                            onClick={() => {
+                              setSelectedNetwork(network);
+                              setError("");
+                            }}
+                          >
+                            <SignalBars signal={signalPercent(network.rssi)} />
+                            <span className={styles.networkName}>{network.ssid}</span>
+                            {network.secured ? (
+                              <Lock size={13} className={styles.lockIcon} />
+                            ) : (
+                              <span className={styles.openTag}>{t("network.open")}</span>
+                            )}
+                            {isSelected && <Check size={16} className={styles.deviceOptionCheck} />}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {manual && (
+                    <div className={styles.field}>
+                      <Input
+                        id="wifi-ssid"
+                        value={manualSsid}
+                        onChange={(e) => setManualSsid(e.target.value)}
+                        placeholder={t("network.ssidPlaceholder")}
+                        maxLength={32}
+                      >
+                        {t("network.ssidLabel")}
+                      </Input>
+                    </div>
+                  )}
+
+                  <button type="button" className={styles.linkBtn} onClick={scan}>
+                    <Search size={13} />
+                    {t("network.rescan")}
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.linkBtn}
+                    onClick={() => {
+                      setManual((v) => !v);
+                      setError("");
+                    }}
+                  >
+                    {manual ? t("network.pickFromList") : t("network.manual")}
+                  </button>
+                </>
+              )}
+
+              {needsPassword && ssid && (
+                <div className={styles.field}>
+                  <Input
+                    id="wifi-password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    placeholder={t("network.passwordPlaceholder")}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      if (error) setError("");
+                    }}
+                    icon={showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    onIconClick={() => setShowPassword((v) => !v)}
+                  >
+                    {t("network.passwordLabel")}
+                  </Input>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ── PASO 4: conectando (progreso real del módulo) ──────── */}
+          {step === "connecting" && (
+            <div className={styles.stepBlock}>
+              <div className={styles.connectingBox}>
+                {connectingFailed ? (
+                  <AlertTriangle size={32} />
+                ) : (
+                  <Loader2 size={32} className={styles.spinner} />
+                )}
+                <p className={styles.stepTitle}>{t("connecting.title")}</p>
+
+                <ul className={styles.connectingList}>
+                  {[
+                    t("connecting.step0"),
+                    t("connecting.step1", { ssid }),
+                    t("connecting.step2"),
+                    t("connecting.step3"),
+                  ].map((label, i) => (
+                    <li key={label} className={progress >= i ? styles.connectingDone : ""}>
+                      {progress > i ? <Check size={13} /> : <span className={styles.dot} />}
+                      {label}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {/* ── PASO 5: listo ──────────────────────────────────────── */}
+          {step === "done" && (
+            <div className={styles.stepBlock}>
+              <div className={styles.doneBox}>
+                <CheckCircle2 size={40} className={styles.doneIcon} />
+                <p className={styles.stepTitle}>{t("done.title")}</p>
+                <p className={styles.hint}>{t("done.subtitle", { name: deviceName.trim() })}</p>
+              </div>
+            </div>
+          )}
+
+          {error && (
+            <span className={styles.errorMsg} role="alert">
+              {error}
+            </span>
+          )}
         </div>
 
         <div className={styles.footer}>
@@ -403,11 +526,7 @@ const LinkDeviceModal = ({ onClose, onAddDevice }) => {
               <Button variant="secondary" onClick={onClose}>
                 {t("buttons.cancel")}
               </Button>
-              <Button
-                variant="primary"
-                onClick={handleGoToAppliance}
-                disabled={!selectedDevice}
-              >
+              <Button variant="primary" onClick={() => setStep("appliance")} disabled={!module}>
                 {t("buttons.continue")}
               </Button>
             </>
@@ -420,8 +539,8 @@ const LinkDeviceModal = ({ onClose, onAddDevice }) => {
               </Button>
               <Button
                 variant="primary"
-                onClick={handleGoToNetwork}
-                disabled={!selectedAppliance}
+                onClick={goToNetwork}
+                disabled={!selectedAppliance || !deviceName.trim()}
               >
                 {t("buttons.continue")}
               </Button>
@@ -433,20 +552,23 @@ const LinkDeviceModal = ({ onClose, onAddDevice }) => {
               <Button variant="secondary" onClick={() => setStep("appliance")}>
                 {t("buttons.back")}
               </Button>
-              <Button
-                variant="primary"
-                onClick={handleConnect}
-                disabled={!selectedNetwork}
-              >
+              <Button variant="primary" onClick={handleConnect} disabled={!ssid || scanning}>
                 {t("buttons.connect")}
               </Button>
             </>
           )}
 
           {step === "connecting" && (
-            <Button variant="secondary" onClick={onClose}>
-              {t("buttons.cancel")}
-            </Button>
+            <>
+              <Button variant="secondary" onClick={onClose}>
+                {t("buttons.cancel")}
+              </Button>
+              {connectingFailed && (
+                <Button variant="primary" onClick={() => setStep("network")}>
+                  {t("buttons.retry")}
+                </Button>
+              )}
+            </>
           )}
 
           {step === "done" && (

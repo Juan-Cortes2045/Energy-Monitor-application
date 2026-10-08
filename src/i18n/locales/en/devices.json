@@ -9,7 +9,8 @@
   },
   "status": {
     "online": "Online",
-    "offline": "Offline"
+    "offline": "Offline",
+    "checking": "Checking…"
   },
   "applianceTypes": {
     "fridge": "Refrigerator",
@@ -41,5 +42,6 @@
     "message": "You're about to delete \"{{name}}\". You'll stop receiving its consumption data and will need to link it again to use it.",
     "cancel": "Cancel",
     "confirm": "Delete"
-  }
+  },
+  "loading": "Loading devices..."
 }

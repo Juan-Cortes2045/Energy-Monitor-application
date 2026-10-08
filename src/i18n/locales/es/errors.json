@@ -51,5 +51,14 @@
   "thresholdsUpdate": {
     "invalid": "Los límites no son válidos: el límite diario no puede superar al mensual.",
     "notOwner": "Solo el responsable del hogar puede modificar los umbrales."
+  },
+  "deviceLink": {
+    "notOwner": "Solo el propietario del hogar puede vincular dispositivos.",
+    "otherHome": "Este módulo ya está vinculado a otro hogar.",
+    "failed": "No se pudo registrar el dispositivo."
+  },
+  "deviceUnlink": {
+    "notOwner": "Solo el propietario del hogar puede eliminar dispositivos.",
+    "failed": "No se pudo eliminar el dispositivo."
   }
 }

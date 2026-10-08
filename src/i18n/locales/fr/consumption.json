@@ -26,7 +26,10 @@
       "MEDIUM": "Moyen",
       "HIGH": "Élevé",
       "CRITICAL": "Critique"
-    }
+    },
+    "noDevices": "Aucun appareil lié",
+    "someOffline_one": "{{count}} hors ligne",
+    "someOffline_other": "{{count}} hors ligne"
   },
   "charts": {
     "globalConsumption": "Consommation globale —",
@@ -40,7 +43,8 @@
   },
   "limits": {
     "daily": "Limite quotidienne",
-    "monthly": "Limite mensuelle"
+    "monthly": "Limite mensuelle",
+    "calculated": "calculé"
   },
   "empty": {
     "noData": "Aucune donnée disponible",
@@ -49,5 +53,6 @@
   },
   "tooltip": {
     "consumption": "Consommation"
-  }
+  },
+  "loading": "Chargement de la consommation..."
 }
