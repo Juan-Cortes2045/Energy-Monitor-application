@@ -28,7 +28,8 @@ function connectivity(device, now) {
  * Dispositivos del hogar y su consumo, desde el backend.
  *
  * Cada dispositivo queda con la forma que pintan las pestañas:
- * { id, name, applianceType, roomKey | room, status: "online"|"checking"|"offline",
+ * { id, code, name, applianceType, applianceTypeId, location, roomKey | room,
+ *   status: "online"|"checking"|"offline",
  *   signal (0-100), consumption (kW actuales, null si no reporta), todayEnergy (kWh) }.
  */
 export function useHomeDevices(homeId) {
@@ -88,6 +89,8 @@ export function useHomeDevices(homeId) {
       code: d.deviceCode,
       name: d.name,
       applianceType: uiApplianceType(d.applianceType),
+      applianceTypeId: d.applianceTypeId,
+      location: d.location,
       roomKey: roomIsKey ? d.location : null,
       room: roomIsKey ? null : d.location,
       status,

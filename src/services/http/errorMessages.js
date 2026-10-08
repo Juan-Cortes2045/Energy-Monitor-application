@@ -39,6 +39,8 @@ const OPERATIONS = {
     default: "deviceLink.failed",
   },
   deviceUnlink: { 403: "deviceUnlink.notOwner", default: "deviceUnlink.failed" },
+  deviceEdit: { 403: "deviceEdit.notOwner", default: "deviceEdit.failed" },
+  deviceReconnect: { 403: "deviceReconnect.notOwner", default: "deviceReconnect.failed" },
 };
 
 const GENERIC = {

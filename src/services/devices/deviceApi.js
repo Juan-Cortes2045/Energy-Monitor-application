@@ -32,6 +32,27 @@ export async function linkDevice(homeId, request) {
   return data;
 }
 
+/**
+ * Cambia qué electrodoméstico mide, el nombre o la ubicación (solo OWNER).
+ * @param {{name: string, applianceTypeId: string, location?: string}} request
+ */
+export async function updateDevice(homeId, deviceId, request) {
+  const { data } = await httpClient.put(`${home(homeId)}/devices/${encodeURIComponent(deviceId)}`, request);
+  return data;
+}
+
+/**
+ * Nueva api key y dirección del broker para un módulo ya vinculado, para escribirlas por
+ * Bluetooth junto con otra red Wi-Fi (solo OWNER). La key anterior deja de valer.
+ * No cuenta como una vinculación nueva.
+ */
+export async function reissueCredentials(homeId, deviceId) {
+  const { data } = await httpClient.post(
+    `${home(homeId)}/devices/${encodeURIComponent(deviceId)}/credentials`,
+  );
+  return data;
+}
+
 /** Desvincula un dispositivo (solo OWNER); su api key deja de valer. */
 export async function unlinkDevice(homeId, deviceId) {
   await httpClient.delete(`${home(homeId)}/devices/${encodeURIComponent(deviceId)}`);
