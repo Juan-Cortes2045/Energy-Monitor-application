@@ -30,11 +30,14 @@
     "active": "active",
     "email": {
       "title": "Email",
-      "description": "Alerts sent to the registered email"
+      "description": "Every alert of your homes also reaches your registered email"
     },
     "push": {
       "title": "Push notifications",
-      "description": "Alerts within the platform"
+      "description": "Alerts in this browser even with the tab closed",
+      "unsupported": "This browser does not support push notifications. On iPhone, add the site to the home screen.",
+      "unavailable": "Push notifications are not configured on the server.",
+      "denied": "You blocked notifications for this site. Allow them from the padlock in the address bar."
     },
     "combined": {
       "title": "Combined mode",
