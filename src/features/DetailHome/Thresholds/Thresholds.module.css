@@ -268,3 +268,36 @@
     font-size: var(--font-size-xl);
   }
 }
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.periodToggle {
+  display: inline-flex;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md, 8px);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.periodOption {
+  padding: 8px 18px;
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font: inherit;
+}
+
+.periodOption:disabled {
+  cursor: default;
+}
+
+.periodOptionActive {
+  background: var(--color-primary);
+  color: #fff;
+}
