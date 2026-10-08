@@ -93,7 +93,7 @@
   "device": {
     "linked": {
       "title": "Nuevo dispositivo vinculado",
-      "message": "Se vinculó un dispositivo en \"{{home}}\". Ya está enviando mediciones."
+      "message": "\"{{home}}\" tiene un nuevo dispositivo conectado y ya está enviando mediciones."
     }
   },
   "toast": {
@@ -101,6 +101,17 @@
   },
   "autoResolveHint": {
     "threshold": "Se resolverá sola cuando el consumo se normalice",
-    "connectivity": "Se resolverá sola cuando el dispositivo se reconecte"
+    "connectivity": "Se resolverá sola cuando el dispositivo se reconecte",
+    "limit": "Se resolverá sola al empezar un nuevo periodo o si subes el límite"
+  },
+  "limit": {
+    "daily": {
+      "title": "Límite diario alcanzado",
+      "message": "\"{{home}}\" ya consumió hoy el límite diario que configuraste."
+    },
+    "monthly": {
+      "title": "Límite mensual alcanzado",
+      "message": "\"{{home}}\" ya consumió este mes el límite mensual que configuraste."
+    }
   }
 }

@@ -93,7 +93,7 @@
   "device": {
     "linked": {
       "title": "Nouvel appareil lié",
-      "message": "Un appareil a été lié dans « {{home}} ». Il envoie déjà des mesures."
+      "message": "« {{home}} » a un nouvel appareil connecté qui envoie déjà des mesures."
     }
   },
   "toast": {
@@ -101,6 +101,17 @@
   },
   "autoResolveHint": {
     "threshold": "Se résoudra quand la consommation redeviendra normale",
-    "connectivity": "Se résoudra quand l’appareil se reconnectera"
+    "connectivity": "Se résoudra quand l’appareil se reconnectera",
+    "limit": "Se résoudra d’elle-même au début d’une nouvelle période ou si vous augmentez la limite"
+  },
+  "limit": {
+    "daily": {
+      "title": "Limite journalière atteinte",
+      "message": "« {{home}} » a déjà consommé aujourd’hui la limite journalière que vous avez définie."
+    },
+    "monthly": {
+      "title": "Limite mensuelle atteinte",
+      "message": "« {{home}} » a déjà consommé ce mois-ci la limite mensuelle que vous avez définie."
+    }
   }
 }
