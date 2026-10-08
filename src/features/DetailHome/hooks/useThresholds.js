@@ -24,11 +24,12 @@ export function useThresholds(homeId) {
     reload();
   }, [reload]);
 
+  /** Solo uno de los dos límites: el otro lo deriva el backend (30 días por mes). */
   const save = useCallback(
-    async (dailyLimit, monthlyLimit) => {
+    async (limitPeriod, limit) => {
       setError(null);
       try {
-        const updated = await api.homeApi.updateThresholds(homeId, { dailyLimit, monthlyLimit });
+        const updated = await api.homeApi.updateThresholds(homeId, { limitPeriod, limit });
         setThresholds(updated);
         return null;
       } catch (err) {
