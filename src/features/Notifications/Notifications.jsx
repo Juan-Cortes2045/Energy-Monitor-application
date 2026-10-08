@@ -20,44 +20,6 @@ import { useHomes } from "../../context/useHomes";
 import { useNotificationCenter } from "../../context/useNotificationCenter";
 import styles from "./Notifications.module.css";
 
-// TODO: el backend aún no expone recomendaciones; estos datos son de ejemplo.
-// ── Recomendaciones generadas a partir del comportamiento de consumo
-// detectado, incluso sin situaciones críticas (ERF4.4). ──
-const INITIAL_RECOMMENDATIONS = [
-  {
-    id: "r1",
-    kind: "recommendation",
-    key: "recommendation.shiftUsageOffPeak",
-    home: "Casa Principal",
-    date: "2026-07-07T08:00:00",
-    read: false,
-  },
-  {
-    id: "r2",
-    kind: "recommendation",
-    key: "recommendation.reduceStandby",
-    home: "Oficina Norte",
-    date: "2026-07-04T12:00:00",
-    read: false,
-  },
-  {
-    id: "r3",
-    kind: "recommendation",
-    key: "recommendation.scheduleMaintenance",
-    home: "Casa Principal",
-    date: "2026-07-01T09:00:00",
-    read: true,
-  },
-  {
-    id: "r4",
-    kind: "recommendation",
-    key: "recommendation.upgradeAppliance",
-    home: "Oficina Norte",
-    date: "2026-06-28T10:00:00",
-    read: true,
-  },
-];
-
 const TABS = ["all", "alerts", "recommendations"];
 
 const ALERT_ICONS = {
@@ -161,7 +123,11 @@ const AlertRow = ({ alert, t, formatDate, onMarkRead, onDelete, busy = false }) 
   );
 };
 
-const RecommendationRow = ({ recommendation, t, formatDate, onMarkRead, onDelete }) => (
+/**
+ * Una recomendación generada a partir del consumo del hogar (ERF4.4): se marca como leída y,
+ * leída, se puede eliminar.
+ */
+const RecommendationRow = ({ recommendation, t, formatDate, onMarkRead, onDelete, busy = false }) => (
   <div className={`${styles.row} ${recommendation.read ? styles.rowMuted : ""}`}>
     <div className={`${styles.icon} ${styles.iconInfo}`}>
       <Lightbulb size={18} />
@@ -169,18 +135,30 @@ const RecommendationRow = ({ recommendation, t, formatDate, onMarkRead, onDelete
 
     <div className={styles.rowBody}>
       <div className={styles.rowTop}>
-        <p className={styles.rowTitle}>{t(`${recommendation.key}.title`)}</p>
+        <p className={styles.rowTitle}>
+          {t(`${recommendation.key}.title`, { defaultValue: t("recommendation.generic.title") })}
+        </p>
         <span className={`${styles.badge} ${recommendation.read ? styles.badgeNeutral : styles.badgeInfo}`}>
           {recommendation.read ? t("status.read") : t("status.new")}
         </span>
       </div>
 
       <p className={styles.rowMessage}>
-        {t(`${recommendation.key}.message`, { home: recommendation.home })}
+        {t(`${recommendation.key}.message`, {
+          home: recommendation.home,
+          device: recommendation.device ?? t("recommendation.someDevice"),
+          defaultValue: t("recommendation.generic.message", { home: recommendation.home }),
+        })}
       </p>
 
       <div className={styles.rowMeta}>
         <span>{recommendation.home}</span>
+        {recommendation.device && (
+          <>
+            <span className={styles.metaDot} />
+            <span>{recommendation.device}</span>
+          </>
+        )}
         <span className={styles.metaDot} />
         <span>{formatDate(recommendation.date)}</span>
       </div>
@@ -192,12 +170,14 @@ const RecommendationRow = ({ recommendation, t, formatDate, onMarkRead, onDelete
           icon={<Trash2 size={13} />}
           label={t("actions.delete")}
           onClick={() => onDelete(recommendation.id)}
+          disabled={busy}
         />
       ) : (
         <RowButton
           icon={<Check size={13} />}
           label={t("actions.markRead")}
           onClick={() => onMarkRead(recommendation.id)}
+          disabled={busy}
         />
       )}
     </div>
@@ -214,11 +194,15 @@ const Notifications = () => {
     markRead,
     remove,
     removeAllResolved,
+    recommendations,
+    markRecommendationRead,
+    markAllRecommendationsRead,
+    removeRecommendation,
+    removeAllReadRecommendations,
   } = useNotificationCenter();
   const [busyIds, setBusyIds] = useState(() => new Set());
   const [clearing, setClearing] = useState(false);
   const [actionError, setActionError] = useState(null);
-  const [recommendations, setRecommendations] = useState(INITIAL_RECOMMENDATIONS);
   const [activeTab, setActiveTab] = useState("all");
 
   const loadError = homesError ?? alertsError;
@@ -258,12 +242,17 @@ const Notifications = () => {
     }
   };
 
-  // Recomendaciones: el módulo aún no existe en el backend, viven en memoria.
-  const markRecommendationRead = (id) =>
-    setRecommendations((prev) => prev.map((r) => (r.id === id ? { ...r, read: true } : r)));
-  const deleteRecommendation = (id) => setRecommendations((prev) => prev.filter((r) => r.id !== id));
-  const markAllRecommendationsRead = () =>
-    setRecommendations((prev) => prev.map((r) => ({ ...r, read: true })));
+  const handleMarkAllRead = async () => {
+    setClearing(true);
+    setActionError(null);
+    try {
+      await markAllRecommendationsRead();
+    } catch (err) {
+      setActionError(err);
+    } finally {
+      setClearing(false);
+    }
+  };
 
   const activeAlertsCount = alerts.filter((a) => !a.resolved).length;
   const unreadRecommendationsCount = recommendations.filter((r) => !r.read).length;
@@ -277,8 +266,10 @@ const Notifications = () => {
     setClearing(true);
     setActionError(null);
     try {
-      if (clearableRecommendations) setRecommendations((prev) => prev.filter((r) => !r.read));
-      if (clearableAlerts) await removeAllResolved();
+      await Promise.all([
+        clearableRecommendations ? removeAllReadRecommendations() : null,
+        clearableAlerts ? removeAllResolved() : null,
+      ]);
     } catch (err) {
       setActionError(err);
     } finally {
@@ -338,7 +329,7 @@ const Notifications = () => {
 
             <div className={styles.tabs}>
               {activeTab !== "alerts" && unreadRecommendationsCount > 0 && (
-                <button type="button" className={styles.markAllBtn} onClick={markAllRecommendationsRead}>
+                <button type="button" className={styles.markAllBtn} onClick={handleMarkAllRead} disabled={clearing}>
                   <CheckCheck size={14} />
                   {t("actions.markAllRead")}
                 </button>
@@ -391,8 +382,9 @@ const Notifications = () => {
                       recommendation={item}
                       t={t}
                       formatDate={formatDate}
-                      onMarkRead={markRecommendationRead}
-                      onDelete={deleteRecommendation}
+                      onMarkRead={(id) => withBusy(id, markRecommendationRead)}
+                      onDelete={(id) => withBusy(id, removeRecommendation)}
+                      busy={busyIds.has(item.id)}
                     />
                   ),
                 )}
