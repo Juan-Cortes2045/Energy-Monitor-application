@@ -9,7 +9,7 @@
     "rescan": "Escolher outro módulo",
     "search": "Procurar módulo",
     "unsupported": "Este navegador não consegue se conectar por Bluetooth. Use Chrome ou Edge no computador, ou Chrome no Android.",
-    "portalFallback": "Alternativa: conecte-se à rede Wi-Fi «EnergyMonitor-Setup» (senha energymonitor), abra http://192.168.4.1 e configure a rede ali.",
+    "portalFallback": "Alternativa: conecte-se à rede Wi-Fi “EnergyMonitor-Setup” (a senha do portal definida no firmware), abra http://192.168.4.1 e configure a rede ali.",
     "linuxFlag": "O Chrome no Linux vem com o Bluetooth web desativado. Abra este endereço em uma nova aba, coloque «Experimental Web Platform features» em Enabled, clique em «Relaunch» e abra esta janela de novo:"
   },
   "appliance": {
@@ -59,5 +59,17 @@
     "broker": "O módulo tem Wi-Fi mas não consegue falar com o servidor.",
     "timeout": "O módulo não respondeu a tempo. Verifique se continua ligado e perto.",
     "noBroker": "O servidor não tem o endereço do broker MQTT configurado (DEVICE_MQTT_PUBLIC_HOST)."
+  },
+  "reconnect": {
+    "title": "Trocar Wi-Fi de “{{name}}”",
+    "hint": "Use se você se mudou, trocou a senha do Wi-Fi ou de operadora. Se o módulo não encontrar sua rede, ele liga o Bluetooth sozinho após 5 minutos; para não esperar, mantenha o botão BOOT pressionado por 3 segundos até a luz piscar. Depois toque em “Buscar módulo” e escolha “EnergyMonitor-{{code}}”.",
+    "wrongModule": "Esse é o módulo {{found}}, não {{code}}. Escolha “EnergyMonitor-{{code}}” na janela do navegador.",
+    "step0": "Preparando novas credenciais",
+    "doneTitle": "Rede atualizada!"
+  },
+  "edit": {
+    "title": "Editar dispositivo",
+    "hint": "Altere qual aparelho este módulo mede, o nome ou a localização. O módulo continua conectado.",
+    "save": "Salvar alterações"
   }
 }

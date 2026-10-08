@@ -5,7 +5,9 @@
   },
   "actions": {
     "link": "Link device",
-    "remove": "Remove {{name}}"
+    "remove": "Remove {{name}}",
+    "edit": "Edit {{name}}",
+    "reconnect": "Change the Wi-Fi network of {{name}}"
   },
   "status": {
     "online": "Online",

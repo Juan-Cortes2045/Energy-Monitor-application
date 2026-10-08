@@ -5,7 +5,9 @@
   },
   "actions": {
     "link": "Connecter un appareil",
-    "remove": "Supprimer {{name}}"
+    "remove": "Supprimer {{name}}",
+    "edit": "Modifier {{name}}",
+    "reconnect": "Changer le réseau Wi-Fi de {{name}}"
   },
   "status": {
     "online": "En ligne",

@@ -60,5 +60,13 @@
   "deviceUnlink": {
     "notOwner": "Seul le propriétaire du foyer peut supprimer des appareils.",
     "failed": "L’appareil n’a pas pu être supprimé."
+  },
+  "deviceEdit": {
+    "notOwner": "Seul le propriétaire du foyer peut modifier les appareils.",
+    "failed": "Les modifications de l’appareil n’ont pas pu être enregistrées."
+  },
+  "deviceReconnect": {
+    "notOwner": "Seul le propriétaire du foyer peut changer le réseau d’un appareil.",
+    "failed": "Les identifiants de l’appareil n’ont pas pu être préparés."
   }
 }

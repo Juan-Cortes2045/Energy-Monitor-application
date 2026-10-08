@@ -9,7 +9,7 @@
     "rescan": "Choisir un autre module",
     "search": "Rechercher le module",
     "unsupported": "Ce navigateur ne peut pas se connecter en Bluetooth. Utilisez Chrome ou Edge sur ordinateur, ou Chrome sur Android.",
-    "portalFallback": "Alternative : connectez-vous au réseau Wi-Fi « EnergyMonitor-Setup » (mot de passe energymonitor), ouvrez http://192.168.4.1 et configurez le réseau.",
+    "portalFallback": "Alternative : connectez-vous au réseau Wi-Fi « EnergyMonitor-Setup » (le mot de passe du portail défini dans le firmware), ouvrez http://192.168.4.1 et configurez-y le réseau.",
     "linuxFlag": "Chrome sous Linux a le Bluetooth web désactivé. Ouvrez cette adresse dans un nouvel onglet, mettez « Experimental Web Platform features » sur Enabled, cliquez sur « Relaunch » puis rouvrez cette fenêtre :"
   },
   "appliance": {
@@ -59,5 +59,17 @@
     "broker": "Le module a le Wi-Fi mais n’atteint pas le serveur.",
     "timeout": "Le module n’a pas répondu à temps. Vérifiez qu’il est allumé et proche.",
     "noBroker": "Le serveur n’a pas d’adresse de broker MQTT configurée (DEVICE_MQTT_PUBLIC_HOST)."
+  },
+  "reconnect": {
+    "title": "Changer le Wi-Fi de « {{name}} »",
+    "hint": "À utiliser si vous avez déménagé, changé le mot de passe Wi-Fi ou d’opérateur. Si le module ne trouve pas son réseau, il active le Bluetooth tout seul au bout de 5 minutes ; pour ne pas attendre, maintenez son bouton BOOT 3 secondes jusqu’à ce que la lumière clignote. Appuyez ensuite sur « Rechercher le module » et choisissez « EnergyMonitor-{{code}} ».",
+    "wrongModule": "C’est le module {{found}}, pas {{code}}. Choisissez « EnergyMonitor-{{code}} » dans la fenêtre du navigateur.",
+    "step0": "Préparation de nouveaux identifiants",
+    "doneTitle": "Réseau mis à jour !"
+  },
+  "edit": {
+    "title": "Modifier l’appareil",
+    "hint": "Changez l’appareil mesuré par ce module, son nom ou son emplacement. Le module reste connecté.",
+    "save": "Enregistrer"
   }
 }

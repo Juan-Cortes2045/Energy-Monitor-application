@@ -5,7 +5,9 @@
   },
   "actions": {
     "link": "Vincular dispositivo",
-    "remove": "Eliminar {{name}}"
+    "remove": "Eliminar {{name}}",
+    "edit": "Editar {{name}}",
+    "reconnect": "Cambiar la red Wi-Fi de {{name}}"
   },
   "status": {
     "online": "En línea",

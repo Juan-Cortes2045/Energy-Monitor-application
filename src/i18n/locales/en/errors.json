@@ -60,5 +60,13 @@
   "deviceUnlink": {
     "notOwner": "Only the home owner can remove devices.",
     "failed": "The device could not be removed."
+  },
+  "deviceEdit": {
+    "notOwner": "Only the home owner can edit devices.",
+    "failed": "The device changes could not be saved."
+  },
+  "deviceReconnect": {
+    "notOwner": "Only the home owner can change a device's network.",
+    "failed": "The device credentials could not be prepared."
   }
 }
