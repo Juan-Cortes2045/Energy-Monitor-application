@@ -6,6 +6,7 @@ import {
   AlertTriangle,
   WifiOff,
   CircuitBoard,
+  Gauge,
   Lightbulb,
   Check,
   CheckCheck,
@@ -25,6 +26,7 @@ const TABS = ["all", "alerts", "recommendations"];
 const ALERT_ICONS = {
   connectivity: WifiOff,
   device: CircuitBoard,
+  limit: Gauge,
   critical: Zap,
   warning: AlertTriangle,
 };

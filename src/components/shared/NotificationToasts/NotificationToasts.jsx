@@ -1,12 +1,18 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { AlertTriangle, Bell, CircuitBoard, Lightbulb, WifiOff, X, Zap } from "lucide-react";
+import { AlertTriangle, Bell, CircuitBoard, Gauge, Lightbulb, WifiOff, X, Zap } from "lucide-react";
 
 import { useNotificationCenter } from "../../../context/useNotificationCenter";
 import styles from "./NotificationToasts.module.css";
 
-const ICONS = { connectivity: WifiOff, device: CircuitBoard, critical: Zap, warning: AlertTriangle };
+const ICONS = {
+  connectivity: WifiOff,
+  device: CircuitBoard,
+  limit: Gauge,
+  critical: Zap,
+  warning: AlertTriangle,
+};
 const LIFETIME_MS = 8000;
 
 const Toast = ({ alert, onClose, onOpen, t }) => {
