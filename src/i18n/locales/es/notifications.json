@@ -50,21 +50,30 @@
     }
   },
   "recommendation": {
-    "shiftUsageOffPeak": {
+    "someDevice": "un dispositivo",
+    "generic": {
+      "title": "Nueva recomendación",
+      "message": "Hay una nueva recomendación para \"{{home}}\"."
+    },
+    "peakHours": {
       "title": "Mueve consumo fuera de horas pico",
-      "message": "Traslada el uso de tus equipos en \"{{home}}\" a horas de menor demanda para ahorrar energía y reducir tu factura."
+      "message": "En \"{{home}}\" buena parte del consumo de la última semana fue entre las 6 y las 10 p. m. Usar la lavadora, la plancha o el horno en otro horario alivia la factura."
     },
-    "reduceStandby": {
-      "title": "Reduce el consumo en standby",
-      "message": "Desconecta en \"{{home}}\" los dispositivos que no uses; el consumo en standby se acumula."
+    "standby": {
+      "title": "Reduce el consumo en reposo",
+      "message": "\"{{device}}\" de \"{{home}}\" sigue consumiendo energía de madrugada. Desconéctalo o usa una regleta con interruptor cuando no lo uses."
     },
-    "scheduleMaintenance": {
-      "title": "Programa un mantenimiento",
-      "message": "Algunos equipos de \"{{home}}\" muestran un consumo superior al habitual. Un mantenimiento puede mejorar su eficiencia."
+    "aboveAverage": {
+      "title": "Tu consumo está aumentando",
+      "message": "\"{{home}}\" consumió esta semana bastante más que la anterior. Revisa qué cambió en el uso de tus equipos."
     },
-    "upgradeAppliance": {
-      "title": "Considera renovar un electrodoméstico",
-      "message": "Un electrodoméstico de \"{{home}}\" consume mucho más que un modelo eficiente actual. Renovarlo podría reducir tu factura."
+    "limitProjection": {
+      "title": "Vas a superar tu límite",
+      "message": "Al ritmo actual \"{{home}}\" superará el límite de consumo que configuraste. Reduce el uso de los equipos que más consumen."
+    },
+    "deviceIncrease": {
+      "title": "Un equipo consume más que antes",
+      "message": "\"{{device}}\" de \"{{home}}\" consume más que en las semanas anteriores. Puede necesitar mantenimiento o estar usándose más de lo normal."
     }
   },
   "empty": {

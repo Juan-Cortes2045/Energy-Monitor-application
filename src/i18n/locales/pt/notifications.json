@@ -50,21 +50,30 @@
     }
   },
   "recommendation": {
-    "shiftUsageOffPeak": {
-      "title": "Mova o consumo para fora do horário de pico",
-      "message": "Transfira o uso dos seus equipamentos em \"{{home}}\" para horários de menor demanda para economizar energia e reduzir sua conta."
+    "someDevice": "um dispositivo",
+    "generic": {
+      "title": "Nova recomendação",
+      "message": "Há uma nova recomendação para \"{{home}}\"."
     },
-    "reduceStandby": {
+    "peakHours": {
+      "title": "Tire o consumo do horário de pico",
+      "message": "Boa parte do consumo da última semana em \"{{home}}\" foi entre 18h e 22h. Usar a máquina de lavar, o ferro ou o forno em outro horário alivia a conta."
+    },
+    "standby": {
       "title": "Reduza o consumo em standby",
-      "message": "Desligue em \"{{home}}\" os dispositivos que você não usa; o consumo em standby se acumula."
+      "message": "\"{{device}}\" de \"{{home}}\" continua consumindo energia de madrugada. Desligue-o da tomada ou use um filtro de linha com interruptor quando não estiver usando."
     },
-    "scheduleMaintenance": {
-      "title": "Agende uma manutenção",
-      "message": "Alguns equipamentos de \"{{home}}\" estão consumindo mais que o habitual. Uma manutenção pode melhorar a eficiência deles."
+    "aboveAverage": {
+      "title": "Seu consumo está aumentando",
+      "message": "\"{{home}}\" consumiu bem mais nesta semana do que na anterior. Veja o que mudou no uso dos seus aparelhos."
     },
-    "upgradeAppliance": {
-      "title": "Considere renovar um eletrodoméstico",
-      "message": "Um eletrodoméstico de \"{{home}}\" consome muito mais que um modelo eficiente atual. Renová-lo pode reduzir sua conta."
+    "limitProjection": {
+      "title": "Você vai ultrapassar seu limite",
+      "message": "No ritmo atual \"{{home}}\" vai ultrapassar o limite de consumo que você configurou. Reduza o uso dos aparelhos que mais consomem."
+    },
+    "deviceIncrease": {
+      "title": "Um aparelho consome mais que antes",
+      "message": "\"{{device}}\" de \"{{home}}\" está consumindo mais do que nas semanas anteriores. Pode precisar de manutenção ou estar sendo mais usado que o normal."
     }
   },
   "empty": {

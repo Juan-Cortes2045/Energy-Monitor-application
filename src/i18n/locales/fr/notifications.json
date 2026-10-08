@@ -50,21 +50,30 @@
     }
   },
   "recommendation": {
-    "shiftUsageOffPeak": {
-      "title": "Décalez la consommation hors heures de pointe",
-      "message": "Déplacez l'utilisation de vos appareils dans « {{home}} » vers des heures de moindre demande pour économiser de l'énergie et réduire votre facture."
+    "someDevice": "un appareil",
+    "generic": {
+      "title": "Nouvelle recommandation",
+      "message": "Une nouvelle recommandation est disponible pour « {{home}} »."
     },
-    "reduceStandby": {
+    "peakHours": {
+      "title": "Décalez votre consommation hors des heures de pointe",
+      "message": "Une grande partie de la consommation de la semaine dernière à « {{home}} » a eu lieu entre 18 h et 22 h. Utiliser le lave-linge, le fer ou le four à un autre moment allège la facture."
+    },
+    "standby": {
       "title": "Réduisez la consommation en veille",
-      "message": "Débranchez dans « {{home}} » les appareils que vous n'utilisez pas ; la consommation en veille s'accumule."
+      "message": "« {{device}} » de « {{home}} » continue de consommer la nuit. Débranchez-le ou utilisez une multiprise à interrupteur quand vous ne vous en servez pas."
     },
-    "scheduleMaintenance": {
-      "title": "Planifiez un entretien",
-      "message": "Certains appareils de « {{home}} » consomment plus que d'habitude. Un entretien peut améliorer leur efficacité."
+    "aboveAverage": {
+      "title": "Votre consommation augmente",
+      "message": "« {{home}} » a consommé nettement plus cette semaine que la précédente. Vérifiez ce qui a changé dans l’utilisation de vos appareils."
     },
-    "upgradeAppliance": {
-      "title": "Envisagez de remplacer un appareil",
-      "message": "Un appareil de « {{home}} » consomme bien plus qu'un modèle efficace récent. Le remplacer pourrait réduire votre facture."
+    "limitProjection": {
+      "title": "Vous allez dépasser votre limite",
+      "message": "Au rythme actuel, « {{home}} » dépassera la limite de consommation que vous avez définie. Réduisez l’utilisation des appareils les plus gourmands."
+    },
+    "deviceIncrease": {
+      "title": "Un appareil consomme plus qu’avant",
+      "message": "« {{device}} » de « {{home}} » consomme plus que les semaines précédentes. Il a peut-être besoin d’un entretien ou est plus utilisé que d’habitude."
     }
   },
   "empty": {

@@ -50,21 +50,30 @@
     }
   },
   "recommendation": {
-    "shiftUsageOffPeak": {
-      "title": "Shift usage off-peak",
-      "message": "Move the use of your appliances in \"{{home}}\" to lower-demand hours to save energy and lower your bill."
+    "someDevice": "a device",
+    "generic": {
+      "title": "New recommendation",
+      "message": "There is a new recommendation for \"{{home}}\"."
     },
-    "reduceStandby": {
-      "title": "Reduce standby consumption",
-      "message": "Unplug the devices you don't use in \"{{home}}\"; standby consumption adds up."
+    "peakHours": {
+      "title": "Shift usage out of peak hours",
+      "message": "A large share of last week's consumption in \"{{home}}\" happened between 6 and 10 p.m. Running the washer, iron or oven at another time lowers your bill."
     },
-    "scheduleMaintenance": {
-      "title": "Schedule maintenance",
-      "message": "Some appliances in \"{{home}}\" are consuming more than usual. Maintenance can improve their efficiency."
+    "standby": {
+      "title": "Cut standby consumption",
+      "message": "\"{{device}}\" in \"{{home}}\" keeps drawing power overnight. Unplug it or use a switched power strip when you are not using it."
     },
-    "upgradeAppliance": {
-      "title": "Consider replacing an appliance",
-      "message": "An appliance in \"{{home}}\" uses far more than a modern efficient model. Replacing it could lower your bill."
+    "aboveAverage": {
+      "title": "Your consumption is rising",
+      "message": "\"{{home}}\" used considerably more energy this week than the previous one. Check what changed in how your appliances are used."
+    },
+    "limitProjection": {
+      "title": "You are on track to exceed your limit",
+      "message": "At the current pace \"{{home}}\" will exceed the consumption limit you set. Reduce the use of the appliances that consume the most."
+    },
+    "deviceIncrease": {
+      "title": "An appliance uses more than before",
+      "message": "\"{{device}}\" in \"{{home}}\" is consuming more than in previous weeks. It may need maintenance or be in use more than usual."
     }
   },
   "empty": {
