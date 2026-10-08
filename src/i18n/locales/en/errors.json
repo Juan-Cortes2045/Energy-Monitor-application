@@ -51,5 +51,14 @@
   "thresholdsUpdate": {
     "invalid": "The limits are not valid: the daily limit cannot exceed the monthly limit.",
     "notOwner": "Only the home's owner can change the thresholds."
+  },
+  "deviceLink": {
+    "notOwner": "Only the home owner can link devices.",
+    "otherHome": "This module is already linked to another home.",
+    "failed": "The device could not be registered."
+  },
+  "deviceUnlink": {
+    "notOwner": "Only the home owner can remove devices.",
+    "failed": "The device could not be removed."
   }
 }

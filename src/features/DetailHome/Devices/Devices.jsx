@@ -1,15 +1,20 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Plug, Wifi, WifiOff, Trash2, Plus } from "lucide-react";
+import { Plug, Wifi, WifiOff, Trash2, Plus, Loader2 } from "lucide-react";
 
 import Card from "../../../design/components/Card/Card";
 import Button from "../../../design/components/Button/Button";
 import LinkDeviceModal from "./LinkDeviceModal/LinkDeviceModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal/ConfirmDeleteModal";
+import ErrorState from "../../../components/shared/ErrorState/ErrorState";
+import { errorMessage } from "../../../services/http";
 import { APPLIANCE_ICON } from "../shared/deviceTypes";
 import styles from "./Devices.module.css";
 
 const SignalIcon = ({ status, signal }) => {
+  if (status === "checking") {
+    return <Loader2 size={14} className={styles.checkingIcon} aria-hidden="true" />;
+  }
   if (status !== "online") {
     return <WifiOff size={14} className={styles.signalOff} aria-hidden="true" />;
   }
@@ -25,7 +30,7 @@ const DeviceRow = ({ device, isOwner, onRequestRemove, t }) => {
 
   return (
     <div className={styles.deviceRow}>
-      <div className={`${styles.deviceIcon} ${device.status === "online" ? styles.deviceIconOn : styles.deviceIconOff}`}>
+      <div className={`${styles.deviceIcon} ${device.status === "offline" ? styles.deviceIconOff : styles.deviceIconOn}`}>
         <Icon size={18} />
       </div>
 
@@ -37,11 +42,17 @@ const DeviceRow = ({ device, isOwner, onRequestRemove, t }) => {
       <div className={styles.deviceMeta}>
         <span
           className={`${styles.statusBadge} ${
-            device.status === "online" ? styles.statusOnline : styles.statusOffline
+            device.status === "online"
+              ? styles.statusOnline
+              : device.status === "checking"
+                ? styles.statusChecking
+                : styles.statusOffline
           }`}
+          role="status"
+          aria-live="polite"
         >
           <SignalIcon status={device.status} signal={device.signal} />
-          {device.status === "online" ? t("status.online") : t("status.offline")}
+          {t(`status.${device.status}`)}
         </span>
         {device.consumption != null && (
           <span className={styles.consumption}>{device.consumption} kW</span>
@@ -62,10 +73,20 @@ const DeviceRow = ({ device, isOwner, onRequestRemove, t }) => {
   );
 };
 
-const Devices = ({ isOwner = false, devices, onAddDevice, onRemoveDevice }) => {
+const Devices = ({
+  homeId,
+  isOwner = false,
+  devices,
+  loading = false,
+  error = null,
+  onRetry,
+  onLinked,
+  onRemoveDevice,
+}) => {
   const { t } = useTranslation("devices");
   const [modalOpen, setModalOpen] = useState(false);
   const [deviceToDelete, setDeviceToDelete] = useState(null);
+  const [removeError, setRemoveError] = useState(null);
 
   const handleRequestRemove = (device) => {
     setDeviceToDelete(device);
@@ -75,14 +96,19 @@ const Devices = ({ isOwner = false, devices, onAddDevice, onRemoveDevice }) => {
     setDeviceToDelete(null);
   };
 
-  const handleConfirmRemove = (device) => {
-    onRemoveDevice(device.id);
+  const handleConfirmRemove = async (device) => {
     setDeviceToDelete(null);
+    setRemoveError(null);
+    try {
+      await onRemoveDevice(device.id);
+    } catch (err) {
+      setRemoveError(err);
+    }
   };
 
-  const handleAddDevice = (newDevice) => {
-    onAddDevice(newDevice);
+  const handleLinked = () => {
     setModalOpen(false);
+    onLinked?.();
   };
 
   const onlineCount = devices.filter((d) => d.status === "online").length;
@@ -105,8 +131,18 @@ const Devices = ({ isOwner = false, devices, onAddDevice, onRemoveDevice }) => {
         )}
       </div>
 
+      {removeError && (
+        <p className={styles.sectionSub} role="alert">
+          {errorMessage(t, removeError, "deviceUnlink")}
+        </p>
+      )}
+
       <Card>
-        {devices.length === 0 ? (
+        {error ? (
+          <ErrorState error={error} onRetry={onRetry} />
+        ) : loading ? (
+          <p className={styles.sectionSub} role="status">{t("loading")}</p>
+        ) : devices.length === 0 ? (
           <div className={styles.emptyState}>
             <div className={styles.emptyIcon}>
               <WifiOff size={22} />
@@ -139,8 +175,9 @@ const Devices = ({ isOwner = false, devices, onAddDevice, onRemoveDevice }) => {
 
       {modalOpen && isOwner && (
         <LinkDeviceModal
+          homeId={homeId}
           onClose={() => setModalOpen(false)}
-          onAddDevice={handleAddDevice}
+          onLinked={handleLinked}
         />
       )}
 

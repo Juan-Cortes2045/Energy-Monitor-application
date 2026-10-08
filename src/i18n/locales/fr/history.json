@@ -11,7 +11,8 @@
   },
   "chart": {
     "title": "RÉPARTITION DE LA CONSOMMATION PAR APPAREIL",
-    "empty": "Associez un appareil pour voir son historique de consommation"
+    "empty": "Associez un appareil pour voir son historique de consommation",
+    "noData": "Pas encore de mesures sur cette période"
   },
   "ranking": {
     "title": "CLASSEMENT DE CONSOMMATION",
@@ -26,8 +27,10 @@
     "totalConsumption": "CONSOMMATION TOTALE PÉRIODE",
     "average": "MOYENNE",
     "topConsumer": "PLUS GRAND CONSOMMATEUR",
-    "vsPrevious": "↑ 10% vs période précédente",
-    "periodAverage": "Moyenne de la période"
+    "vsPrevious": "{{sign}} {{pct}} % vs période précédente",
+    "periodAverage": "Moyenne de la période",
+    "noPrevious": "Pas de données pour la période précédente",
+    "periodTotal": "Total de la période"
   },
   "subfilters": {
     "showAll": "Tout afficher",

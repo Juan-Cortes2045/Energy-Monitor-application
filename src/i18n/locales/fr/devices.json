@@ -9,7 +9,8 @@
   },
   "status": {
     "online": "En ligne",
-    "offline": "Hors ligne"
+    "offline": "Hors ligne",
+    "checking": "Vérification…"
   },
   "applianceTypes": {
     "fridge": "Réfrigérateur",
@@ -41,5 +42,6 @@
     "message": "Vous êtes sur le point de supprimer « {{name}} ». Vous ne recevrez plus ses données de consommation et devrez le reconnecter pour l'utiliser à nouveau.",
     "cancel": "Annuler",
     "confirm": "Supprimer"
-  }
+  },
+  "loading": "Chargement des appareils..."
 }

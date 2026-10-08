@@ -24,32 +24,22 @@ export const APPLIANCE_ICON = {
 
 export const APPLIANCE_TYPE_IDS = Object.keys(APPLIANCE_ICON);
 
-// ── Dispositivos de ejemplo. El nombre y la habitación se resuelven
-// con i18n (t) en el render, no como texto fijo, para que se traduzcan
-// correctamente sin importar el idioma activo. ──
-export const INITIAL_DEVICES = [
-  {
-    id: 1,
-    applianceType: "fridge",
-    roomKey: "kitchen",
-    status: "online",
-    signal: 82,
-    consumption: 0.42,
-  },
-  {
-    id: 2,
-    applianceType: "washer",
-    roomKey: "laundryRoom",
-    status: "online",
-    signal: 95,
-    consumption: 1.15,
-  },
-  {
-    id: 3,
-    applianceType: "pc",
-    roomKey: "bedroom",
-    status: "offline",
-    signal: 0,
-    consumption: null,
-  },
-];
+// Nombre del catálogo del backend (appliance_type.name) → clave de la UI
+// (icono, color y texto i18n en devices.applianceTypes.*).
+export const UI_TYPE_BY_BACKEND_NAME = {
+  refrigerator: "fridge",
+  washing_machine: "washer",
+  television: "tv",
+  microwave: "microwave",
+  air_conditioner: "ac",
+  computer: "pc",
+  water_heater: "waterHeater",
+  lighting: "lighting",
+  other: "other",
+};
+
+export const uiApplianceType = (backendName) => UI_TYPE_BY_BACKEND_NAME[backendName] ?? "other";
+
+// Habitaciones que se ofrecen al vincular. Se guardan como clave en
+// device.location y se traducen al pintar; un texto libre se muestra tal cual.
+export const ROOM_KEYS = ["livingRoom", "kitchen", "laundryRoom", "bedroom", "garage", "other"];

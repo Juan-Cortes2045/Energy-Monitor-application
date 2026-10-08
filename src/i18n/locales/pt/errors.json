@@ -51,5 +51,14 @@
   "thresholdsUpdate": {
     "invalid": "Os limites não são válidos: o limite diário não pode ultrapassar o mensal.",
     "notOwner": "Somente o responsável pela casa pode alterar os limites."
+  },
+  "deviceLink": {
+    "notOwner": "Só o proprietário da casa pode vincular dispositivos.",
+    "otherHome": "Este módulo já está vinculado a outra casa.",
+    "failed": "Não foi possível registrar o dispositivo."
+  },
+  "deviceUnlink": {
+    "notOwner": "Só o proprietário da casa pode remover dispositivos.",
+    "failed": "Não foi possível remover o dispositivo."
   }
 }

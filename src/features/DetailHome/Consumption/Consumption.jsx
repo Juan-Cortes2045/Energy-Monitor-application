@@ -24,42 +24,14 @@ import HomeDetail from "../Home/Home";
 import Devices from "../Devices/Devices";
 import Thresholds from "../Thresholds/Thresholds";
 import ConsumptionHistory from "../ConsumptionHistory/ComsumptionHistory";
-import { useDevicesState } from "../shared/useDevicesState";
+import { useHomeDevices } from "../shared/useHomeDevices";
 import { getDeviceColor } from "../shared/deviceChartConfig";
 import EmptyChart from "../shared/EmptyChart";
+import ErrorState from "../../../components/shared/ErrorState/ErrorState";
 import { useTheme } from "../../../context/ThemeContext";
 import styles from "./Consumption.module.css";
 
 import { useTranslation } from "react-i18next";
-
-const mockConsumptionData = {
-  potencia: 2.4,               // kW
-  nivelPotencia: "MEDIUM",        // LOW | MEDIUM | HIGH | CRITICAL
-  consumoHoy: 18.5,            // kWh
-  limiteConsumo: 30,           // kWh (límite diario configurado)
-  limitesDiario: {
-    usado: 18.5,
-    limite: 30,
-  },
-  limiteMensual: {
-    usado: 320,
-    limite: 500,
-  },
-  consumoHoras: [
-    { hora: "00:00", kw: 0.8 }, { hora: "01:00", kw: 0.6 },
-    { hora: "02:00", kw: 0.5 }, { hora: "03:00", kw: 0.4 },
-    { hora: "04:00", kw: 0.3 }, { hora: "05:00", kw: 0.4 },
-    { hora: "06:00", kw: 1.0 }, { hora: "07:00", kw: 1.8 },
-    { hora: "08:00", kw: 2.4 }, { hora: "09:00", kw: 2.1 },
-    { hora: "10:00", kw: 1.9 }, { hora: "11:00", kw: 2.0 },
-    { hora: "12:00", kw: 2.3 }, { hora: "13:00", kw: 2.5 },
-    { hora: "14:00", kw: 2.2 }, { hora: "15:00", kw: 2.0 },
-    { hora: "16:00", kw: 1.7 }, { hora: "17:00", kw: 2.1 },
-    { hora: "18:00", kw: 2.8 }, { hora: "19:00", kw: 3.0 },
-    { hora: "20:00", kw: 2.7 }, { hora: "21:00", kw: 2.3 },
-    { hora: "22:00", kw: 1.5 }, { hora: "23:00", kw: 0.9 },
-  ],
-};
 
 const CustomAreaTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -81,6 +53,27 @@ const CustomPieTooltip = ({ active, payload }) => {
   );
 };
 
+const LimitBar = ({ label, usado, limite, t }) => {
+  const sinDatos = !limite;
+  const pct = sinDatos
+    ? 0
+    : Math.min(Math.round((usado / limite) * 100), 100);
+  return (
+    <div className={styles.limitCard}>
+      <div className={styles.limitTop}>
+        <span className={styles.limitLabel}>{label}</span>
+        <span className={styles.limitPct}>{sinDatos ? "—" : `${pct}%`}</span>
+      </div>
+      <div className={styles.limitBarOuter}>
+        <div className={styles.limitBarInner} style={{ width: `${pct}%` }} />
+      </div>
+      <div className={styles.limitValues}>
+        {sinDatos ? t("kpi.noData") : `${Number(usado.toFixed(2))} / ${limite} kWh`}
+      </div>
+    </div>
+  );
+};
+
 const Consumption = () => {
   const { t, i18n } = useTranslation("consumption");
   const navigate = useNavigate();
@@ -88,7 +81,7 @@ const Consumption = () => {
   const onBack = () => navigate(-1);
   const [activeTab, setActiveTab] = useState("Consumo");
   const { currentTheme } = useTheme();
-  const { devices, addDevice, removeDevice } = useDevicesState();
+  const { devices, summary, loading, error, reload, removeDevice } = useHomeDevices(home.idHome);
 
   const distribucion = useMemo(() => {
     const totals = {};
@@ -97,6 +90,8 @@ const Consumption = () => {
         (totals[device.applianceType] ?? 0) + (device.consumption ?? 0);
     });
     const totalAll = Object.values(totals).reduce((a, b) => a + b, 0);
+    // Sin potencia actual (todos desconectados) no hay nada que repartir.
+    if (!totalAll) return [];
     return Object.entries(totals).map(([type, consumo]) => ({
       type,
       nombre: t(`applianceTypes.${type}`, { ns: "devices" }),
@@ -106,35 +101,39 @@ const Consumption = () => {
 
   }, [devices, t, i18n.language]);
 
+  const consumoHoras = useMemo(() => {
+    const hours = summary?.lastHours ?? [];
+    if (hours.every((h) => h.averagePower == null)) return [];
+    const formatter = new Intl.DateTimeFormat(i18n.language, {
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+    });
+    return hours.map((h) => ({
+      hora: formatter.format(new Date(h.hourStart)),
+      kw: h.averagePower == null ? null : Number((h.averagePower / 1000).toFixed(3)),
+    }));
+  }, [summary, i18n.language]);
+
+  const activos = devices.filter((d) => d.status === "online").length;
   const data = {
-    ...mockConsumptionData,
-    dispositivos: {
-      activos: devices.filter((d) => d.status === "online").length,
-      total: devices.length,
-    },
+    potencia: summary?.currentPower != null ? Number((summary.currentPower / 1000).toFixed(3)) : null,
+    nivelPotencia: summary?.level ?? null,
+    consumoHoy: summary?.todayEnergy ?? null,
+    limiteConsumo: summary?.dailyLimit ?? null,
+    limitesDiario: { usado: summary?.todayEnergy ?? 0, limite: summary?.dailyLimit ?? null },
+    limiteMensual: { usado: summary?.monthEnergy ?? 0, limite: summary?.monthlyLimit ?? null },
+    consumoHoras,
+    dispositivos: { activos, total: devices.length },
     distribucion,
   };
 
-  const LimitBar = ({ label, usado, limite }) => {
-    const sinDatos = !limite;
-    const pct = sinDatos
-      ? 0
-      : Math.min(Math.round((usado / limite) * 100), 100);
-    return (
-      <div className={styles.limitCard}>
-        <div className={styles.limitTop}>
-          <span className={styles.limitLabel}>{label}</span>
-          <span className={styles.limitPct}>{sinDatos ? "—" : `${pct}%`}</span>
-        </div>
-        <div className={styles.limitBarOuter}>
-          <div className={styles.limitBarInner} style={{ width: `${pct}%` }} />
-        </div>
-        <div className={styles.limitValues}>
-          {sinDatos ? t("kpi.noData") : `${usado} / ${limite} kWh`}
-        </div>
-      </div>
-    );
-  };
+  const devicesSub =
+    devices.length === 0
+      ? t("kpi.noDevices")
+      : activos === devices.length
+        ? t("kpi.allOperational")
+        : t("kpi.someOffline", { count: devices.length - activos });
 
   const TABS = [
     {
@@ -299,7 +298,11 @@ const Consumption = () => {
         )}
 
         {/* TAB: Consumo */}
-        {activeTab === "Consumo" && (
+        {activeTab === "Consumo" && error && <ErrorState error={error} onRetry={reload} />}
+        {activeTab === "Consumo" && !error && loading && (
+          <p className={styles.chartSubtitle} role="status">{t("loading")}</p>
+        )}
+        {activeTab === "Consumo" && !error && !loading && (
           <>
             <div className={styles.kpiRow}>
               <div className={`${styles.kpiCard} ${styles.kpiYellow}`}>
@@ -312,7 +315,9 @@ const Consumption = () => {
                     </span>
                   </p>
                   <p className={styles.kpiSub}>
-                    {t("kpi.level")} {t(`kpi.levels.${data.nivelPotencia}`)}
+                    {data.nivelPotencia
+                      ? `${t("kpi.level")} ${t(`kpi.levels.${data.nivelPotencia}`)}`
+                      : t("kpi.noData")}
                   </p>
                 </div>
               </div>
@@ -343,11 +348,7 @@ const Consumption = () => {
                         : ""}
                     </span>
                   </p>
-                  <p className={styles.kpiSub}>
-                    {data.dispositivos.activos != null
-                      ? t("kpi.allOperational")
-                      : t("kpi.noData")}
-                  </p>
+                  <p className={styles.kpiSub}>{devicesSub}</p>
                 </div>
               </div>
             </div>
@@ -515,12 +516,22 @@ const Consumption = () => {
 
             <div className={styles.limitsRow}>
               <LimitBar
-                label={t("limits.daily")}
+                t={t}
+                label={
+                  summary?.limitPeriod === "MONTHLY"
+                    ? `${t("limits.daily")} (${t("limits.calculated")})`
+                    : t("limits.daily")
+                }
                 usado={data.limitesDiario.usado}
                 limite={data.limitesDiario.limite}
               />
               <LimitBar
-                label={t("limits.monthly")}
+                t={t}
+                label={
+                  summary?.limitPeriod === "DAILY"
+                    ? `${t("limits.monthly")} (${t("limits.calculated")})`
+                    : t("limits.monthly")
+                }
                 usado={data.limiteMensual.usado}
                 limite={data.limiteMensual.limite}
               />
@@ -528,12 +539,16 @@ const Consumption = () => {
           </>
         )}
 
-        {activeTab === "Historial" && <ConsumptionHistory devices={devices} />}
+        {activeTab === "Historial" && <ConsumptionHistory homeId={home.idHome} devices={devices} />}
         {activeTab === "Dispositivos" && (
           <Devices
+            homeId={home.idHome}
             isOwner={isOwner}
             devices={devices}
-            onAddDevice={addDevice}
+            loading={loading}
+            error={error}
+            onRetry={reload}
+            onLinked={() => reload({ quiet: true })}
             onRemoveDevice={removeDevice}
           />
         )}

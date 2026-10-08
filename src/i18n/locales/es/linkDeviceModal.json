@@ -2,11 +2,15 @@
   "title": "Vincular dispositivo",
   "close": "Cerrar",
   "discover": {
-    "title": "Buscando módulos cercanos",
-    "hint": "Asegúrate de que el módulo esté conectado al tomacorriente y en modo de emparejamiento",
-    "scanning": "Escaneando...",
-    "foundTitle": "Módulos encontrados",
-    "rescan": "Buscar de nuevo"
+    "title": "Encuentra tu módulo",
+    "hint": "Enchufa el módulo y mantén pulsado su botón BOOT 3 segundos, hasta que la luz parpadee. Luego pulsa «Buscar módulo» y elígelo en la ventana del navegador.",
+    "scanning": "Conectando por Bluetooth...",
+    "foundTitle": "Módulo conectado",
+    "rescan": "Elegir otro módulo",
+    "search": "Buscar módulo",
+    "unsupported": "Este navegador no puede conectarse por Bluetooth. Usa Chrome o Edge en computador, o Chrome en Android.",
+    "portalFallback": "Alternativa: conéctate a la red Wi-Fi «EnergyMonitor-Setup» (clave energymonitor), abre http://192.168.4.1 y configura allí la red.",
+    "linuxFlag": "Chrome en Linux trae el Bluetooth web desactivado. Abre esta dirección en una pestaña nueva, pon «Experimental Web Platform features» en Enabled, pulsa «Relaunch» y vuelve a abrir esta ventana:"
   },
   "appliance": {
     "title": "¿Qué electrodoméstico vas a monitorear?",
@@ -14,20 +18,27 @@
   },
   "network": {
     "title": "Conecta a tu red WiFi",
-    "subtitle": "Selecciona la red a la que se conectará el módulo",
+    "subtitle": "Estas son las redes que ve el módulo. Elige la de tu casa.",
     "passwordLabel": "Contraseña",
     "passwordPlaceholder": "Ingresa la contraseña de la red",
-    "open": "Abierta"
+    "open": "Abierta",
+    "scanning": "El módulo está buscando redes...",
+    "rescan": "Buscar redes de nuevo",
+    "manual": "Escribir el nombre de la red",
+    "pickFromList": "Elegir de la lista",
+    "ssidLabel": "Nombre de la red (SSID)",
+    "ssidPlaceholder": "Nombre exacto de tu red Wi-Fi"
   },
   "connecting": {
     "title": "Conectando dispositivo",
-    "step1": "Buscando la red \"{{ssid}}\"",
-    "step2": "Verificando contraseña",
-    "step3": "Sincronizando dispositivo"
+    "step1": "Conectando el módulo a “{{ssid}}”",
+    "step2": "Verificando la contraseña",
+    "step3": "Conectando con el servidor",
+    "step0": "Registrando el dispositivo en tu hogar"
   },
   "done": {
     "title": "¡Dispositivo vinculado!",
-    "subtitle": "Tu dispositivo ya está conectado y enviando datos",
+    "subtitle": "«{{name}}» ya está conectado y enviando mediciones",
     "nameLabel": "Nombre del dispositivo",
     "roomLabel": "Ubicación"
   },
@@ -36,9 +47,17 @@
     "back": "Atrás",
     "continue": "Continuar",
     "connect": "Conectar",
-    "finish": "Finalizar"
+    "finish": "Finalizar",
+    "retry": "Reintentar"
   },
   "errors": {
-    "passwordRequired": "Ingresa la contraseña de la red"
+    "passwordRequired": "Ingresa la contraseña de la red",
+    "bluetooth": "Se perdió la conexión Bluetooth con el módulo. Acércate y vuelve a intentarlo.",
+    "wifiAuth": "La contraseña de la red no es correcta.",
+    "wifiNotFound": "El módulo no encuentra esa red. Revisa el nombre o acércalo al router.",
+    "wifiFailed": "El módulo no pudo conectarse a la red Wi-Fi.",
+    "broker": "El módulo tiene Wi-Fi pero no logra conectarse al servidor.",
+    "timeout": "El módulo no respondió a tiempo. Revisa que siga encendido y cerca.",
+    "noBroker": "El servidor no tiene configurada la dirección del broker MQTT (DEVICE_MQTT_PUBLIC_HOST)."
   }
 }

@@ -2,11 +2,15 @@
   "title": "Connecter un appareil",
   "close": "Fermer",
   "discover": {
-    "title": "Recherche de modules à proximité",
-    "hint": "Assurez-vous que le module est branché sur la prise et en mode d'appairage",
-    "scanning": "Recherche en cours...",
-    "foundTitle": "Modules trouvés",
-    "rescan": "Relancer la recherche"
+    "title": "Trouvez votre module",
+    "hint": "Branchez le module et maintenez son bouton BOOT 3 secondes jusqu’à ce que le voyant clignote. Puis appuyez sur « Rechercher le module » et choisissez-le dans la fenêtre du navigateur.",
+    "scanning": "Connexion Bluetooth...",
+    "foundTitle": "Module connecté",
+    "rescan": "Choisir un autre module",
+    "search": "Rechercher le module",
+    "unsupported": "Ce navigateur ne peut pas se connecter en Bluetooth. Utilisez Chrome ou Edge sur ordinateur, ou Chrome sur Android.",
+    "portalFallback": "Alternative : connectez-vous au réseau Wi-Fi « EnergyMonitor-Setup » (mot de passe energymonitor), ouvrez http://192.168.4.1 et configurez le réseau.",
+    "linuxFlag": "Chrome sous Linux a le Bluetooth web désactivé. Ouvrez cette adresse dans un nouvel onglet, mettez « Experimental Web Platform features » sur Enabled, cliquez sur « Relaunch » puis rouvrez cette fenêtre :"
   },
   "appliance": {
     "title": "Quel appareil allez-vous surveiller ?",
@@ -14,20 +18,27 @@
   },
   "network": {
     "title": "Connectez-vous à votre réseau WiFi",
-    "subtitle": "Sélectionnez le réseau auquel le module se connectera",
+    "subtitle": "Voici les réseaux que voit le module. Choisissez celui de votre maison.",
     "passwordLabel": "Mot de passe",
     "passwordPlaceholder": "Entrez le mot de passe du réseau",
-    "open": "Ouvert"
+    "open": "Ouvert",
+    "scanning": "Le module recherche des réseaux...",
+    "rescan": "Rechercher à nouveau",
+    "manual": "Saisir le nom du réseau",
+    "pickFromList": "Choisir dans la liste",
+    "ssidLabel": "Nom du réseau (SSID)",
+    "ssidPlaceholder": "Nom exact de votre réseau Wi-Fi"
   },
   "connecting": {
     "title": "Connexion de l'appareil",
-    "step1": "Recherche du réseau « {{ssid}} »",
+    "step1": "Connexion du module à « {{ssid}} »",
     "step2": "Vérification du mot de passe",
-    "step3": "Synchronisation de l'appareil"
+    "step3": "Connexion au serveur",
+    "step0": "Enregistrement de l’appareil dans votre maison"
   },
   "done": {
     "title": "Appareil connecté !",
-    "subtitle": "Votre appareil est maintenant connecté et envoie des données",
+    "subtitle": "« {{name}} » est connecté et envoie des mesures",
     "nameLabel": "Nom de l'appareil",
     "roomLabel": "Emplacement"
   },
@@ -36,9 +47,17 @@
     "back": "Retour",
     "continue": "Continuer",
     "connect": "Connecter",
-    "finish": "Terminer"
+    "finish": "Terminer",
+    "retry": "Réessayer"
   },
   "errors": {
-    "passwordRequired": "Entrez le mot de passe du réseau"
+    "passwordRequired": "Entrez le mot de passe du réseau",
+    "bluetooth": "La connexion Bluetooth avec le module a été perdue. Rapprochez-vous et réessayez.",
+    "wifiAuth": "Le mot de passe du réseau est incorrect.",
+    "wifiNotFound": "Le module ne trouve pas ce réseau. Vérifiez le nom ou rapprochez-le du routeur.",
+    "wifiFailed": "Le module n’a pas pu se connecter au Wi-Fi.",
+    "broker": "Le module a le Wi-Fi mais n’atteint pas le serveur.",
+    "timeout": "Le module n’a pas répondu à temps. Vérifiez qu’il est allumé et proche.",
+    "noBroker": "Le serveur n’a pas d’adresse de broker MQTT configurée (DEVICE_MQTT_PUBLIC_HOST)."
   }
 }

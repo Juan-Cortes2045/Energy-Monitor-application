@@ -11,7 +11,8 @@
   },
   "chart": {
     "title": "DISTRIBUCIÓN DE CONSUMO POR DISPOSITIVO",
-    "empty": "Vincula un dispositivo para ver su historial de consumo"
+    "empty": "Vincula un dispositivo para ver su historial de consumo",
+    "noData": "Aún no hay mediciones en este periodo"
   },
   "ranking": {
     "title": "RANKING DE CONSUMO",
@@ -26,8 +27,10 @@
     "totalConsumption": "CONSUMO TOTAL PERIODO",
     "average": "PROMEDIO",
     "topConsumer": "MAYOR CONSUMIDOR",
-    "vsPrevious": "↑ 10% vs periodo anterior",
-    "periodAverage": "Promedio del periodo"
+    "vsPrevious": "{{sign}} {{pct}}% vs periodo anterior",
+    "periodAverage": "Promedio del periodo",
+    "noPrevious": "Sin datos del periodo anterior",
+    "periodTotal": "Total del periodo"
   },
   "subfilters": {
     "showAll": "Mostrar todo",

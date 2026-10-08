@@ -51,5 +51,14 @@
   "thresholdsUpdate": {
     "invalid": "Les limites ne sont pas valides : la limite journalière ne peut pas dépasser la limite mensuelle.",
     "notOwner": "Seul le responsable du foyer peut modifier les seuils."
+  },
+  "deviceLink": {
+    "notOwner": "Seul le propriétaire du foyer peut lier des appareils.",
+    "otherHome": "Ce module est déjà lié à un autre foyer.",
+    "failed": "L’appareil n’a pas pu être enregistré."
+  },
+  "deviceUnlink": {
+    "notOwner": "Seul le propriétaire du foyer peut supprimer des appareils.",
+    "failed": "L’appareil n’a pas pu être supprimé."
   }
 }

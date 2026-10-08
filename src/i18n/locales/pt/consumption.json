@@ -26,7 +26,10 @@
       "MEDIUM": "Médio",
       "HIGH": "Alto",
       "CRITICAL": "Crítico"
-    }
+    },
+    "noDevices": "Nenhum dispositivo vinculado",
+    "someOffline_one": "{{count}} desconectado",
+    "someOffline_other": "{{count}} desconectados"
   },
   "charts": {
     "globalConsumption": "Consumo Global —",
@@ -40,7 +43,8 @@
   },
   "limits": {
     "daily": "Limite diário",
-    "monthly": "Limite mensal"
+    "monthly": "Limite mensal",
+    "calculated": "calculado"
   },
   "empty": {
     "noData": "Sem dados disponíveis",
@@ -49,5 +53,6 @@
   },
   "tooltip": {
     "consumption": "Consumo"
-  }
+  },
+  "loading": "Carregando consumo..."
 }

@@ -11,7 +11,8 @@
   },
   "chart": {
     "title": "CONSUMPTION DISTRIBUTION BY DEVICE",
-    "empty": "Link a device to see its consumption history"
+    "empty": "Link a device to see its consumption history",
+    "noData": "No measurements in this period yet"
   },
   "ranking": {
     "title": "CONSUMPTION RANKING",
@@ -26,8 +27,10 @@
     "totalConsumption": "TOTAL CONSUMPTION PERIOD",
     "average": "AVERAGE",
     "topConsumer": "TOP CONSUMER",
-    "vsPrevious": "↑ 10% vs previous period",
-    "periodAverage": "Period average"
+    "vsPrevious": "{{sign}} {{pct}}% vs previous period",
+    "periodAverage": "Period average",
+    "noPrevious": "No data for the previous period",
+    "periodTotal": "Period total"
   },
   "subfilters": {
     "showAll": "Show all",
