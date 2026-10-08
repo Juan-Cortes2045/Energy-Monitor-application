@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { AlertTriangle, Bell, CircuitBoard, WifiOff, X, Zap } from "lucide-react";
+import { AlertTriangle, Bell, CircuitBoard, Lightbulb, WifiOff, X, Zap } from "lucide-react";
 
 import { useNotificationCenter } from "../../../context/useNotificationCenter";
 import styles from "./NotificationToasts.module.css";
@@ -14,7 +14,8 @@ const Toast = ({ alert, onClose, onOpen, t }) => {
     const timer = setTimeout(onClose, LIFETIME_MS);
     return () => clearTimeout(timer);
   }, [onClose]);
-  const Icon = ICONS[alert.type] ?? ICONS[alert.severity] ?? Bell;
+  const Icon =
+    alert.kind === "recommendation" ? Lightbulb : (ICONS[alert.type] ?? ICONS[alert.severity] ?? Bell);
   return (
     <div className={`${styles.toast} ${styles[alert.severity] ?? ""}`} role="status">
       <button type="button" className={styles.body} onClick={onOpen}>
@@ -22,8 +23,15 @@ const Toast = ({ alert, onClose, onOpen, t }) => {
           <Icon size={18} />
         </span>
         <span>
-          <strong className={styles.title}>{t(`${alert.key}.title`)}</strong>
-          <span className={styles.message}>{t(`${alert.key}.message`, { home: alert.home })}</span>
+          <strong className={styles.title}>
+            {t(`${alert.key}.title`, { defaultValue: t("recommendation.generic.title") })}
+          </strong>
+          <span className={styles.message}>
+            {t(`${alert.key}.message`, {
+              home: alert.home,
+              device: alert.device ?? t("recommendation.someDevice"),
+            })}
+          </span>
         </span>
       </button>
       <button type="button" className={styles.close} onClick={onClose} aria-label={t("toast.close")}>
@@ -33,7 +41,7 @@ const Toast = ({ alert, onClose, onOpen, t }) => {
   );
 };
 
-/** Avisos emergentes de las alertas que llegan mientras la app está abierta. */
+/** Avisos emergentes de las alertas y recomendaciones que llegan mientras la app está abierta. */
 const NotificationToasts = () => {
   const { t } = useTranslation("notifications");
   const navigate = useNavigate();
