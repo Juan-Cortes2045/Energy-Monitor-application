@@ -7,13 +7,21 @@ import {
   markAlertRead,
   toUiAlert,
 } from "../services/alerts/alertApi";
+import {
+  deleteReadRecommendations,
+  deleteRecommendation,
+  listRecommendations,
+  markRecommendationRead,
+  toUiRecommendation,
+} from "../services/recommendations/recommendationApi";
 
 /**
- * Bandeja de alertas de todos los hogares del usuario, compartida por la barra lateral
- * (insignia), el aviso emergente y la página de Notificaciones.
+ * Bandeja de alertas y recomendaciones de todos los hogares del usuario, compartida por la
+ * barra lateral (insignia), el aviso emergente y la página de Notificaciones.
  *
- * Se consulta cada 30 s. Una alerta pendiente que no se había visto en este navegador dispara
- * el aviso emergente; las vistas se recuerdan en localStorage para no repetirlo al recargar.
+ * Se consulta cada 30 s. Una alerta pendiente o una recomendación sin leer que no se había visto
+ * en este navegador dispara el aviso emergente; las vistas se recuerdan en localStorage para no
+ * repetirlo al recargar.
  */
 const NotificationCenterContext = createContext(null);
 
@@ -42,6 +50,7 @@ function writeSeen(ids) {
 export const NotificationCenterProvider = ({ children }) => {
   const { homes } = useHomes();
   const [alerts, setAlerts] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
   const [error, setError] = useState(null);
   const [toasts, setToasts] = useState([]);
   const [attempt, setAttempt] = useState(0);
@@ -57,12 +66,15 @@ export const NotificationCenterProvider = ({ children }) => {
   useEffect(() => {
     let cancelled = false;
     if (homes.length === 0) return undefined;
-    Promise.all(
-      homes.map((h) => listAlerts(h.idHome).then((list) => list.map((a) => toUiAlert(a, h.name)))),
-    )
-      .then((lists) => {
+    const alertsOf = (h) => listAlerts(h.idHome).then((list) => list.map((a) => toUiAlert(a, h.name)));
+    const recommendationsOf = (h) =>
+      listRecommendations(h.idHome).then((list) => list.map((r) => toUiRecommendation(r, h.name)));
+    Promise.all([Promise.all(homes.map(alertsOf)), Promise.all(homes.map(recommendationsOf))])
+      .then(([alertLists, recommendationLists]) => {
         if (cancelled) return;
-        const all = lists.flat();
+        const loadedAlerts = alertLists.flat();
+        const loadedRecommendations = recommendationLists.flat();
+        const all = [...loadedAlerts, ...loadedRecommendations];
         if (seenRef.current == null) {
           const stored = readSeen();
           if (stored == null) {
@@ -72,13 +84,14 @@ export const NotificationCenterProvider = ({ children }) => {
             seenRef.current = stored;
           }
         }
-        const fresh = all.filter((a) => !a.resolved && !seenRef.current.has(a.id));
+        const fresh = all.filter((a) => !a.resolved && !a.read && !seenRef.current.has(a.id));
         fresh.forEach((a) => seenRef.current.add(a.id));
         if (fresh.length) {
           writeSeen(seenRef.current);
           setToasts((prev) => [...prev, ...fresh].slice(-3));
         }
-        setAlerts(all);
+        setAlerts(loadedAlerts);
+        setRecommendations(loadedRecommendations);
         setError(null);
       })
       .catch((err) => !cancelled && setError(err));
@@ -106,11 +119,38 @@ export const NotificationCenterProvider = ({ children }) => {
     setAlerts((prev) => prev.filter((a) => !a.resolved));
   }, [alerts]);
 
+  /** Recomendaciones: "marcar como leída". */
+  const markRecommendationAsRead = useCallback(async (id) => {
+    await markRecommendationRead(id);
+    setRecommendations((prev) => prev.map((r) => (r.id === id ? { ...r, read: true } : r)));
+  }, []);
+
+  /** Todas las sin leer, de todos los hogares. */
+  const markAllRecommendationsRead = useCallback(async () => {
+    const unread = recommendations.filter((r) => !r.read);
+    await Promise.all(unread.map((r) => markRecommendationRead(r.id)));
+    setRecommendations((prev) => prev.map((r) => ({ ...r, read: true })));
+  }, [recommendations]);
+
+  /** Una recomendación leída. */
+  const removeRecommendation = useCallback(async (id) => {
+    await deleteRecommendation(id);
+    setRecommendations((prev) => prev.filter((r) => r.id !== id));
+  }, []);
+
+  /** Todas las leídas, de todos los hogares. */
+  const removeAllReadRecommendations = useCallback(async () => {
+    const homeIds = [...new Set(recommendations.filter((r) => r.read).map((r) => r.homeId))];
+    await Promise.all(homeIds.map((homeId) => deleteReadRecommendations(homeId)));
+    setRecommendations((prev) => prev.filter((r) => !r.read));
+  }, [recommendations]);
+
   const dismissToast = useCallback((id) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
-  const pendingCount = alerts.filter((a) => !a.resolved).length;
+  const pendingCount =
+    alerts.filter((a) => !a.resolved).length + recommendations.filter((r) => !r.read).length;
 
   // El contador también en el título de la pestaña: se ve aunque esté en segundo plano.
   useEffect(() => {
@@ -127,6 +167,11 @@ export const NotificationCenterProvider = ({ children }) => {
         markRead,
         remove,
         removeAllResolved,
+        recommendations,
+        markRecommendationRead: markRecommendationAsRead,
+        markAllRecommendationsRead,
+        removeRecommendation,
+        removeAllReadRecommendations,
         pendingCount,
         toasts,
         dismissToast,
