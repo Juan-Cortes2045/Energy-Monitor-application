@@ -9,6 +9,6 @@
     "addAccount": "Add account",
     "logout": "Log out"
   },
-  "pendingAlerts_one": "{{count}} pending alert",
-  "pendingAlerts_other": "{{count}} pending alerts"
+  "pendingNotifications_one": "{{count}} pending notification",
+  "pendingNotifications_other": "{{count}} pending notifications"
 }

@@ -105,7 +105,7 @@ const Sidebar = () => {
             collapsed={collapsed}
             onClick={() => setIsOpen(false)}
             badge={pendingCount}
-            badgeLabel={t("pendingAlerts", { count: pendingCount })}
+            badgeLabel={t("pendingNotifications", { count: pendingCount })}
           />
           <NavItem
             to="/settings"

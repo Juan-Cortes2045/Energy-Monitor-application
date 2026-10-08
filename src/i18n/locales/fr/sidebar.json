@@ -9,6 +9,6 @@
     "addAccount": "Ajouter un compte",
     "logout": "Se déconnecter"
   },
-  "pendingAlerts_one": "{{count}} alerte en attente",
-  "pendingAlerts_other": "{{count}} alertes en attente"
+  "pendingNotifications_one": "{{count}} notification en attente",
+  "pendingNotifications_other": "{{count}} notifications en attente"
 }

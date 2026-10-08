@@ -9,6 +9,6 @@
     "addAccount": "Añadir cuenta",
     "logout": "Cerrar sesión"
   },
-  "pendingAlerts_one": "{{count}} alerta pendiente",
-  "pendingAlerts_other": "{{count}} alertas pendientes"
+  "pendingNotifications_one": "{{count}} notificación pendiente",
+  "pendingNotifications_other": "{{count}} notificaciones pendientes"
 }

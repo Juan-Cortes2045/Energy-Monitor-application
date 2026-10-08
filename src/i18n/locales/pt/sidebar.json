@@ -9,6 +9,6 @@
     "addAccount": "Adicionar conta",
     "logout": "Sair"
   },
-  "pendingAlerts_one": "{{count}} alerta pendente",
-  "pendingAlerts_other": "{{count}} alertas pendentes"
+  "pendingNotifications_one": "{{count}} notificação pendente",
+  "pendingNotifications_other": "{{count}} notificações pendentes"
 }
