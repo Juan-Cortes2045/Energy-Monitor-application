@@ -28,7 +28,9 @@ import {
 import { errorMessage } from "../../../../services/http";
 import styles from "./LinkDeviceModal.module.css";
 
-const STEPS = ["discover", "appliance", "network", "connecting", "done"];
+const LINK_STEPS = ["discover", "appliance", "network", "connecting", "done"];
+// Reconectar un módulo ya vinculado (mudanza, nueva contraseña, otro operador): sin electrodoméstico.
+const RECONNECT_STEPS = ["discover", "network", "connecting", "done"];
 
 // Progreso de la conexión: cada estado del módulo cierra los pasos anteriores.
 const PROGRESS = {
@@ -40,12 +42,12 @@ const PROGRESS = {
   mqtt_ok: 3,
 };
 
-const StepDots = ({ current }) => (
+const StepDots = ({ steps, current }) => (
   <div className={styles.stepDots}>
-    {STEPS.map((step, i) => (
+    {steps.map((step, i) => (
       <span
         key={step}
-        className={`${styles.stepDot} ${STEPS.indexOf(current) >= i ? styles.stepDotActive : ""}`}
+        className={`${styles.stepDot} ${steps.indexOf(current) >= i ? styles.stepDotActive : ""}`}
       />
     ))}
   </div>
@@ -62,8 +64,14 @@ const SignalBars = ({ signal }) => {
   );
 };
 
-const LinkDeviceModal = ({ homeId, onClose, onLinked }) => {
+/**
+ * Asistente por Bluetooth. Sin `device` vincula un módulo nuevo; con `device` (uno ya vinculado)
+ * solo le envía otra red Wi-Fi y credenciales nuevas, sin volver a vincularlo.
+ */
+const LinkDeviceModal = ({ homeId, device = null, onClose, onLinked }) => {
   const { t } = useTranslation("linkDeviceModal");
+  const reconnect = !!device;
+  const steps = reconnect ? RECONNECT_STEPS : LINK_STEPS;
   const { t: tDevices } = useTranslation("devices");
   const supported = isBluetoothSupported();
   const linuxFlag = needsLinuxBluetoothFlag();
@@ -124,6 +132,13 @@ const LinkDeviceModal = ({ homeId, onClose, onLinked }) => {
     try {
       sessionRef.current?.disconnect();
       const session = await connectModule();
+      if (reconnect && session.identity.code !== device.code) {
+        // Otro módulo cercano: no se le escribe la red ni la key de este.
+        session.disconnect();
+        setModule(null);
+        setError(t("reconnect.wrongModule", { code: device.code, found: session.identity.code }));
+        return;
+      }
       sessionRef.current = session;
       setModule({ code: session.identity.code, name: session.name });
     } catch (err) {
@@ -150,7 +165,7 @@ const LinkDeviceModal = ({ homeId, onClose, onLinked }) => {
   };
 
   const goToNetwork = () => {
-    if (!selectedAppliance || !deviceName.trim()) return;
+    if (!reconnect && (!selectedAppliance || !deviceName.trim())) return;
     setStep("network");
     if (networks.length === 0) scan();
   };
@@ -169,14 +184,16 @@ const LinkDeviceModal = ({ homeId, onClose, onLinked }) => {
 
     let linked;
     try {
-      linked = await deviceApi.linkDevice(homeId, {
-        deviceCode: module.code,
-        name: deviceName.trim(),
-        applianceTypeId: selectedAppliance.id,
-        location: room,
-      });
+      linked = reconnect
+        ? await deviceApi.reissueCredentials(homeId, device.id)
+        : await deviceApi.linkDevice(homeId, {
+            deviceCode: module.code,
+            name: deviceName.trim(),
+            applianceTypeId: selectedAppliance.id,
+            location: room,
+          });
     } catch (err) {
-      setError(errorMessage(t, err, "deviceLink"));
+      setError(errorMessage(t, err, reconnect ? "deviceReconnect" : "deviceLink"));
       setStep("network");
       return;
     }
@@ -241,8 +258,10 @@ const LinkDeviceModal = ({ homeId, onClose, onLinked }) => {
       <div className={styles.modal}>
         <div className={styles.header}>
           <div>
-            <h2 className={styles.title}>{t("title")}</h2>
-            <StepDots current={step} />
+            <h2 className={styles.title}>
+              {reconnect ? t("reconnect.title", { name: device.name }) : t("title")}
+            </h2>
+            <StepDots steps={steps} current={step} />
           </div>
           <button className={styles.closeBtn} onClick={onClose} aria-label={t("close")}>
             <X size={16} />
@@ -269,7 +288,9 @@ const LinkDeviceModal = ({ homeId, onClose, onLinked }) => {
                 </div>
               ) : (
                 <>
-                  <p className={styles.hint}>{t("discover.hint")}</p>
+                  <p className={styles.hint}>
+                    {reconnect ? t("reconnect.hint", { code: device.code }) : t("discover.hint")}
+                  </p>
                   {module ? (
                     <>
                       <p className={styles.blockLabel}>{t("discover.foundTitle")}</p>
@@ -487,7 +508,7 @@ const LinkDeviceModal = ({ homeId, onClose, onLinked }) => {
 
                 <ul className={styles.connectingList}>
                   {[
-                    t("connecting.step0"),
+                    reconnect ? t("reconnect.step0") : t("connecting.step0"),
                     t("connecting.step1", { ssid }),
                     t("connecting.step2"),
                     t("connecting.step3"),
@@ -507,8 +528,12 @@ const LinkDeviceModal = ({ homeId, onClose, onLinked }) => {
             <div className={styles.stepBlock}>
               <div className={styles.doneBox}>
                 <CheckCircle2 size={40} className={styles.doneIcon} />
-                <p className={styles.stepTitle}>{t("done.title")}</p>
-                <p className={styles.hint}>{t("done.subtitle", { name: deviceName.trim() })}</p>
+                <p className={styles.stepTitle}>
+                  {reconnect ? t("reconnect.doneTitle") : t("done.title")}
+                </p>
+                <p className={styles.hint}>
+                  {t("done.subtitle", { name: reconnect ? device.name : deviceName.trim() })}
+                </p>
               </div>
             </div>
           )}
@@ -526,7 +551,11 @@ const LinkDeviceModal = ({ homeId, onClose, onLinked }) => {
               <Button variant="secondary" onClick={onClose}>
                 {t("buttons.cancel")}
               </Button>
-              <Button variant="primary" onClick={() => setStep("appliance")} disabled={!module}>
+              <Button
+                variant="primary"
+                onClick={() => (reconnect ? goToNetwork() : setStep("appliance"))}
+                disabled={!module}
+              >
                 {t("buttons.continue")}
               </Button>
             </>
@@ -549,7 +578,7 @@ const LinkDeviceModal = ({ homeId, onClose, onLinked }) => {
 
           {step === "network" && (
             <>
-              <Button variant="secondary" onClick={() => setStep("appliance")}>
+              <Button variant="secondary" onClick={() => setStep(reconnect ? "discover" : "appliance")}>
                 {t("buttons.back")}
               </Button>
               <Button variant="primary" onClick={handleConnect} disabled={!ssid || scanning}>
