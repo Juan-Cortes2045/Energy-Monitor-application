@@ -175,6 +175,32 @@
   transform: scale(0.95);
 }
 
+.rowActions {
+  display: flex;
+  gap: var(--spacing-xs);
+  flex-shrink: 0;
+}
+
+.actionBtn {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background-color: var(--color-primary-soft, rgba(37, 99, 235, 0.1));
+  color: var(--color-primary, #2563eb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.1s ease, opacity 0.15s ease;
+}
+.actionBtn:hover {
+  opacity: 0.8;
+}
+.actionBtn:active {
+  transform: scale(0.95);
+}
+
 /* ── Estado vacío ─────────────────────────────────────────────────── */
 .emptyState {
   display: flex;

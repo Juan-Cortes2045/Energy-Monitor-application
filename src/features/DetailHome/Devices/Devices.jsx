@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Plug, Wifi, WifiOff, Trash2, Plus, Loader2 } from "lucide-react";
+import { Plug, Wifi, WifiOff, Trash2, Plus, Loader2, Pencil, RefreshCw } from "lucide-react";
 
 import Card from "../../../design/components/Card/Card";
 import Button from "../../../design/components/Button/Button";
 import LinkDeviceModal from "./LinkDeviceModal/LinkDeviceModal";
+import EditDeviceModal from "./EditDeviceModal/EditDeviceModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal/ConfirmDeleteModal";
 import ErrorState from "../../../components/shared/ErrorState/ErrorState";
 import { errorMessage } from "../../../services/http";
@@ -22,7 +23,7 @@ const SignalIcon = ({ status, signal }) => {
   return <Wifi size={14} className={`${styles.signalIcon} ${level}`} aria-hidden="true" />;
 };
 
-const DeviceRow = ({ device, isOwner, onRequestRemove, t }) => {
+const DeviceRow = ({ device, isOwner, onRequestRemove, onEdit, onReconnect, t }) => {
   const Icon = APPLIANCE_ICON[device.applianceType] ?? Plug;
   const displayName = device.name || t(`applianceTypes.${device.applianceType}`);
   const displayRoom =
@@ -60,14 +61,35 @@ const DeviceRow = ({ device, isOwner, onRequestRemove, t }) => {
       </div>
 
       {isOwner && (
-        <button
-          type="button"
-          className={styles.removeBtn}
-          onClick={() => onRequestRemove(device)}
-          aria-label={t("actions.remove", { name: displayName })}
-        >
-          <Trash2 size={14} />
-        </button>
+        <div className={styles.rowActions}>
+          <button
+            type="button"
+            className={styles.actionBtn}
+            onClick={() => onEdit(device)}
+            aria-label={t("actions.edit", { name: displayName })}
+            title={t("actions.edit", { name: displayName })}
+          >
+            <Pencil size={14} />
+          </button>
+          <button
+            type="button"
+            className={styles.actionBtn}
+            onClick={() => onReconnect(device)}
+            aria-label={t("actions.reconnect", { name: displayName })}
+            title={t("actions.reconnect", { name: displayName })}
+          >
+            <RefreshCw size={14} />
+          </button>
+          <button
+            type="button"
+            className={styles.removeBtn}
+            onClick={() => onRequestRemove(device)}
+            aria-label={t("actions.remove", { name: displayName })}
+            title={t("actions.remove", { name: displayName })}
+          >
+            <Trash2 size={14} />
+          </button>
+        </div>
       )}
     </div>
   );
@@ -86,6 +108,8 @@ const Devices = ({
   const { t } = useTranslation("devices");
   const [modalOpen, setModalOpen] = useState(false);
   const [deviceToDelete, setDeviceToDelete] = useState(null);
+  const [deviceToEdit, setDeviceToEdit] = useState(null);
+  const [deviceToReconnect, setDeviceToReconnect] = useState(null);
   const [removeError, setRemoveError] = useState(null);
 
   const handleRequestRemove = (device) => {
@@ -108,6 +132,8 @@ const Devices = ({
 
   const handleLinked = () => {
     setModalOpen(false);
+    setDeviceToEdit(null);
+    setDeviceToReconnect(null);
     onLinked?.();
   };
 
@@ -166,6 +192,8 @@ const Devices = ({
                 device={device}
                 isOwner={isOwner}
                 onRequestRemove={handleRequestRemove}
+                onEdit={setDeviceToEdit}
+                onReconnect={setDeviceToReconnect}
                 t={t}
               />
             ))}
@@ -177,6 +205,24 @@ const Devices = ({
         <LinkDeviceModal
           homeId={homeId}
           onClose={() => setModalOpen(false)}
+          onLinked={handleLinked}
+        />
+      )}
+
+      {deviceToEdit && isOwner && (
+        <EditDeviceModal
+          homeId={homeId}
+          device={deviceToEdit}
+          onClose={() => setDeviceToEdit(null)}
+          onSaved={handleLinked}
+        />
+      )}
+
+      {deviceToReconnect && isOwner && (
+        <LinkDeviceModal
+          homeId={homeId}
+          device={deviceToReconnect}
+          onClose={() => setDeviceToReconnect(null)}
           onLinked={handleLinked}
         />
       )}
