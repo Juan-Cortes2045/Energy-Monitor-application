@@ -5,12 +5,10 @@
     "save": "Guardar",
     "discard": "Descartar"
   },
-
   "language": {
     "title": "Idioma del sistema",
     "description": "Define el idioma de la interfaz y los reportes generados"
   },
-
   "theme": {
     "title": "Temas del sistema",
     "description": "Apariencia visual del sistema para todos los usuarios",
@@ -26,18 +24,20 @@
     "energyDark": "Oscuro · Tema 1",
     "ecoDark": "Oscuro · Tema 2"
   },
-
   "notifications": {
     "title": "Notificaciones",
     "description": "Configura cómo deseas recibir alertas y eventos del sistema",
     "active": "activas",
     "email": {
       "title": "Correo electrónico",
-      "description": "Alertas enviadas al correo registrado"
+      "description": "Cada alerta de tus hogares llega también a tu correo registrado"
     },
     "push": {
       "title": "Notificaciones push",
-      "description": "Alertas dentro de la plataforma"
+      "description": "Avisos en este navegador aunque la pestaña esté cerrada",
+      "unsupported": "Este navegador no admite notificaciones push. En iPhone, instala la web en la pantalla de inicio.",
+      "unavailable": "El servidor no tiene configuradas las notificaciones push.",
+      "denied": "Bloqueaste las notificaciones para este sitio. Actívalas desde el candado de la barra de direcciones."
     },
     "combined": {
       "title": "Modo combinado",
@@ -48,7 +48,6 @@
       "inactive": "Inactivo"
     }
   },
-
   "help": {
     "docs": {
       "title": "Documentación",

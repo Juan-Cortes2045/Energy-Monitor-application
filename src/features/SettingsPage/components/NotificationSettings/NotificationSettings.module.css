@@ -304,3 +304,9 @@
     font-size: 12px;
   }
 }
+
+.message {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--color-danger, #dc2626);
+}

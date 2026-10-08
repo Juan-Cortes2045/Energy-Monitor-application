@@ -30,11 +30,14 @@
     "active": "actives",
     "email": {
       "title": "Email",
-      "description": "Alertes envoyées à l'email enregistré"
+      "description": "Chaque alerte de vos foyers arrive aussi à votre e-mail"
     },
     "push": {
       "title": "Notifications push",
-      "description": "Alertes dans la plateforme"
+      "description": "Alertes dans ce navigateur même onglet fermé",
+      "unsupported": "Ce navigateur ne prend pas en charge les notifications push. Sur iPhone, ajoutez le site à l’écran d’accueil.",
+      "unavailable": "Les notifications push ne sont pas configurées sur le serveur.",
+      "denied": "Vous avez bloqué les notifications pour ce site. Autorisez-les via le cadenas de la barre d’adresse."
     },
     "combined": {
       "title": "Mode combiné",
