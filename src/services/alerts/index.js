@@ -1,1 +1,7 @@
-export { listAlerts, resolveAlert, toUiAlert } from "./alertApi";
+export {
+  listAlerts,
+  markAlertRead,
+  deleteAlert,
+  deleteResolvedAlerts,
+  toUiAlert,
+} from "./alertApi";

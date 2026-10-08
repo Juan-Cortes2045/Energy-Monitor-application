@@ -14,11 +14,16 @@
     "active": "Active",
     "resolved": "Resolved",
     "new": "New",
-    "read": "Read"
+    "read": "Read",
+    "resolvedAuto": "Resolved"
   },
   "actions": {
     "markRead": "Mark as read",
-    "markAllRead": "Mark all as read"
+    "markAllRead": "Mark all as read",
+    "delete": "Delete",
+    "deleteAllResolved_one": "Delete {{count}} resolved or read",
+    "deleteAllResolved_other": "Delete {{count}} resolved or read",
+    "failed": "The action could not be completed. Try again."
   },
   "threshold": {
     "dailyExceeded": {
@@ -28,6 +33,14 @@
     "monthlyApproaching": {
       "title": "Close to the monthly limit",
       "message": "The home \"{{home}}\" is close to reaching the configured monthly consumption limit."
+    },
+    "high": {
+      "title": "High consumption",
+      "message": "A device in \"{{home}}\" is using more power than usual."
+    },
+    "critical": {
+      "title": "Critical consumption",
+      "message": "A device in \"{{home}}\" is using power at a critical level."
     }
   },
   "connectivity": {
@@ -67,5 +80,18 @@
       "title": "No recommendations",
       "description": "There are no recommendations generated for your homes yet."
     }
+  },
+  "device": {
+    "linked": {
+      "title": "New device linked",
+      "message": "A device was linked in \"{{home}}\". It is already sending measurements."
+    }
+  },
+  "toast": {
+    "close": "Close"
+  },
+  "autoResolveHint": {
+    "threshold": "Resolves itself when consumption is back to normal",
+    "connectivity": "Resolves itself when the device reconnects"
   }
 }

@@ -4,10 +4,11 @@
   "favorites": "Favorites",
   "notifications": "Notifications",
   "settings": "Settings",
-
   "profile": {
     "myAccount": "My account",
     "addAccount": "Add account",
     "logout": "Log out"
-  }
+  },
+  "pendingAlerts_one": "{{count}} pending alert",
+  "pendingAlerts_other": "{{count}} pending alerts"
 }
