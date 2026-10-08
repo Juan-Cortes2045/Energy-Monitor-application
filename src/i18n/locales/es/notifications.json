@@ -14,11 +14,16 @@
     "active": "Activa",
     "resolved": "Resuelta",
     "new": "Nueva",
-    "read": "Leída"
+    "read": "Leída",
+    "resolvedAuto": "Resuelta"
   },
   "actions": {
-    "markRead": "Marcar leída",
-    "markAllRead": "Marcar todas como leídas"
+    "markRead": "Marcar como leída",
+    "markAllRead": "Marcar todas como leídas",
+    "delete": "Eliminar",
+    "deleteAllResolved_one": "Eliminar {{count}} resuelta o leída",
+    "deleteAllResolved_other": "Eliminar {{count}} resueltas o leídas",
+    "failed": "No se pudo completar la acción. Inténtalo de nuevo."
   },
   "threshold": {
     "dailyExceeded": {
@@ -28,6 +33,14 @@
     "monthlyApproaching": {
       "title": "Cerca del límite mensual",
       "message": "El hogar \"{{home}}\" está cerca de alcanzar el límite mensual de consumo configurado."
+    },
+    "high": {
+      "title": "Consumo alto",
+      "message": "Un dispositivo de \"{{home}}\" está consumiendo por encima de lo habitual."
+    },
+    "critical": {
+      "title": "Consumo crítico",
+      "message": "Un dispositivo de \"{{home}}\" está consumiendo a un nivel crítico."
     }
   },
   "connectivity": {
@@ -67,5 +80,18 @@
       "title": "Sin recomendaciones",
       "description": "Aún no hay recomendaciones generadas para tus hogares."
     }
+  },
+  "device": {
+    "linked": {
+      "title": "Nuevo dispositivo vinculado",
+      "message": "Se vinculó un dispositivo en \"{{home}}\". Ya está enviando mediciones."
+    }
+  },
+  "toast": {
+    "close": "Cerrar aviso"
+  },
+  "autoResolveHint": {
+    "threshold": "Se resolverá sola cuando el consumo se normalice",
+    "connectivity": "Se resolverá sola cuando el dispositivo se reconecte"
   }
 }

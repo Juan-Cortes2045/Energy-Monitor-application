@@ -4,10 +4,11 @@
   "favorites": "Favoritos",
   "notifications": "Notificaciones",
   "settings": "Ajustes",
-
   "profile": {
     "myAccount": "Mi cuenta",
     "addAccount": "Añadir cuenta",
     "logout": "Cerrar sesión"
-  }
+  },
+  "pendingAlerts_one": "{{count}} alerta pendiente",
+  "pendingAlerts_other": "{{count}} alertas pendientes"
 }

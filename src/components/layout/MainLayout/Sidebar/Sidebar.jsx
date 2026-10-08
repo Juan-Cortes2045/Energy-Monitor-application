@@ -22,11 +22,13 @@ import {
 } from "lucide-react";
 
 import NavItem from "./NavItem";
+import { useNotificationCenter } from "../../../../context/useNotificationCenter";
 import Button from "../../../../design/components/Button/Button";
 import Account from "../../../../features/Account/Account";
 
 const Sidebar = () => {
   const { t } = useTranslation("sidebar");
+  const { pendingCount } = useNotificationCenter();
   const [isOpen, setIsOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
@@ -102,6 +104,8 @@ const Sidebar = () => {
             label={t("notifications")}
             collapsed={collapsed}
             onClick={() => setIsOpen(false)}
+            badge={pendingCount}
+            badgeLabel={t("pendingAlerts", { count: pendingCount })}
           />
           <NavItem
             to="/settings"
