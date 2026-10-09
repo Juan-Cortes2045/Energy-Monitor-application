@@ -115,11 +115,21 @@ export class ModuleSession {
    */
   async scanNetworks() {
     await this.ensureNotifications();
-    const done = this.waitFor((s) => s === "scan_done", 15000).catch(() => null);
+    // El módulo puede estar terminando un intento de conexión al servidor antes de escanear.
+    const done = this.waitFor((s) => s === "scan_done", 30000).catch(() => null);
     await this.chars.networks.writeValueWithResponse(encoder.encode("1"));
     await done;
-    const raw = JSON.parse(decoder.decode(await this.chars.networks.readValue()) || "[]");
-    return raw.map((n) => ({ ssid: n.s, rssi: n.r, secured: n.e === 1 }));
+    let raw;
+    try {
+      raw = JSON.parse(decoder.decode(await this.chars.networks.readValue()) || "[]");
+    } catch {
+      raw = [];
+    }
+    // Un firmware anterior a 1.3.6 deja "1" (lo escrito) como valor: no es una lista.
+    if (!Array.isArray(raw)) return [];
+    return raw
+      .filter((n) => n && typeof n.s === "string")
+      .map((n) => ({ ssid: n.s, rssi: n.r, secured: n.e === 1 }));
   }
 
   /**
