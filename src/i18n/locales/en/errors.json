@@ -68,5 +68,11 @@
   "deviceReconnect": {
     "notOwner": "Only the home owner can change a device's network.",
     "failed": "The device credentials could not be prepared."
+  },
+  "googleLogin": {
+    "rejected": "Google could not confirm your account. Try again.",
+    "emailTaken": "An account with this email already exists. Sign in with your password.",
+    "unavailable": "Signing in with Google is not available right now.",
+    "failed": "Signing in with Google failed."
   }
 }

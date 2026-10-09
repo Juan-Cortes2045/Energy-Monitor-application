@@ -68,5 +68,11 @@
   "deviceReconnect": {
     "notOwner": "Solo el propietario del hogar puede cambiar la red de un dispositivo.",
     "failed": "No se pudieron preparar las credenciales del dispositivo."
+  },
+  "googleLogin": {
+    "rejected": "Google no pudo confirmar tu cuenta. Inténtalo de nuevo.",
+    "emailTaken": "Ya existe una cuenta con ese correo. Inicia sesión con tu contraseña.",
+    "unavailable": "El inicio de sesión con Google no está disponible en este momento.",
+    "failed": "No se pudo iniciar sesión con Google."
   }
 }

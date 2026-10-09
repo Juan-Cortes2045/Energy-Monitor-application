@@ -15,6 +15,7 @@ Analisis y desarrollo de software(ADSO)
 2. En el backend, define `SECURITY_CORS_ALLOWED_ORIGINS` con el origen de Vite, por ejemplo `http://localhost:5173`. Sin esto el navegador bloquea las peticiones.
 3. Opcional: `SECURITY_CORS_EXPOSED_HEADERS=Retry-After` para que el frontend lea la espera exacta del límite de intentos (si no, asume 15 minutos, que es el valor fijo del backend).
 4. Copia `.env.example` a `.env.local` si el backend no está en el puerto por defecto (`VITE_API_BASE_URL`).
+   Para el botón "Continuar con Google" pon en `.env.local` `VITE_GOOGLE_CLIENT_ID` (el mismo ID de cliente que `GOOGLE_CLIENT_ID` del backend; ver su README, "Sign in with Google"). Sin él, el botón no se muestra.
 5. `npm install && npm run dev` → `http://localhost:5173`.
 6. Comprobación: `npm test` y `npm run build`.
 

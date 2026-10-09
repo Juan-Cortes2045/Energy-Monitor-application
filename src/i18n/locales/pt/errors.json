@@ -68,5 +68,11 @@
   "deviceReconnect": {
     "notOwner": "Só o proprietário da casa pode trocar a rede de um dispositivo.",
     "failed": "Não foi possível preparar as credenciais do dispositivo."
+  },
+  "googleLogin": {
+    "rejected": "O Google não conseguiu confirmar sua conta. Tente de novo.",
+    "emailTaken": "Já existe uma conta com esse e-mail. Entre com sua senha.",
+    "unavailable": "O login com o Google não está disponível no momento.",
+    "failed": "Não foi possível entrar com o Google."
   }
 }

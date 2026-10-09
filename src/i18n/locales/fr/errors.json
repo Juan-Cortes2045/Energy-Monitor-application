@@ -68,5 +68,11 @@
   "deviceReconnect": {
     "notOwner": "Seul le propriétaire du foyer peut changer le réseau d’un appareil.",
     "failed": "Les identifiants de l’appareil n’ont pas pu être préparés."
+  },
+  "googleLogin": {
+    "rejected": "Google n’a pas pu confirmer votre compte. Réessayez.",
+    "emailTaken": "Un compte existe déjà avec cette adresse. Connectez-vous avec votre mot de passe.",
+    "unavailable": "La connexion avec Google n’est pas disponible pour le moment.",
+    "failed": "La connexion avec Google a échoué."
   }
 }
