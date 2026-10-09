@@ -5,7 +5,8 @@ import { registerSchema } from "../../validation/registerSchema.js";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import googleIcon from "../../../../assets/google_icon.png";
+import GoogleSignInButton from "../GoogleSignInButton/GoogleSignInButton.jsx";
+import { isGoogleEnabled } from "../../../../services/auth/googleSignIn";
 
 import Button from "../../../../design/components/Button/Button.jsx";
 import Input from "../../../../design/components/Input/Input.jsx";
@@ -190,16 +191,18 @@ const RegisterForm = () => {
                 {t("register.submit")}
               </Button>
 
-              {/* DIVIDER */}
-              <div className={styles.divider}>
-                <span>{t("register.divider")}</span>
-              </div>
+              {isGoogleEnabled() && (
+                <>
+                  {/* DIVIDER */}
+                  <div className={styles.divider}>
+                    <span>{t("register.divider")}</span>
+                  </div>
 
-              {/* GOOGLE */}
-              <p>{t("register.registerWith")}</p>
-              <Button type="button" variant="secondary" icon={googleIcon}>
-                {t("register.google")}
-              </Button>
+                  {/* GOOGLE: crea la cuenta con el nombre, apellido, foto y correo de Google */}
+                  <p>{t("register.registerWith")}</p>
+                  <GoogleSignInButton label={t("register.google")} onError={setServerError} />
+                </>
+              )}
             </div>
 
             {/* LOGIN */}

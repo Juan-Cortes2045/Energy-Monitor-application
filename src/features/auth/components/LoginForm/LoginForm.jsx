@@ -5,7 +5,8 @@ import { loginSchema } from "../../validation/loginSchema.js";
 import styles from "../LoginForm/LoginForm.module.css";
 import { useTranslation } from "react-i18next";
 
-import googleIcon from "../../../../assets/google_icon.png";
+import GoogleSignInButton from "../GoogleSignInButton/GoogleSignInButton.jsx";
+import { isGoogleEnabled } from "../../../../services/auth/googleSignIn";
 
 import Button from "../../../../design/components/Button/Button.jsx";
 import Input from "../../../../design/components/Input/Input.jsx";
@@ -106,21 +107,26 @@ const LoginForm = () => {
             {t("login.submit")}
           </Button>
 
-          {/*DIVIDER*/}
-          <div
-            className={styles.divider}
-            style={{
-              color: "var(--color-text-secondary)",
-            }}
-          >
-            <span>{t("login.divider")}</span>
-          </div>
+          {isGoogleEnabled() && (
+            <>
+              {/*DIVIDER*/}
+              <div
+                className={styles.divider}
+                style={{
+                  color: "var(--color-text-secondary)",
+                }}
+              >
+                <span>{t("login.divider")}</span>
+              </div>
 
-          {/*GOOGLE LOGIN*/}
-          <p className={styles.startUsing}>{t("login.loginWith")}</p>
-          <Button type="button" variant="secondary" icon={googleIcon}>
-            {t("login.google")}
-          </Button>
+              {/*GOOGLE LOGIN*/}
+              <p className={styles.startUsing}>{t("login.loginWith")}</p>
+              <GoogleSignInButton
+                label={t("login.google")}
+                onError={setServerError}
+              />
+            </>
+          )}
         </div>
 
         {/*REGISTER*/}
