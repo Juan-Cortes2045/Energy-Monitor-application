@@ -3,9 +3,10 @@
   "subtitle": "Esses limites se aplicam somente a este lar e são usados para gerar alertas e recomendações personalizadas.",
   "defaults": {
     "label": "Usar os limites padrão do sistema",
-    "hint": "Os limites padrão são pensados para um consumo residencial médio. Desative-os para definir seus próprios limites neste lar.",
+    "hint": "Esta casa usa seus próprios limites. Ative para voltar aos valores padrão do sistema.",
     "on": "Ativado",
-    "off": "Desativado"
+    "off": "Desativado",
+    "values": "Usa {{daily}} kWh por dia ({{monthly}} kWh por mês), pensados para um consumo residencial médio. Desative para definir seus próprios limites nesta casa."
   },
   "periodicity": {
     "label": "Configurar por",

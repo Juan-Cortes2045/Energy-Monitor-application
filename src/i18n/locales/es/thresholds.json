@@ -3,9 +3,10 @@
   "subtitle": "Estos límites aplican únicamente a este hogar y se usan para generar alertas y recomendaciones personalizadas.",
   "defaults": {
     "label": "Usar los umbrales por defecto del sistema",
-    "hint": "Los umbrales por defecto están pensados para un consumo residencial promedio. Desactívalos para definir tus propios límites en este hogar.",
+    "hint": "Este hogar usa sus propios límites. Actívalo para volver a los valores por defecto del sistema.",
     "on": "Activado",
-    "off": "Desactivado"
+    "off": "Desactivado",
+    "values": "Se usan {{daily}} kWh por día ({{monthly}} kWh por mes), pensados para un consumo residencial promedio. Desactívalo para definir tus propios límites en este hogar."
   },
   "periodicity": {
     "label": "Configurar por",

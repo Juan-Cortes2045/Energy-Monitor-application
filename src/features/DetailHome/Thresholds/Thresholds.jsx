@@ -18,12 +18,17 @@ const round = (n) => Math.round(n * 100) / 100;
  * - GET /homes/{id}/thresholds al montar
  * - PUT /homes/{id}/thresholds al guardar: un solo límite (diario o mensual) y el
  *   otro lo deriva el backend a 30 días por mes; useSystemDefault pasa a false
+ * - Interruptor "usar los umbrales por defecto": encenderlo aplica en el momento los
+ *   valores del sistema (POST .../thresholds/defaults) y bloquea los campos; apagarlo solo
+ *   desbloquea los campos, y nada se guarda hasta "Guardar cambios"
  * - Solo OWNER puede editar; el 403 del servidor se muestra igual.
  */
 const Thresholds = ({ home, isOwner = false }) => {
   const { t } = useTranslation("thresholds");
   const homeId = home?.idHome;
-  const { thresholds, loading, error, reload, save } = useThresholds(homeId);
+  const { thresholds, loading, error, reload, save, resetToDefaults } = useThresholds(homeId);
+  // Apagado en pantalla pero aún sin guardar límites propios.
+  const [customizing, setCustomizing] = useState(false);
 
   const [period, setPeriod] = useState(null); // null = el guardado
   const [value, setValue] = useState(null); // null = el guardado
@@ -63,6 +68,39 @@ const Thresholds = ({ home, isOwner = false }) => {
     return Object.keys(nextErrors).length === 0;
   };
 
+  const usingDefaults = !!thresholds?.useSystemDefault && !customizing;
+  const editable = isOwner && !usingDefaults;
+
+  const toggleDefaults = async () => {
+    if (!isOwner || saving) return;
+    setServerError(null);
+    setErrors({});
+    setSaved(false);
+    if (usingDefaults) {
+      // Desbloquea los campos con los valores actuales; se guardan con "Guardar cambios".
+      setCustomizing(true);
+      return;
+    }
+    if (customizing) {
+      // Volver sin haber guardado: los umbrales siguen siendo los del sistema.
+      setCustomizing(false);
+      setPeriod(null);
+      setValue(null);
+      return;
+    }
+    setSaving(true);
+    const err = await resetToDefaults();
+    setSaving(false);
+    if (err) {
+      setServerError(err);
+      return;
+    }
+    setPeriod(null);
+    setValue(null);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
+
   const handleSave = async () => {
     if (!validate()) return;
     setSaving(true);
@@ -76,6 +114,7 @@ const Thresholds = ({ home, isOwner = false }) => {
     }
     setPeriod(null);
     setValue(null);
+    setCustomizing(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
@@ -119,18 +158,32 @@ const Thresholds = ({ home, isOwner = false }) => {
               </div>
               <div>
                 <h4>{t("defaults.label")}</h4>
-                <p>{t("defaults.hint")}</p>
+                <p>
+                  {usingDefaults
+                    ? t("defaults.values", {
+                        daily: round(thresholds?.defaultDailyLimit ?? 0),
+                        monthly: round(thresholds?.defaultMonthlyLimit ?? 0),
+                      })
+                    : t("defaults.hint")}
+                </p>
               </div>
             </div>
 
             <div className={styles.rowRight}>
-              <span
-                className={`${styles.status} ${
-                  thresholds?.useSystemDefault ? styles.active : styles.inactive
-                }`}
-              >
-                {thresholds?.useSystemDefault ? t("defaults.on") : t("defaults.off")}
+              <span className={`${styles.status} ${usingDefaults ? styles.active : styles.inactive}`}>
+                {usingDefaults ? t("defaults.on") : t("defaults.off")}
               </span>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={usingDefaults}
+                aria-label={t("defaults.label")}
+                disabled={!isOwner || saving}
+                className={`${styles.switch} ${usingDefaults ? styles.switchOn : ""}`}
+                onClick={toggleDefaults}
+              >
+                <span className={styles.thumb} />
+              </button>
             </div>
           </div>
 
@@ -147,7 +200,7 @@ const Thresholds = ({ home, isOwner = false }) => {
                   aria-checked={activePeriod === option}
                   className={`${styles.periodOption} ${activePeriod === option ? styles.periodOptionActive : ""}`}
                   onClick={() => choosePeriod(option)}
-                  disabled={!isOwner}
+                  disabled={!editable}
                 >
                   {t(option === "DAILY" ? "periodicity.daily" : "periodicity.monthly")}
                 </button>
@@ -164,7 +217,7 @@ const Thresholds = ({ home, isOwner = false }) => {
                 step="any"
                 value={displayValue}
                 onChange={(e) => setValue(e.target.value)}
-                disabled={!isOwner}
+                disabled={!editable}
                 placeholder="0"
               >
                 {t(activePeriod === "DAILY" ? "fields.daily" : "fields.monthly")}
@@ -195,7 +248,7 @@ const Thresholds = ({ home, isOwner = false }) => {
             </p>
           )}
 
-          {isOwner && (
+          {editable && (
             <div className={styles.actions}>
               <Button variant="primary" onClick={handleSave} disabled={saving}>
                 {saving ? t("buttons.saving") : t("buttons.save")}

@@ -3,9 +3,10 @@
   "subtitle": "Ces limites s'appliquent uniquement à cette maison et servent à générer des alertes et des recommandations personnalisées.",
   "defaults": {
     "label": "Utiliser les seuils par défaut du système",
-    "hint": "Les seuils par défaut sont calculés pour une consommation résidentielle moyenne. Désactivez-les pour définir vos propres limites sur cette maison.",
+    "hint": "Ce foyer utilise ses propres limites. Activez-le pour revenir aux valeurs par défaut du système.",
     "on": "Activé",
-    "off": "Désactivé"
+    "off": "Désactivé",
+    "values": "Utilise {{daily}} kWh par jour ({{monthly}} kWh par mois), prévus pour une consommation domestique moyenne. Désactivez-le pour définir vos propres limites pour ce foyer."
   },
   "periodicity": {
     "label": "Configurer par",

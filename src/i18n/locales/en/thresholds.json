@@ -3,9 +3,10 @@
   "subtitle": "These limits apply only to this home and are used to generate personalized alerts and recommendations.",
   "defaults": {
     "label": "Use the system's default thresholds",
-    "hint": "Default thresholds are set for an average household consumption. Turn them off to define your own limits for this home.",
+    "hint": "This home uses its own limits. Turn it on to go back to the system default values.",
     "on": "On",
-    "off": "Off"
+    "off": "Off",
+    "values": "Uses {{daily}} kWh per day ({{monthly}} kWh per month), meant for average household consumption. Turn it off to set your own limits for this home."
   },
   "periodicity": {
     "label": "Configure by",
