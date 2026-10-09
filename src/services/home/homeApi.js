@@ -54,6 +54,12 @@ export async function getThresholds(homeId) {
   return data;
 }
 
+/** Vuelve a los umbrales por defecto del sistema (useSystemDefault = true). Solo el responsable. */
+export async function resetThresholds(homeId) {
+  const { data } = await httpClient.post(`/homes/${encodeURIComponent(homeId)}/thresholds/defaults`);
+  return data;
+}
+
 /** @param {string} homeId @param {import("./types").UpdateThresholdsRequest} request */
 export async function updateThresholds(homeId, request) {
   const { data } = await httpClient.put(

@@ -27,6 +27,9 @@
  * @property {number} dailyLimit    kWh
  * @property {number} monthlyLimit  kWh
  * @property {boolean} useSystemDefault
+ * @property {"DAILY"|"MONTHLY"} limitPeriod
+ * @property {number} defaultDailyLimit    kWh, valor por defecto del sistema
+ * @property {number} defaultMonthlyLimit  kWh, valor por defecto del sistema
  *
  * @typedef {Object} HomeType
  * @property {string} idHomeType

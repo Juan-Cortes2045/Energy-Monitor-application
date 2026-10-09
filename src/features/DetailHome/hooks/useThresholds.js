@@ -39,5 +39,16 @@ export function useThresholds(homeId) {
     [homeId],
   );
 
-  return { thresholds, loading, error, reload, save };
+  /** Aplica los umbrales por defecto del sistema. */
+  const resetToDefaults = useCallback(async () => {
+    setError(null);
+    try {
+      setThresholds(await api.homeApi.resetThresholds(homeId));
+      return null;
+    } catch (err) {
+      return err;
+    }
+  }, [homeId]);
+
+  return { thresholds, loading, error, reload, save, resetToDefaults };
 }
