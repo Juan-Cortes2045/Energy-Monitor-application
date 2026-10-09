@@ -8,6 +8,17 @@ export async function login({ email, password }) {
   return data.account;
 }
 
+/**
+ * Inicia sesión (o crea la cuenta la primera vez) con el código de la ventana de Google.
+ * El backend toma de Google nombre, apellido, foto y correo.
+ */
+export async function loginWithGoogle(code) {
+  const { data } = await httpClient.post("/auth/google", { code });
+  saveSession(data);
+  await refreshProfile().catch(() => {});
+  return data;
+}
+
 export const register = (payload) =>
   httpClient.post("/auth/register", payload).then((r) => r.data);
 

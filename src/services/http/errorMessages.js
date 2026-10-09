@@ -12,6 +12,13 @@
 /** Claves por operación y status. `default` cubre cualquier otro status. */
 const OPERATIONS = {
   login: { 401: "login.invalidCredentials", 403: "login.inactive" },
+  googleLogin: {
+    401: "googleLogin.rejected",
+    403: "login.inactive",
+    409: "googleLogin.emailTaken",
+    503: "googleLogin.unavailable",
+    default: "googleLogin.failed",
+  },
   register: { 409: "register.emailTaken", 422: "password.policy" },
   passwordReset: { 422: "password.policy", default: "passwordReset.failed" },
   passwordChange: {
