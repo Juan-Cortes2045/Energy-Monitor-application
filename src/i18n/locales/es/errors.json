@@ -74,5 +74,10 @@
     "emailTaken": "Ya existe una cuenta con ese correo. Inicia sesión con tu contraseña.",
     "unavailable": "El inicio de sesión con Google no está disponible en este momento.",
     "failed": "No se pudo iniciar sesión con Google."
+  },
+  "homeDelete": {
+    "notOwner": "Solo el responsable del hogar puede eliminarlo.",
+    "notFound": "Este hogar ya no existe o no perteneces a él.",
+    "failed": "No se pudo eliminar el hogar."
   }
 }

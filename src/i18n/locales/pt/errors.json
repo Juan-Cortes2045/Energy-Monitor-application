@@ -74,5 +74,10 @@
     "emailTaken": "Já existe uma conta com esse e-mail. Entre com sua senha.",
     "unavailable": "O login com o Google não está disponível no momento.",
     "failed": "Não foi possível entrar com o Google."
+  },
+  "homeDelete": {
+    "notOwner": "Só o responsável pela casa pode excluí-la.",
+    "notFound": "Esta casa não existe mais ou você não faz parte dela.",
+    "failed": "Não foi possível excluir a casa."
   }
 }

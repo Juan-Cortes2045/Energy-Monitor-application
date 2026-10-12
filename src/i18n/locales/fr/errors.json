@@ -74,5 +74,10 @@
     "emailTaken": "Un compte existe déjà avec cette adresse. Connectez-vous avec votre mot de passe.",
     "unavailable": "La connexion avec Google n’est pas disponible pour le moment.",
     "failed": "La connexion avec Google a échoué."
+  },
+  "homeDelete": {
+    "notOwner": "Seul le responsable du foyer peut le supprimer.",
+    "notFound": "Ce foyer n’existe plus ou vous n’en faites pas partie.",
+    "failed": "Le foyer n’a pas pu être supprimé."
   }
 }

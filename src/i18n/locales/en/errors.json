@@ -74,5 +74,10 @@
     "emailTaken": "An account with this email already exists. Sign in with your password.",
     "unavailable": "Signing in with Google is not available right now.",
     "failed": "Signing in with Google failed."
+  },
+  "homeDelete": {
+    "notOwner": "Only the person responsible for the home can delete it.",
+    "notFound": "This home no longer exists or you are not part of it.",
+    "failed": "The home could not be deleted."
   }
 }
