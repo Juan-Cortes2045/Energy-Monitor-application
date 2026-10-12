@@ -21,9 +21,10 @@
   },
   "buttons": {
     "copy": "Copiar código de acesso",
-    "deleteHome": "Excluir lar",
+    "deleteHome": "Excluir casa",
     "leaveHome": "Sair do lar",
-    "leaving": "Saindo..."
+    "leaving": "Saindo...",
+    "deleting": "Excluindo..."
   },
   "status": {
     "responsible": "Responsável",
@@ -32,8 +33,9 @@
   "confirm": {
     "leaveTitle": "Sair do lar?",
     "leave": "Tem certeza de que deseja sair deste lar?",
-    "deleteTitle": "Excluir o lar?",
-    "delete": "Excluir este lar? Esta ação não pode ser desfeita.",
-    "cancel": "Cancelar"
+    "deleteTitle": "Excluir casa?",
+    "delete": "A casa desaparecerá para todos os seus membros e os seus dispositivos serão desvinculados, prontos para serem vinculados a outra casa. Esta ação não pode ser desfeita.",
+    "cancel": "Cancelar",
+    "deleteTypeName": "Digite “{{name}}” para confirmar"
   }
 }

@@ -23,7 +23,8 @@
     "copy": "Copiar código de acceso",
     "deleteHome": "Eliminar hogar",
     "leaveHome": "Salirse del hogar",
-    "leaving": "Saliendo..."
+    "leaving": "Saliendo...",
+    "deleting": "Eliminando..."
   },
   "status": {
     "responsible": "Responsable",
@@ -33,7 +34,8 @@
     "leaveTitle": "¿Salirte del hogar?",
     "leave": "¿Seguro que deseas salirte de este hogar?",
     "deleteTitle": "¿Eliminar hogar?",
-    "delete": "¿Eliminar este hogar? Esta acción no se puede deshacer.",
-    "cancel": "Cancelar"
+    "delete": "El hogar desaparecerá para todos sus miembros y sus dispositivos quedarán desvinculados, listos para vincularse a otro hogar. Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "deleteTypeName": "Escribe «{{name}}» para confirmar"
   }
 }

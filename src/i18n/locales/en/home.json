@@ -23,7 +23,8 @@
     "copy": "Copy access code",
     "deleteHome": "Delete home",
     "leaveHome": "Leave home",
-    "leaving": "Leaving..."
+    "leaving": "Leaving...",
+    "deleting": "Deleting..."
   },
   "status": {
     "responsible": "Responsible",
@@ -32,8 +33,9 @@
   "confirm": {
     "leaveTitle": "Leave this home?",
     "leave": "Are you sure you want to leave this home?",
-    "deleteTitle": "Delete this home?",
-    "delete": "Delete this home? This action cannot be undone.",
-    "cancel": "Cancel"
+    "deleteTitle": "Delete home?",
+    "delete": "The home will disappear for all its members and its devices will be unlinked, ready to be linked to another home. This cannot be undone.",
+    "cancel": "Cancel",
+    "deleteTypeName": "Type “{{name}}” to confirm"
   }
 }
