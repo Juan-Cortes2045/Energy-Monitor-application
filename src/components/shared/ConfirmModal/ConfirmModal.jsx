@@ -13,6 +13,8 @@ const ConfirmModal = ({
   onConfirm,
   onCancel,
   disabled = false,
+  confirmDisabled = false,
+  children,
 }) => {
   const titleId = useId();
 
@@ -47,11 +49,14 @@ const ConfirmModal = ({
         </p>
         <p className={styles.message}>{message}</p>
 
+        {/* Contenido extra, p. ej. un campo para confirmar escribiendo el nombre. */}
+        {children}
+
         <div className={styles.actions}>
           <Button variant="secondary" onClick={onCancel} disabled={disabled}>
             {cancelLabel}
           </Button>
-          <Button variant="Danger" onClick={onConfirm} disabled={disabled}>
+          <Button variant="Danger" onClick={onConfirm} disabled={disabled || confirmDisabled}>
             {confirmLabel}
           </Button>
         </div>

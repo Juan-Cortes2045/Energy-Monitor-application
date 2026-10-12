@@ -193,6 +193,8 @@
 /* ── Botón acción dentro de la card ─────────────────────────────── */
 .actionRow {
   display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
   justify-content: center;
   padding-top: var(--spacing-xs);
   text-align: center;

@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import { getCurrentPerson } from "../../../services/auth/session";
 import { errorMessage } from "../../../services/http/errorMessages";
 import { useHomes } from "../../../context/useHomes";
+import DeleteHome from "./DeleteHome/DeleteHome";
 
 const HOME_TYPE_ICONS = {
   house: <Home size={12} />,
@@ -57,7 +58,7 @@ const Field = ({ label, fullWidth = false, children }) => (
  * Detalle de hogar conectado al backend.
  * - accessCode y creationDate vienen de GET /homes.
  * - Abandonar llama a DELETE /homes/{id}/members/me.
- * - Eliminar hogar no existe en la API (brecha reportada): no se muestra.
+ * - Eliminar hogar (solo OWNER) llama a DELETE /homes/{id}, con confirmación (DeleteHome).
  */
 const HomeDetail = ({ home, isOwner = false }) => {
   const { t } = useTranslation("home");
@@ -201,6 +202,7 @@ const HomeDetail = ({ home, isOwner = false }) => {
               <LogOut size={15} className={styles.icon} />
               {leaving ? t("buttons.leaving") : t("buttons.leaveHome")}
             </Button>
+            {isOwner && <DeleteHome home={home} />}
           </div>
         </div>
       </Card>
