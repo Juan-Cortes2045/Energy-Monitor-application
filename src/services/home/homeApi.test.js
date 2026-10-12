@@ -61,6 +61,12 @@ describe("homeApi", () => {
     expect(httpClient.delete).toHaveBeenCalledWith("/homes/h1/members/me");
   });
 
+  it("deleteHome DELETE /homes/{id}", async () => {
+    httpClient.delete.mockResolvedValue({});
+    await api.deleteHome("h 1");
+    expect(httpClient.delete).toHaveBeenCalledWith("/homes/h%201");
+  });
+
   it("getThresholds GET /homes/{id}/thresholds", async () => {
     httpClient.get.mockResolvedValue({ data: {} });
     await api.getThresholds("h1");

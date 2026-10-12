@@ -34,6 +34,11 @@ const OPERATIONS = {
   homeCreate: { 404: "homeCreate.typeNotFound", 409: "homeCreate.codeCollision" },
   homeJoin: { 404: "homeJoin.codeNotFound", 409: "homeJoin.alreadyMember" },
   homeLeave: { 404: "homeLeave.notMember", 409: "homeLeave.lastOwner" },
+  homeDelete: {
+    403: "homeDelete.notOwner",
+    404: "homeDelete.notFound",
+    default: "homeDelete.failed",
+  },
   memberRemove: {
     403: "memberRemove.notOwner",
     404: "memberRemove.notFound",

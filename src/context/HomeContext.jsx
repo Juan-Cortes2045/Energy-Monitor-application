@@ -84,6 +84,20 @@ export const HomeProvider = ({ children }) => {
     [loadHomes],
   );
 
+  /** DELETE /homes/{id}: elimina el hogar (solo OWNER) y recarga la lista. */
+  const deleteHome = useCallback(
+    async (homeId) => {
+      try {
+        await homeApi.homeApi.deleteHome(homeId);
+        await loadHomes();
+        return null;
+      } catch (err) {
+        return err;
+      }
+    },
+    [loadHomes],
+  );
+
   /** DELETE /homes/{id}/members/{userId} */
   const removeMember = useCallback(
     async (homeId, userId) => {
@@ -109,6 +123,7 @@ export const HomeProvider = ({ children }) => {
         joinHome,
         setFavorite,
         leaveHome,
+        deleteHome,
         removeMember,
       }}
     >

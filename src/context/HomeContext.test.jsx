@@ -8,6 +8,7 @@ vi.mock("../services/home", () => ({
     joinHome: vi.fn(),
     toggleFavorite: vi.fn(),
     leaveHome: vi.fn(),
+    deleteHome: vi.fn(),
     removeMember: vi.fn(),
   },
 }));
@@ -97,6 +98,34 @@ describe("HomeContext (integración con cliente mockeado)", () => {
       expect(err).toBeNull();
     });
     expect(homeApi.leaveHome).toHaveBeenCalledWith("h1");
+  });
+
+  it("deleteHome llama al endpoint y recarga la lista", async () => {
+    homeApi.listHomes.mockResolvedValueOnce([home]).mockResolvedValueOnce([]);
+    homeApi.deleteHome.mockResolvedValue(undefined);
+    const { result } = renderHook(() => useHomes(), { wrapper });
+    await vi.waitFor(() => expect(result.current.loading).toBe(false));
+
+    await act(async () => {
+      const err = await result.current.deleteHome("h1");
+      expect(err).toBeNull();
+    });
+    expect(homeApi.deleteHome).toHaveBeenCalledWith("h1");
+    expect(result.current.homes).toEqual([]);
+  });
+
+  it("deleteHome devuelve el error sin lanzar", async () => {
+    homeApi.listHomes.mockResolvedValue([home]);
+    const refusal = { status: 403 };
+    homeApi.deleteHome.mockRejectedValue(refusal);
+    const { result } = renderHook(() => useHomes(), { wrapper });
+    await vi.waitFor(() => expect(result.current.loading).toBe(false));
+
+    let err;
+    await act(async () => {
+      err = await result.current.deleteHome("h1");
+    });
+    expect(err).toBe(refusal);
   });
 
   it("removeMember llama al endpoint con ambos ids", async () => {

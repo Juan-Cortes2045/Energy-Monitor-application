@@ -48,6 +48,15 @@ export async function leaveHome(homeId) {
   await httpClient.delete(`/homes/${encodeURIComponent(homeId)}/members/me`);
 }
 
+/**
+ * Elimina el hogar para todos sus miembros (solo OWNER). Sus dispositivos quedan desvinculados,
+ * no se borran. 403 si quien llama es miembro, 404 si no pertenece al hogar.
+ * @param {string} homeId
+ */
+export async function deleteHome(homeId) {
+  await httpClient.delete(`/homes/${encodeURIComponent(homeId)}`);
+}
+
 /** @param {string} homeId */
 export async function getThresholds(homeId) {
   const { data } = await httpClient.get(`/homes/${encodeURIComponent(homeId)}/thresholds`);
