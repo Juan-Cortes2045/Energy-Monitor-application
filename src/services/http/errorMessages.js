@@ -39,6 +39,12 @@ const OPERATIONS = {
     404: "homeDelete.notFound",
     default: "homeDelete.failed",
   },
+  ownershipTransfer: {
+    403: "ownershipTransfer.notOwner",
+    404: "ownershipTransfer.notMember",
+    409: "ownershipTransfer.alreadyOwner",
+    default: "ownershipTransfer.failed",
+  },
   memberRemove: {
     403: "memberRemove.notOwner",
     404: "memberRemove.notFound",

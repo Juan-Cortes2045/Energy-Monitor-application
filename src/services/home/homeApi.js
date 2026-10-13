@@ -57,6 +57,15 @@ export async function deleteHome(homeId) {
   await httpClient.delete(`/homes/${encodeURIComponent(homeId)}`);
 }
 
+/**
+ * Entrega el hogar a uno de sus miembros (solo OWNER); quien llama queda como miembro.
+ * 403 si quien llama es miembro, 404 si el destinatario ya no es miembro, 409 si ya es responsable.
+ * @param {string} homeId @param {string} newOwnerId
+ */
+export async function transferOwnership(homeId, newOwnerId) {
+  await httpClient.put(`/homes/${encodeURIComponent(homeId)}/owner`, { newOwnerId });
+}
+
 /** @param {string} homeId */
 export async function getThresholds(homeId) {
   const { data } = await httpClient.get(`/homes/${encodeURIComponent(homeId)}/thresholds`);

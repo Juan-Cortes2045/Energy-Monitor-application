@@ -67,6 +67,12 @@ describe("homeApi", () => {
     expect(httpClient.delete).toHaveBeenCalledWith("/homes/h%201");
   });
 
+  it("transferOwnership PUT /homes/{id}/owner con el nuevo responsable", async () => {
+    httpClient.put.mockResolvedValue({});
+    await api.transferOwnership("h 1", "u2");
+    expect(httpClient.put).toHaveBeenCalledWith("/homes/h%201/owner", { newOwnerId: "u2" });
+  });
+
   it("getThresholds GET /homes/{id}/thresholds", async () => {
     httpClient.get.mockResolvedValue({ data: {} });
     await api.getThresholds("h1");

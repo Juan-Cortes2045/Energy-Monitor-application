@@ -98,6 +98,23 @@ export const HomeProvider = ({ children }) => {
     [loadHomes],
   );
 
+  /**
+   * PUT /homes/{id}/owner: entrega el hogar a otro miembro y recarga la lista, porque el rol
+   * de quien llama pasa a MEMBER. Devuelve null o el ApiError.
+   */
+  const transferOwnership = useCallback(
+    async (homeId, newOwnerId) => {
+      try {
+        await homeApi.homeApi.transferOwnership(homeId, newOwnerId);
+        await loadHomes();
+        return null;
+      } catch (err) {
+        return err;
+      }
+    },
+    [loadHomes],
+  );
+
   /** DELETE /homes/{id}/members/{userId} */
   const removeMember = useCallback(
     async (homeId, userId) => {
@@ -125,6 +142,7 @@ export const HomeProvider = ({ children }) => {
         leaveHome,
         deleteHome,
         removeMember,
+        transferOwnership,
       }}
     >
       {children}

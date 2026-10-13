@@ -10,6 +10,7 @@ vi.mock("../services/home", () => ({
     leaveHome: vi.fn(),
     deleteHome: vi.fn(),
     removeMember: vi.fn(),
+    transferOwnership: vi.fn(),
   },
 }));
 
@@ -139,6 +140,36 @@ describe("HomeContext (integración con cliente mockeado)", () => {
       expect(err).toBeNull();
     });
     expect(homeApi.removeMember).toHaveBeenCalledWith("h1", "u2");
+  });
+
+  it("transferOwnership llama al endpoint y recarga la lista con el nuevo rol", async () => {
+    homeApi.listHomes
+      .mockResolvedValueOnce([home])
+      .mockResolvedValueOnce([{ ...home, role: "MEMBER" }]);
+    homeApi.transferOwnership.mockResolvedValue(undefined);
+    const { result } = renderHook(() => useHomes(), { wrapper });
+    await vi.waitFor(() => expect(result.current.loading).toBe(false));
+
+    await act(async () => {
+      const err = await result.current.transferOwnership("h1", "u2");
+      expect(err).toBeNull();
+    });
+    expect(homeApi.transferOwnership).toHaveBeenCalledWith("h1", "u2");
+    expect(result.current.homes[0].role).toBe("MEMBER");
+  });
+
+  it("transferOwnership devuelve el error sin lanzar", async () => {
+    homeApi.listHomes.mockResolvedValue([home]);
+    const refusal = { status: 404 };
+    homeApi.transferOwnership.mockRejectedValue(refusal);
+    const { result } = renderHook(() => useHomes(), { wrapper });
+    await vi.waitFor(() => expect(result.current.loading).toBe(false));
+
+    let err;
+    await act(async () => {
+      err = await result.current.transferOwnership("h1", "u2");
+    });
+    expect(err).toBe(refusal);
   });
 
   it("joinHome se une y recarga", async () => {
