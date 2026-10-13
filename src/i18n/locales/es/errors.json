@@ -79,5 +79,11 @@
     "notOwner": "Solo el responsable del hogar puede eliminarlo.",
     "notFound": "Este hogar ya no existe o no perteneces a él.",
     "failed": "No se pudo eliminar el hogar."
+  },
+  "ownershipTransfer": {
+    "notOwner": "Solo el responsable del hogar puede transferirlo.",
+    "notMember": "Este usuario ya no es miembro del hogar.",
+    "alreadyOwner": "Este usuario ya es el responsable del hogar.",
+    "failed": "No se pudo transferir el hogar. Inténtalo de nuevo."
   }
 }

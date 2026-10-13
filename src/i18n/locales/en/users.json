@@ -32,7 +32,8 @@
     "cancel": "Cancel"
   },
   "actions": {
-    "removeUser": "Remove {{name}}"
+    "removeUser": "Remove {{name}}",
+    "transferOwnership": "Make {{name}} the owner"
   },
   "state": {
     "loading": "Loading members...",
@@ -45,5 +46,14 @@
     "confirm": "Remove",
     "removing": "Removing...",
     "cancel": "Cancel"
+  },
+  "confirmTransfer": {
+    "title": "Transfer the home?",
+    "message": "\"{{name}}\" will become the owner of this home and you will stay as a member: you will no longer be able to manage devices, thresholds or members. Devices, thresholds and history do not change.",
+    "acknowledge": "I understand I will no longer be the owner",
+    "confirm": "Transfer",
+    "transferring": "Transferring...",
+    "cancel": "Cancel",
+    "done": "\"{{name}}\" is now the owner of the home."
   }
 }

@@ -79,5 +79,11 @@
     "notOwner": "Só o responsável pela casa pode excluí-la.",
     "notFound": "Esta casa não existe mais ou você não faz parte dela.",
     "failed": "Não foi possível excluir a casa."
+  },
+  "ownershipTransfer": {
+    "notOwner": "Somente o responsável da casa pode transferi-la.",
+    "notMember": "Este usuário não é mais membro da casa.",
+    "alreadyOwner": "Este usuário já é o responsável da casa.",
+    "failed": "Não foi possível transferir a casa. Tente novamente."
   }
 }

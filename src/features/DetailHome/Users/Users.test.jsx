@@ -6,8 +6,9 @@ import { saveSession } from "../../../services/auth/session";
 
 vi.mock("../hooks/useMembers", () => ({ useMembers: vi.fn() }));
 const removeMember = vi.fn();
+const transferOwnership = vi.fn();
 vi.mock("../../../context/useHomes", () => ({
-  useHomes: () => ({ removeMember }),
+  useHomes: () => ({ removeMember, transferOwnership }),
 }));
 
 const home = { idHome: "h1" };
@@ -15,6 +16,7 @@ const base = { loading: false, error: null, reload: vi.fn() };
 
 beforeEach(() => {
   removeMember.mockReset();
+  transferOwnership.mockReset();
   localStorage.clear();
   saveSession({
     accessToken: "a",
@@ -102,5 +104,78 @@ describe("Users (eliminar miembro)", () => {
     await waitFor(() =>
       expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
     );
+  });
+});
+
+describe("Users (transferir el hogar)", () => {
+  const reload = vi.fn();
+  const withMember = () =>
+    useMembers.mockReturnValue({
+      ...base,
+      reload,
+      members: [
+        { userId: "u1", role: "OWNER" },
+        { userId: "u2", role: "MEMBER", name: "Grace", lastName: "Hopper" },
+      ],
+    });
+
+  beforeEach(() => reload.mockReset());
+
+  it("solo el responsable ve la acción, y nunca sobre sí mismo", () => {
+    withMember();
+    const { unmount } = render(<Users home={home} isOwner />);
+    expect(screen.getAllByLabelText("actions.transferOwnership")).toHaveLength(1);
+    unmount();
+
+    render(<Users home={home} isOwner={false} />);
+    expect(screen.queryByLabelText("actions.transferOwnership")).not.toBeInTheDocument();
+  });
+
+  it("no transfiere hasta marcar la casilla de confirmación, y se puede cancelar", () => {
+    withMember();
+    render(<Users home={home} isOwner />);
+    fireEvent.click(screen.getByLabelText("actions.transferOwnership"));
+
+    const confirm = screen.getByText("confirmTransfer.confirm").closest("button");
+    expect(confirm).toBeDisabled();
+    fireEvent.click(confirm);
+    expect(transferOwnership).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByLabelText("confirmTransfer.acknowledge"));
+    expect(confirm).toBeEnabled();
+
+    fireEvent.click(screen.getByText("confirmTransfer.cancel"));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(transferOwnership).not.toHaveBeenCalled();
+  });
+
+  it("al confirmar transfiere al miembro, recarga la lista y lo informa", async () => {
+    transferOwnership.mockResolvedValue(null);
+    withMember();
+    render(<Users home={home} isOwner />);
+    fireEvent.click(screen.getByLabelText("actions.transferOwnership"));
+    fireEvent.click(screen.getByLabelText("confirmTransfer.acknowledge"));
+    fireEvent.click(screen.getByText("confirmTransfer.confirm"));
+
+    expect(transferOwnership).toHaveBeenCalledWith("h1", "u2");
+    await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
+    expect(reload).toHaveBeenCalled();
+    expect(screen.getByText("confirmTransfer.done")).toBeInTheDocument();
+  });
+
+  it.each([
+    [403, "errors:ownershipTransfer.notOwner"],
+    [404, "errors:ownershipTransfer.notMember"],
+    [409, "errors:ownershipTransfer.alreadyOwner"],
+  ])("muestra el error del servidor (%i)", async (status, key) => {
+    transferOwnership.mockResolvedValue({ status });
+    withMember();
+    render(<Users home={home} isOwner />);
+    fireEvent.click(screen.getByLabelText("actions.transferOwnership"));
+    fireEvent.click(screen.getByLabelText("confirmTransfer.acknowledge"));
+    fireEvent.click(screen.getByText("confirmTransfer.confirm"));
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(key);
+    expect(reload).not.toHaveBeenCalled();
   });
 });

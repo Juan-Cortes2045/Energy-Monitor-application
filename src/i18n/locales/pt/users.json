@@ -32,7 +32,8 @@
     "cancel": "Cancelar"
   },
   "actions": {
-    "removeUser": "Remover {{name}}"
+    "removeUser": "Remover {{name}}",
+    "transferOwnership": "Tornar {{name}} responsável"
   },
   "state": {
     "loading": "Carregando membros...",
@@ -45,5 +46,14 @@
     "confirm": "Remover",
     "removing": "Removendo...",
     "cancel": "Cancelar"
+  },
+  "confirmTransfer": {
+    "title": "Transferir a casa?",
+    "message": "“{{name}}” passará a ser o responsável desta casa e você ficará como membro: não poderá mais gerenciar dispositivos, limites nem membros. Os dispositivos, limites e histórico não mudam.",
+    "acknowledge": "Entendo que deixarei de ser o responsável",
+    "confirm": "Transferir",
+    "transferring": "Transferindo...",
+    "cancel": "Cancelar",
+    "done": "Agora “{{name}}” é o responsável da casa."
   }
 }

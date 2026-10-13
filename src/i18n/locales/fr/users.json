@@ -32,7 +32,8 @@
     "cancel": "Annuler"
   },
   "actions": {
-    "removeUser": "Supprimer {{name}}"
+    "removeUser": "Supprimer {{name}}",
+    "transferOwnership": "Nommer {{name}} responsable"
   },
   "state": {
     "loading": "Chargement des membres...",
@@ -45,5 +46,14 @@
     "confirm": "Retirer",
     "removing": "Suppression...",
     "cancel": "Annuler"
+  },
+  "confirmTransfer": {
+    "title": "Transférer le foyer ?",
+    "message": "« {{name}} » deviendra le responsable de ce foyer et vous resterez membre : vous ne pourrez plus gérer les appareils, les seuils ni les membres. Les appareils, les seuils et l’historique ne changent pas.",
+    "acknowledge": "Je comprends que je ne serai plus le responsable",
+    "confirm": "Transférer",
+    "transferring": "Transfert...",
+    "cancel": "Annuler",
+    "done": "« {{name}} » est désormais le responsable du foyer."
   }
 }

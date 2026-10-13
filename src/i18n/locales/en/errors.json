@@ -79,5 +79,11 @@
     "notOwner": "Only the person responsible for the home can delete it.",
     "notFound": "This home no longer exists or you are not part of it.",
     "failed": "The home could not be deleted."
+  },
+  "ownershipTransfer": {
+    "notOwner": "Only the owner of the home can transfer it.",
+    "notMember": "This user is no longer a member of the home.",
+    "alreadyOwner": "This user is already the owner of the home.",
+    "failed": "The home could not be transferred. Please try again."
   }
 }

@@ -79,5 +79,11 @@
     "notOwner": "Seul le responsable du foyer peut le supprimer.",
     "notFound": "Ce foyer n’existe plus ou vous n’en faites pas partie.",
     "failed": "Le foyer n’a pas pu être supprimé."
+  },
+  "ownershipTransfer": {
+    "notOwner": "Seul le responsable du foyer peut le transférer.",
+    "notMember": "Cet utilisateur n’est plus membre du foyer.",
+    "alreadyOwner": "Cet utilisateur est déjà le responsable du foyer.",
+    "failed": "Le foyer n’a pas pu être transféré. Réessayez."
   }
 }

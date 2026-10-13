@@ -1,6 +1,7 @@
 import ErrorState from "../../../components/shared/ErrorState/ErrorState";
 import ConfirmModal from "../../../components/shared/ConfirmModal/ConfirmModal";
 import { useState } from "react";
+import { Crown } from "lucide-react";
 import Card from "../../../design/components/Card/Card";
 import styles from "./Users.module.css";
 import { useTranslation } from "react-i18next";
@@ -29,7 +30,7 @@ const Avatar = ({ name, lastName, index }) => (
   </div>
 );
 
-const UserRow = ({ user, index, isOwner, onRemove, removing = false, t }) => (
+const UserRow = ({ user, index, isOwner, onRemove, onTransfer, removing = false, t }) => (
   <div className={styles.userRow}>
     <Avatar name={user.name} lastName={user.lastName} index={index} />
     <div className={styles.userInfo}>
@@ -43,6 +44,18 @@ const UserRow = ({ user, index, isOwner, onRemove, removing = false, t }) => (
     >
       {user.role === "owner" ? t("roles.owner") : t("roles.member")}
     </span>
+    {isOwner && user.role !== "owner" && (
+      <button
+        type="button"
+        className={styles.transferBtn}
+        onClick={() => onTransfer(user)}
+        disabled={removing}
+        aria-label={t("actions.transferOwnership", { name: fullName(user) })}
+        title={t("actions.transferOwnership", { name: fullName(user) })}
+      >
+        <Crown size={14} />
+      </button>
+    )}
     {isOwner && user.role !== "owner" && (
       <button
         type="button"
@@ -61,6 +74,8 @@ const UserRow = ({ user, index, isOwner, onRemove, removing = false, t }) => (
  * Miembros conectados al backend:
  * - GET /homes/{id}/members al montar
  * - DELETE /homes/{id}/members/{userId} para remover (solo OWNER)
+ * - PUT /homes/{id}/owner para entregar el hogar a un miembro (solo OWNER); quien lo
+ *   entrega queda como miembro, así que tras confirmar se recargan el hogar y la lista
  * El backend aún solo devuelve userId y rol: nombre y correo se completan para el
  * usuario en sesión; el resto usa name/lastName/email cuando el backend los traiga
  * y, mientras tanto, el userId.
@@ -78,11 +93,16 @@ const toRow = (member, me) => {
 
 const Users = ({ home, isOwner = false }) => {
   const { t } = useTranslation("users");
-  const { removeMember } = useHomes();
+  const { removeMember, transferOwnership } = useHomes();
   const { members, loading, error, reload } = useMembers(home?.idHome);
   const [removingId, setRemovingId] = useState(null);
   const [confirmingUser, setConfirmingUser] = useState(null);
   const [removeError, setRemoveError] = useState(null);
+  const [transferTarget, setTransferTarget] = useState(null);
+  const [acknowledged, setAcknowledged] = useState(false);
+  const [transferring, setTransferring] = useState(false);
+  const [transferError, setTransferError] = useState(null);
+  const [transferredTo, setTransferredTo] = useState(null);
 
   const me = getCurrentPerson();
   const rows = members.map((m) => toRow(m, me));
@@ -101,6 +121,27 @@ const Users = ({ home, isOwner = false }) => {
     setRemovingId(null);
     setConfirmingUser(null);
     if (err) setRemoveError(err);
+  };
+
+  const openTransfer = (user) => {
+    setTransferTarget(user);
+    setAcknowledged(false);
+    setTransferError(null);
+    setTransferredTo(null);
+  };
+
+  const handleTransfer = async () => {
+    setTransferring(true);
+    const err = await transferOwnership(home.idHome, transferTarget.id);
+    setTransferring(false);
+    if (err) {
+      setTransferError(err);
+      setTransferTarget(null);
+      return;
+    }
+    setTransferredTo(fullName(transferTarget));
+    setTransferTarget(null);
+    reload();
   };
 
   return (
@@ -133,6 +174,7 @@ const Users = ({ home, isOwner = false }) => {
                     index={i}
                     isOwner={isOwner}
                     onRemove={setConfirmingUser}
+                    onTransfer={openTransfer}
                     removing={removingId === user.id}
                     t={t}
                   />
@@ -143,6 +185,16 @@ const Users = ({ home, isOwner = false }) => {
                   <p>{t("members.onlyOwnerTitle")}</p>
                   <p>{t("members.onlyOwnerDescription")}</p>
                 </div>
+              )}
+              {transferredTo && (
+                <p className={styles.state} role="status">
+                  {t("confirmTransfer.done", { name: transferredTo })}
+                </p>
+              )}
+              {transferError && (
+                <p className={styles.inviteError} role="alert">
+                  {errorMessage(t, transferError, "ownershipTransfer")}
+                </p>
               )}
               {removeError && (
                 <p className={styles.inviteError} role="alert">
@@ -166,6 +218,31 @@ const Users = ({ home, isOwner = false }) => {
           onCancel={() => setConfirmingUser(null)}
           disabled={Boolean(removingId)}
         />
+      )}
+
+      {transferTarget && (
+        <ConfirmModal
+          title={t("confirmTransfer.title")}
+          message={t("confirmTransfer.message", { name: fullName(transferTarget) })}
+          confirmLabel={
+            transferring ? t("confirmTransfer.transferring") : t("confirmTransfer.confirm")
+          }
+          cancelLabel={t("confirmTransfer.cancel")}
+          onConfirm={handleTransfer}
+          onCancel={() => setTransferTarget(null)}
+          disabled={transferring}
+          confirmDisabled={!acknowledged}
+        >
+          <label className={styles.acknowledge}>
+            <input
+              type="checkbox"
+              checked={acknowledged}
+              onChange={(e) => setAcknowledged(e.target.checked)}
+              disabled={transferring}
+            />
+            {t("confirmTransfer.acknowledge")}
+          </label>
+        </ConfirmModal>
       )}
     </div>
   );
