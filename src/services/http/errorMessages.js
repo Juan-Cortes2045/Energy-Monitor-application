@@ -59,6 +59,12 @@ const OPERATIONS = {
   deviceUnlink: { 403: "deviceUnlink.notOwner", default: "deviceUnlink.failed" },
   deviceEdit: { 403: "deviceEdit.notOwner", default: "deviceEdit.failed" },
   deviceReconnect: { 403: "deviceReconnect.notOwner", default: "deviceReconnect.failed" },
+  adminAction: {
+    403: "adminAction.forbidden",
+    404: "adminAction.notFound",
+    409: "adminAction.self",
+    default: "adminAction.failed",
+  },
 };
 
 const GENERIC = {

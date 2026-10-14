@@ -85,5 +85,11 @@
     "notMember": "Este usuario ya no es miembro del hogar.",
     "alreadyOwner": "Este usuario ya es el responsable del hogar.",
     "failed": "No se pudo transferir el hogar. Inténtalo de nuevo."
+  },
+  "adminAction": {
+    "forbidden": "No tienes permiso para realizar esta acción de administración.",
+    "notFound": "La cuenta o el rol ya no existe.",
+    "self": "No puedes cambiar el estado ni los roles de tu propia cuenta.",
+    "failed": "No se pudo completar la acción. Inténtalo de nuevo."
   }
 }

@@ -1,0 +1,107 @@
+{
+  "breadcrumb": {
+    "home": "Inicio",
+    "current": "Administración"
+  },
+  "title": "Usuarios de la plataforma",
+  "subtitle": "Consulta las cuentas, cambia su estado y gestiona el rol de administrador.",
+  "loading": "Cargando usuarios…",
+  "empty": "No hay usuarios que coincidan con la búsqueda.",
+  "search": {
+    "label": "Buscar usuarios",
+    "placeholder": "Buscar por nombre o correo",
+    "submit": "Buscar"
+  },
+  "table": {
+    "user": "Usuario",
+    "status": "Estado",
+    "roles": "Roles globales",
+    "registered": "Registro",
+    "lastLogin": "Último acceso",
+    "never": "Nunca",
+    "noRoles": "Sin roles",
+    "you": "Tú"
+  },
+  "status": {
+    "ACTIVE": "Activa",
+    "INACTIVE": "Inactiva",
+    "BLOCKED": "Bloqueada"
+  },
+  "actions": {
+    "status": "Estado de {{name}}",
+    "grantAdmin": "Hacer administrador a {{name}}",
+    "revokeAdmin": "Quitar el rol de administrador a {{name}}"
+  },
+  "confirmStatus": {
+    "title": "Cambiar el estado de la cuenta",
+    "message": "La cuenta {{email}} pasará a «{{status}}». No podrá iniciar sesión y sus sesiones abiertas se cerrarán."
+  },
+  "confirmRevoke": {
+    "title": "Quitar el rol de administrador",
+    "message": "{{email}} dejará de tener acceso a la administración."
+  },
+  "confirm": {
+    "accept": "Confirmar",
+    "cancel": "Cancelar"
+  },
+  "pager": {
+    "label": "Paginación",
+    "previous": "Página anterior",
+    "next": "Página siguiente",
+    "position": "Página {{page}} de {{total}}"
+  },
+  "notifications": {
+    "breadcrumb": "Notificaciones",
+    "title": "Notificaciones de administración",
+    "subtitle": "Cuentas nuevas y cambios que hicieron los demás administradores.",
+    "markAllRead": "Marcar todas como leídas",
+    "markRead": "Marcar como leída",
+    "delete": "Eliminar",
+    "read": "Leída",
+    "new": "Nueva",
+    "failed": "No se pudo completar la acción. Inténtalo de nuevo.",
+    "unknownAccount": "Una cuenta eliminada",
+    "empty": {
+      "title": "Sin notificaciones",
+      "description": "Aquí aparecerán las cuentas nuevas y los cambios de estado o de rol."
+    },
+    "events": {
+      "generic": {
+        "title": "Cambio en la plataforma",
+        "message": "Hubo un cambio en la cuenta de {{who}}."
+      },
+      "admin": {
+        "accountRegistered": {
+          "title": "Nueva cuenta registrada",
+          "message": "{{who}} ({{email}}) creó una cuenta."
+        },
+        "statusChanged": {
+          "ACTIVE": {
+            "title": "Cuenta activada",
+            "message": "Otro administrador activó la cuenta de {{who}}."
+          },
+          "INACTIVE": {
+            "title": "Cuenta desactivada",
+            "message": "Otro administrador desactivó la cuenta de {{who}}."
+          },
+          "BLOCKED": {
+            "title": "Cuenta bloqueada",
+            "message": "Otro administrador bloqueó la cuenta de {{who}}."
+          }
+        },
+        "roleGranted": {
+          "ADMIN": {
+            "title": "Nuevo administrador",
+            "message": "Otro administrador le dio el rol de administrador a {{who}}."
+          }
+        },
+        "roleRevoked": {
+          "ADMIN": {
+            "title": "Administrador retirado",
+            "message": "Otro administrador le quitó el rol de administrador a {{who}}."
+          }
+        }
+      }
+    }
+  }
+}

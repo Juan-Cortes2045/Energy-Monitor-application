@@ -85,5 +85,11 @@
     "notMember": "Cet utilisateur n’est plus membre du foyer.",
     "alreadyOwner": "Cet utilisateur est déjà le responsable du foyer.",
     "failed": "Le foyer n’a pas pu être transféré. Réessayez."
+  },
+  "adminAction": {
+    "forbidden": "Vous n'avez pas l'autorisation d'effectuer cette action d'administration.",
+    "notFound": "Le compte ou le rôle n'existe plus.",
+    "self": "Vous ne pouvez pas modifier le statut ni les rôles de votre propre compte.",
+    "failed": "L'action n'a pas pu aboutir. Veuillez réessayer."
   }
 }

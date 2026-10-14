@@ -85,5 +85,11 @@
     "notMember": "Este usuário não é mais membro da casa.",
     "alreadyOwner": "Este usuário já é o responsável da casa.",
     "failed": "Não foi possível transferir a casa. Tente novamente."
+  },
+  "adminAction": {
+    "forbidden": "Você não tem permissão para realizar esta ação de administração.",
+    "notFound": "A conta ou o papel não existe mais.",
+    "self": "Você não pode alterar o status nem os papéis da sua própria conta.",
+    "failed": "Não foi possível concluir a ação. Tente novamente."
   }
 }

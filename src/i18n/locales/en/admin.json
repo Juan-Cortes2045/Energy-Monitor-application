@@ -1,0 +1,107 @@
+{
+  "breadcrumb": {
+    "home": "Home",
+    "current": "Administration"
+  },
+  "title": "Platform users",
+  "subtitle": "Review accounts, change their status and manage the administrator role.",
+  "loading": "Loading users…",
+  "empty": "No users match the search.",
+  "search": {
+    "label": "Search users",
+    "placeholder": "Search by name or email",
+    "submit": "Search"
+  },
+  "table": {
+    "user": "User",
+    "status": "Status",
+    "roles": "Global roles",
+    "registered": "Registered",
+    "lastLogin": "Last sign-in",
+    "never": "Never",
+    "noRoles": "No roles",
+    "you": "You"
+  },
+  "status": {
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive",
+    "BLOCKED": "Blocked"
+  },
+  "actions": {
+    "status": "Status of {{name}}",
+    "grantAdmin": "Make {{name}} an administrator",
+    "revokeAdmin": "Remove the administrator role from {{name}}"
+  },
+  "confirmStatus": {
+    "title": "Change the account status",
+    "message": "The account {{email}} will become “{{status}}”. It will not be able to sign in and its open sessions will be closed."
+  },
+  "confirmRevoke": {
+    "title": "Remove the administrator role",
+    "message": "{{email}} will lose access to administration."
+  },
+  "confirm": {
+    "accept": "Confirm",
+    "cancel": "Cancel"
+  },
+  "pager": {
+    "label": "Pagination",
+    "previous": "Previous page",
+    "next": "Next page",
+    "position": "Page {{page}} of {{total}}"
+  },
+  "notifications": {
+    "breadcrumb": "Notifications",
+    "title": "Administration notifications",
+    "subtitle": "New accounts and changes made by the other administrators.",
+    "markAllRead": "Mark all as read",
+    "markRead": "Mark as read",
+    "delete": "Delete",
+    "read": "Read",
+    "new": "New",
+    "failed": "The action could not be completed. Please try again.",
+    "unknownAccount": "A deleted account",
+    "empty": {
+      "title": "No notifications",
+      "description": "New accounts and status or role changes will appear here."
+    },
+    "events": {
+      "generic": {
+        "title": "Platform change",
+        "message": "The account of {{who}} changed."
+      },
+      "admin": {
+        "accountRegistered": {
+          "title": "New account registered",
+          "message": "{{who}} ({{email}}) created an account."
+        },
+        "statusChanged": {
+          "ACTIVE": {
+            "title": "Account activated",
+            "message": "Another administrator activated the account of {{who}}."
+          },
+          "INACTIVE": {
+            "title": "Account deactivated",
+            "message": "Another administrator deactivated the account of {{who}}."
+          },
+          "BLOCKED": {
+            "title": "Account blocked",
+            "message": "Another administrator blocked the account of {{who}}."
+          }
+        },
+        "roleGranted": {
+          "ADMIN": {
+            "title": "New administrator",
+            "message": "Another administrator made {{who}} an administrator."
+          }
+        },
+        "roleRevoked": {
+          "ADMIN": {
+            "title": "Administrator removed",
+            "message": "Another administrator removed the administrator role from {{who}}."
+          }
+        }
+      }
+    }
+  }
+}

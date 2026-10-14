@@ -1,0 +1,107 @@
+{
+  "breadcrumb": {
+    "home": "Início",
+    "current": "Administração"
+  },
+  "title": "Usuários da plataforma",
+  "subtitle": "Consulte as contas, altere o status e gerencie o papel de administrador.",
+  "loading": "Carregando usuários…",
+  "empty": "Nenhum usuário corresponde à busca.",
+  "search": {
+    "label": "Buscar usuários",
+    "placeholder": "Buscar por nome ou e-mail",
+    "submit": "Buscar"
+  },
+  "table": {
+    "user": "Usuário",
+    "status": "Status",
+    "roles": "Papéis globais",
+    "registered": "Cadastro",
+    "lastLogin": "Último acesso",
+    "never": "Nunca",
+    "noRoles": "Sem papéis",
+    "you": "Você"
+  },
+  "status": {
+    "ACTIVE": "Ativa",
+    "INACTIVE": "Inativa",
+    "BLOCKED": "Bloqueada"
+  },
+  "actions": {
+    "status": "Status de {{name}}",
+    "grantAdmin": "Tornar {{name}} administrador",
+    "revokeAdmin": "Remover o papel de administrador de {{name}}"
+  },
+  "confirmStatus": {
+    "title": "Alterar o status da conta",
+    "message": "A conta {{email}} passará para «{{status}}». Não poderá entrar e suas sessões abertas serão encerradas."
+  },
+  "confirmRevoke": {
+    "title": "Remover o papel de administrador",
+    "message": "{{email}} perderá o acesso à administração."
+  },
+  "confirm": {
+    "accept": "Confirmar",
+    "cancel": "Cancelar"
+  },
+  "pager": {
+    "label": "Paginação",
+    "previous": "Página anterior",
+    "next": "Próxima página",
+    "position": "Página {{page}} de {{total}}"
+  },
+  "notifications": {
+    "breadcrumb": "Notificações",
+    "title": "Notificações de administração",
+    "subtitle": "Novas contas e alterações feitas pelos outros administradores.",
+    "markAllRead": "Marcar todas como lidas",
+    "markRead": "Marcar como lida",
+    "delete": "Excluir",
+    "read": "Lida",
+    "new": "Nova",
+    "failed": "Não foi possível concluir a ação. Tente novamente.",
+    "unknownAccount": "Uma conta excluída",
+    "empty": {
+      "title": "Sem notificações",
+      "description": "Novas contas e alterações de status ou de papel aparecerão aqui."
+    },
+    "events": {
+      "generic": {
+        "title": "Alteração na plataforma",
+        "message": "A conta de {{who}} foi alterada."
+      },
+      "admin": {
+        "accountRegistered": {
+          "title": "Nova conta cadastrada",
+          "message": "{{who}} ({{email}}) criou uma conta."
+        },
+        "statusChanged": {
+          "ACTIVE": {
+            "title": "Conta ativada",
+            "message": "Outro administrador ativou a conta de {{who}}."
+          },
+          "INACTIVE": {
+            "title": "Conta desativada",
+            "message": "Outro administrador desativou a conta de {{who}}."
+          },
+          "BLOCKED": {
+            "title": "Conta bloqueada",
+            "message": "Outro administrador bloqueou a conta de {{who}}."
+          }
+        },
+        "roleGranted": {
+          "ADMIN": {
+            "title": "Novo administrador",
+            "message": "Outro administrador tornou {{who}} administrador."
+          }
+        },
+        "roleRevoked": {
+          "ADMIN": {
+            "title": "Administrador removido",
+            "message": "Outro administrador removeu o papel de administrador de {{who}}."
+          }
+        }
+      }
+    }
+  }
+}

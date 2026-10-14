@@ -85,5 +85,11 @@
     "notMember": "This user is no longer a member of the home.",
     "alreadyOwner": "This user is already the owner of the home.",
     "failed": "The home could not be transferred. Please try again."
+  },
+  "adminAction": {
+    "forbidden": "You don't have permission to perform this administration action.",
+    "notFound": "The account or role no longer exists.",
+    "self": "You cannot change the status or roles of your own account.",
+    "failed": "The action could not be completed. Please try again."
   }
 }

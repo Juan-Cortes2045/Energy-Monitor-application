@@ -34,6 +34,7 @@ import esHomeNotFound from "./locales/es/homeNotFound.json";
 import esAbout from "./locales/es/about.json";
 import esLegalModal from "./locales/es/legalModal.json";
 import esErrors from "./locales/es/errors.json";
+import esAdmin from "./locales/es/admin.json";
 
 // Inglés
 
@@ -68,6 +69,7 @@ import enHomeNotFound from "./locales/en/homeNotFound.json";
 import enAbout from "./locales/en/about.json";
 import enLegalModal from "./locales/en/legalModal.json";
 import enErrors from "./locales/en/errors.json";
+import enAdmin from "./locales/en/admin.json";
 
 // Frances
 
@@ -102,6 +104,7 @@ import frHomeNotFound from "./locales/fr/homeNotFound.json";
 import frAbout from "./locales/fr/about.json";
 import frLegalModal from "./locales/fr/legalModal.json";
 import frErrors from "./locales/fr/errors.json";
+import frAdmin from "./locales/fr/admin.json";
 
 // Portugués
 
@@ -136,6 +139,7 @@ import ptHomeNotFound from "./locales/pt/homeNotFound.json";
 import ptAbout from "./locales/pt/about.json";
 import ptLegalModal from "./locales/pt/legalModal.json"
 import ptErrors from "./locales/pt/errors.json";
+import ptAdmin from "./locales/pt/admin.json";
 
 // Configuración de i18next
 i18n.use(initReactI18next).init({
@@ -174,7 +178,8 @@ i18n.use(initReactI18next).init({
       homeNotFound: esHomeNotFound,
       about: esAbout,
       legalModal: esLegalModal,
-      errors: esErrors
+      errors: esErrors,
+      admin: esAdmin
     },
     en: {
       account: enAccount,
@@ -207,7 +212,8 @@ i18n.use(initReactI18next).init({
       homeNotFound: enHomeNotFound,
       about: enAbout,
       legalModal: enLegalModal,
-      errors: enErrors
+      errors: enErrors,
+      admin: enAdmin
     },
     fr: {
       account: frAccount,
@@ -240,7 +246,8 @@ i18n.use(initReactI18next).init({
       homeNotFound: frHomeNotFound,
       about: frAbout,
       legalModal: frLegalModal,
-      errors: frErrors
+      errors: frErrors,
+      admin: frAdmin
     },
     pt: {
       account: ptAccount,
@@ -273,7 +280,8 @@ i18n.use(initReactI18next).init({
       homeNotFound: ptHomeNotFound,
       about: ptAbout,
       legalModal: ptLegalModal,
-      errors: ptErrors
+      errors: ptErrors,
+      admin: ptAdmin
     },
   },
 });

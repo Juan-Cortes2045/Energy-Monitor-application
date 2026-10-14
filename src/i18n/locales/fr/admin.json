@@ -1,0 +1,107 @@
+{
+  "breadcrumb": {
+    "home": "Accueil",
+    "current": "Administration"
+  },
+  "title": "Utilisateurs de la plateforme",
+  "subtitle": "Consultez les comptes, changez leur statut et gérez le rôle d'administrateur.",
+  "loading": "Chargement des utilisateurs…",
+  "empty": "Aucun utilisateur ne correspond à la recherche.",
+  "search": {
+    "label": "Rechercher des utilisateurs",
+    "placeholder": "Rechercher par nom ou e-mail",
+    "submit": "Rechercher"
+  },
+  "table": {
+    "user": "Utilisateur",
+    "status": "Statut",
+    "roles": "Rôles globaux",
+    "registered": "Inscription",
+    "lastLogin": "Dernière connexion",
+    "never": "Jamais",
+    "noRoles": "Aucun rôle",
+    "you": "Vous"
+  },
+  "status": {
+    "ACTIVE": "Actif",
+    "INACTIVE": "Inactif",
+    "BLOCKED": "Bloqué"
+  },
+  "actions": {
+    "status": "Statut de {{name}}",
+    "grantAdmin": "Nommer {{name}} administrateur",
+    "revokeAdmin": "Retirer le rôle d'administrateur à {{name}}"
+  },
+  "confirmStatus": {
+    "title": "Changer le statut du compte",
+    "message": "Le compte {{email}} passera à « {{status}} ». Il ne pourra plus se connecter et ses sessions ouvertes seront fermées."
+  },
+  "confirmRevoke": {
+    "title": "Retirer le rôle d'administrateur",
+    "message": "{{email}} n'aura plus accès à l'administration."
+  },
+  "confirm": {
+    "accept": "Confirmer",
+    "cancel": "Annuler"
+  },
+  "pager": {
+    "label": "Pagination",
+    "previous": "Page précédente",
+    "next": "Page suivante",
+    "position": "Page {{page}} sur {{total}}"
+  },
+  "notifications": {
+    "breadcrumb": "Notifications",
+    "title": "Notifications d'administration",
+    "subtitle": "Nouveaux comptes et changements effectués par les autres administrateurs.",
+    "markAllRead": "Tout marquer comme lu",
+    "markRead": "Marquer comme lue",
+    "delete": "Supprimer",
+    "read": "Lue",
+    "new": "Nouvelle",
+    "failed": "L'action n'a pas pu aboutir. Veuillez réessayer.",
+    "unknownAccount": "Un compte supprimé",
+    "empty": {
+      "title": "Aucune notification",
+      "description": "Les nouveaux comptes et les changements de statut ou de rôle apparaîtront ici."
+    },
+    "events": {
+      "generic": {
+        "title": "Changement sur la plateforme",
+        "message": "Le compte de {{who}} a changé."
+      },
+      "admin": {
+        "accountRegistered": {
+          "title": "Nouveau compte inscrit",
+          "message": "{{who}} ({{email}}) a créé un compte."
+        },
+        "statusChanged": {
+          "ACTIVE": {
+            "title": "Compte activé",
+            "message": "Un autre administrateur a activé le compte de {{who}}."
+          },
+          "INACTIVE": {
+            "title": "Compte désactivé",
+            "message": "Un autre administrateur a désactivé le compte de {{who}}."
+          },
+          "BLOCKED": {
+            "title": "Compte bloqué",
+            "message": "Un autre administrateur a bloqué le compte de {{who}}."
+          }
+        },
+        "roleGranted": {
+          "ADMIN": {
+            "title": "Nouvel administrateur",
+            "message": "Un autre administrateur a nommé {{who}} administrateur."
+          }
+        },
+        "roleRevoked": {
+          "ADMIN": {
+            "title": "Administrateur retiré",
+            "message": "Un autre administrateur a retiré le rôle d'administrateur à {{who}}."
+          }
+        }
+      }
+    }
+  }
+}
