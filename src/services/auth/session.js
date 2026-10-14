@@ -61,3 +61,20 @@ export function getCurrentPerson() {
     profileImage: s.profile?.profileImage ?? null,
   };
 }
+
+/**
+ * Permisos globales guardados en la sesión, o `null` mientras aún no se han
+ * pedido (sesiones de antes de que existieran).
+ */
+export function getPermissions() {
+  const permissions = getSession()?.permissions;
+  return Array.isArray(permissions) ? permissions : null;
+}
+
+/** Permiso que hace de una cuenta una cuenta de administración (rol global ADMIN). */
+export const ADMIN_PERMISSION = "USER.READ";
+
+/** Adónde llevar al usuario al iniciar sesión: los administradores, a la administración. */
+export function landingPath() {
+  return getPermissions()?.includes(ADMIN_PERMISSION) ? "/admin/users" : "/dashboard";
+}

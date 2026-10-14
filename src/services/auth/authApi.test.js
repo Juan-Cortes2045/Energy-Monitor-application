@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { AxiosError } from "axios";
 import { httpClient } from "../http/httpClient";
 import { logout, refreshProfile } from "./authApi";
-import { getCurrentPerson, getSession, saveSession } from "./session";
+import { getCurrentPerson, getPermissions, getSession, saveSession } from "./session";
 
 const jwt = (sub) => `h.${btoa(JSON.stringify({ sub }))}.s`;
 
@@ -56,10 +56,21 @@ describe("refreshProfile", () => {
     const calls = [];
     httpClient.defaults.adapter = async (config) => {
       calls.push(`${config.method} ${config.url}`);
+      if (config.url === "/auth/permissions") return reply(config, { permissions: [] });
       return reply(config, { email: "a@b.co", name: "Ada", lastName: "Lovelace", profileImage: "data:x" });
     };
     await refreshProfile();
-    expect(calls).toEqual(["get /auth/account"]);
+    expect(calls).toContain("get /auth/account");
     expect(getCurrentPerson()).toMatchObject({ name: "Ada", lastName: "Lovelace", profileImage: "data:x" });
+  });
+
+  it("guarda en la sesión los permisos de GET /auth/permissions", async () => {
+    expect(getPermissions()).toBeNull();
+    httpClient.defaults.adapter = async (config) =>
+      config.url === "/auth/permissions"
+        ? reply(config, { permissions: ["USER.READ"] })
+        : reply(config, { email: "a@b.co" });
+    await refreshProfile();
+    expect(getPermissions()).toEqual(["USER.READ"]);
   });
 });

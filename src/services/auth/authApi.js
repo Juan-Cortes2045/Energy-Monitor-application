@@ -73,9 +73,19 @@ export async function getAccount() {
   return data;
 }
 
-/** Deja en la sesión correo, foto, nombre y apellido del usuario. */
+/**
+ * GET /auth/permissions: los permisos globales (RBAC) del usuario, p. ej. "USER.READ".
+ * Solo deciden qué se muestra; el backend vuelve a comprobarlos en cada petición.
+ */
+export async function getPermissions() {
+  const { data } = await httpClient.get("/auth/permissions");
+  saveSession({ permissions: data.permissions ?? [] });
+  return data.permissions ?? [];
+}
+
+/** Deja en la sesión correo, foto, nombre, apellido y permisos del usuario. */
 export async function refreshProfile() {
-  await getAccount();
+  await Promise.all([getAccount(), getPermissions()]);
 }
 
 /** Elimina la cuenta tras confirmar con la contraseña; cierra la sesión local. */
