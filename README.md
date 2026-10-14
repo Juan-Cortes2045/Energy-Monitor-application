@@ -28,6 +28,18 @@ En **Hogar → Dispositivos → Vincular dispositivo** (solo el propietario) la 
 - **Linux:** Chrome trae Web Bluetooth apagado. Activa `chrome://flags/#enable-experimental-web-platform-features`, pulsa *Relaunch* y vuelve a abrir la web. El adaptador debe estar encendido (`bluetoothctl show`).
 - El backend debe tener `DEVICE_MQTT_PUBLIC_HOST` (IP LAN del PC o dominio del broker); sin él la vinculación avisa de que falta el servidor.
 
+## Administración (rol global ADMIN)
+
+Una cuenta con el rol global `ADMIN` solo ve la administración. Es distinto de ser propietario o miembro de un hogar: un administrador no ve hogares de los que no es miembro. Usa una cuenta dedicada para administrar y otra normal para tus hogares.
+
+- **Menú del administrador:** **Administración**, **Notificaciones** y **Ajustes**. Al iniciar sesión entra directo a Administración (`/admin/users`); Inicio, Hogares y Favoritos no aparecen y sus rutas lo devuelven a Administración. En Ajustes ve idioma, tema y ayuda (las preferencias de correo y push son de las alertas de hogares).
+- **Administración:** buscar cuentas por nombre o correo, ver su estado, roles globales, fecha de registro y último acceso; cambiar el estado (Activa, Inactiva, Bloqueada) y dar o quitar el rol de administrador. Bloquear y quitar el rol piden confirmación. Sobre la propia cuenta no hay acciones.
+- **Notificaciones del administrador:** cuentas nuevas y los cambios de estado o de rol que hicieron los demás administradores, con insignia de no leídas en el menú (se consulta cada 30 s). Se marcan como leídas y se eliminan. Solo se ven en la web: no llegan por correo ni push.
+- **Permisos:** al iniciar sesión (y al recargar) la web pide `GET /auth/permissions` y guarda los códigos en la sesión (`USER.READ`, `USER.MANAGE`, `ROLE.MANAGE`). Solo deciden qué se muestra; el backend vuelve a comprobarlos en cada petición y responde 403 si faltan.
+- **Primer administrador:** ninguna cuenta lo es al instalar. Regístrala en la web y asígnale el rol una vez en la base de datos (ver "Administrators and global roles" en el README del backend); después se gestiona desde esta pantalla. Tras asignarlo, cierra sesión y vuelve a entrar.
+- **Pendiente:** gestionar el soporte y la documentación desde Ajustes, y avisos de administrador por correo o push.
+- La app móvil no tiene pantallas de administración.
+
 ## Notificaciones
 
 - **En la web:** insignia con las alertas pendientes en el menú, contador en el título de la pestaña y aviso emergente cuando llega una nueva (se consulta cada 30 s).
