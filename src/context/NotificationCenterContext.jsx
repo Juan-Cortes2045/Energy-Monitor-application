@@ -14,6 +14,12 @@ import {
   markRecommendationRead,
   toUiRecommendation,
 } from "../services/recommendations/recommendationApi";
+import {
+  deleteAdminNotification,
+  listAdminNotifications,
+  markAdminNotificationRead,
+} from "../services/admin/adminApi";
+import { usePermissions } from "../services/auth/usePermissions";
 
 /**
  * Bandeja de alertas y recomendaciones de todos los hogares del usuario, compartida por la
@@ -22,6 +28,9 @@ import {
  * Se consulta cada 30 s. Una alerta pendiente o una recomendación sin leer que no se había visto
  * en este navegador dispara el aviso emergente; las vistas se recuerdan en localStorage para no
  * repetirlo al recargar.
+ *
+ * Una cuenta de administración no tiene hogares: para ella la bandeja son sus notificaciones de
+ * administrador (GET /admin/notifications) y el contador cuenta las no leídas.
  */
 const NotificationCenterContext = createContext(null);
 
@@ -49,6 +58,8 @@ function writeSeen(ids) {
 
 export const NotificationCenterProvider = ({ children }) => {
   const { homes } = useHomes();
+  const { isAdmin } = usePermissions();
+  const [adminNotifications, setAdminNotifications] = useState([]);
   const [alerts, setAlerts] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
   const [error, setError] = useState(null);
@@ -65,7 +76,22 @@ export const NotificationCenterProvider = ({ children }) => {
 
   useEffect(() => {
     let cancelled = false;
-    if (homes.length === 0) return undefined;
+    if (!isAdmin) return undefined;
+    listAdminNotifications()
+      .then((list) => {
+        if (cancelled) return;
+        setAdminNotifications(list);
+        setError(null);
+      })
+      .catch((err) => !cancelled && setError(err));
+    return () => {
+      cancelled = true;
+    };
+  }, [isAdmin, attempt]);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (isAdmin || homes.length === 0) return undefined;
     const alertsOf = (h) => listAlerts(h.idHome).then((list) => list.map((a) => toUiAlert(a, h.name)));
     const recommendationsOf = (h) =>
       listRecommendations(h.idHome).then((list) => list.map((r) => toUiRecommendation(r, h.name)));
@@ -98,7 +124,7 @@ export const NotificationCenterProvider = ({ children }) => {
     return () => {
       cancelled = true;
     };
-  }, [homes, attempt]);
+  }, [homes, attempt, isAdmin]);
 
   /** Avisos informativos: "marcar como leído". */
   const markRead = useCallback(async (id) => {
@@ -145,12 +171,29 @@ export const NotificationCenterProvider = ({ children }) => {
     setRecommendations((prev) => prev.filter((r) => !r.read));
   }, [recommendations]);
 
+  const markAdminRead = useCallback(async (id) => {
+    await markAdminNotificationRead(id);
+    setAdminNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
+  }, []);
+
+  const removeAdmin = useCallback(async (id) => {
+    await deleteAdminNotification(id);
+    setAdminNotifications((prev) => prev.filter((n) => n.id !== id));
+  }, []);
+
+  const markAllAdminRead = useCallback(async () => {
+    const unread = adminNotifications.filter((n) => !n.read);
+    await Promise.all(unread.map((n) => markAdminNotificationRead(n.id)));
+    setAdminNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+  }, [adminNotifications]);
+
   const dismissToast = useCallback((id) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
-  const pendingCount =
-    alerts.filter((a) => !a.resolved).length + recommendations.filter((r) => !r.read).length;
+  const pendingCount = isAdmin
+    ? adminNotifications.filter((n) => !n.read).length
+    : alerts.filter((a) => !a.resolved).length + recommendations.filter((r) => !r.read).length;
 
   // El contador también en el título de la pestaña: se ve aunque esté en segundo plano.
   useEffect(() => {
@@ -172,6 +215,10 @@ export const NotificationCenterProvider = ({ children }) => {
         markAllRecommendationsRead,
         removeRecommendation,
         removeAllReadRecommendations,
+        adminNotifications,
+        markAdminRead,
+        markAllAdminRead,
+        removeAdmin,
         pendingCount,
         toasts,
         dismissToast,

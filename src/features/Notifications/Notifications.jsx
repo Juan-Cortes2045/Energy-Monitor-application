@@ -19,6 +19,8 @@ import Card from "../../design/components/Card/Card";
 import ErrorState from "../../components/shared/ErrorState/ErrorState";
 import { useHomes } from "../../context/useHomes";
 import { useNotificationCenter } from "../../context/useNotificationCenter";
+import AdminNotifications from "../Admin/AdminNotifications";
+import { usePermissions } from "../../services/auth/usePermissions";
 import styles from "./Notifications.module.css";
 
 const TABS = ["all", "alerts", "recommendations"];
@@ -186,7 +188,7 @@ const RecommendationRow = ({ recommendation, t, formatDate, onMarkRead, onDelete
   </div>
 );
 
-const Notifications = () => {
+const HomeNotifications = () => {
   const { t, i18n } = useTranslation("notifications");
   const { error: homesError, reload: reloadHomes } = useHomes();
   const {
@@ -397,6 +399,12 @@ const Notifications = () => {
       </div>
     </div>
   );
+};
+
+/** Una cuenta de administración no tiene hogares: ve sus notificaciones de administrador. */
+const Notifications = () => {
+  const { isAdmin } = usePermissions();
+  return isAdmin ? <AdminNotifications /> : <HomeNotifications />;
 };
 
 export default Notifications;
