@@ -16,6 +16,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { login } from "../../../../services/auth/authApi";
 import { errorMessage } from "../../../../services/http/errorMessages";
+import { landingPath } from "../../../../services/auth/session";
 
 const LoginForm = () => {
   const { t: v } = useTranslation("validations");
@@ -37,7 +38,7 @@ const LoginForm = () => {
     setServerError("");
     try {
       await login(data);
-      navigate("/dashboard");
+      navigate(landingPath());
     } catch (e) {
       setServerError(errorMessage(t, e, "login"));
     }

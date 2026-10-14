@@ -6,22 +6,26 @@ import LanguageSettings from "../components/LanguageSettings/LanguageSettings.js
 import ThemeSettings from "../components/ThemeSettings/ThemeSettings.jsx";
 import NotificationSettings from "../components/NotificationSettings/NotificationSettings.jsx";
 import HelpCenter from "../components/HelpCenter/HelpCenter.jsx";
+import { usePermissions } from "../../../services/auth/usePermissions";
+import { landingPath } from "../../../services/auth/session";
 
 const Settings = () => {
   const { t } = useTranslation("settings");
+  // Las preferencias de correo y push son de las alertas de hogares: un administrador no las tiene.
+  const { isAdmin } = usePermissions();
 
   return (
     <div className={styles.page}>
       <Header
         breadcrumbItems={[
-          { label: t("header.home"), path: "/dashboard" },
+          { label: t("header.home"), path: landingPath() },
           { label: t("header.settings") },
         ]}
       />
 
       <LanguageSettings />
       <ThemeSettings />
-      <NotificationSettings />
+      {!isAdmin && <NotificationSettings />}
       <HelpCenter />
     </div>
   );

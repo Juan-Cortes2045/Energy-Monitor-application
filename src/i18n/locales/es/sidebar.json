@@ -10,5 +10,6 @@
     "logout": "Cerrar sesión"
   },
   "pendingNotifications_one": "{{count}} notificación pendiente",
-  "pendingNotifications_other": "{{count}} notificaciones pendientes"
+  "pendingNotifications_other": "{{count}} notificaciones pendientes",
+  "admin": "Administración"
 }

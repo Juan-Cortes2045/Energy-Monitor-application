@@ -7,6 +7,7 @@ import Button from "../../../../design/components/Button/Button.jsx";
 import { loginWithGoogle } from "../../../../services/auth/authApi";
 import { GoogleSignInError, requestGoogleCode } from "../../../../services/auth/googleSignIn";
 import { errorMessage } from "../../../../services/http/errorMessages";
+import { landingPath } from "../../../../services/auth/session";
 
 /**
  * Botón "Continuar con Google" del login y del registro: abre la ventana de Google, el backend
@@ -26,7 +27,7 @@ const GoogleSignInButton = ({ label, onError }) => {
     try {
       const code = await requestGoogleCode();
       await loginWithGoogle(code);
-      navigate("/dashboard");
+      navigate(landingPath());
     } catch (e) {
       if (e instanceof GoogleSignInError) {
         // Cerrar la ventana de Google no es un error que haya que mostrar.

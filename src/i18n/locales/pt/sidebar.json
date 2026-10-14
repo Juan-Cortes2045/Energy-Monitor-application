@@ -10,5 +10,6 @@
     "logout": "Sair"
   },
   "pendingNotifications_one": "{{count}} notificação pendente",
-  "pendingNotifications_other": "{{count}} notificações pendentes"
+  "pendingNotifications_other": "{{count}} notificações pendentes",
+  "admin": "Administração"
 }

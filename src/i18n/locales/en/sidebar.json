@@ -10,5 +10,6 @@
     "logout": "Log out"
   },
   "pendingNotifications_one": "{{count}} pending notification",
-  "pendingNotifications_other": "{{count}} pending notifications"
+  "pendingNotifications_other": "{{count}} pending notifications",
+  "admin": "Administration"
 }

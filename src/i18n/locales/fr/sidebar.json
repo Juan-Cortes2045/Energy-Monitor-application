@@ -10,5 +10,6 @@
     "logout": "Se déconnecter"
   },
   "pendingNotifications_one": "{{count}} notification en attente",
-  "pendingNotifications_other": "{{count}} notifications en attente"
+  "pendingNotifications_other": "{{count}} notifications en attente",
+  "admin": "Administration"
 }

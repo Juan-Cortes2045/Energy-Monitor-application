@@ -19,12 +19,14 @@ import {
   MoreHorizontal,
   Plus,
   User,
+  ShieldCheck,
 } from "lucide-react";
 
 import NavItem from "./NavItem";
 import { useNotificationCenter } from "../../../../context/useNotificationCenter";
 import Button from "../../../../design/components/Button/Button";
 import Account from "../../../../features/Account/Account";
+import { usePermissions } from "../../../../services/auth/usePermissions";
 
 const Sidebar = () => {
   const { t } = useTranslation("sidebar");
@@ -34,6 +36,7 @@ const Sidebar = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const person = useCurrentPerson();
+  const { isAdmin } = usePermissions();
   const displayName =
     [person?.name, person?.lastName].filter(Boolean).join(" ") || person?.email || "";
   const navigate = useNavigate();
@@ -75,29 +78,42 @@ const Sidebar = () => {
 
         {/* NAV */}
         <nav className={styles.nav}>
-          <NavItem
-            to="/dashboard"
-            icon={<Home size={24} />}
-            label={t("home")}
-            collapsed={collapsed}
-            onClick={() => setIsOpen(false)}
-          />
-          <div className={styles.navGroup}>
-            <NavHomes
-              icon={<CloudLightning size={24} />}
-              label={t("homes")}
+          {/* Una cuenta de administración solo ve la administración, sus notificaciones y los ajustes. */}
+          {isAdmin ? (
+            <NavItem
+              to="/admin/users"
+              icon={<ShieldCheck size={24} />}
+              label={t("admin")}
               collapsed={collapsed}
-              onExpand={() => setCollapsed(false)}
-              onNavigate={() => setIsOpen(false)}
+              onClick={() => setIsOpen(false)}
             />
-          </div>
-          <NavItem
-            to="/favorites"
-            icon={<Heart size={24} />}
-            label={t("favorites")}
-            collapsed={collapsed}
-            onClick={() => setIsOpen(false)}
-          />
+          ) : (
+            <>
+              <NavItem
+                to="/dashboard"
+                icon={<Home size={24} />}
+                label={t("home")}
+                collapsed={collapsed}
+                onClick={() => setIsOpen(false)}
+              />
+              <div className={styles.navGroup}>
+                <NavHomes
+                  icon={<CloudLightning size={24} />}
+                  label={t("homes")}
+                  collapsed={collapsed}
+                  onExpand={() => setCollapsed(false)}
+                  onNavigate={() => setIsOpen(false)}
+                />
+              </div>
+              <NavItem
+                to="/favorites"
+                icon={<Heart size={24} />}
+                label={t("favorites")}
+                collapsed={collapsed}
+                onClick={() => setIsOpen(false)}
+              />
+            </>
+          )}
           <NavItem
             to="/notifications"
             icon={<Bell size={24} />}
