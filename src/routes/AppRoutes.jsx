@@ -17,6 +17,10 @@ import DashboarPage from "../features/dashboard/pages/DashboardPage";
 import Settings from "../features/SettingsPage/pages/Settings";
 import SupportI from "../features/landingPage/pages/SupportI";
 import AboutI from "../features/landingPage/pages/AboutI";
+import AdminUsers from "../features/Admin/AdminUsers";
+import RequirePermission from "./RequirePermission";
+import UserOnlyRoute from "./UserOnlyRoute";
+import { PERMISSIONS } from "../services/admin/adminApi";
 const AppRoutes = () => {
   return (
     <BrowserRouter>
@@ -32,13 +36,18 @@ const AppRoutes = () => {
         <Route path="/account" element={<Account />} />
         <Route element={<ProtectedRoute />}>
         <Route element={<MainLayout />}>
-          <Route path="/dashboard" element={<DashboarPage />} />
-          <Route path="/homes/:homeId" element={<HomeRoute />}>
-            <Route index element={<Consumption />} />
+          <Route element={<UserOnlyRoute />}>
+            <Route path="/dashboard" element={<DashboarPage />} />
+            <Route path="/homes/:homeId" element={<HomeRoute />}>
+              <Route index element={<Consumption />} />
+            </Route>
+            <Route path="/favorites" element={<Favorites />} />
           </Route>
-          <Route path="/favorites" element={<Favorites />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/settings" element={<Settings />} />
+          <Route element={<RequirePermission permission={PERMISSIONS.USER_READ} />}>
+            <Route path="/admin/users" element={<AdminUsers />} />
+          </Route>
         </Route>
         </Route>
         <Route
