@@ -1,6 +1,6 @@
 # Imagen de produccion del frontend web. Se construye desde la raiz del repositorio:
 #   docker build -t energy-monitor-frontend .
-# La usa infra/docker-compose.yml.
+# La usan infra/docker-compose.yml (pila local) e infra/docker-compose.prod.yml (servidor).
 #
 # Vite incrusta las variables VITE_* en el bundle en tiempo de build, por eso llegan
 # como build-args y no como variables de entorno del contenedor.
