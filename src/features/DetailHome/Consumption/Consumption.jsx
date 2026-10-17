@@ -43,6 +43,18 @@ const CustomAreaTooltip = ({ active, payload, label }) => {
   );
 };
 
+// Sin puntos la línea solo se ve entre dos horas seguidas con datos: una hora aislada (por
+// ejemplo, la primera después de conectar un medidor) no dibujaría nada. Esas se marcan.
+const isolatedHourDot = (horas) => {
+  const IsolatedHourDot = ({ cx, cy, index }) => {
+    const aislada =
+      horas[index]?.kw != null && horas[index - 1]?.kw == null && horas[index + 1]?.kw == null;
+    if (!aislada || cx == null || cy == null) return <g key={index} />;
+    return <circle key={index} cx={cx} cy={cy} r={3} fill="var(--color-primary)" />;
+  };
+  return IsolatedHourDot;
+};
+
 const CustomPieTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null;
   return (
@@ -401,7 +413,7 @@ const Consumption = () => {
                         stroke="var(--color-primary)"
                         strokeWidth={2}
                         fill="url(#gradConsumo)"
-                        dot={false}
+                        dot={isolatedHourDot(data.consumoHoras)}
                         activeDot={{ r: 4, strokeWidth: 0 }}
                       />
                     </AreaChart>
