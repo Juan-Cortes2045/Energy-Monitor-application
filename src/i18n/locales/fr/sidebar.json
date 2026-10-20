@@ -6,7 +6,6 @@
   "settings": "Paramètres",
   "profile": {
     "myAccount": "Mon compte",
-    "addAccount": "Ajouter un compte",
     "logout": "Se déconnecter"
   },
   "pendingNotifications_one": "{{count}} notification en attente",
