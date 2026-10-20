@@ -6,7 +6,6 @@
   "settings": "Configurações",
   "profile": {
     "myAccount": "Minha conta",
-    "addAccount": "Adicionar conta",
     "logout": "Sair"
   },
   "pendingNotifications_one": "{{count}} notificação pendente",

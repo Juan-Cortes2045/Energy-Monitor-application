@@ -17,7 +17,6 @@ import {
   Bell,
   Settings,
   MoreHorizontal,
-  Plus,
   User,
   ShieldCheck,
 } from "lucide-react";
@@ -174,10 +173,6 @@ const Sidebar = () => {
                 }}
               >
                 <User size={24} /> {t("profile.myAccount")}
-              </div>
-
-              <div className={styles.item}>
-                <Plus size={24} /> {t("profile.addAccount")}
               </div>
 
               <div className={styles.divider} />

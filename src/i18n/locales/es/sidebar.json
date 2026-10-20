@@ -6,7 +6,6 @@
   "settings": "Ajustes",
   "profile": {
     "myAccount": "Mi cuenta",
-    "addAccount": "Añadir cuenta",
     "logout": "Cerrar sesión"
   },
   "pendingNotifications_one": "{{count}} notificación pendiente",
