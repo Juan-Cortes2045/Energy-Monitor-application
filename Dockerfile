@@ -13,7 +13,7 @@ RUN npm ci
 
 COPY . .
 
-# Vacío = rutas relativas "/api/v1" y nginx las reenvía a backend:8080 (mismo origen, sin CORS).
+# Vacío = rutas relativas "/api/v1" y nginx las reenvía al API gateway, gateway:8080 (mismo origen, sin CORS).
 ARG VITE_API_BASE_URL=""
 ARG VITE_GOOGLE_CLIENT_ID=""
 ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
