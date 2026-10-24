@@ -36,6 +36,10 @@
     "title": "Cambiar el estado de la cuenta",
     "message": "La cuenta {{email}} pasará a «{{status}}». No podrá iniciar sesión y sus sesiones abiertas se cerrarán."
   },
+  "confirmGrant": {
+    "title": "Dar el rol de administrador",
+    "message": "{{email}} tendrá acceso a la administración: podrá cambiar el estado de las cuentas y los roles de otros usuarios."
+  },
   "confirmRevoke": {
     "title": "Quitar el rol de administrador",
     "message": "{{email}} dejará de tener acceso a la administración."

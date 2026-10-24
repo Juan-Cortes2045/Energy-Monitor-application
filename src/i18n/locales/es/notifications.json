@@ -23,7 +23,14 @@
     "delete": "Eliminar",
     "deleteAllResolved_one": "Eliminar {{count}} resuelta o leída",
     "deleteAllResolved_other": "Eliminar {{count}} resueltas o leídas",
-    "failed": "No se pudo completar la acción. Inténtalo de nuevo."
+    "failed": "No se pudo completar la acción. Inténtalo de nuevo.",
+    "confirmClear": {
+      "title": "Eliminar notificaciones",
+      "message_one": "Se eliminará {{count}} notificación resuelta o leída. Esta acción no se puede deshacer.",
+      "message_other": "Se eliminarán {{count}} notificaciones resueltas o leídas. Esta acción no se puede deshacer.",
+      "confirm": "Eliminar",
+      "cancel": "Cancelar"
+    }
   },
   "threshold": {
     "dailyExceeded": {

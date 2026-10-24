@@ -28,23 +28,8 @@
     width: 100%;
     padding: 12px 0;
   }
-
-  .main {
-    margin-left: 0;
-    width: 100%;
-  }
-
-  .emptyState {
-  width: 100%;
-  padding: 16px;
-  box-sizing: border-box;
 }
 
-.emptyState img {
-  max-width: 100%;
-  height: auto;
-}
-}
 /* ── Homes grid ────────────────────────────────────────────────── */
 .homesGrid {
   padding: var(--spacing-lg);
@@ -57,5 +42,5 @@
 .state {
   padding: var(--spacing-lg);
   text-align: center;
-  color: var(--text-secondary, #555);
+  color: var(--color-text-secondary);
 }

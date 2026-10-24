@@ -1,6 +1,5 @@
 {
   "title": "Rejoindre une maison",
-  "close": "Fermer",
   "description": "Entrez le code alphanumérique partagé par le propriétaire de la maison.",
   "label": "Code d'accès",
   "placeholder": "Ex: AB12CD34",

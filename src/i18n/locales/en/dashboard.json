@@ -6,15 +6,7 @@
     "joinHome": "Join home",
     "createHome": "Create home"
   },
-  "home": {
-    "joinedName": "Joined home",
-    "responsible": "Home owner",
-    "joinedDescription": "Home you joined as a regular user.",
-    "you": "You"
-  },
   "state": {
-    "loading": "Loading homes...",
-    "error": "Could not load the homes list.",
-    "retry": "Retry"
+    "loading": "Loading homes..."
   }
 }

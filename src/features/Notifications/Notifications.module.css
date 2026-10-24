@@ -101,8 +101,8 @@
   padding: 0 4px;
   border-radius: 999px;
   background-color: var(--color-primary);
-  color: #fff;
-  font-size: 10px;
+  color: var(--color-on-primary);
+  font-size: var(--font-size-11);
   font-weight: var(--font-weight-bold);
 }
 
@@ -123,8 +123,13 @@
   padding: var(--spacing-xs);
 }
 
-.markAllBtn:hover {
+.markAllBtn:hover:not(:disabled) {
   text-decoration: underline;
+}
+
+.markAllBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* ── Lista de notificaciones ─────────────────────────────────────── */
@@ -209,9 +214,10 @@
 
 .rowMeta {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 6px;
-  font-size: 10px;
+  font-size: var(--font-size-11);
   color: var(--color-text-secondary);
   margin-top: 2px;
 }
@@ -265,7 +271,7 @@
 
 /* ── Badges de estado ─────────────────────────────────────────────── */
 .badge {
-  font-size: 10px;
+  font-size: var(--font-size-11);
   font-weight: var(--font-weight-bold);
   padding: 3px 10px;
   border-radius: 20px;
@@ -289,7 +295,7 @@
 }
 
 .badgeNeutral {
-  background-color: #f1f2f4;
+  background-color: var(--color-border);
   color: var(--color-text-secondary);
 }
 

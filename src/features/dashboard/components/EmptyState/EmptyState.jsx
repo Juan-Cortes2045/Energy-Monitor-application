@@ -1,5 +1,5 @@
 import styles from "../EmptyState/EmptyState.module.css";
-import emptyImg from "../../../../assets/empty_image.png";
+import emptyImg from "../../../../assets/empty_image.webp";
 
 import Button from "../../../../design/components/Button/Button";
 import { useTranslation } from "react-i18next";
@@ -8,18 +8,17 @@ const EmptyState = ({ onCreateHome, onJoinHome }) => {
   const { t } = useTranslation("emptyState");
   return (
     <div className={styles.container}>
-      <img className={styles.emptyImg} src={emptyImg} alt="empty" />
+      {/* Ilustración decorativa: el título ya describe el estado. */}
+      <img
+        className={styles.emptyImg}
+        src={emptyImg}
+        alt=""
+        width={486}
+        height={214}
+        decoding="async"
+      />
 
-      <h2
-        style={{
-          color: "var(--color-text-secondary)",
-          fontFamily: "var(--font-secondary)",
-          fontWeight: "var(--font-weight-bold)",
-          fontSize: "var(--font-size-xl)",
-        }}
-      >
-        {t("title")}
-      </h2>
+      <h2 className={styles.title}>{t("title")}</h2>
 
       <div className={styles.buttonsContainer}>
         <Button variant="secondary" onClick={onCreateHome}>

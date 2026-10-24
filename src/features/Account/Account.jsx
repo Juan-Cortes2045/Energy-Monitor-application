@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { VscAccount } from "react-icons/vsc";
-import { FiEdit3 } from "react-icons/fi";
+import { CircleUserRound, Pencil, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -9,16 +8,26 @@ import Button from "../../design/components/Button/Button";
 import { useCurrentPerson } from "../../services/auth/useCurrentPerson";
 import { deleteAccount, refreshProfile, updateProfile } from "../../services/auth/authApi";
 import { errorMessage } from "../../services/http/errorMessages";
+import { landingPath } from "../../services/auth/session";
+import { useDialogA11y } from "../../hooks/useDialogA11y";
 import { resizeImage } from "./resizeImage";
 import ChangePasswordModal from "./ChangePasswordModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import styles from "./Account.module.css";
 
+// Solo se muestran imágenes rasterizadas: un data-URL de otro tipo (HTML, SVG con scripts)
+// abierto en una pestaña se ejecutaría con el origen de la aplicación.
+const SAFE_IMAGE = /^data:image\/(jpeg|png|webp|gif);/i;
+const SAFE_IMAGE_TYPE = /^image\/(jpeg|png|webp|gif)$/i;
+
 const Account = ({ onClose }) => {
   const { t } = useTranslation("account");
+  const { t: tc } = useTranslation("common");
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
   const navigate = useNavigate();
+  // En la ruta /account no hay quien cierre el modal: vuelve a la página de inicio.
+  const close = onClose ?? (() => navigate(landingPath()));
   const [deleteError, setDeleteError] = useState("");
   const fileInputRef = useRef(null);
 
@@ -29,13 +38,14 @@ const Account = ({ onClose }) => {
     lastName: person?.lastName ?? "",
     email: person?.email ?? "",
   };
-  const image = person?.profileImage ?? null;
+  const image = SAFE_IMAGE.test(person?.profileImage ?? "") ? person.profileImage : null;
   const [draft, setDraft] = useState(values);
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [savingPhoto, setSavingPhoto] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
   const [modal, setModal] = useState(null); // null | "password" | "delete"
+  const dialogRef = useDialogA11y(close);
 
   const startEdit = () => {
     setDraft(values);
@@ -97,9 +107,18 @@ const Account = ({ onClose }) => {
 
   const viewPhoto = async () => {
     if (!image) return;
-    const blob = await (await fetch(image)).blob(); // los data-URL no abren en pestaña nueva
-    window.open(URL.createObjectURL(blob));
+    try {
+      const blob = await (await fetch(image)).blob(); // los data-URL no abren en pestaña nueva
+      if (!SAFE_IMAGE_TYPE.test(blob.type)) return;
+      const url = URL.createObjectURL(blob);
+      window.open(url, "_blank", "noopener");
+      setTimeout(() => URL.revokeObjectURL(url), 60_000); // la pestaña ya la cargó
+    } catch {
+      setMessage({ type: "error", text: t("photoViewError") });
+    }
   };
+
+  const toggleMenu = () => !savingPhoto && setOpen((o) => !o);
 
   const handleDeleteAccount = async (password) => {
     setDeleteError("");
@@ -132,84 +151,125 @@ const Account = ({ onClose }) => {
   }, []);
 
   const handleOverlayClick = (e) => {
-    if (e.target === e.currentTarget) onClose?.();
+    if (e.target === e.currentTarget) close();
   };
 
   return (
     <div className={styles.page} onClick={handleOverlayClick}>
-      <div className={styles.modalWrapper}>
+      <div
+        ref={dialogRef}
+        className={styles.modalWrapper}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="account-title"
+        tabIndex={-1}
+      >
         <Card>
           {/* ── Botón cerrar ─────────────────────────────────────── */}
           <div className={styles.closeBtnRow}>
             <button
               type="button"
               className={styles.closeBtn}
-              onClick={onClose}
-              aria-label={t("close")}
+              onClick={close}
+              aria-label={tc("close")}
             >
-              x
+              <X size={18} />
             </button>
           </div>
 
           <div className={styles.inner}>
             {/* ── Título ───────────────────────────────────────────── */}
-            <h2 className={styles.title}>{t("title")}</h2>
+            <h2 id="account-title" className={styles.title}>
+              {t("title")}
+            </h2>
 
             {/* ── Avatar + dropdown ────────────────────────────────── */}
-            <div className={styles.avatarWrapper} ref={wrapperRef}>
-              <div
+            <div
+              className={styles.avatarWrapper}
+              ref={wrapperRef}
+              // Escape cierra solo el menú de la foto, no el modal de la cuenta.
+              onKeyDown={(e) => {
+                if (e.key === "Escape" && open) {
+                  e.stopPropagation();
+                  setOpen(false);
+                }
+              }}
+            >
+              <button
+                type="button"
                 className={styles.avatarContainer}
                 // Mientras se guarda la foto el menú queda bloqueado para no repetir la petición.
-                onClick={() => !savingPhoto && setOpen((o) => !o)}
+                onClick={toggleMenu}
                 aria-label={t("photoOptions")}
+                aria-haspopup="true"
+                aria-expanded={open}
+                aria-controls="account-photo-menu"
                 aria-disabled={savingPhoto}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && !savingPhoto && setOpen((o) => !o)}
+                aria-busy={savingPhoto}
               >
                 {image ? (
-                  <img src={image} className={styles.avatarImg} />
+                  <img
+                    src={image}
+                    className={styles.avatarImg}
+                    alt={t("avatarAlt")}
+                    width={100}
+                    height={100}
+                  />
                 ) : (
-                  <VscAccount className={styles.icon} />
+                  <CircleUserRound className={styles.icon} strokeWidth={1.5} />
                 )}
-              </div>
+              </button>
               <input
                 type="file"
-                accept="image/*"
+                accept="image/jpeg,image/png,image/webp,image/gif"
                 ref={fileInputRef}
                 onChange={handleImageChange}
                 hidden
               />
 
               {open && (
-                <ul className={styles.dropdown} role="menu">
-                  <li
-                    onClick={() => {
-                      fileInputRef.current.click();
-                      setOpen(false);
-                    }}
-                  >
-                    {t("addPhoto")}
+                <ul id="account-photo-menu" className={styles.dropdown}>
+                  <li>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        fileInputRef.current.click();
+                        setOpen(false);
+                      }}
+                    >
+                      {t("addPhoto")}
+                    </button>
                   </li>
 
-                  <li
-                    onClick={() => {
-                      viewPhoto();
-                      setOpen(false);
-                    }}
-                  >
-                    {t("viewPhoto")}
-                  </li>
+                  {/* Ver y eliminar solo tienen sentido si hay foto. */}
+                  {image && (
+                    <li>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          viewPhoto();
+                          setOpen(false);
+                        }}
+                      >
+                        {t("viewPhoto")}
+                      </button>
+                    </li>
+                  )}
 
-                  <li
-                    onClick={() => {
-                      if (image) savePhoto("");
-                      setOpen(false);
-                    }}
-                    className={styles.dropdownDanger}
-                  >
-                    {t("delete")}
-                  </li>
+                  {image && (
+                    <li>
+                      <button
+                        type="button"
+                        className={styles.dropdownDanger}
+                        onClick={() => {
+                          savePhoto("");
+                          setOpen(false);
+                        }}
+                      >
+                        {t("delete")}
+                      </button>
+                    </li>
+                  )}
                 </ul>
               )}
             </div>
@@ -228,6 +288,7 @@ const Account = ({ onClose }) => {
                       className={styles.input}
                       value={draft[key]}
                       maxLength={100}
+                      autoComplete={key === "name" ? "given-name" : "family-name"}
                       onChange={(e) => setDraft({ ...draft, [key]: e.target.value })}
                     />
                   ) : (
@@ -238,26 +299,31 @@ const Account = ({ onClose }) => {
                     className={styles.btnEdit}
                     onClick={startEdit}
                     disabled={editing}
+                    aria-label={t("editField", { field: t(label) })}
                   >
-                    <FiEdit3 aria-label={t("edit")} />
+                    <Pencil size={18} />
                   </Button>
                 </div>
               ))}
 
+              {/* Solo lectura: no son campos de formulario, así que no llevan <label>. */}
               <div className={styles.row}>
-                <label className={styles.label}>{t("email")}</label>
+                <span className={styles.label}>{t("email")}</span>
                 <p className={styles.value}>{values.email || "—"}</p>
               </div>
 
               <div className={styles.row}>
-                <label className={styles.label}>{t("password")}</label>
-                <p className={styles.value}>••••••••</p>
+                <span className={styles.label}>{t("password")}</span>
+                <p className={styles.value} aria-hidden="true">
+                  ••••••••
+                </p>
                 <Button
                   variant="primary"
                   className={styles.btnEdit}
                   onClick={() => setModal("password")}
+                  aria-label={t("changePassword.title")}
                 >
-                  <FiEdit3 />
+                  <Pencil size={18} />
                 </Button>
               </div>
             </div>
@@ -267,14 +333,14 @@ const Account = ({ onClose }) => {
                 <Button variant="secondary" onClick={() => setEditing(false)}>
                   {t("cancel")}
                 </Button>
-                <Button variant="primary" onClick={handleSave} disabled={saving}>
+                <Button variant="primary" onClick={handleSave} disabled={saving} aria-busy={saving}>
                   {t("save")}
                 </Button>
               </div>
             )}
             {message.text && (
               <p
-                role="status"
+                role={message.type === "error" ? "alert" : "status"}
                 className={message.type === "error" ? styles.msgError : styles.msgOk}
               >
                 {message.text}
@@ -285,9 +351,8 @@ const Account = ({ onClose }) => {
             <div className={styles.deleteSection}>
               <p className={styles.deleteQuestion}>{t("deleteQuestion")}</p>
               <Button
-                variant="secondary"
+                variant="Danger"
                 className={styles.btnDelete}
-                style={{ color: "var(--color-danger)" }}
                 onClick={() => setModal("delete")}
               >
                 {t("deleteAccount")}

@@ -70,7 +70,15 @@
   border: 2px solid var(--color-text-secondary);
   padding: var(--spacing-sm);
   border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font: inherit;
   transition: background 0.15s;
+}
+
+.avatarContainer:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .avatarImg {
@@ -89,7 +97,8 @@
 }
 
 .icon {
-  font-size: 5em;
+  width: 100%;
+  height: 100%;
   color: var(--color-text-secondary);
   transition: color 0.15s;
 }
@@ -126,8 +135,13 @@
   }
 }
 
-.dropdown li {
+.dropdown button {
+  display: block;
+  width: 100%;
   padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  background: none;
+  text-align: left;
   font-family: var(--font-primary);
   font-size: var(--font-size-sm);
   color: var(--color-text-primary);
@@ -135,16 +149,19 @@
   transition: background 0.15s;
 }
 
-.dropdown li:hover {
+.dropdown button:hover,
+.dropdown button:focus-visible {
   background-color: var(--color-border);
 }
 
-.dropdownDanger {
-  color: var(--color-danger) !important;
+.dropdown .dropdownDanger {
+  color: var(--color-danger);
 }
 
-.dropdownDanger:hover {
-  background-color: #fdecea !important;
+.dropdown .dropdownDanger:hover,
+.dropdown .dropdownDanger:focus-visible {
+  background-color: var(--color-danger-soft);
+  color: var(--color-danger-text);
 }
 
 /* ── Formulario de datos ────────────────────────────────────── */
@@ -266,10 +283,6 @@
     width: 80px;
   }
 
-  .icon {
-    font-size: 4em;
-  }
-
   /* Filas apiladas: label y value en columna, botón alineado a la derecha */
   .row {
     grid-template-columns: 1fr auto;
@@ -316,10 +329,6 @@
   .title {
     font-size: var(--font-size-xl);
   }
-
-  .icon {
-    font-size: 84px;
-  }
 }
 
 /* ── Edición ────────────────────────────────────────────────── */
@@ -339,6 +348,7 @@
 .input:focus {
   outline: none;
   border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
 }
 
 .editActions {
@@ -360,5 +370,5 @@
 }
 
 .msgError {
-  color: var(--color-danger);
+  color: var(--color-danger-text);
 }

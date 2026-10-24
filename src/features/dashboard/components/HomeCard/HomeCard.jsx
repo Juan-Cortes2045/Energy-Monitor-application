@@ -12,11 +12,16 @@ const HomeCard = ({ home, onClick, onToggleFavorite }) => {
   const [expanded, setExpanded] = useState(false);
   const [togglingFavorite, setTogglingFavorite] = useState(false);
 
+  // Los miembros usaban --color-secondary (verde claro): el texto blanco no llegaba al contraste mínimo.
   const headerColor = home.color
     ? home.color
     : home.role === "MEMBER"
-      ? "var(--color-secondary)"
+      ? "var(--color-primary-dark)"
       : "var(--color-primary)";
+  // Texto de la cabecera: sobre el primario del tema su color de contraste (oscuro en los temas
+  // oscuros); sobre primary-dark o un color propio del hogar, blanco.
+  const headerTextColor =
+    !home.color && home.role !== "MEMBER" ? "var(--color-on-primary)" : "#ffffff";
 
   const toggleFavorite = async (e) => {
     e.stopPropagation();
@@ -40,22 +45,30 @@ const HomeCard = ({ home, onClick, onToggleFavorite }) => {
     setExpanded((prev) => !prev);
   };
 
+  const handleOpen = (e) => {
+    e.stopPropagation();
+    onClick?.();
+  };
+
+  // Toda la tarjeta responde al clic; con teclado y lector de pantalla se abre con el botón
+  // del título (un role="button" con botones dentro no es accesible).
   return (
-    <div
-      className={styles.container}
-      onClick={onClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => e.key === "Enter" && onClick?.()}
-      aria-label={`Abrir hogar ${home.name}`}
-      style={{ cursor: "pointer" }}
-    >
+    <div className={styles.container} onClick={onClick}>
       <div
         className={styles.cardHeader}
-        style={{ backgroundColor: headerColor }}
+        style={{ backgroundColor: headerColor, "--card-fg": headerTextColor }}
       >
         <div className={styles.headerText}>
-          <h3 className={styles.title}>{home.name}</h3>
+          <h3 className={styles.title}>
+            <button
+              type="button"
+              className={styles.openButton}
+              onClick={handleOpen}
+              aria-label={t("openHome", { name: home.name })}
+            >
+              {home.name}
+            </button>
+          </h3>
           <p className={styles.responsible}>{home.role === "MEMBER" ? t("member") : t("owner")}</p>
         </div>
 
@@ -65,6 +78,7 @@ const HomeCard = ({ home, onClick, onToggleFavorite }) => {
           onClick={toggleFavorite}
           disabled={togglingFavorite}
           aria-label={favorite ? t("removeFavorite") : t("addFavorite")}
+          aria-busy={togglingFavorite}
         >
           <Heart size={18} />
         </button>
@@ -88,6 +102,7 @@ const HomeCard = ({ home, onClick, onToggleFavorite }) => {
                 type="button"
                 className={styles.toggleButton}
                 onClick={handleToggleExpand}
+                aria-expanded={expanded}
               >
                 {expanded ? t("showLess") : t("showMore")}
               </button>

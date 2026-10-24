@@ -1,4 +1,5 @@
 .container {
+  cursor: pointer;
   width: 260px;
   display: flex;
   flex-direction: column;
@@ -15,7 +16,7 @@
   min-height: 90px;
   border-top-left-radius: var(--radius-lg);
   border-top-right-radius: var(--radius-lg);
-  color: white;
+  color: var(--card-fg, #ffffff);
 }
 
 .headerText {
@@ -31,13 +32,26 @@
   line-height: 1.2;
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.01em;
-  color: #ffffff;
+  color: var(--card-fg, #ffffff);
+}
+
+/* Botón del título: abre el hogar con teclado; visualmente es el mismo texto. */
+.openButton {
+  all: unset;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.openButton:focus-visible,
+.favoriteButton:focus-visible {
+  outline: 2px solid var(--card-fg, #ffffff);
+  outline-offset: 2px;
 }
 
 .responsible {
   margin: 0;
   font-size: var(--font-size-sm);
-  color: rgba(255, 255, 255, 0.9);
+  color: color-mix(in srgb, var(--card-fg, #ffffff) 90%, transparent);
 }
 
 .favoriteButton {
@@ -45,8 +59,8 @@
   height: 36px;
   border-radius: 50%;
   border: none;
-  background-color: rgba(255, 255, 255, 0.18);
-  color: white;
+  background-color: color-mix(in srgb, var(--card-fg, #ffffff) 18%, transparent);
+  color: var(--card-fg, #ffffff);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -55,7 +69,7 @@
 }
 
 .favoriteButton:hover:not(:disabled) {
-  background-color: rgba(255, 255, 255, 0.28);
+  background-color: color-mix(in srgb, var(--card-fg, #ffffff) 28%, transparent);
   transform: scale(1.05);
 }
 
@@ -68,27 +82,6 @@
   background-color: white;
   color: var(--color-primary);
 }
-
-.body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  min-height: 150px;
-  font-family: var(--font-primary);
-  color: var(--color-text-primary);
-}
-
-.body p {
-  margin: 0;
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-sm);
-  line-height: 1.5;
-}
-
-.body p strong {
-  color: var(--color-text-primary);
-}
-
 
 .body {
   display: flex;

@@ -15,10 +15,6 @@
   gap:14px;
 }
 
-.helpCard:hover{
-  transform:translateY(-2px);
-}
-
 /* ── Ícono base ── */
 .icon{
   width:40px;
@@ -29,20 +25,10 @@
   justify-content:center;
 }
 
-/* Claro */
-.docs    { background:#EEF2FF; color:#6366F1; }
-.support { background:#FFF1F2; color:#EF4444; }
-.updates { background:#ECFDF5; color:#22C55E; }
-
-/* Oscuro — mismos tonos pero con opacidad para no saturar */
-:global([data-theme="energy-dark"]) .docs,
-:global([data-theme="eco-dark"])    .docs    { background:rgba(99,102,241,.15); color:#818CF8; }
-
-:global([data-theme="energy-dark"]) .support,
-:global([data-theme="eco-dark"])    .support { background:rgba(239,68,68,.15);  color:#FCA5A5; }
-
-:global([data-theme="energy-dark"]) .updates,
-:global([data-theme="eco-dark"])    .updates { background:rgba(34,197,94,.15);  color:#86EFAC; }
+/* Colores del tema: se adaptan solos a los temas claros y oscuros. */
+.docs    { background:var(--color-primary-soft); color:var(--color-primary); }
+.support { background:var(--color-danger-soft);  color:var(--color-danger-text); }
+.updates { background:var(--color-success-soft); color:var(--color-success-text); }
 
 .helpCard h3{
   margin:0;
@@ -70,9 +56,18 @@
   font-size:16px;
   font-weight:600;
   color:var(--color-primary);
+  text-decoration:none;
+  align-self:flex-start;
 }
 
-.link:hover{ opacity:.8; }
+.link:hover{ text-decoration:underline; }
+
+.soon{
+  margin-top:auto;
+  font-size:14px;
+  font-weight:600;
+  color:var(--color-text-secondary);
+}
 
 /* TABLET */
 @media (max-width:1024px){

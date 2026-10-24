@@ -7,15 +7,6 @@
   background-color: var(--color-background);
 }
 
-.placeholder {
-  min-height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  color: var(--color-text-secondary);
-}
-
 /* TABLET */
 @media (max-width: 1024px) {
   .page {
