@@ -1,6 +1,7 @@
 {
   "title": "Connecter un appareil",
   "close": "Fermer",
+  "stepProgress": "Étape {{current}} sur {{total}}",
   "discover": {
     "title": "Trouvez votre module",
     "hint": "Branchez le module et maintenez son bouton BOOT 3 secondes jusqu’à ce que le voyant clignote. Puis appuyez sur « Rechercher le module » et choisissez-le dans la fenêtre du navigateur.",
@@ -22,6 +23,7 @@
     "passwordLabel": "Mot de passe",
     "passwordPlaceholder": "Entrez le mot de passe du réseau",
     "open": "Ouvert",
+    "secured": "Réseau protégé par mot de passe",
     "scanning": "Le module recherche des réseaux...",
     "rescan": "Rechercher à nouveau",
     "manual": "Saisir le nom du réseau",

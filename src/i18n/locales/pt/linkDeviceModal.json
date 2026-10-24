@@ -1,6 +1,7 @@
 {
   "title": "Vincular dispositivo",
   "close": "Fechar",
+  "stepProgress": "Passo {{current}} de {{total}}",
   "discover": {
     "title": "Encontre seu módulo",
     "hint": "Ligue o módulo na tomada e mantenha o botão BOOT pressionado por 3 segundos, até a luz piscar. Depois toque em «Procurar módulo» e escolha-o na janela do navegador.",
@@ -22,6 +23,7 @@
     "passwordLabel": "Senha",
     "passwordPlaceholder": "Digite a senha da rede",
     "open": "Aberta",
+    "secured": "Rede protegida por senha",
     "scanning": "O módulo está procurando redes...",
     "rescan": "Procurar redes de novo",
     "manual": "Digitar o nome da rede",

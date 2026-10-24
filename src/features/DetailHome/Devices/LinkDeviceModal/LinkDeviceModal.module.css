@@ -32,6 +32,11 @@
   animation: slideUp 0.2s ease;
 }
 
+/* Recibe el foco al abrirse (tabIndex -1): sin anillo alrededor de todo el diálogo */
+.modal:focus {
+  outline: none;
+}
+
 @keyframes slideUp {
   from {
     transform: translateY(16px);
@@ -243,8 +248,10 @@
 
 .networkName {
   flex: 1;
+  min-width: 0;
   font-size: var(--font-size-sm);
   color: var(--color-text-primary);
+  overflow-wrap: anywhere;
 }
 
 .lockIcon {
@@ -253,7 +260,7 @@
 }
 
 .openTag {
-  font-size: 10px;
+  font-size: var(--font-size-11);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-secondary);
   flex-shrink: 0;
@@ -399,12 +406,14 @@
 .select:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(0, 120, 215, 0.15);
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
 }
 
 .errorMsg {
+  display: block;
+  margin-top: var(--spacing-sm);
   font-size: var(--font-size-xs);
-  color: var(--color-danger);
+  color: var(--color-danger-text);
 }
 
 /* ── Conectando ───────────────────────────────────────────────────── */
