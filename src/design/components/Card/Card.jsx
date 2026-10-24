@@ -1,28 +1,18 @@
 import styles from "../../css/Card.module.css";
 
-const Card = ({ title, children, style = {}, maxWidth = "100%" }) => {
+/**
+ * Tarjeta del sistema de diseño. className se suma a la clase base (y puede cambiar fondo, padding
+ * o sombra, definidos en Card.module.css); el resto de props llega al <div>.
+ */
+const Card = ({ title, children, style = {}, maxWidth = "100%", className = "", ...rest }) => {
   return (
     <div
-      className={styles.container}
-      style={{
-        backgroundColor: "var(--color-surface)",
-        borderRadius: "var(--radius-md)",
-        padding: "var(--spacing-lg)",
-        boxShadow: "var(--shadow-lg)",
-        maxWidth,
-        ...style,
-      }}
+      className={`${styles.container} ${className}`}
+      style={{ maxWidth, ...style }}
+      {...rest}
     >
       {title && (
-        <h3
-          className={styles.title}
-          style={{
-            fontFamily: "var(--font-primary)",
-            fontSize: "var(--font-size-lg)",
-            fontWeight: "var(--font-weight-bold)",
-            color: "var(--color-text-primary)",
-          }}
-        >
+        <h3 className={styles.title}>
           {title}
         </h3>
       )}

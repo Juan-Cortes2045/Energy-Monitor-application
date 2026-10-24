@@ -61,12 +61,20 @@
 /* ── Focus ────────────────────────────────────────────────────────── */
 .inputWrapper:focus-within {
   border-color: var(--color-primary-hover);
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 25%, transparent);
 }
 
+/* OTP: el marco va en cada casilla (.inputOtp), no en el contenedor. */
 .wrapperOtp:focus-within {
   border: none;
   box-shadow: none;
+}
+
+.inputOtp:focus-visible,
+.inputOtp:focus {
+  border-color: var(--color-primary);
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 /* ── Bare variant: sin marco, para usar dentro de un contenedor propio ── */
@@ -84,20 +92,39 @@
 
 /* ── Icon ─────────────────────────────────────────────────────────── */
 .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
   width: 20px;
   height: 20px;
-  cursor: pointer;
-  opacity: 0.6;
-  transition: opacity 0.2s;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-text-secondary);
+  transition: color 0.2s;
 }
 
-.icon:hover {
-  opacity: 1;
+button.icon {
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+button.icon:hover {
+  color: var(--color-text-primary);
+}
+
+button.icon:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 /* ── Placeholder ──────────────────────────────────────────────────── */
+/* Color propio en vez de opacity: 0.6 sobre el texto, que no llegaba a 4.5:1 en los temas claros.
+   --color-text-secondary sobre --color-background cumple AA en los cuatro temas. */
 .input::placeholder {
-  opacity: 0.6;
+  color: var(--color-text-secondary);
+  opacity: 1;
 }
 
 /* ── Fix autofill del navegador ──────────────────────────────────── */

@@ -1,10 +1,17 @@
 import styles from "../../css/Input.module.css";
 
-  const WRAPPER_VARIANTS = {
-    otp: styles.wrapperOtp,
-    bare: styles.wrapperBare,
-  };
+const WRAPPER_VARIANTS = {
+  otp: styles.wrapperOtp,
+  bare: styles.wrapperBare,
+};
 
+/**
+ * Campo de formulario con etiqueta opcional (children) e icono opcional.
+ *
+ * Con onIconClick el icono es un botón (p. ej. mostrar/ocultar la contraseña): iconLabel es
+ * su nombre accesible y debe describir la acción ("Mostrar contraseña"). Sin onIconClick el
+ * icono es decorativo.
+ */
 const Input = ({
   value,
   type = "text",
@@ -15,6 +22,7 @@ const Input = ({
   onChange,
   icon,
   onIconClick,
+  iconLabel,
   ...rest
 }) => {
   return (
@@ -39,9 +47,20 @@ const Input = ({
           autoCapitalize="off"
           {...rest}
         />
-        
-        {icon && (
-          <span className={styles.icon} onClick={onIconClick}>
+
+        {icon && onIconClick && (
+          <button
+            type="button"
+            className={styles.icon}
+            onClick={onIconClick}
+            aria-label={iconLabel}
+            aria-controls={id}
+          >
+            {icon}
+          </button>
+        )}
+        {icon && !onIconClick && (
+          <span className={styles.icon} aria-hidden="true">
             {icon}
           </span>
         )}

@@ -4,6 +4,7 @@ import { initReactI18next } from "react-i18next";
 // Español
 
 import esAccount from "./locales/es/account.json";
+import esCommon from "./locales/es/common.json";
 import esAuth from "./locales/es/auth.json";
 import esNavbar from "./locales/es/navbar.json";
 import esSidebar from "./locales/es/sidebar.json";
@@ -39,6 +40,7 @@ import esAdmin from "./locales/es/admin.json";
 // Inglés
 
 import enAccount from "./locales/en/account.json";
+import enCommon from "./locales/en/common.json";
 import enAuth from "./locales/en/auth.json";
 import enNavbar from "./locales/en/navbar.json";
 import enSidebar from "./locales/en/sidebar.json";
@@ -74,6 +76,7 @@ import enAdmin from "./locales/en/admin.json";
 // Frances
 
 import frAccount from "./locales/fr/account.json";
+import frCommon from "./locales/fr/common.json";
 import frAuth from "./locales/fr/auth.json";
 import frNavbar from "./locales/fr/navbar.json";
 import frSidebar from "./locales/fr/sidebar.json";
@@ -109,11 +112,12 @@ import frAdmin from "./locales/fr/admin.json";
 // Portugués
 
 import ptAccount from "./locales/pt/account.json";
+import ptCommon from "./locales/pt/common.json";
 import ptAuth from "./locales/pt/auth.json";
 import ptNavbar from "./locales/pt/navbar.json";
 import ptSidebar from "./locales/pt/sidebar.json";
 import ptHero from "./locales/pt/hero.json";
-import ptHowItWorks from "./locales/pt/HowItWorks.json";
+import ptHowItWorks from "./locales/pt/howItWorks.json";
 import ptRecoverPassword from "./locales/pt/recoverPassword.json";
 import ptDashboard from "./locales/pt/dashboard.json";
 import ptJoinHomeModal from "./locales/pt/JoinHomeModal.json";
@@ -141,14 +145,30 @@ import ptLegalModal from "./locales/pt/legalModal.json"
 import ptErrors from "./locales/pt/errors.json";
 import ptAdmin from "./locales/pt/admin.json";
 
+const SUPPORTED_LANGUAGES = ["es", "en", "fr", "pt"];
+
+// Idioma guardado, solo si es uno de los soportados (un valor viejo o manipulado cae a "es").
+function storedLanguage() {
+  try {
+    const lang = localStorage.getItem("lang");
+    return SUPPORTED_LANGUAGES.includes(lang) ? lang : "es";
+  } catch {
+    return "es";
+  }
+}
+
 // Configuración de i18next
 i18n.use(initReactI18next).init({
   fallbackLng: "es",
-  lng: localStorage.getItem("lang") || "es",
+  supportedLngs: SUPPORTED_LANGUAGES,
+  lng: storedLanguage(),
+  // React ya escapa el texto al renderizar: escapar aquí también mostraría "a&amp;b".
+  interpolation: { escapeValue: false },
 
   resources: {
     es: {
       account: esAccount,
+      common: esCommon,
       auth: esAuth,
       navbar: esNavbar,
       sidebar: esSidebar,
@@ -183,6 +203,7 @@ i18n.use(initReactI18next).init({
     },
     en: {
       account: enAccount,
+      common: enCommon,
       auth: enAuth,
       navbar: enNavbar,
       sidebar: enSidebar,
@@ -217,6 +238,7 @@ i18n.use(initReactI18next).init({
     },
     fr: {
       account: frAccount,
+      common: frCommon,
       auth: frAuth,
       navbar: frNavbar,
       sidebar: frSidebar,
@@ -251,6 +273,7 @@ i18n.use(initReactI18next).init({
     },
     pt: {
       account: ptAccount,
+      common: ptCommon,
       auth: ptAuth,
       navbar: ptNavbar,
       sidebar: ptSidebar,
@@ -285,5 +308,18 @@ i18n.use(initReactI18next).init({
     },
   },
 });
+
+// El idioma del documento sigue al de la interfaz (lectores de pantalla, guiones, traductor
+// del navegador) y la elección se recuerda para la próxima visita.
+const applyLanguage = (lng) => {
+  document.documentElement.lang = lng;
+  try {
+    localStorage.setItem("lang", lng);
+  } catch {
+    // Sin almacenamiento (modo privado estricto): el idioma vale solo para esta visita.
+  }
+};
+applyLanguage(i18n.language);
+i18n.on("languageChanged", applyLanguage);
 
 export default i18n;
