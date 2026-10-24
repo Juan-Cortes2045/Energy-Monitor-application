@@ -2,10 +2,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import styles from "./RegisterForm.module.css";
 import { registerSchema } from "../../validation/registerSchema.js";
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router-dom";
+import { Trans, useTranslation } from "react-i18next";
 
 import GoogleSignInButton from "../GoogleSignInButton/GoogleSignInButton.jsx";
+import FormMessage from "../FormMessage/FormMessage.jsx";
+import { errorId, fieldA11y } from "../FormMessage/fieldA11y.js";
 import { isGoogleEnabled } from "../../../../services/auth/googleSignIn";
 
 import Button from "../../../../design/components/Button/Button.jsx";
@@ -18,9 +20,12 @@ import { useState } from "react";
 import { register as registerUser } from "../../../../services/auth/authApi";
 import { errorMessage } from "../../../../services/http/errorMessages";
 
+const PASSWORD_HINT_ID = "password-hint";
+
 const RegisterForm = () => {
   const { t: v } = useTranslation("validations");
   const { t } = useTranslation("auth");
+  const { t: tc } = useTranslation("common");
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
   const [serverError, setServerError] = useState("");
@@ -60,164 +65,158 @@ const RegisterForm = () => {
 
   return (
     <div className={styles.wrapper}>
+      {/* El panel derecho de AuthLayout es el que hace scroll si el formulario no cabe */}
       <Card>
-        <div className={styles.scrollContent}>
-          <h2 className={styles.title}>{t("register.title")}</h2>
+        <h1 className={styles.title}>{t("register.title")}</h1>
 
-          <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-            {/* NOMBRE + APELLIDO */}
-            <div className={styles.nameRow}>
-              <div className={styles.nameCell}>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="*"
-                  {...register("name")}
-                >
-                  {t("register.name")}
-                </Input>
-                {errors.name && (
-                  <span className={styles.error}>{errors.name.message}</span>
-                )}
-              </div>
-
-              <div className={styles.nameCell}>
-                <Input
-                  id="lastName"
-                  type="text"
-                  placeholder="*"
-                  {...register("lastName")}
-                >
-                  {t("register.lastName")}
-                </Input>
-                {errors.lastName && (
-                  <span className={styles.error}>{errors.lastName.message}</span>
-                )}
-              </div>
-            </div>
-
-            {/* EMAIL */}
-            <Input
-              id="email"
-              type="email"
-              placeholder="*"
-              {...register("email")}
-            >
-              {t("register.email")}
-            </Input>
-            {errors.email && (
-              <span className={styles.error}>
-                {errors.email.message}
-              </span>
-            )}
-
-            {/* PASSWORD */}
-            <Input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              placeholder="*"
-              icon={showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              onIconClick={() => setShowPassword(!showPassword)}
-              {...register("password")}
-            >
-              {t("register.password")}
-            </Input>
-            {errors.password && (
-              <span className={styles.error}>
-                {errors.password.message}
-              </span>
-            )}
-
-            {/* REPEAT PASSWORD */}
-            <Input
-              id="repeatPassword"
-              type={showRepeatPassword ? "text" : "password"}
-              placeholder="*"
-              icon={
-                showRepeatPassword ? <EyeOff size={20} /> : <Eye size={20} />
-              }
-              onIconClick={() => setShowRepeatPassword(!showRepeatPassword)}
-              {...register("repeatPassword")}
-            >
-              {t("register.repeatPassword")}
-            </Input>
-            {errors.repeatPassword && (
-              <span className={styles.error}>
-                {errors.repeatPassword.message}
-              </span>
-            )}
-
-            {/* TERMS */}
-            <div className={styles.options}>
-              <input
-                type="checkbox"
-                className={styles.checkbox}
-                {...register("terms")}
-              />
-              <label className={styles.terms}>
-                <p>
-                  {t("register.termsPrefix")}{" "}
-                  <span
-                    className={styles.registerLink}
-                    style={{ color: "var(--color-secondary)" }}
-                    onClick={() => setLegalTab("terms")}
-                  >
-                    {t("register.terms")}
-                  </span>{" "}
-                  y la{" "}
-                  <span
-                    className={styles.registerLink}
-                    style={{ color: "var(--color-secondary)" }}
-                    onClick={() => setLegalTab("privacy")}
-                  >
-                    {t("register.privacy")}
-                  </span>
-                </p>
-              </label>
-            </div>
-            <div>
-              {errors.terms && (
-                <span className={styles.error}>
-                  {errors.terms.message}
-                </span>
-              )}
-            </div>
-
-            {serverError && <span className={styles.error}>{serverError}</span>}
-
-            {/* BUTTONS */}
-            <div className={styles.buttonsContainer}>
-              <Button type="submit" variant="primary" disabled={isSubmitting}>
-                {t("register.submit")}
-              </Button>
-
-              {isGoogleEnabled() && (
-                <>
-                  {/* DIVIDER */}
-                  <div className={styles.divider}>
-                    <span>{t("register.divider")}</span>
-                  </div>
-
-                  {/* GOOGLE: crea la cuenta con el nombre, apellido, foto y correo de Google */}
-                  <p>{t("register.registerWith")}</p>
-                  <GoogleSignInButton label={t("register.google")} onError={setServerError} />
-                </>
-              )}
-            </div>
-
-            {/* LOGIN */}
-            <p className={styles.register}>
-              {t("register.haveAccount")}.{" "}
-              <a
-                href="/login"
-                style={{ color: "var(--color-secondary)" }}
-                className={styles.registerLink}
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form} noValidate>
+          {/* NOMBRE + APELLIDO */}
+          <div className={styles.nameRow}>
+            <div className={styles.nameCell}>
+              <Input
+                id="name"
+                type="text"
+                autoComplete="given-name"
+                {...fieldA11y("name", errors.name)}
+                {...register("name")}
               >
-                {t("register.login")}
-              </a>
-            </p>
-          </form>
-        </div>
+                {t("register.name")}
+              </Input>
+              <FormMessage id={errorId("name")} message={errors.name?.message} />
+            </div>
+
+            <div className={styles.nameCell}>
+              <Input
+                id="lastName"
+                type="text"
+                autoComplete="family-name"
+                {...fieldA11y("lastName", errors.lastName)}
+                {...register("lastName")}
+              >
+                {t("register.lastName")}
+              </Input>
+              <FormMessage id={errorId("lastName")} message={errors.lastName?.message} />
+            </div>
+          </div>
+
+          {/* EMAIL */}
+          <Input
+            id="email"
+            type="email"
+            autoComplete="email"
+            {...fieldA11y("email", errors.email)}
+            {...register("email")}
+          >
+            {t("register.email")}
+          </Input>
+          <FormMessage id={errorId("email")} message={errors.email?.message} />
+
+          {/* PASSWORD: las reglas se muestran antes de escribir, no solo al fallar */}
+          <Input
+            id="password"
+            type={showPassword ? "text" : "password"}
+            autoComplete="new-password"
+            icon={showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            onIconClick={() => setShowPassword(!showPassword)}
+            iconLabel={tc(showPassword ? "hidePassword" : "showPassword")}
+            {...fieldA11y("password", errors.password, PASSWORD_HINT_ID)}
+            {...register("password")}
+          >
+            {t("register.password")}
+          </Input>
+          <p id={PASSWORD_HINT_ID} className={styles.hint}>
+            {t("register.passwordHint")}
+          </p>
+          <FormMessage id={errorId("password")} message={errors.password?.message} />
+
+          {/* REPEAT PASSWORD */}
+          <Input
+            id="repeatPassword"
+            type={showRepeatPassword ? "text" : "password"}
+            autoComplete="new-password"
+            icon={
+              showRepeatPassword ? <EyeOff size={20} /> : <Eye size={20} />
+            }
+            onIconClick={() => setShowRepeatPassword(!showRepeatPassword)}
+            iconLabel={tc(showRepeatPassword ? "hidePassword" : "showPassword")}
+            {...fieldA11y("repeatPassword", errors.repeatPassword)}
+            {...register("repeatPassword")}
+          >
+            {t("register.repeatPassword")}
+          </Input>
+          <FormMessage
+            id={errorId("repeatPassword")}
+            message={errors.repeatPassword?.message}
+          />
+
+          {/* TERMS: los enlaces abren el modal; son botones para poder usarlos con teclado */}
+          <div className={styles.options}>
+            <input
+              id="terms"
+              type="checkbox"
+              className={styles.checkbox}
+              {...fieldA11y("terms", errors.terms)}
+              {...register("terms")}
+            />
+            <label htmlFor="terms" className={styles.terms}>
+              <Trans
+                t={t}
+                i18nKey="register.termsText"
+                components={{
+                  terms: (
+                    <button
+                      type="button"
+                      className={styles.legalLink}
+                      onClick={() => setLegalTab("terms")}
+                    />
+                  ),
+                  privacy: (
+                    <button
+                      type="button"
+                      className={styles.legalLink}
+                      onClick={() => setLegalTab("privacy")}
+                    />
+                  ),
+                }}
+              />
+            </label>
+          </div>
+          <FormMessage id={errorId("terms")} message={errors.terms?.message} />
+
+          <FormMessage message={serverError} alert />
+
+          {/* BUTTONS */}
+          <div className={styles.buttonsContainer}>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={isSubmitting}
+              aria-busy={isSubmitting}
+            >
+              {isSubmitting ? tc("loading") : t("register.submit")}
+            </Button>
+
+            {isGoogleEnabled() && (
+              <>
+                {/* DIVIDER */}
+                <div className={styles.divider} aria-hidden="true">
+                  <span>{t("register.divider")}</span>
+                </div>
+
+                {/* GOOGLE: crea la cuenta con el nombre, apellido, foto y correo de Google */}
+                <GoogleSignInButton label={t("register.google")} onError={setServerError} />
+              </>
+            )}
+          </div>
+
+          {/* LOGIN */}
+          <p className={styles.register}>
+            {t("register.haveAccount")}{" "}
+            <Link to="/login" className={styles.registerLink}>
+              {t("register.login")}
+            </Link>
+          </p>
+        </form>
       </Card>
 
       {/* MODAL DE TÉRMINOS Y CONDICIONES / POLÍTICA DE PRIVACIDAD */}

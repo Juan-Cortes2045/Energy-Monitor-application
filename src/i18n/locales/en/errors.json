@@ -17,7 +17,8 @@
     "inactive": "Your account is blocked or inactive."
   },
   "register": {
-    "emailTaken": "An account with this email already exists."
+    "emailTaken": "An account with this email already exists.",
+    "invalidEmail": "That email address doesn't exist or its domain can't receive mail. Check it's spelled right."
   },
   "passwordReset": {
     "failed": "The password could not be changed. Please try again."
@@ -91,5 +92,9 @@
     "notFound": "The account or role no longer exists.",
     "self": "You cannot change the status or roles of your own account.",
     "failed": "The action could not be completed. Please try again."
+  },
+  "passwordRecovery": {
+    "notRegistered": "No account is registered with that email address.",
+    "failed": "We couldn't send the code. Please try again."
   }
 }

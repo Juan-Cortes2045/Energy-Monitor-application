@@ -1,6 +1,7 @@
 .title {
   text-align: center;
   margin-bottom: 10px;
+  font-size: var(--font-size-xl);
   color: var(--color-text-primary);
 }
 
@@ -11,36 +12,31 @@
   width: 100%;
 }
 
-/*ERRORES*/
-.error {
-  font-size: var(--font-size-sm);
-  color: var(--color-danger);
-}
-
 /*OPCIONES*/
 .options {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   font-size: var(--font-size-sm);
   gap: 10px;
 }
 
-.renember {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 500;
-}
-
+/* El verde de marca puro no llega a 4.5:1 sobre la superficie clara: se oscurece
+   (o aclara, en temas oscuros) mezclándolo con el color de texto del tema. */
 .link {
   text-decoration: none;
   font-weight: 600;
-  color: var(--color-secondary);
+  color: color-mix(in srgb, var(--color-secondary) 55%, var(--color-text-primary));
 }
 
 .link:hover {
   text-decoration: underline;
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 /*DIVIDER*/
@@ -92,15 +88,10 @@
   }
 
   .options{
-    flex-direction: column;
-    align-items: flex-start;
+    justify-content: flex-start;
   }
 
   .register{
-    font-size: var(--font-size-13);
-  }
-
-  .error{
     font-size: var(--font-size-13);
   }
 }

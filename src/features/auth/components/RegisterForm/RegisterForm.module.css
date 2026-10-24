@@ -1,6 +1,7 @@
 .title {
   text-align: center;
   margin-bottom: 10px;
+  font-size: var(--font-size-xl);
   color: var(--color-text-primary);
 }
 
@@ -25,40 +26,42 @@
   min-width: 0;
 }
 
-/*ERRORES*/
-.error {
-  font-size: var(--font-size-md);
-  color: var(--color-danger);
+/* Ayuda del campo (reglas de la contraseña) */
+.hint {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  line-height: 1.4;
+  color: var(--color-text-secondary);
 }
 
+/* La frase de los términos fluye como texto normal, con los dos enlaces dentro de la línea
+   (en flex, cada trozo de texto y cada enlace se volvía una columna aparte). */
 .terms {
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
+  display: block;
+  flex: 1;
+  min-width: 0;
   font-size: var(--font-size-sm);
-  line-height: 1.4;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  cursor: pointer;
 }
 
 /*OPCIONES*/
 .options {
   display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
   font-size: var(--font-size-sm);
 }
 
-.checkbox{
-  transform: scale(1.5);
-  margin: 10px;
+/* Tamaño real (sin scale) y alineado con la primera línea del texto */
+.checkbox {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--color-primary);
   cursor: pointer;
-}
-
-.link {
-  text-decoration: none;
-  font-weight: 500;
-  color: var(--color-secondary);
-}
-
-.link:hover {
-  text-decoration: underline;
 }
 
 /*DIVIDER*/
@@ -80,10 +83,6 @@
 
 .divider span {
   margin: 0 10px;
-  white-space: nowrap;
-}
-
-.divider span {
   font-size: var(--font-size-xs);
   white-space: nowrap;
 }
@@ -96,12 +95,34 @@
   color: var(--color-text-primary);
 }
 
-.registerLink {
+/* El verde de marca puro no llega a 4.5:1 sobre la superficie clara: se oscurece
+   (o aclara, en temas oscuros) mezclándolo con el color de texto del tema. */
+.registerLink,
+.legalLink {
   display: inline;
   font-weight: 500;
   text-decoration: underline;
-  color: var(--color-secondary);
+  color: color-mix(in srgb, var(--color-secondary) 55%, var(--color-text-primary));
   cursor: pointer;
+}
+
+/* Los enlaces de términos son botones (abren el modal): sin estilo de botón y alineados como
+   texto, no centrados como un botón. */
+.legalLink {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-weight: 500;
+  text-align: inherit;
+  vertical-align: baseline;
+}
+
+.registerLink:focus-visible,
+.legalLink:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 .buttonsContainer {
@@ -119,17 +140,6 @@
   margin: 0 auto;
 }
 
-.scrollContent {
-  max-height: 90vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 6px;
-}
-
-.scrollContent::-webkit-scrollbar {
-  display: none;
-}
-
 /* TABLET */
 @media (max-width: 1024px) {
   .wrapper {
@@ -143,14 +153,9 @@
 
 /*  MOBILE */
 @media (max-width: 768px) {
+  /* El panel derecho ya deja su margen lateral */
   .wrapper {
     max-width: 100%;
-    padding: 0 16px;
-  }
-
-  .scrollContent {
-    max-height: none; 
-    padding-right: 0;
   }
 
   .title {
@@ -166,11 +171,7 @@
     gap: 10px;
   }
 
-  .options {
-    flex-direction: column;
-    gap: 10px;
-  }
-
+  /* El checkbox sigue al lado de su frase también en móvil: separados, no se ve a qué se aplica. */
   .terms {
     font-size: var(--font-size-13);
   }
@@ -187,7 +188,7 @@
   }
 
   .terms {
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-sm);
   }
 
   .register {
