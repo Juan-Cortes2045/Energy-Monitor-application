@@ -11,6 +11,7 @@ import styles from "./Thresholds.module.css";
 import { useThresholds } from "../hooks/useThresholds";
 
 const DAYS_PER_MONTH = 30;
+const PERIODS = ["DAILY", "MONTHLY"];
 const round = (n) => Math.round(n * 100) / 100;
 
 /**
@@ -57,6 +58,16 @@ const Thresholds = ({ home, isOwner = false }) => {
     else setValue(null);
     setPeriod(next);
     setErrors({});
+  };
+
+  // Grupo de radios con teclado: las flechas cambian la opción y mueven el foco.
+  const handlePeriodKeyDown = (e) => {
+    if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) return;
+    e.preventDefault();
+    const step = e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 1;
+    const nextIndex = (PERIODS.indexOf(activePeriod) + step + PERIODS.length) % PERIODS.length;
+    choosePeriod(PERIODS[nextIndex]);
+    e.currentTarget.querySelectorAll('[role="radio"]')[nextIndex]?.focus();
   };
 
   const validate = () => {
@@ -144,7 +155,7 @@ const Thresholds = ({ home, isOwner = false }) => {
       )}
 
       {serverError && (
-        <div className={styles.readOnlyNotice} role="alert">
+        <div className={`${styles.readOnlyNotice} ${styles.errorNotice}`} role="alert">
           <span>{errorMessage(t, serverError, "thresholdsUpdate")}</span>
         </div>
       )}
@@ -157,7 +168,7 @@ const Thresholds = ({ home, isOwner = false }) => {
                 <Gauge size={20} />
               </div>
               <div>
-                <h4>{t("defaults.label")}</h4>
+                <h3>{t("defaults.label")}</h3>
                 <p>
                   {usingDefaults
                     ? t("defaults.values", {
@@ -190,14 +201,22 @@ const Thresholds = ({ home, isOwner = false }) => {
           <div className={styles.divider} />
 
           <div className={styles.field}>
-            <span className={styles.label}>{t("periodicity.label")}</span>
-            <div className={styles.periodToggle} role="radiogroup" aria-label={t("periodicity.label")}>
-              {["DAILY", "MONTHLY"].map((option) => (
+            <span className={styles.label} id="threshold-period-label">
+              {t("periodicity.label")}
+            </span>
+            <div
+              className={styles.periodToggle}
+              role="radiogroup"
+              aria-labelledby="threshold-period-label"
+              onKeyDown={handlePeriodKeyDown}
+            >
+              {PERIODS.map((option) => (
                 <button
                   key={option}
                   type="button"
                   role="radio"
                   aria-checked={activePeriod === option}
+                  tabIndex={activePeriod === option ? 0 : -1}
                   className={`${styles.periodOption} ${activePeriod === option ? styles.periodOptionActive : ""}`}
                   onClick={() => choosePeriod(option)}
                   disabled={!editable}
@@ -219,11 +238,19 @@ const Thresholds = ({ home, isOwner = false }) => {
                 onChange={(e) => setValue(e.target.value)}
                 disabled={!editable}
                 placeholder="0"
+                aria-invalid={errors.value ? true : undefined}
+                aria-describedby={errors.value ? "threshold-value-unit threshold-value-error" : "threshold-value-unit"}
               >
                 {t(activePeriod === "DAILY" ? "fields.daily" : "fields.monthly")}
               </Input>
-              <span className={styles.unit}>{t("unit")}</span>
-              {errors.value && <span className={styles.errorMsg}>{errors.value}</span>}
+              <span className={styles.unit} id="threshold-value-unit">
+                {t("unit")}
+              </span>
+              {errors.value && (
+                <span className={styles.errorMsg} id="threshold-value-error" role="alert">
+                  {errors.value}
+                </span>
+              )}
             </div>
 
             <div className={styles.field}>
