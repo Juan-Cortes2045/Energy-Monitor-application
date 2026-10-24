@@ -4,11 +4,13 @@
     "line2": "energy in",
     "line3": "real time."
   },
-  "subtext": "Track the energy consumption of your projects, set alerts, and make data-driven decisions.",
+  "subtext": "Track the energy consumption of your homes, set alerts, and make data-driven decisions.",
   "pills": {
     "realtime": "Real-time analytics",
     "alerts": "Automatic alerts",
-    "projects": "Project management"
+    "projects": "Home management"
   },
-  "copyright": "© 2025 EnergyMonitor. All rights reserved."
+  "copyright": "© {{year}} EnergyMonitor. All rights reserved.",
+  "back": "Go back",
+  "home": "Go to home page"
 }
