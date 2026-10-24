@@ -5,7 +5,9 @@ const AboutI = () => {
   return (
     <>
       <Navbar />
-      <About />
+      <main>
+        <About />
+      </main>
     </>
   );
 };
