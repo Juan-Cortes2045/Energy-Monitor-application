@@ -17,12 +17,14 @@ import styles from "./AdminUsers.module.css";
 const PAGE_SIZE = 20;
 const STATUSES = ["ACTIVE", "INACTIVE", "BLOCKED"];
 const ADMIN_ROLE = "ADMIN";
+// Textos del modal de confirmación según la acción pendiente.
+const CONFIRM_KEYS = { status: "confirmStatus", grant: "confirmGrant", revoke: "confirmRevoke" };
 
 /**
  * Directorio de usuarios para administradores (rol global ADMIN).
  * - GET /admin/users con búsqueda y paginación (USER.READ)
  * - Cambio de estado de la cuenta (USER.MANAGE), con confirmación al dejar ACTIVE
- * - Dar o quitar el rol ADMIN (ROLE.MANAGE), con confirmación al quitarlo
+ * - Dar o quitar el rol ADMIN (ROLE.MANAGE), siempre con confirmación
  * Cada acción se oculta sin su permiso, y la propia cuenta no se puede modificar;
  * el backend aplica las mismas reglas y responde 403/409 de todos modos.
  */
@@ -99,12 +101,9 @@ const AdminUsers = () => {
     setPending({ kind: "status", user, status });
   };
 
+  // Dar el rol también se confirma: concede acceso total a la administración.
   const toggleAdmin = (user) => {
-    if (user.roles.includes(ADMIN_ROLE)) {
-      setPending({ kind: "revoke", user });
-      return;
-    }
-    run(() => adminApi.grantRole(user.idUser, ADMIN_ROLE));
+    setPending({ kind: user.roles.includes(ADMIN_ROLE) ? "revoke" : "grant", user });
   };
 
   const confirmPending = () => {
@@ -112,7 +111,9 @@ const AdminUsers = () => {
     run(() =>
       kind === "status"
         ? adminApi.changeUserStatus(user.idUser, status)
-        : adminApi.revokeRole(user.idUser, ADMIN_ROLE),
+        : kind === "grant"
+          ? adminApi.grantRole(user.idUser, ADMIN_ROLE)
+          : adminApi.revokeRole(user.idUser, ADMIN_ROLE),
     );
   };
 
@@ -164,7 +165,7 @@ const AdminUsers = () => {
           ) : data.items.length === 0 ? (
             <p className={styles.muted}>{t("empty")}</p>
           ) : (
-            <div className={styles.tableWrap}>
+            <div className={styles.tableWrap} aria-busy={loading}>
               <table className={styles.table}>
                 <thead>
                   <tr>
@@ -228,7 +229,7 @@ const AdminUsers = () => {
                                 aria-label={t(isAdmin ? "actions.revokeAdmin" : "actions.grantAdmin", { name: label })}
                                 title={t(isAdmin ? "actions.revokeAdmin" : "actions.grantAdmin", { name: label })}
                               >
-                                {isAdmin ? <ShieldOff size={14} /> : <ShieldCheck size={14} />}
+                                {isAdmin ? <ShieldOff size={16} /> : <ShieldCheck size={16} />}
                               </button>
                             )}
                           </div>
@@ -269,15 +270,11 @@ const AdminUsers = () => {
 
       {pending && (
         <ConfirmModal
-          title={t(pending.kind === "status" ? "confirmStatus.title" : "confirmRevoke.title")}
-          message={
-            pending.kind === "status"
-              ? t("confirmStatus.message", {
-                  email: pending.user.email,
-                  status: t(`status.${pending.status}`),
-                })
-              : t("confirmRevoke.message", { email: pending.user.email })
-          }
+          title={t(`${CONFIRM_KEYS[pending.kind]}.title`)}
+          message={t(`${CONFIRM_KEYS[pending.kind]}.message`, {
+            email: pending.user.email,
+            status: pending.status ? t(`status.${pending.status}`) : undefined,
+          })}
           confirmLabel={t("confirm.accept")}
           cancelLabel={t("confirm.cancel")}
           onConfirm={confirmPending}
