@@ -36,9 +36,10 @@ describe("UserOnlyRoute", () => {
     expect(screen.queryByText("dashboard")).not.toBeInTheDocument();
   });
 
-  it("no decide nada mientras los permisos no han llegado", () => {
+  it("no decide nada mientras los permisos no han llegado (muestra la carga)", () => {
     session({});
     renderAt("/dashboard");
+    expect(screen.getByRole("status")).toBeInTheDocument();
     expect(screen.queryByText("dashboard")).not.toBeInTheDocument();
     expect(screen.queryByText("admin")).not.toBeInTheDocument();
   });

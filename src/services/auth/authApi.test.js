@@ -1,8 +1,11 @@
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { AxiosError } from "axios";
 import { httpClient } from "../http/httpClient";
+import { unsubscribeThisBrowser } from "../notifications/webPush";
 import { logout, refreshProfile } from "./authApi";
 import { getCurrentPerson, getPermissions, getSession, saveSession } from "./session";
+
+vi.mock("../notifications/webPush", () => ({ unsubscribeThisBrowser: vi.fn() }));
 
 const jwt = (sub) => `h.${btoa(JSON.stringify({ sub }))}.s`;
 
@@ -10,10 +13,11 @@ describe("logout", () => {
   const orig = httpClient.defaults.adapter;
   afterEach(() => {
     httpClient.defaults.adapter = orig;
+    vi.mocked(unsubscribeThisBrowser).mockReset();
   });
   beforeEach(() => {
     localStorage.clear();
-    saveSession({ accessToken: jwt("SES1"), refreshToken: "r", account: { idUser: "u" } });
+    saveSession({ account: { idUser: "u" }, idUserSession: "SES1" });
     localStorage.setItem("userId", "u"); // clave antigua de X-User-Id: el logout la limpia
   });
 
@@ -26,8 +30,35 @@ describe("logout", () => {
     await expect(logout()).resolves.toBeUndefined();
     expect(getSession()).toBeNull();
     expect(localStorage.getItem("userId")).toBeNull();
+    expect(seen.url).toBe("/auth/logout");
     expect(JSON.parse(seen.data)).toEqual({ idUserSession: "SES1" });
-    expect(seen.headers.Authorization).toBe(`Bearer ${jwt("SES1")}`);
+    // La sesión va en cookies: ningún token en la petición.
+    expect(seen.headers.Authorization).toBeUndefined();
+  });
+
+  it("da de baja el push de este navegador antes de cerrar la sesión en el backend", async () => {
+    const calls = [];
+    vi.mocked(unsubscribeThisBrowser).mockImplementation(async (config) => {
+      calls.push(["push", config]);
+    });
+    httpClient.defaults.adapter = async (config) => {
+      calls.push(["logout", config.url]);
+      return { data: {}, status: 200, statusText: "OK", headers: {}, config };
+    };
+
+    await logout();
+
+    expect(calls.map(([what]) => what)).toEqual(["push", "logout"]);
+    expect(calls[0][1]).toEqual({ _sessionEnding: true });
+  });
+
+  it("sin sesión no llama al backend", async () => {
+    localStorage.clear();
+    const adapter = vi.fn();
+    httpClient.defaults.adapter = adapter;
+    await logout();
+    expect(adapter).not.toHaveBeenCalled();
+    expect(unsubscribeThisBrowser).not.toHaveBeenCalled();
   });
 });
 

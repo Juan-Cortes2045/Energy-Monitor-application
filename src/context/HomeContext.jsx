@@ -1,10 +1,14 @@
-import { createContext, useCallback, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import * as homeApi from "../services/home";
+import { getSessionUserId, subscribeSession } from "../services/auth/session";
 
 /**
  * Estado global de hogares, conectado al backend real.
  * Centraliza las llamadas del módulo home para que los
  * componentes no llamen al cliente de API directamente.
+ *
+ * La lista sigue al usuario en sesión: se carga al iniciar sesión (o al cambiar de cuenta) y se
+ * vacía al cerrarla, para que nadie vea los hogares de la cuenta anterior en el mismo navegador.
  */
 const HomeContext = createContext(null);
 
@@ -25,10 +29,19 @@ export const HomeProvider = ({ children }) => {
     }
   }, []);
 
+  const userId = useSyncExternalStore(subscribeSession, getSessionUserId);
+
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- carga inicial de datos estándar
+    if (!userId) {
+      // Sin sesión no hay nada que pedir (el backend respondería 401).
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- reinicio al cerrar sesión
+      setHomes([]);
+      setError(null);
+      setLoading(false);
+      return;
+    }
     loadHomes();
-  }, [loadHomes]);
+  }, [userId, loadHomes]);
 
   /** POST /homes — devuelve null o el ApiError */
   const addHome = useCallback(async (payload) => {

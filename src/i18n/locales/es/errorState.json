@@ -6,5 +6,15 @@
   "generic": {
     "title": "No pudimos cargar la información"
   },
-  "retry": "Reintentar"
+  "retry": "Reintentar",
+  "render": {
+    "title": "Algo salió mal",
+    "description": "Ocurrió un error inesperado al mostrar esta pantalla. Recarga la página para intentarlo de nuevo."
+  },
+  "reload": "Recargar",
+  "notFound": {
+    "title": "Página no encontrada",
+    "description": "La dirección que buscas no existe o cambió.",
+    "back": "Ir al inicio"
+  }
 }

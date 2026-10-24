@@ -37,9 +37,10 @@ describe("RequirePermission", () => {
     expect(screen.queryByText("admin page")).not.toBeInTheDocument();
   });
 
-  it("no decide nada mientras los permisos no han llegado", () => {
+  it("no decide nada mientras los permisos no han llegado (muestra la carga)", () => {
     session({});
     renderAt();
+    expect(screen.getByRole("status")).toBeInTheDocument();
     expect(screen.queryByText("admin page")).not.toBeInTheDocument();
     expect(screen.queryByText("dashboard")).not.toBeInTheDocument();
   });

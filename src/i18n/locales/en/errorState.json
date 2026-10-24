@@ -6,5 +6,15 @@
   "generic": {
     "title": "We couldn't load the information"
   },
-  "retry": "Retry"
+  "retry": "Retry",
+  "render": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred while showing this screen. Reload the page to try again."
+  },
+  "reload": "Reload",
+  "notFound": {
+    "title": "Page not found",
+    "description": "The address you're looking for doesn't exist or has changed.",
+    "back": "Go to home"
+  }
 }

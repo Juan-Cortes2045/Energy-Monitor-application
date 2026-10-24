@@ -9,38 +9,47 @@ describe("httpClient interceptor de request", () => {
     localStorage.clear();
   });
 
-  it("ninguna petición envía X-User-Id, aunque haya sesión y la clave antigua userId", async () => {
+  const capture = () => {
+    const seen = {};
+    httpClient.defaults.adapter = async (config) => {
+      seen.config = config;
+      return { data: {}, status: 200, statusText: "OK", headers: {}, config };
+    };
+    return seen;
+  };
+
+  it("no adjunta ningún token: la sesión viaja en cookies HttpOnly con sus cabeceras", async () => {
     localStorage.setItem("userId", "user-123");
-    saveSession({ accessToken: "tok", refreshToken: "r", account: { idUser: "user-123" } });
-    const methods = ["get", "post", "put", "delete"];
-    for (const method of methods) {
-      let seen;
-      httpClient.defaults.adapter = async (config) => {
-        seen = config;
-        return { data: {}, status: 200, statusText: "OK", headers: {}, config };
-      };
+    saveSession({ account: { idUser: "user-123" }, idUserSession: "SES0000001" });
+    for (const method of ["get", "post", "put", "delete"]) {
+      const seen = capture();
       await httpClient.request({ url: "/homes/h1/members", method, data: {} });
-      expect(seen.headers.Authorization).toBe("Bearer tok");
-      const names = Object.keys(seen.headers.toJSON?.() ?? seen.headers).map((h) => h.toLowerCase());
+      const headers = seen.config.headers;
+      expect(headers.Authorization).toBeUndefined();
+      expect(headers["X-Requested-With"]).toBe("XMLHttpRequest");
+      expect(headers["X-Session-Transport"]).toBe("cookie");
+      expect(seen.config.withCredentials).toBe(true);
+      const names = Object.keys(headers.toJSON?.() ?? headers).map((h) => h.toLowerCase());
       expect(names).not.toContain("x-user-id");
     }
   });
 
-  it("no envía credenciales a los endpoints públicos de autenticación", async () => {
-    saveSession({ accessToken: "token-vencido", refreshToken: "r" });
-    try {
-      for (const url of ["/auth/register", "/auth/login", "/auth/email/verify"]) {
-        let seen;
-        httpClient.defaults.adapter = async (config) => {
-          seen = config;
-          return { data: {}, status: 200, statusText: "OK", headers: {}, config };
-        };
-        await httpClient.post(url, {});
-        expect(seen.headers.Authorization).toBeUndefined();
-        expect(seen.headers["X-User-Id"]).toBeUndefined();
-      }
-    } finally {
-      clearSession();
+  it("no guarda tokens en la sesión aunque una respuesta los traiga", () => {
+    saveSession({ accessToken: "tok", refreshToken: "r", account: { idUser: "u1" } });
+    const stored = JSON.parse(localStorage.getItem("session"));
+    expect(stored).not.toHaveProperty("accessToken");
+    expect(stored).not.toHaveProperty("refreshToken");
+    expect(stored.account.idUser).toBe("u1");
+  });
+
+  it("no envía cookies ni cabeceras de sesión a una URL absoluta de otro origen", async () => {
+    saveSession({ account: { idUser: "u1" } });
+    for (const url of ["https://otro.example.com/x", "//otro.example.com/x"]) {
+      const seen = capture();
+      await httpClient.get(url);
+      expect(seen.config.withCredentials).toBe(false);
+      expect(seen.config.headers["X-Requested-With"]).toBeUndefined();
+      expect(seen.config.headers["X-Session-Transport"]).toBeUndefined();
     }
   });
 });
