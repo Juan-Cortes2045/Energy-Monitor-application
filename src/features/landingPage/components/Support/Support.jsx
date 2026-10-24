@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation, Trans } from "react-i18next";
 
 import Card from "../../../../design/components/Card/Card";
@@ -18,6 +18,7 @@ import {
   Settings,
 } from "lucide-react";
 
+import { getSupportContacts } from "../../../../services/support";
 import styles from "./Support.module.css";
 
 // ── Iconos por tema (no se traducen, solo se mapean por id) ──────────────────
@@ -33,10 +34,6 @@ const TOPIC_ICONS = {
 // IDs en orden fijo (el contenido real sale de support.json vía t())
 const TOPIC_IDS = [1, 2, 3, 4, 5, 6];
 const FAQ_IDS = [1, 2, 3, 4, 5];
-
-// Datos públicos de contacto del equipo (no son secretos)
-const WHATSAPP_NUMBER = "573170400573";
-const SUPPORT_EMAIL = "garmiguelangel89@gmail.com";
 
 // Abre fuera de la app sin darle a la otra pestaña acceso a window.opener
 const openExternal = (url) => window.open(url, "_blank", "noopener,noreferrer");
@@ -126,17 +123,34 @@ const Support = () => {
 
   const subject = encodeURIComponent(t("contact.email.subject"));
   const body = encodeURIComponent(t("contact.email.body"));
-  const whatsappMessage = encodeURIComponent(t("contact.whatsapp.prefilledMessage"));
 
-  const handleWhatsApp = () => {
-    openExternal(`https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`);
-  };
+  // Los administradores son el contacto de soporte; con varios, la persona elige a quién escribir.
+  const [contacts, setContacts] = useState({ status: "loading", list: [] });
+  const [selectedEmail, setSelectedEmail] = useState("");
+
+  useEffect(() => {
+    let active = true;
+    getSupportContacts()
+      .then((list) => {
+        if (!active) return;
+        setContacts({ status: "ready", list });
+        setSelectedEmail(list[0]?.email ?? "");
+      })
+      .catch(() => active && setContacts({ status: "error", list: [] }));
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const handleEmail = () => {
+    if (!selectedEmail) return;
     openExternal(
-      `https://mail.google.com/mail/?view=cm&fs=1&to=${SUPPORT_EMAIL}&su=${subject}&body=${body}`,
+      `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(selectedEmail)}&su=${subject}&body=${body}`,
     );
   };
+
+  const onlyContact = contacts.list.length === 1 ? contacts.list[0] : null;
+  const noContact = contacts.status === "error" || (contacts.status === "ready" && contacts.list.length === 0);
 
   // Busca en pregunta Y en respuesta (ya traducidas), con normalización de tildes
   const query = search.trim();
@@ -222,39 +236,7 @@ const Support = () => {
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>{t("contact.title")}</h2>
         <div className={styles.contactGrid}>
-          {/* WhatsApp — usa <Card> */}
-          <Card>
-            <div className={styles.contactInner}>
-              <svg
-                className={styles.waLogo}
-                viewBox="0 0 48 48"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <circle cx="24" cy="24" r="24" fill="#25D366" />
-                <path
-                  d="M34.5 13.5A14.9 14.9 0 0 0 24 9C16.27 9 10 15.27 10 23a13.9 13.9 0 0 0 1.87 7L10 39l9.26-1.83A14.94 14.94 0 0 0 24 39c7.73 0 14-6.27 14-16a13.93 13.93 0 0 0-3.5-9.5ZM24 36.5a12.4 12.4 0 0 1-6.34-1.73l-.45-.27-4.69.93.95-4.56-.3-.47A12.38 12.38 0 0 1 11.5 23c0-6.9 5.6-12.5 12.5-12.5a12.5 12.5 0 0 1 12.5 12.5C36.5 30.9 30.9 36.5 24 36.5Zm6.86-9.38c-.37-.19-2.2-1.09-2.54-1.21-.34-.12-.59-.19-.84.19-.25.37-.96 1.21-1.18 1.46-.22.25-.43.28-.8.09a10.1 10.1 0 0 1-2.97-1.83 11.1 11.1 0 0 1-2.05-2.56c-.22-.37 0-.57.16-.76.16-.17.37-.43.56-.65.19-.22.25-.37.37-.62.12-.25.06-.47-.03-.65-.09-.19-.84-2.02-1.15-2.77-.3-.72-.61-.62-.84-.63h-.71c-.25 0-.65.09-.99.47s-1.3 1.27-1.3 3.1 1.33 3.6 1.52 3.85c.19.25 2.62 4 6.35 5.61a21.3 21.3 0 0 0 2.12.78 5.1 5.1 0 0 0 2.34.15c.71-.1 2.2-.9 2.51-1.76.31-.87.31-1.61.22-1.76-.09-.16-.34-.25-.71-.44Z"
-                  fill="white"
-                />
-              </svg>
-              <h3 className={styles.contactTitle}>
-                {t("contact.whatsapp.title")}
-              </h3>
-              <p className={styles.contactDesc}>
-                {t("contact.whatsapp.description")}
-              </p>
-              <Button
-                variant="secondary"
-                size="medium"
-                onClick={handleWhatsApp}
-                className={styles.whatsappButton}
-              >
-                {t("contact.whatsapp.button")}
-              </Button>
-            </div>
-          </Card>
-
-          {/* Correo — usa <Card> */}
+          {/* Correo a los administradores — usa <Card> */}
           <Card>
             <div className={styles.contactInner}>
               <div className={styles.contactIconCircle} aria-hidden="true">
@@ -266,14 +248,54 @@ const Support = () => {
               <p className={styles.contactDesc}>
                 {t("contact.email.description")}
               </p>
-              <Button
-                variant="primary"
-                size="medium"
-                onClick={handleEmail}
-                className={styles.contactButton}
-              >
-                {t("contact.email.button")}
-              </Button>
+
+              {contacts.status === "loading" && (
+                <p className={styles.contactDesc} role="status">
+                  {t("contact.email.loading")}
+                </p>
+              )}
+
+              {noContact && (
+                <p className={styles.contactNotice} role="status">
+                  {t("contact.email.unavailable")}
+                </p>
+              )}
+
+              {/* Varios administradores: se elige a quién escribir */}
+              {contacts.list.length > 1 && (
+                <div className={styles.contactChoice}>
+                  <label htmlFor="support-contact" className={styles.contactLabel}>
+                    {t("contact.email.chooseLabel")}
+                  </label>
+                  <select
+                    id="support-contact"
+                    className={styles.contactSelect}
+                    value={selectedEmail}
+                    onChange={(e) => setSelectedEmail(e.target.value)}
+                  >
+                    {contacts.list.map((contact) => (
+                      <option key={contact.email} value={contact.email}>
+                        {contact.name === contact.email
+                          ? contact.email
+                          : `${contact.name} (${contact.email})`}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {contacts.list.length > 0 && (
+                <Button
+                  variant="primary"
+                  size="medium"
+                  onClick={handleEmail}
+                  className={styles.contactButton}
+                >
+                  {onlyContact
+                    ? t("contact.email.buttonTo", { name: onlyContact.name })
+                    : t("contact.email.button")}
+                </Button>
+              )}
             </div>
           </Card>
         </div>
