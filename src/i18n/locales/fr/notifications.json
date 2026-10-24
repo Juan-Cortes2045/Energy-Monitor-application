@@ -23,7 +23,14 @@
     "delete": "Supprimer",
     "deleteAllResolved_one": "Supprimer {{count}} résolue ou lue",
     "deleteAllResolved_other": "Supprimer {{count}} résolues ou lues",
-    "failed": "L’action n’a pas pu aboutir. Réessayez."
+    "failed": "L’action n’a pas pu aboutir. Réessayez.",
+    "confirmClear": {
+      "title": "Supprimer les notifications",
+      "message_one": "{{count}} notification résolue ou lue sera supprimée. Cette action est irréversible.",
+      "message_other": "{{count}} notifications résolues ou lues seront supprimées. Cette action est irréversible.",
+      "confirm": "Supprimer",
+      "cancel": "Annuler"
+    }
   },
   "threshold": {
     "dailyExceeded": {

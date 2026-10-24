@@ -23,7 +23,14 @@
     "delete": "Excluir",
     "deleteAllResolved_one": "Excluir {{count}} resolvida ou lida",
     "deleteAllResolved_other": "Excluir {{count}} resolvidas ou lidas",
-    "failed": "Não foi possível concluir a ação. Tente de novo."
+    "failed": "Não foi possível concluir a ação. Tente de novo.",
+    "confirmClear": {
+      "title": "Excluir notificações",
+      "message_one": "{{count}} notificação resolvida ou lida será excluída. Esta ação não pode ser desfeita.",
+      "message_other": "{{count}} notificações resolvidas ou lidas serão excluídas. Esta ação não pode ser desfeita.",
+      "confirm": "Excluir",
+      "cancel": "Cancelar"
+    }
   },
   "threshold": {
     "dailyExceeded": {
