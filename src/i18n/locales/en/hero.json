@@ -6,9 +6,10 @@
   },
   "description": "Reduce costs, avoid waste, and make smart decisions from your home.",
   "cta": "Get started",
+  "imageAlt": "Electricity consumption monitoring dashboard",
   "features": {
-    "noCost": "No upfront costs ✔️",
-    "easy": "Easy to use ⚡",
-    "realtime": "Real-time data 📊"
+    "noCost": "No upfront costs",
+    "easy": "Easy to use",
+    "realtime": "Real-time data"
   }
 }

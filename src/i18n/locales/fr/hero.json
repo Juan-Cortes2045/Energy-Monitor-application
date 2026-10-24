@@ -6,9 +6,10 @@
   },
   "description": "Réduisez les coûts, évitez le gaspillage et prenez des décisions intelligentes depuis chez vous.",
   "cta": "Commencer",
+  "imageAlt": "Tableau de bord de suivi de la consommation électrique",
   "features": {
-    "noCost": "Sans coûts initiaux ✔️",
-    "easy": "Facile à utiliser ⚡",
-    "realtime": "Données en temps réel 📊"
+    "noCost": "Sans coûts initiaux",
+    "easy": "Facile à utiliser",
+    "realtime": "Données en temps réel"
   }
 }

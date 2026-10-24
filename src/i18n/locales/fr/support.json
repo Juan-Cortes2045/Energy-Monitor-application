@@ -1,17 +1,19 @@
 {
   "hero": {
-    "title": "Comment pouvons-nous vous aider ?",
+    "title": "Comment pouvons-nous <hl>vous aider ?</hl>",
     "subtitle": "Trouvez des réponses rapides ou contactez directement notre équipe.",
     "searchPlaceholder": "Rechercher par mot-clé, ex : supprimer, code, limite...",
+    "searchLabel": "Rechercher dans les questions fréquentes",
     "searchNoResults": "Aucun résultat pour \"{{query}}\"",
-    "searchResults": "{{count}} résultat{{plural}} pour \"{{query}}\""
+    "searchResults_one": "{{count}} résultat pour \"{{query}}\"",
+    "searchResults_other": "{{count}} résultats pour \"{{query}}\""
   },
   "topics": {
     "title": "Sujets populaires",
     "items": {
       "1": {
         "title": "Premiers pas",
-        "description": "Créez votre premier projet, connectez des appareils et commencez à surveiller votre consommation."
+        "description": "Créez votre première maison, connectez des appareils et commencez à surveiller votre consommation."
       },
       "2": {
         "title": "Lecture des graphiques",
@@ -27,11 +29,11 @@
       },
       "5": {
         "title": "Code d'accès",
-        "description": "Comment partager le code de votre projet pour permettre à d'autres de rejoindre."
+        "description": "Comment partager le code de votre maison pour permettre à d'autres de rejoindre."
       },
       "6": {
         "title": "Paramètres",
-        "description": "Modifiez les données du projet et les préférences du compte."
+        "description": "Modifiez les données de la maison et les préférences du compte."
       }
     }
   },
@@ -39,19 +41,43 @@
     "title": "Questions fréquentes",
     "empty": "Aucun résultat pour \"{{query}}\"",
     "showAll": "Voir toutes les questions",
-    "items": {}
+    "items": {
+      "1": {
+        "question": "Comment créer une nouvelle maison ?",
+        "answer": "Depuis le tableau de bord principal, cliquez sur le bouton \"+\" et sélectionnez \"Créer une maison\". Renseignez le nom, l'adresse et le type de propriété."
+      },
+      "2": {
+        "question": "Quelle est la différence entre responsable et membre ?",
+        "answer": "Le responsable peut voir le code d'accès, inviter des utilisateurs, retirer des membres et supprimer la maison. Le membre peut seulement consulter les informations et quitter la maison."
+      },
+      "3": {
+        "question": "Pourquoi je ne vois pas le code d'accès ?",
+        "answer": "Le code d'accès n'est visible que pour le responsable. Si vous êtes membre, demandez le code au responsable."
+      },
+      "4": {
+        "question": "Comment définir une limite de consommation ?",
+        "answer": "Ouvrez votre maison et allez dans l'onglet \"Seuils\". Vous y définissez la limite quotidienne et mensuelle en kWh."
+      },
+      "5": {
+        "question": "Puis-je supprimer une maison ?",
+        "answer": "Oui, mais seulement si vous êtes le responsable. Allez dans l'onglet \"Maison\" et utilisez le bouton \"Supprimer la maison\". Cette action est irréversible."
+      }
+    }
   },
   "contact": {
     "title": "Contact direct",
     "whatsapp": {
       "title": "WhatsApp",
       "description": "Réponse en moins de 2 heures pendant les heures ouvrables.",
-      "button": "Écrire maintenant"
+      "button": "Écrire maintenant",
+      "prefilledMessage": "Bonjour, j'ai besoin d'aide avec EnergyMonitor."
     },
     "email": {
       "title": "Email",
       "description": "Envoyez-nous un message et nous répondrons sous 24 heures.",
-      "button": "Envoyer un message"
+      "button": "Envoyer un message",
+      "subject": "Support EnergyMonitor",
+      "body": "Bonjour,\n\nJ'ai besoin d'aide pour ce qui suit :\n\n- \n\nMerci."
     }
   }
 }

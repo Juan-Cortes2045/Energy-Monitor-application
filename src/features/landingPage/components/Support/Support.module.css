@@ -65,12 +65,16 @@
 
 .searchWrapper:focus-within {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(0, 120, 215, 0.1);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 20%, transparent);
 }
 
 .searchIcon {
   color: var(--color-text-secondary);
   flex-shrink: 0;
+}
+
+.searchCount:empty {
+  display: none;
 }
 
 .searchCount {
@@ -82,7 +86,7 @@
 
 /* ── Resaltado de búsqueda ──────────────────────────────────────── */
 .highlight {
-  background-color: #fff3cd;
+  background-color: var(--color-warning-soft);
   color: var(--color-text-primary);
   border-radius: 2px;
   padding: 0 2px;
@@ -196,6 +200,11 @@
   background-color: var(--color-background);
 }
 
+.faqQuestion:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
 .faqAnswer {
   font-family: var(--font-primary);
   font-size: var(--font-size-sm);
@@ -253,12 +262,28 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background-color: #fceaea;
-  color: var(--color-danger);
+  background-color: var(--color-danger-soft);
+  color: var(--color-danger-text);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+
+/* Botones de contacto: ocupan el ancho y quedan alineados al pie de la tarjeta.
+   Se anidan en .contactInner para ganar a las clases base del Button. */
+.contactInner .contactButton,
+.contactInner .whatsappButton {
+  width: 100%;
+  margin-top: auto;
+}
+
+/* Verde de WhatsApp (fijo en todos los temas): el texto blanco solo da ~2:1,
+   así que va con texto oscuro (>10:1). */
+.contactInner .whatsappButton {
+  background-color: #25d366;
+  border-color: #25d366;
+  color: #0b1f14;
 }
 
 .contactTitle {

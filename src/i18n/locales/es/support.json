@@ -1,17 +1,19 @@
 {
   "hero": {
-    "title": "¿En qué podemos ayudarte?",
+    "title": "¿En qué podemos <hl>ayudarte?</hl>",
     "subtitle": "Encuentra respuestas rápidas o contacta directamente con nuestro equipo.",
     "searchPlaceholder": "Buscar por palabra, ej: eliminar, código, límite...",
+    "searchLabel": "Buscar en preguntas frecuentes",
     "searchNoResults": "Sin resultados para \"{{query}}\"",
-    "searchResults": "{{count}} resultado{{plural}} para \"{{query}}\""
+    "searchResults_one": "{{count}} resultado para \"{{query}}\"",
+    "searchResults_other": "{{count}} resultados para \"{{query}}\""
   },
   "topics": {
     "title": "Temas populares",
     "items": {
       "1": {
         "title": "Primeros pasos",
-        "description": "Crea tu primer proyecto, conecta dispositivos y empieza a monitorear tu consumo."
+        "description": "Crea tu primer hogar, conecta dispositivos y empieza a monitorear tu consumo."
       },
       "2": {
         "title": "Lectura de gráficas",
@@ -19,7 +21,7 @@
       },
       "3": {
         "title": "Gestión de usuarios",
-        "description": "Invita miembros, asigna roles y administra los permisos dentro de tu proyecto."
+        "description": "Invita miembros, asigna roles y administra los permisos dentro de tu hogar."
       },
       "4": {
         "title": "Alertas y límites",
@@ -27,11 +29,11 @@
       },
       "5": {
         "title": "Código de acceso",
-        "description": "Cómo compartir el código de tu proyecto para que otros usuarios puedan unirse."
+        "description": "Cómo compartir el código de tu hogar para que otros usuarios puedan unirse."
       },
       "6": {
         "title": "Configuración",
-        "description": "Edita los datos de tu proyecto, tipo de propiedad y preferencias de cuenta."
+        "description": "Edita los datos de tu hogar, tipo de propiedad y preferencias de cuenta."
       }
     }
   },
@@ -41,12 +43,12 @@
     "showAll": "Ver todas las preguntas",
     "items": {
       "1": {
-        "question": "¿Cómo creo un proyecto nuevo?",
-        "answer": "Desde el panel principal haz clic en el botón \"+\" y selecciona \"Crear Proyecto\". Completa el nombre, dirección y tipo de propiedad."
+        "question": "¿Cómo creo un hogar nuevo?",
+        "answer": "Desde el panel principal haz clic en el botón \"+\" y selecciona \"Crear hogar\". Completa el nombre, dirección y tipo de propiedad."
       },
       "2": {
         "question": "¿Qué diferencia hay entre responsable y miembro?",
-        "answer": "El responsable puede ver el código de acceso, invitar usuarios, eliminar miembros y borrar el proyecto. El miembro solo puede consultar la información y salirse del proyecto."
+        "answer": "El responsable puede ver el código de acceso, invitar usuarios, eliminar miembros y borrar el hogar. El miembro solo puede consultar la información y salirse del hogar."
       },
       "3": {
         "question": "¿Por qué no veo el código de acceso?",
@@ -54,11 +56,11 @@
       },
       "4": {
         "question": "¿Cómo configuro un límite de consumo?",
-        "answer": "Ve al apartado \"Proyecto\" dentro del panel y busca la sección de límites. Allí defines el límite diario y mensual en kWh."
+        "answer": "Abre tu hogar y ve a la pestaña \"Umbrales\". Allí defines el límite diario y mensual en kWh."
       },
       "5": {
-        "question": "¿Puedo eliminar un proyecto?",
-        "answer": "Sí, pero solo si eres el responsable. Ve al tab \"Proyecto\" y usa el botón \"Eliminar proyecto\". Esta acción es irreversible."
+        "question": "¿Puedo eliminar un hogar?",
+        "answer": "Sí, pero solo si eres el responsable. Ve a la pestaña \"Hogar\" y usa el botón \"Eliminar hogar\". Esta acción es irreversible."
       }
     }
   },
@@ -67,12 +69,15 @@
     "whatsapp": {
       "title": "WhatsApp",
       "description": "Respuesta en menos de 2 horas en horario laboral.",
-      "button": "Escribir ahora"
+      "button": "Escribir ahora",
+      "prefilledMessage": "Hola, necesito ayuda con EnergyMonitor."
     },
     "email": {
       "title": "Correo electrónico",
       "description": "Envíanos un mensaje y respondemos en máximo 24 horas.",
-      "button": "Enviar mensaje"
+      "button": "Enviar mensaje",
+      "subject": "Soporte EnergyMonitor",
+      "body": "Hola,\n\nQuiero recibir ayuda con lo siguiente:\n\n- \n\nGracias."
     }
   }
 }

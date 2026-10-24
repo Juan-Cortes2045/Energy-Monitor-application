@@ -18,8 +18,9 @@ const Home = () => {
       const element = document.getElementById(id);
 
       if (element) {
+        const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
         element.scrollIntoView({
-          behavior: "smooth",
+          behavior: reduceMotion ? "auto" : "smooth",
           block: "start",
         });
       }
@@ -34,9 +35,11 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <Hero />
-      <HowItWorks id="HowItWorks" />
-      <Benefits />
+      <main>
+        <Hero />
+        <HowItWorks id="HowItWorks" />
+        <Benefits />
+      </main>
     </>
   );
 };

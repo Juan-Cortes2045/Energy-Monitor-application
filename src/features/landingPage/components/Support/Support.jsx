@@ -34,7 +34,12 @@ const TOPIC_ICONS = {
 const TOPIC_IDS = [1, 2, 3, 4, 5, 6];
 const FAQ_IDS = [1, 2, 3, 4, 5];
 
+// Datos públicos de contacto del equipo (no son secretos)
 const WHATSAPP_NUMBER = "573170400573";
+const SUPPORT_EMAIL = "garmiguelangel89@gmail.com";
+
+// Abre fuera de la app sin darle a la otra pestaña acceso a window.opener
+const openExternal = (url) => window.open(url, "_blank", "noopener,noreferrer");
 
 // ── Normaliza texto (quita tildes) para búsqueda más flexible ────────────────
 const normalize = (str) =>
@@ -87,6 +92,7 @@ const FaqItem = ({ id, query }) => {
   const [open, setOpen] = useState(false);
   const question = t(`faq.items.${id}.question`);
   const answer = t(`faq.items.${id}.answer`);
+  const answerId = `faq-answer-${id}`;
 
   return (
     <div className={styles.faqItem}>
@@ -95,6 +101,7 @@ const FaqItem = ({ id, query }) => {
         className={styles.faqQuestion}
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
+        aria-controls={answerId}
       >
         <span>
           <Highlight text={question} query={query} />
@@ -105,11 +112,9 @@ const FaqItem = ({ id, query }) => {
           <ChevronRight size={16} aria-hidden="true" />
         )}
       </button>
-      {open && (
-        <p className={styles.faqAnswer}>
-          <Highlight text={answer} query={query} />
-        </p>
-      )}
+      <p id={answerId} className={styles.faqAnswer} hidden={!open}>
+        <Highlight text={answer} query={query} />
+      </p>
     </div>
   );
 };
@@ -119,28 +124,17 @@ const Support = () => {
   const { t } = useTranslation("support");
   const [search, setSearch] = useState("");
 
-  const email = "garmiguelangel89@gmail.com";
-  const subject = encodeURIComponent(
-    t("contact.email.subject", "Soporte EnergyMonitor"),
-  );
-  const body = encodeURIComponent(
-    t(
-      "contact.email.body",
-      "Hola,\n\nQuiero recibir ayuda con lo siguiente:\n\n- \n\nGracias.",
-    ),
-  );
-  const whatsappMessage = encodeURIComponent(
-    t(
-      "contact.whatsapp.prefilledMessage",
-      "Hola, necesito ayuda con EnergyMonitor.",
-    ),
-  );
+  const subject = encodeURIComponent(t("contact.email.subject"));
+  const body = encodeURIComponent(t("contact.email.body"));
+  const whatsappMessage = encodeURIComponent(t("contact.whatsapp.prefilledMessage"));
 
   const handleWhatsApp = () => {
-    window.open(
-      `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`,
-      "_blank",
-      "noopener,noreferrer",
+    openExternal(`https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`);
+  };
+
+  const handleEmail = () => {
+    openExternal(
+      `https://mail.google.com/mail/?view=cm&fs=1&to=${SUPPORT_EMAIL}&su=${subject}&body=${body}`,
     );
   };
 
@@ -163,10 +157,11 @@ const Support = () => {
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section className={styles.hero}>
         <h1 className={styles.heroTitle}>
-          <Trans i18nKey="hero.title" t={t}>
-            ¿En qué podemos{" "}
-            <span className={styles.heroHighlight}>ayudarte?</span>
-          </Trans>
+          <Trans
+            i18nKey="hero.title"
+            t={t}
+            components={{ hl: <span className={styles.heroHighlight} /> }}
+          />
         </h1>
         <p className={styles.heroSub}>{t("hero.subtitle")}</p>
 
@@ -178,24 +173,17 @@ const Support = () => {
             placeholder={t("hero.searchPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            aria-label={t(
-              "hero.searchAriaLabel",
-              "Buscar en preguntas frecuentes",
-            )}
+            aria-label={t("hero.searchLabel")}
           />
         </div>
 
-        {query && (
-          <p className={styles.searchCount}>
-            {filteredFaqIds.length === 0
+        {/* Región viva siempre montada: el lector anuncia el número de resultados al escribir */}
+        <p className={styles.searchCount} role="status">
+          {query &&
+            (filteredFaqIds.length === 0
               ? t("hero.searchNoResults", { query })
-              : t("hero.searchResults", {
-                  count: filteredFaqIds.length,
-                  plural: filteredFaqIds.length > 1 ? "s" : "",
-                  query,
-                })}
-          </p>
-        )}
+              : t("hero.searchResults", { count: filteredFaqIds.length, query }))}
+        </p>
       </section>
 
       {/* ── Temas populares ──────────────────────────────────────────── */}
@@ -259,13 +247,7 @@ const Support = () => {
                 variant="secondary"
                 size="medium"
                 onClick={handleWhatsApp}
-                style={{
-                  width: "100%",
-                  backgroundColor: "#25D366",
-                  color: "#fff",
-                  borderColor: "#25D366",
-                  marginTop: "auto",
-                }}
+                className={styles.whatsappButton}
               >
                 {t("contact.whatsapp.button")}
               </Button>
@@ -275,8 +257,8 @@ const Support = () => {
           {/* Correo — usa <Card> */}
           <Card>
             <div className={styles.contactInner}>
-              <div className={styles.contactIconCircle}>
-                <Send size={22} aria-hidden="true" />
+              <div className={styles.contactIconCircle} aria-hidden="true">
+                <Send size={22} />
               </div>
               <h3 className={styles.contactTitle}>
                 {t("contact.email.title")}
@@ -287,11 +269,8 @@ const Support = () => {
               <Button
                 variant="primary"
                 size="medium"
-                onClick={() => {
-                  const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
-                  window.open(gmailURL, "_blank");
-                }}
-                style={{ width: "100%", marginTop: "auto" }}
+                onClick={handleEmail}
+                className={styles.contactButton}
               >
                 {t("contact.email.button")}
               </Button>
