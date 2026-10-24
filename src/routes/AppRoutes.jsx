@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "../features/landingPage/pages/Home";
 import HomeRoute from "./HomeRoute";
 import ProtectedRoute from "./ProtectedRoute";
+import GuestRoute from "./GuestRoute";
 import MainLayout from "../components/layout/MainLayout/MainLayout";
 import RequirePermission from "./RequirePermission";
 import UserOnlyRoute from "./UserOnlyRoute";
@@ -36,8 +37,11 @@ const AppRoutes = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<AboutI />} />
           <Route path="/support" element={<SupportI />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          {/* Con una sesión activa, login y registro llevan directo al panel */}
+          <Route element={<GuestRoute />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
           <Route path="/VerifyAccount" element={<VerifyAccount />} />
           <Route path="/recover-password" element={<RecoverPassword />} />
           <Route element={<ProtectedRoute />}>
