@@ -16,18 +16,29 @@ self.addEventListener("push", (event) => {
   event.waitUntil(
     self.registration.showNotification(title, {
       body: data.body || "",
-      icon: "/favicon.svg",
-      badge: "/favicon.svg",
+      icon: "/icon-192.png",
+      badge: "/favicon-32.png",
       tag: data.tag,
       data: { url: data.url || "/notifications" },
     }),
   );
 });
 
+// Solo rutas de la propia app: una url absoluta de otro origen en el mensaje no debe abrir
+// un sitio ajeno desde la notificación.
+const appUrl = (raw) => {
+  try {
+    const url = new URL(raw || "/notifications", self.location.origin);
+    return url.origin === self.location.origin ? url.href : new URL("/notifications", self.location.origin).href;
+  } catch {
+    return new URL("/notifications", self.location.origin).href;
+  }
+};
+
 // Al pulsar la notificación se enfoca una pestaña abierta de la app o se abre una nueva.
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  const url = new URL(event.notification.data?.url || "/notifications", self.location.origin).href;
+  const url = appUrl(event.notification.data?.url);
   event.waitUntil(
     self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((windows) => {
       const open = windows.find((w) => w.url.startsWith(self.location.origin));
