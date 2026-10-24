@@ -3,14 +3,13 @@
   "photoOptions": "Options de photo",
   "addPhoto": "Ajouter une photo",
   "viewPhoto": "Voir la photo",
-  "delete": "Supprimer",
+  "delete": "Supprimer la photo",
   "name": "Nom",
   "lastName": "Nom de famille",
   "email": "Email",
   "password": "Mot de passe",
   "deleteQuestion": "Voulez-vous supprimer votre compte ?",
   "deleteAccount": "Supprimer le compte",
-  "edit": "Modifier",
   "save": "Enregistrer",
   "cancel": "Annuler",
   "saved": "Profil mis à jour.",
@@ -31,5 +30,8 @@
     "password": "Confirmez votre mot de passe"
   },
   "photoSaved": "Photo mise à jour.",
-  "photoError": "Impossible d'enregistrer la photo. Réessayez."
+  "photoError": "Impossible d'enregistrer la photo. Réessayez.",
+  "editField": "Modifier : {{field}}",
+  "avatarAlt": "Votre photo de profil",
+  "photoViewError": "Impossible d'ouvrir la photo. Réessayez."
 }

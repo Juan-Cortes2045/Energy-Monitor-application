@@ -11,7 +11,7 @@
   },
   "theme": {
     "title": "System themes",
-    "description": "Visual appearance of the system for all users",
+    "description": "Visual appearance of the app in this browser",
     "light": "Light themes",
     "dark": "Dark themes",
     "new": "New",
@@ -63,6 +63,7 @@
       "title": "What's new",
       "description": "Latest updates, improvements, and bug fixes",
       "action": "View changelog"
-    }
+    },
+    "soon": "Coming soon"
   }
 }

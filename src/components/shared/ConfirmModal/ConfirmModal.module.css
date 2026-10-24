@@ -36,6 +36,11 @@
   animation: slideUp 0.2s ease;
 }
 
+/* El diálogo recibe el foco al abrir: sin marco alrededor de toda la tarjeta. */
+.modal:focus {
+  outline: none;
+}
+
 @keyframes slideUp {
   from {
     transform: translateY(16px);

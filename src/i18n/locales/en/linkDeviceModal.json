@@ -1,6 +1,7 @@
 {
   "title": "Link device",
   "close": "Close",
+  "stepProgress": "Step {{current}} of {{total}}",
   "discover": {
     "title": "Find your module",
     "hint": "Plug the module in and hold its BOOT button for 3 seconds until the light blinks. Then press “Find module” and pick it in the browser window.",
@@ -22,6 +23,7 @@
     "passwordLabel": "Password",
     "passwordPlaceholder": "Enter the network password",
     "open": "Open",
+    "secured": "Password-protected network",
     "scanning": "The module is looking for networks...",
     "rescan": "Scan again",
     "manual": "Type the network name",

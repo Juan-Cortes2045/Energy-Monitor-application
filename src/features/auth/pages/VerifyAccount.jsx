@@ -3,11 +3,9 @@ import AuthLayout from "../components/AuthLayout/AuthLayout";
 
 const VerifyAccount = () => {
   return (
-    <>
-      <AuthLayout>
-        <VerifyEmail />
-      </AuthLayout>
-    </>
+    <AuthLayout>
+      <VerifyEmail />
+    </AuthLayout>
   );
 };
 

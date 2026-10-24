@@ -92,8 +92,8 @@
   font-weight: var(--font-weight-bold);
   padding: 3px 10px;
   border-radius: 20px;
-  background-color: #e6f1fb;
-  color: #185fa5;
+  background-color: var(--color-primary-soft);
+  color: var(--color-text-primary);
   width: fit-content;
 }
 
@@ -144,6 +144,8 @@
 }
 
 .codeText {
+  min-width: 0;
+  overflow-wrap: anywhere;
   font-family: var(--font-primary);
   font-size: 22px;
   font-weight: var(--font-weight-bold);
@@ -216,8 +218,8 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #e6f1fb;
-  color: #185fa5;
+  background-color: var(--color-primary-soft);
+  color: var(--color-text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -245,19 +247,34 @@
   display: inline-flex;
   align-items: center;
   font-family: var(--font-primary);
-  font-size: 10px;
+  font-size: var(--font-size-11);
   font-weight: var(--font-weight-bold);
   padding: 2px 9px;
   border-radius: 20px;
-  background-color: #e6f1fb;
-  color: #185fa5;
+  background-color: var(--color-primary-soft);
+  color: var(--color-text-primary);
   width: fit-content;
+}
+
+/* Texto solo para lector de pantalla (aviso de "copiado") */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ── Mobile: max 767px ───────────────────────────────────────────── */
 @media (max-width: 767px) {
   .page {
     flex-direction: column;
+    align-items: stretch;
+    margin-left: 0;
     padding: var(--spacing-sm);
     gap: var(--spacing-sm);
   }

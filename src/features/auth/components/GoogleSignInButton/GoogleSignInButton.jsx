@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import googleIcon from "../../../../assets/google_icon.png";
+import googleIcon from "../../../../assets/google_icon.webp";
 import Button from "../../../../design/components/Button/Button.jsx";
+import styles from "./GoogleSignInButton.module.css";
 import { loginWithGoogle } from "../../../../services/auth/authApi";
 import { GoogleSignInError, requestGoogleCode } from "../../../../services/auth/googleSignIn";
 import { errorMessage } from "../../../../services/http/errorMessages";
@@ -18,6 +19,7 @@ import { landingPath } from "../../../../services/auth/session";
  */
 const GoogleSignInButton = ({ label, onError }) => {
   const { t } = useTranslation("auth");
+  const { t: tc } = useTranslation("common");
   const navigate = useNavigate();
   const [busy, setBusy] = useState(false);
 
@@ -41,8 +43,16 @@ const GoogleSignInButton = ({ label, onError }) => {
   };
 
   return (
-    <Button type="button" variant="secondary" icon={googleIcon} onClick={handleClick} disabled={busy}>
-      {label}
+    <Button
+      type="button"
+      variant="secondary"
+      className={styles.googleButton}
+      icon={googleIcon}
+      onClick={handleClick}
+      disabled={busy}
+      aria-busy={busy}
+    >
+      {busy ? tc("loading") : label}
     </Button>
   );
 };

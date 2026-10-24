@@ -24,6 +24,7 @@
 
 .logo img {
   height: 60px;
+  width: auto;
   object-fit: contain;
 }
 
@@ -131,6 +132,10 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: left;
   padding: 8px 12px;
   border-radius: var(--radius-sm);
   cursor: pointer;
@@ -144,9 +149,11 @@
   background-color: var(--color-gradient);
 }
 
+/* Texto principal sobre el fondo suave: --color-primary sobre --color-primary-soft
+   no llega a 4.5:1 en el tema oscuro. */
 .langActive {
   background-color: var(--color-primary-soft);
-  color: var(--color-primary);
+  color: var(--color-text-primary);
   font-weight: var(--font-weight-bold);
 }
 
@@ -197,7 +204,7 @@
 
   .center {
     position: absolute;
-    top: 70px;
+    top: 100%;
     left: 0;
     width: 100%;
     background: var(--color-surface);
@@ -208,12 +215,16 @@
     justify-content: center;
     padding: 20px 0;
     transform: translateY(-200%);
-    transition: transform 0.3s ease;
+    /* Cerrado no es enfocable con Tab (visibility cambia al terminar la transición). */
+    visibility: hidden;
+    transition: transform 0.3s ease, visibility 0s linear 0.3s;
     z-index: 100;
   }
 
   .open {
     transform: translateY(0);
+    visibility: visible;
+    transition: transform 0.3s ease;
   }
 
   .navLinks {

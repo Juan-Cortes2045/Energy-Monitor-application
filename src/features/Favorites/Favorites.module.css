@@ -59,7 +59,7 @@
 .grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: var(--spacing-lg);
   align-items: flex-start;
 }
 
@@ -91,4 +91,16 @@
   color: var(--color-text-secondary);
   max-width: 280px;
   line-height: 1.6;
+}
+
+/* ── Móvil ─────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .gridBox {
+    margin: 0 var(--spacing-md) var(--spacing-md);
+    padding: var(--spacing-md);
+  }
+
+  .grid {
+    justify-content: center;
+  }
 }

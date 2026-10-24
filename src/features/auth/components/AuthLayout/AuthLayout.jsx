@@ -1,7 +1,9 @@
-import logoProyecto from "../../../../assets/logo_proyecto.png";
+import logoProyecto from "../../../../assets/logo_proyecto.webp";
 import styles from "./AuthLayout.module.css";
 import BackButton from "../BackButton/BackButton.jsx";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { Activity, Bell, Folder, House } from "lucide-react";
 
 const AuthLayout = ({ children }) => {
   const { t } = useTranslation("authLayout");
@@ -30,14 +32,14 @@ const AuthLayout = ({ children }) => {
         {/* Logo */}
         <div className={styles.brand}>
           <div className={styles.brandBackdrop}>
-            <img src={logoProyecto} alt="" aria-hidden="true" />
+            <img src={logoProyecto} alt="" width="52" height="52" decoding="async" />
             <span className={styles.brandName}>EnergyMonitor</span>
           </div>
         </div>
 
-        {/* Headline */}
+        {/* Headline: el h1 de la página es el título del formulario (este panel se oculta en móvil) */}
         <div className={styles.leftMiddle}>
-          <h1 className={styles.headline}>
+          <p className={styles.headline}>
             <span className={styles.headlineMain}>
               {t("headline.line1")}<br />
               {t("headline.line2")}<br />
@@ -45,7 +47,7 @@ const AuthLayout = ({ children }) => {
             <span className={styles.accentText}>
               {t("headline.line3")}
             </span>
-          </h1>
+          </p>
 
           {/* Subtexto */}
           <p className={styles.subtext}>
@@ -55,24 +57,17 @@ const AuthLayout = ({ children }) => {
           {/* Pills */}
           <div className={styles.pills}>
             <span className={styles.pillBlue}>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-              </svg>
+              <Activity size={12} />
               {t("pills.realtime")}
             </span>
 
             <span className={styles.pillGreen}>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-              </svg>
+              <Bell size={12} />
               {t("pills.alerts")}
             </span>
 
             <span className={styles.pillGhost}>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
-              </svg>
+              <Folder size={12} />
               {t("pills.projects")}
             </span>
           </div>
@@ -80,17 +75,22 @@ const AuthLayout = ({ children }) => {
 
         {/* Copyright */}
         <p className={styles.copyright}>
-          {t("copyright")}
+          {t("copyright", { year: new Date().getFullYear() })}
         </p>
       </div>
 
       {/* PANEL DERECHO */}
-      <div className={styles.right}>
+      <main className={styles.right}>
         <div className={styles.backWrapper}>
           <BackButton />
         </div>
+        {/* Acceso directo a la página de inicio pública desde cualquier pantalla de cuenta */}
+        <Link to="/home" className={styles.homeLink}>
+          <House size={18} aria-hidden="true" />
+          <span>{t("home")}</span>
+        </Link>
         {children}
-      </div>
+      </main>
 
     </div>
   );

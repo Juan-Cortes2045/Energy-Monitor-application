@@ -20,7 +20,7 @@ const DashboardPage = () => {
     useHomes();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
-  const [homeTypes, setHomeTypes] = useState([]);
+  const [homeTypes, setHomeTypes] = useState(null); // null = cargando el catálogo
   const [createError, setCreateError] = useState(null);
   const [joinError, setJoinError] = useState(null);
   const navigate = useNavigate();
@@ -43,6 +43,7 @@ const DashboardPage = () => {
   const handleMenuItemClick = (item) => {
     if (item.action === "create-home") {
       setCreateError(null);
+      setHomeTypes(null);
       // Carga el catálogo de tipos cada vez que se abre el modal
       homeApi.homeApi
         .listHomeTypes()
@@ -123,7 +124,8 @@ const DashboardPage = () => {
 
         {showCreateModal && (
           <CreateHomeModal
-            types={homeTypes}
+            types={homeTypes ?? []}
+            typesLoading={homeTypes === null}
             serverError={createError}
             onClose={() => setShowCreateModal(false)}
             onSubmit={handleCreateHome}

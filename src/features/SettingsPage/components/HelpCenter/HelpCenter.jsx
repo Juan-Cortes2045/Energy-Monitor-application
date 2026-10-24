@@ -1,4 +1,5 @@
-import { BookOpen, Headphones, Sparkles, ExternalLink } from "lucide-react";
+import { Link } from "react-router-dom";
+import { BookOpen, Headphones, Sparkles, ArrowRight } from "lucide-react";
 
 import Card from "../../../../design/components/Card/Card";
 
@@ -8,6 +9,8 @@ import { useTranslation } from "react-i18next";
 const HelpCenter = () => {
   const { t } = useTranslation("settings");
 
+  // Solo el soporte tiene página (/support). La documentación y el registro de cambios aún no
+  // existen: se indica "Próximamente" en lugar de un botón que no hace nada.
   const ITEMS = [
     {
       title: t("help.docs.title"),
@@ -22,6 +25,7 @@ const HelpCenter = () => {
       action: t("help.support.action"),
       icon: <Headphones size={20} />,
       type: "support",
+      to: "/support",
     },
     {
       title: t("help.updates.title"),
@@ -41,7 +45,7 @@ const HelpCenter = () => {
     >
       <div className={styles.container}>
         {ITEMS.map((item) => (
-          <div key={item.title} className={styles.helpCard}>
+          <div key={item.type} className={styles.helpCard}>
             <div
               className={`${styles.icon}
               ${styles[item.type]}`}
@@ -53,10 +57,14 @@ const HelpCenter = () => {
 
             <p>{item.description}</p>
 
-            <button className={styles.link}>
-              {item.action}
-              <ExternalLink size={14} />
-            </button>
+            {item.to ? (
+              <Link to={item.to} className={styles.link}>
+                {item.action}
+                <ArrowRight size={14} />
+              </Link>
+            ) : (
+              <span className={styles.soon}>{t("help.soon")}</span>
+            )}
           </div>
         ))}
       </div>

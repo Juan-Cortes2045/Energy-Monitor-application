@@ -11,7 +11,7 @@
   height: 40px;
   border-radius: var(--radius-lg);
   background-color: var(--color-primary);
-  color: #ffffff;
+  color: var(--color-on-primary, #fff);
   border: none;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease;
@@ -27,7 +27,7 @@
   transform: scale(0.98);
 }
 
-.trigger:focus {
+.trigger:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }

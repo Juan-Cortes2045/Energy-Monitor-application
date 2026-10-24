@@ -1,7 +1,7 @@
 import ErrorState from "../../../components/shared/ErrorState/ErrorState";
 import ConfirmModal from "../../../components/shared/ConfirmModal/ConfirmModal";
 import { useState } from "react";
-import { Crown } from "lucide-react";
+import { Crown, X } from "lucide-react";
 import Card from "../../../design/components/Card/Card";
 import styles from "./Users.module.css";
 import { useTranslation } from "react-i18next";
@@ -25,6 +25,7 @@ const AVATAR_COLORS = ["blue", "green", "amber", "purple"];
 const Avatar = ({ name, lastName, index }) => (
   <div
     className={`${styles.avatar} ${styles[`avatar_${AVATAR_COLORS[index % AVATAR_COLORS.length]}`]}`}
+    aria-hidden="true"
   >
     {getInitials(name, lastName)}
   </div>
@@ -63,8 +64,9 @@ const UserRow = ({ user, index, isOwner, onRemove, onTransfer, removing = false,
         onClick={() => onRemove(user)}
         disabled={removing}
         aria-label={t("actions.removeUser", { name: fullName(user) })}
+        title={t("actions.removeUser", { name: fullName(user) })}
       >
-        ×
+        <X size={14} />
       </button>
     )}
   </div>
@@ -165,7 +167,7 @@ const Users = ({ home, isOwner = false }) => {
         <div className={styles.cardMembers}>
           <Card>
             <div className={styles.listBlock}>
-              <p className={styles.blockTitle}>{t("members.title")}</p>
+              <h3 className={styles.blockTitle}>{t("members.title")}</h3>
               <div className={styles.userList}>
                 {rows.map((user, i) => (
                   <UserRow

@@ -93,12 +93,12 @@
 }
 
 .accentText {
-  color: var(--color-secondary);
+  color: var(--color-secondary); /* panel oscuro: el verde claro del tema es el que contrasta */
 }
 
 .subtext {
   font-size: var(--font-size-sm);
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.9);
   line-height: 1.7;
   max-width: 300px;
   margin: 0 0 var(--spacing-lg);
@@ -121,7 +121,7 @@
   border-radius: 20px;
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  color: rgba(255, 255, 255, 0.82);
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .pillBlue {
@@ -142,20 +142,24 @@
 /* ── Copyright ── */
 .copyright {
   font-size: var(--font-size-xs);
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.85);
   margin: 0;
   position: relative;
   z-index: 1;
 }
 
 /* ─── PANEL DERECHO ────────────────────────────────────── */
+/* Si el formulario no cabe (registro, pantallas bajas) el panel hace scroll; `safe`
+   evita que el centrado deje la parte superior fuera de alcance. */
 .right {
   flex: 1;
   display: flex;
   align-items: center;
+  align-items: safe center;
   justify-content: center;
   position: relative;
   padding: var(--spacing-xl);
+  overflow-y: auto;
   background-color: var(--color-surface);
 }
 
@@ -163,6 +167,32 @@
   position: absolute;
   top: var(--spacing-md);
   left: var(--spacing-md);
+}
+
+.homeLink {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.homeLink:hover {
+  background-color: color-mix(in srgb, var(--color-text-primary) 5%, transparent);
+}
+
+.homeLink:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 /* ─── RESPONSIVE ───────────────────────────────────────── */
@@ -202,13 +232,18 @@
 
   .right {
     width: 100%;
-    padding: var(--spacing-md);
-    align-items: center;
-    justify-content: center;
+    /* Deja sitio al botón de volver, que está posicionado encima */
+    padding: 56px var(--spacing-md) var(--spacing-md);
+    overflow-y: visible;
   }
 
   .backWrapper {
     top: var(--spacing-sm);
     left: var(--spacing-sm);
+  }
+
+  .homeLink {
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
   }
 }

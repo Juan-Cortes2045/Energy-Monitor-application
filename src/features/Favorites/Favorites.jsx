@@ -9,8 +9,9 @@ import { useHomes } from "../../context/useHomes";
 
 const Favorites = () => {
   const { t } = useTranslation("favorites");
+  const { t: tc } = useTranslation("common");
   const navigate = useNavigate();
-  const { homes, error, reload, setFavorite } = useHomes();
+  const { homes, loading, error, reload, setFavorite } = useHomes();
   const breadcrumbItems = [
     { label: t("favorites.breadcrumb.home"), path: "/dashboard" },
     { label: t("favorites.breadcrumb.current") },
@@ -31,6 +32,13 @@ const Favorites = () => {
         <div className={styles.gridBox}>
           {error ? (
             <ErrorState error={error} onRetry={reload} />
+          ) : loading && favoriteHomes.length === 0 ? (
+            // Sin esto, mientras cargan los hogares se vería "Sin favoritos aún".
+            <div className={styles.emptyState}>
+              <p className={styles.emptyDesc} role="status">
+                {tc("loading")}
+              </p>
+            </div>
           ) : favoriteHomes.length === 0 ? (
             <div className={styles.emptyState}>
               <Heart size={40} className={styles.emptyIcon} />

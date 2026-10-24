@@ -4,11 +4,13 @@
     "line2": "energía en",
     "line3": "tiempo real."
   },
-  "subtext": "Controla el consumo energético de tus proyectos, configura alertas y toma decisiones basadas en datos precisos.",
+  "subtext": "Controla el consumo energético de tus hogares, configura alertas y toma decisiones basadas en datos precisos.",
   "pills": {
     "realtime": "Análisis en tiempo real",
     "alerts": "Alertas automáticas",
-    "projects": "Gestión por proyectos"
+    "projects": "Gestión por hogares"
   },
-  "copyright": "© 2025 EnergyMonitor. Todos los derechos reservados."
+  "copyright": "© {{year}} EnergyMonitor. Todos los derechos reservados.",
+  "back": "Volver",
+  "home": "Ir al inicio"
 }

@@ -11,7 +11,7 @@
   },
   "theme": {
     "title": "Temas del sistema",
-    "description": "Apariencia visual del sistema para todos los usuarios",
+    "description": "Apariencia visual de la aplicación en este navegador",
     "light": "Temas claros",
     "dark": "Temas oscuros",
     "new": "Nuevo",
@@ -63,6 +63,7 @@
       "title": "Novedades",
       "description": "Últimas actualizaciones, mejoras y correcciones del sistema",
       "action": "Ver registro de cambios"
-    }
+    },
+    "soon": "Próximamente"
   }
 }

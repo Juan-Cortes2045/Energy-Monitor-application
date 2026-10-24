@@ -17,7 +17,8 @@
     "inactive": "Sua conta está bloqueada ou inativa."
   },
   "register": {
-    "emailTaken": "Já existe uma conta com este e-mail."
+    "emailTaken": "Já existe uma conta com este e-mail.",
+    "invalidEmail": "Esse e-mail não existe ou o domínio dele não recebe e-mails. Verifique se está escrito corretamente."
   },
   "passwordReset": {
     "failed": "Não foi possível alterar a senha. Tente novamente."
@@ -91,5 +92,9 @@
     "notFound": "A conta ou o papel não existe mais.",
     "self": "Você não pode alterar o status nem os papéis da sua própria conta.",
     "failed": "Não foi possível concluir a ação. Tente novamente."
+  },
+  "passwordRecovery": {
+    "notRegistered": "Não há nenhuma conta registrada com esse e-mail.",
+    "failed": "Não conseguimos enviar o código. Tente novamente."
   }
 }

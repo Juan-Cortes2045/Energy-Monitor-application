@@ -1,11 +1,13 @@
 import { useForm } from "react-hook-form";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../../validation/loginSchema.js";
 import styles from "../LoginForm/LoginForm.module.css";
 import { useTranslation } from "react-i18next";
 
 import GoogleSignInButton from "../GoogleSignInButton/GoogleSignInButton.jsx";
+import FormMessage from "../FormMessage/FormMessage.jsx";
+import { errorId, fieldA11y } from "../FormMessage/fieldA11y.js";
 import { isGoogleEnabled } from "../../../../services/auth/googleSignIn";
 
 import Button from "../../../../design/components/Button/Button.jsx";
@@ -14,17 +16,21 @@ import Card from "../../../../design/components/Card/Card.jsx";
 
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { login } from "../../../../services/auth/authApi";
+import { login, resendVerification } from "../../../../services/auth/authApi";
 import { errorMessage } from "../../../../services/http/errorMessages";
 import { landingPath } from "../../../../services/auth/session";
 
 const LoginForm = () => {
   const { t: v } = useTranslation("validations");
   const { t } = useTranslation("auth");
+  const { t: tc } = useTranslation("common");
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState("");
   const navigate = useNavigate();
-  const notice = useLocation().state?.notice;
+  const location = useLocation();
+  const notice = location.state?.notice;
+  // Solo avisos conocidos: un valor inesperado no debe mostrar la clave cruda.
+  const noticeText = notice ? t(`login.notice.${notice}`, { defaultValue: "" }) : "";
 
   const {
     register,
@@ -32,6 +38,8 @@ const LoginForm = () => {
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(loginSchema(v)),
+    // Al volver de verificar el correo, la dirección ya viene escrita.
+    defaultValues: { email: location.state?.email ?? "" },
   });
 
   const onSubmit = async (data) => {
@@ -40,88 +48,87 @@ const LoginForm = () => {
       await login(data);
       navigate(landingPath());
     } catch (e) {
+      if (e.status === 403) {
+        // Contraseña correcta pero correo sin verificar: se pide un código nuevo y se lleva a la
+        // persona a escribirlo. Si el envío falla (p. ej. límite de intentos), la pantalla de
+        // verificación le deja pedirlo otra vez.
+        let codeSent = true;
+        try {
+          await resendVerification(data.email);
+        } catch {
+          codeSent = false;
+        }
+        navigate("/VerifyAccount", {
+          state: { email: data.email, reason: "unverified", codeSent },
+        });
+        return;
+      }
       setServerError(errorMessage(t, e, "login"));
     }
   };
 
   return (
-    <Card
-      style={{
-        width: "400px",
-      }}
-    >
-      <h2 className={styles.title}>{t("login.title")}</h2>
+    <Card style={{ width: "100%", maxWidth: "400px" }}>
+      <h1 className={styles.title}>{t("login.title")}</h1>
 
-      {notice && <p role="status">{t(`login.notice.${notice}`)}</p>}
+      <FormMessage message={noticeText} tone="success" />
 
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form} noValidate>
         {/*EMAIL*/}
-        <Input id="email" type="email" placeholder="*" {...register("email")}>
+        <Input
+          id="email"
+          type="email"
+          autoComplete="email"
+          {...fieldA11y("email", errors.email)}
+          {...register("email")}
+        >
           {t("login.email")}
         </Input>
-        {errors.email && (
-          <span className={styles.error}>
-            {errors.email.message}
-          </span>
-        )}
+        <FormMessage id={errorId("email")} message={errors.email?.message} />
 
         {/*PASSWORD*/}
         <Input
           id="password"
           type={showPassword ? "text" : "password"}
-          placeholder="*"
+          autoComplete="current-password"
           icon={showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           onIconClick={() => setShowPassword(!showPassword)}
+          iconLabel={tc(showPassword ? "hidePassword" : "showPassword")}
+          {...fieldA11y("password", errors.password)}
           {...register("password")}
         >
           {t("login.password")}
         </Input>
-        {errors.password && (
-          <span className={styles.error}>
-            {errors.password.message}
-          </span>
-        )}
+        <FormMessage id={errorId("password")} message={errors.password?.message} />
 
         {/*OPCIONES*/}
         <div className={styles.options}>
-          <label className={styles.renember}>
-            <input type="checkbox" />
-            {t("login.remember")}
-          </label>
-
-          <a
-            href="/recover-password"
-            className={styles.link}
-            style={{
-              color: "var(--color-secondary)",
-            }}
-          >
+          <Link to="/recover-password" className={styles.link}>
             {t("login.forgotPassword")}
-          </a>
+          </Link>
         </div>
 
-        {serverError && <span className={styles.error}>{serverError}</span>}
+        <FormMessage message={serverError} alert />
 
         <div className={styles.buttonsContainer}>
           {/*BOTON LOGIN*/}
-          <Button type="submit" variant="primary" disabled={isSubmitting}>
-            {t("login.submit")}
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={isSubmitting}
+            aria-busy={isSubmitting}
+          >
+            {isSubmitting ? tc("loading") : t("login.submit")}
           </Button>
 
           {isGoogleEnabled() && (
             <>
               {/*DIVIDER*/}
-              <div
-                className={styles.divider}
-                style={{
-                  color: "var(--color-text-secondary)",
-                }}
-              >
+              <div className={styles.divider} aria-hidden="true">
                 <span>{t("login.divider")}</span>
               </div>
 
               {/*GOOGLE LOGIN*/}
-              <p className={styles.startUsing}>{t("login.loginWith")}</p>
               <GoogleSignInButton
                 label={t("login.google")}
                 onError={setServerError}
@@ -132,16 +139,10 @@ const LoginForm = () => {
 
         {/*REGISTER*/}
         <p className={styles.register}>
-          {t("login.noAccount")}.{" "}
-          <a
-            href="/register"
-            className={styles.link}
-            style={{
-              color: "var(--color-secondary)",
-            }}
-          >
+          {t("login.noAccount")}{" "}
+          <Link to="/register" className={styles.link}>
             {t("login.register")}
-          </a>
+          </Link>
         </p>
       </form>
     </Card>

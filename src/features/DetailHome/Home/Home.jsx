@@ -31,9 +31,9 @@ const HOME_TYPE_ICONS = {
 };
 const DEFAULT_HOME_TYPE_ICON = <Building2 size={12} />;
 
-const formatDate = (iso) => {
+const formatDate = (iso, locale) => {
   if (!iso) return "—";
-  return new Date(iso).toLocaleDateString("es-CO", {
+  return new Date(iso).toLocaleDateString(locale, {
     day: "2-digit",
     month: "short",
     year: "numeric",
@@ -61,7 +61,7 @@ const Field = ({ label, fullWidth = false, children }) => (
  * - Eliminar hogar (solo OWNER) llama a DELETE /homes/{id}, con confirmación (DeleteHome).
  */
 const HomeDetail = ({ home, isOwner = false }) => {
-  const { t } = useTranslation("home");
+  const { t, i18n } = useTranslation("home");
   const { t: tTypes } = useTranslation("createHomeModal");
   const { leaveHome } = useHomes();
   const navigate = useNavigate();
@@ -94,11 +94,15 @@ const HomeDetail = ({ home, isOwner = false }) => {
     .join(" ");
 
   const handleCopy = () => {
-    if (!data.access_code) return;
-    navigator.clipboard.writeText(data.access_code).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
+    // Sin contexto seguro (http) no hay portapapeles: el código sigue visible para copiarlo a mano.
+    if (!data.access_code || !navigator.clipboard) return;
+    navigator.clipboard
+      .writeText(data.access_code)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      })
+      .catch(() => {});
   };
 
   const handleLeave = async () => {
@@ -119,10 +123,10 @@ const HomeDetail = ({ home, isOwner = false }) => {
     <div className={styles.page}>
       <Card>
         <div className={styles.cardInner}>
-          <p className={styles.cardTitle}>
+          <h2 className={styles.cardTitle}>
             <Building2 size={14} aria-hidden="true" />
             {t("title.homeInfo")}
-          </p>
+          </h2>
 
           <div className={styles.fieldGrid}>
             <Field label={t("fields.name")}>
@@ -152,7 +156,7 @@ const HomeDetail = ({ home, isOwner = false }) => {
 
             <Field label={t("fields.creationDate")}>
               <span className={styles.textMuted}>
-                {formatDate(data.creation_date)}
+                {formatDate(data.creation_date, i18n.language)}
               </span>
             </Field>
           </div>
@@ -162,10 +166,10 @@ const HomeDetail = ({ home, isOwner = false }) => {
           <div className={styles.accessSection}>
             {isOwner ? (
               <>
-                <p className={styles.sectionSubtitle}>
+                <h3 className={styles.sectionSubtitle}>
                   <Key size={13} aria-hidden="true" />
                   {t("title.accessCode")}
-                </p>
+                </h3>
                 <p className={styles.hint}>{t("hints.accessCode")}</p>
 
                 <div className={styles.codeBox}>
@@ -181,6 +185,9 @@ const HomeDetail = ({ home, isOwner = false }) => {
                   >
                     {copied ? <Check size={13} /> : <Copy size={13} />}
                   </button>
+                  <span className={styles.srOnly} role="status">
+                    {copied ? t("buttons.copied") : ""}
+                  </span>
                 </div>
               </>
             ) : null}
@@ -209,13 +216,13 @@ const HomeDetail = ({ home, isOwner = false }) => {
 
       <Card>
         <div className={styles.cardInner}>
-          <p className={styles.cardTitle}>
+          <h2 className={styles.cardTitle}>
             <User size={14} aria-hidden="true" />
             {t("title.owner")}
-          </p>
+          </h2>
 
           <div className={styles.ownerRow}>
-            <div className={styles.ownerAvatar}>
+            <div className={styles.ownerAvatar} aria-hidden="true">
               {getInitials(
                 data.responsible.name,
                 data.responsible.lastName,

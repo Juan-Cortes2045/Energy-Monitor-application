@@ -17,6 +17,7 @@ vi.mock("../services/home", () => ({
 import { HomeProvider } from "./HomeContext";
 import { useHomes } from "./useHomes";
 import { homeApi } from "../services/home";
+import { clearSession, saveSession } from "../services/auth/session";
 
 const home = {
   idHome: "h1",
@@ -33,7 +34,41 @@ const home = {
 const wrapper = ({ children }) => <HomeProvider>{children}</HomeProvider>;
 
 describe("HomeContext (integración con cliente mockeado)", () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+    localStorage.clear();
+    saveSession({ accessToken: "a", refreshToken: "r", account: { idUser: "u1" } });
+  });
+
+  it("sin sesión no pide hogares y no queda cargando", async () => {
+    clearSession();
+    const { result } = renderHook(() => useHomes(), { wrapper });
+    await vi.waitFor(() => expect(result.current.loading).toBe(false));
+    expect(homeApi.listHomes).not.toHaveBeenCalled();
+    expect(result.current.homes).toEqual([]);
+  });
+
+  it("vacía la lista al cerrar sesión y la recarga al iniciar otra", async () => {
+    homeApi.listHomes.mockResolvedValueOnce([home]).mockResolvedValueOnce([]);
+    const { result } = renderHook(() => useHomes(), { wrapper });
+    await vi.waitFor(() => expect(result.current.homes).toHaveLength(1));
+
+    act(() => clearSession());
+    expect(result.current.homes).toEqual([]);
+
+    act(() => saveSession({ accessToken: "b", refreshToken: "r2", account: { idUser: "u2" } }));
+    await vi.waitFor(() => expect(homeApi.listHomes).toHaveBeenCalledTimes(2));
+    await vi.waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.homes).toEqual([]);
+  });
+
+  it("renovar los tokens no vuelve a pedir la lista", async () => {
+    homeApi.listHomes.mockResolvedValue([home]);
+    const { result } = renderHook(() => useHomes(), { wrapper });
+    await vi.waitFor(() => expect(result.current.loading).toBe(false));
+    act(() => saveSession({ accessToken: "nuevo", refreshToken: "r3" }));
+    expect(homeApi.listHomes).toHaveBeenCalledTimes(1);
+  });
 
   it("carga la lista al montar", async () => {
     homeApi.listHomes.mockResolvedValue([home]);

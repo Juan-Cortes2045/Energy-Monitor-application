@@ -5,5 +5,11 @@
     "home": "Accueil",
     "about": "À propos",
     "support": "Support"
-  }
+  },
+  "mainNav": "Navigation principale",
+  "themeToLight": "Passer en mode clair",
+  "themeToDark": "Passer en mode sombre",
+  "changeLanguage": "Changer de langue",
+  "openMenu": "Ouvrir le menu",
+  "closeMenu": "Fermer le menu"
 }

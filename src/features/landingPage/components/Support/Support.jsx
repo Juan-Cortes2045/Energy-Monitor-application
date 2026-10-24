@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation, Trans } from "react-i18next";
 
 import Card from "../../../../design/components/Card/Card";
@@ -18,6 +18,7 @@ import {
   Settings,
 } from "lucide-react";
 
+import { getSupportContacts } from "../../../../services/support";
 import styles from "./Support.module.css";
 
 // ── Iconos por tema (no se traducen, solo se mapean por id) ──────────────────
@@ -34,7 +35,8 @@ const TOPIC_ICONS = {
 const TOPIC_IDS = [1, 2, 3, 4, 5, 6];
 const FAQ_IDS = [1, 2, 3, 4, 5];
 
-const WHATSAPP_NUMBER = "573170400573";
+// Abre fuera de la app sin darle a la otra pestaña acceso a window.opener
+const openExternal = (url) => window.open(url, "_blank", "noopener,noreferrer");
 
 // ── Normaliza texto (quita tildes) para búsqueda más flexible ────────────────
 const normalize = (str) =>
@@ -87,6 +89,7 @@ const FaqItem = ({ id, query }) => {
   const [open, setOpen] = useState(false);
   const question = t(`faq.items.${id}.question`);
   const answer = t(`faq.items.${id}.answer`);
+  const answerId = `faq-answer-${id}`;
 
   return (
     <div className={styles.faqItem}>
@@ -95,6 +98,7 @@ const FaqItem = ({ id, query }) => {
         className={styles.faqQuestion}
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
+        aria-controls={answerId}
       >
         <span>
           <Highlight text={question} query={query} />
@@ -105,11 +109,9 @@ const FaqItem = ({ id, query }) => {
           <ChevronRight size={16} aria-hidden="true" />
         )}
       </button>
-      {open && (
-        <p className={styles.faqAnswer}>
-          <Highlight text={answer} query={query} />
-        </p>
-      )}
+      <p id={answerId} className={styles.faqAnswer} hidden={!open}>
+        <Highlight text={answer} query={query} />
+      </p>
     </div>
   );
 };
@@ -119,30 +121,36 @@ const Support = () => {
   const { t } = useTranslation("support");
   const [search, setSearch] = useState("");
 
-  const email = "garmiguelangel89@gmail.com";
-  const subject = encodeURIComponent(
-    t("contact.email.subject", "Soporte EnergyMonitor"),
-  );
-  const body = encodeURIComponent(
-    t(
-      "contact.email.body",
-      "Hola,\n\nQuiero recibir ayuda con lo siguiente:\n\n- \n\nGracias.",
-    ),
-  );
-  const whatsappMessage = encodeURIComponent(
-    t(
-      "contact.whatsapp.prefilledMessage",
-      "Hola, necesito ayuda con EnergyMonitor.",
-    ),
-  );
+  const subject = encodeURIComponent(t("contact.email.subject"));
+  const body = encodeURIComponent(t("contact.email.body"));
 
-  const handleWhatsApp = () => {
-    window.open(
-      `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`,
-      "_blank",
-      "noopener,noreferrer",
+  // Los administradores son el contacto de soporte; con varios, la persona elige a quién escribir.
+  const [contacts, setContacts] = useState({ status: "loading", list: [] });
+  const [selectedEmail, setSelectedEmail] = useState("");
+
+  useEffect(() => {
+    let active = true;
+    getSupportContacts()
+      .then((list) => {
+        if (!active) return;
+        setContacts({ status: "ready", list });
+        setSelectedEmail(list[0]?.email ?? "");
+      })
+      .catch(() => active && setContacts({ status: "error", list: [] }));
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const handleEmail = () => {
+    if (!selectedEmail) return;
+    openExternal(
+      `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(selectedEmail)}&su=${subject}&body=${body}`,
     );
   };
+
+  const onlyContact = contacts.list.length === 1 ? contacts.list[0] : null;
+  const noContact = contacts.status === "error" || (contacts.status === "ready" && contacts.list.length === 0);
 
   // Busca en pregunta Y en respuesta (ya traducidas), con normalización de tildes
   const query = search.trim();
@@ -163,10 +171,11 @@ const Support = () => {
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section className={styles.hero}>
         <h1 className={styles.heroTitle}>
-          <Trans i18nKey="hero.title" t={t}>
-            ¿En qué podemos{" "}
-            <span className={styles.heroHighlight}>ayudarte?</span>
-          </Trans>
+          <Trans
+            i18nKey="hero.title"
+            t={t}
+            components={{ hl: <span className={styles.heroHighlight} /> }}
+          />
         </h1>
         <p className={styles.heroSub}>{t("hero.subtitle")}</p>
 
@@ -178,24 +187,17 @@ const Support = () => {
             placeholder={t("hero.searchPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            aria-label={t(
-              "hero.searchAriaLabel",
-              "Buscar en preguntas frecuentes",
-            )}
+            aria-label={t("hero.searchLabel")}
           />
         </div>
 
-        {query && (
-          <p className={styles.searchCount}>
-            {filteredFaqIds.length === 0
+        {/* Región viva siempre montada: el lector anuncia el número de resultados al escribir */}
+        <p className={styles.searchCount} role="status">
+          {query &&
+            (filteredFaqIds.length === 0
               ? t("hero.searchNoResults", { query })
-              : t("hero.searchResults", {
-                  count: filteredFaqIds.length,
-                  plural: filteredFaqIds.length > 1 ? "s" : "",
-                  query,
-                })}
-          </p>
-        )}
+              : t("hero.searchResults", { count: filteredFaqIds.length, query }))}
+        </p>
       </section>
 
       {/* ── Temas populares ──────────────────────────────────────────── */}
@@ -234,49 +236,11 @@ const Support = () => {
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>{t("contact.title")}</h2>
         <div className={styles.contactGrid}>
-          {/* WhatsApp — usa <Card> */}
+          {/* Correo a los administradores — usa <Card> */}
           <Card>
             <div className={styles.contactInner}>
-              <svg
-                className={styles.waLogo}
-                viewBox="0 0 48 48"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <circle cx="24" cy="24" r="24" fill="#25D366" />
-                <path
-                  d="M34.5 13.5A14.9 14.9 0 0 0 24 9C16.27 9 10 15.27 10 23a13.9 13.9 0 0 0 1.87 7L10 39l9.26-1.83A14.94 14.94 0 0 0 24 39c7.73 0 14-6.27 14-16a13.93 13.93 0 0 0-3.5-9.5ZM24 36.5a12.4 12.4 0 0 1-6.34-1.73l-.45-.27-4.69.93.95-4.56-.3-.47A12.38 12.38 0 0 1 11.5 23c0-6.9 5.6-12.5 12.5-12.5a12.5 12.5 0 0 1 12.5 12.5C36.5 30.9 30.9 36.5 24 36.5Zm6.86-9.38c-.37-.19-2.2-1.09-2.54-1.21-.34-.12-.59-.19-.84.19-.25.37-.96 1.21-1.18 1.46-.22.25-.43.28-.8.09a10.1 10.1 0 0 1-2.97-1.83 11.1 11.1 0 0 1-2.05-2.56c-.22-.37 0-.57.16-.76.16-.17.37-.43.56-.65.19-.22.25-.37.37-.62.12-.25.06-.47-.03-.65-.09-.19-.84-2.02-1.15-2.77-.3-.72-.61-.62-.84-.63h-.71c-.25 0-.65.09-.99.47s-1.3 1.27-1.3 3.1 1.33 3.6 1.52 3.85c.19.25 2.62 4 6.35 5.61a21.3 21.3 0 0 0 2.12.78 5.1 5.1 0 0 0 2.34.15c.71-.1 2.2-.9 2.51-1.76.31-.87.31-1.61.22-1.76-.09-.16-.34-.25-.71-.44Z"
-                  fill="white"
-                />
-              </svg>
-              <h3 className={styles.contactTitle}>
-                {t("contact.whatsapp.title")}
-              </h3>
-              <p className={styles.contactDesc}>
-                {t("contact.whatsapp.description")}
-              </p>
-              <Button
-                variant="secondary"
-                size="medium"
-                onClick={handleWhatsApp}
-                style={{
-                  width: "100%",
-                  backgroundColor: "#25D366",
-                  color: "#fff",
-                  borderColor: "#25D366",
-                  marginTop: "auto",
-                }}
-              >
-                {t("contact.whatsapp.button")}
-              </Button>
-            </div>
-          </Card>
-
-          {/* Correo — usa <Card> */}
-          <Card>
-            <div className={styles.contactInner}>
-              <div className={styles.contactIconCircle}>
-                <Send size={22} aria-hidden="true" />
+              <div className={styles.contactIconCircle} aria-hidden="true">
+                <Send size={22} />
               </div>
               <h3 className={styles.contactTitle}>
                 {t("contact.email.title")}
@@ -284,17 +248,54 @@ const Support = () => {
               <p className={styles.contactDesc}>
                 {t("contact.email.description")}
               </p>
-              <Button
-                variant="primary"
-                size="medium"
-                onClick={() => {
-                  const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
-                  window.open(gmailURL, "_blank");
-                }}
-                style={{ width: "100%", marginTop: "auto" }}
-              >
-                {t("contact.email.button")}
-              </Button>
+
+              {contacts.status === "loading" && (
+                <p className={styles.contactDesc} role="status">
+                  {t("contact.email.loading")}
+                </p>
+              )}
+
+              {noContact && (
+                <p className={styles.contactNotice} role="status">
+                  {t("contact.email.unavailable")}
+                </p>
+              )}
+
+              {/* Varios administradores: se elige a quién escribir */}
+              {contacts.list.length > 1 && (
+                <div className={styles.contactChoice}>
+                  <label htmlFor="support-contact" className={styles.contactLabel}>
+                    {t("contact.email.chooseLabel")}
+                  </label>
+                  <select
+                    id="support-contact"
+                    className={styles.contactSelect}
+                    value={selectedEmail}
+                    onChange={(e) => setSelectedEmail(e.target.value)}
+                  >
+                    {contacts.list.map((contact) => (
+                      <option key={contact.email} value={contact.email}>
+                        {contact.name === contact.email
+                          ? contact.email
+                          : `${contact.name} (${contact.email})`}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {contacts.list.length > 0 && (
+                <Button
+                  variant="primary"
+                  size="medium"
+                  onClick={handleEmail}
+                  className={styles.contactButton}
+                >
+                  {onlyContact
+                    ? t("contact.email.buttonTo", { name: onlyContact.name })
+                    : t("contact.email.button")}
+                </Button>
+              )}
             </div>
           </Card>
         </div>

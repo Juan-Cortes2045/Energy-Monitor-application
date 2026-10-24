@@ -1,17 +1,8 @@
+/* El panel derecho de AuthLayout ya centra y da alto: aquí solo el ancho */
 .container {
-  min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-/* CARD */
-.card {
   width: 100%;
-  max-width: 400px;
-  padding: 30px;
-  text-align: center;
 }
 
 /* CONTENIDO INTERNO */
@@ -19,13 +10,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: var(--spacing-md);
+  text-align: center;
 }
 
 /* TÍTULO */
 .title {
   font-size: var(--font-size-22);
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   text-align: center;
   color: var(--color-text-primary);
 }
@@ -38,20 +30,14 @@
   line-height: 1.5;
 }
 
-/* OTP */
-.otpContainer {
+/* Código + mensajes + confirmar */
+.form {
   display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin: 20px 0;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
   width: 100%;
-}
-
-.otpContainer input {
-  width: 48px;
-  height: 52px;
-  text-align: center;
-  font-size: var(--font-size-18);
+  margin-top: var(--spacing-sm);
 }
 
 /* TEXTO */
@@ -63,56 +49,21 @@
 
 .register {
   text-align: center;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   font-size: var(--font-size-sm);
   color: var(--color-text-primary);
 }
 
+/* Verde de marca mezclado con el texto del tema para llegar a 4.5:1 en claro y oscuro */
 .registerLink {
   display: inline;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   text-decoration: underline;
-  color: var(--color-secondary);
+  color: color-mix(in srgb, var(--color-secondary) 55%, var(--color-text-primary));
 }
 
-/* MOBILE */
-@media (max-width: 768px) {
-  .container {
-    padding-top: 40px;
-  }
-
-  .card {
-    padding: 20px;
-  }
-
-  .otpContainer {
-    gap: 6px;
-  }
-
-  .otpContainer input {
-    width: 42px;
-    height: 46px;
-  }
-}
-
-/* MOBILE PEQUEÑO */
-@media (max-width: 400px) {
-  .otpContainer {
-    gap: 5px;
-  }
-
-  .otpContainer input {
-    width: 38px;
-    height: 44px;
-  }
-}
-
-.error {
-  font-size: var(--font-size-sm);
-  color: var(--color-danger);
-}
-
-.success {
-  font-size: var(--font-size-sm);
-  color: var(--color-success);
+.registerLink:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
 }

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { saveSession } from "../../../../services/auth/session";
@@ -42,5 +42,22 @@ describe("Sidebar", () => {
     for (const label of ["home", "homes", "favorites"]) {
       expect(screen.queryByText(label)).not.toBeInTheDocument();
     }
+  });
+
+  it("los botones de solo icono tienen nombre y el menú de perfil se cierra con Escape", () => {
+    session([]);
+    renderSidebar();
+    const trigger = screen.getByRole("button", { name: "openMenu" });
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(screen.getByRole("button", { name: "collapse" })).toHaveAttribute("aria-expanded", "true");
+
+    const menuBtn = screen.getByRole("button", { name: "profileMenu" });
+    fireEvent.click(menuBtn);
+    expect(menuBtn).toHaveAttribute("aria-expanded", "true");
+    const item = screen.getAllByRole("button", { name: "profile.myAccount" }).at(-1);
+    item.focus();
+    fireEvent.keyDown(item, { key: "Escape" });
+    expect(menuBtn).toHaveAttribute("aria-expanded", "false");
+    expect(menuBtn).toHaveFocus();
   });
 });

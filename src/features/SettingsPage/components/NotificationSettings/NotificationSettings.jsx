@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useId, useState } from "react";
 
 import { Bell, Mail, Smartphone, CheckCheck } from "lucide-react";
 
-import Card from "../../../../../src/design/components/Card/Card";
+import Card from "../../../../design/components/Card/Card";
 import {
   isPushSupported,
   isThisBrowserSubscribed,
@@ -23,6 +23,7 @@ import { useTranslation } from "react-i18next";
  */
 const NotificationSettings = () => {
   const { t } = useTranslation("settings");
+  const { t: tc } = useTranslation("common");
   const [prefs, setPrefs] = useState(null);
   const [subscribed, setSubscribed] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -99,7 +100,10 @@ const NotificationSettings = () => {
   const activeCount = [email, push].filter(Boolean).length;
 
   return (
-    <Card maxWidth="100%">
+    <Card
+      maxWidth="100%"
+      style={{ width: "calc(100% - 32px)", margin: "0 16px 20px 16px" }}
+    >
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.info}>
@@ -119,7 +123,14 @@ const NotificationSettings = () => {
           </span>
         </div>
 
-        <div className={styles.options}>
+        {/* Hasta que llegan las preferencias los interruptores están deshabilitados. */}
+        {!prefs && !message && (
+          <p className={styles.loading} role="status">
+            {tc("loading")}
+          </p>
+        )}
+
+        <div className={styles.options} aria-busy={!prefs || busy}>
           <NotificationRow
             icon={<Mail size={20} />}
             title={t("notifications.email.title")}
@@ -162,6 +173,7 @@ const NotificationSettings = () => {
 };
 
 const NotificationRow = ({ icon, title, description, enabled, disabled = false, onToggle, t }) => {
+  const descriptionId = useId();
   return (
     <div className={styles.row}>
       <div className={styles.rowLeft}>
@@ -169,14 +181,16 @@ const NotificationRow = ({ icon, title, description, enabled, disabled = false, 
 
         <div>
           <h4>{title}</h4>
-          <p>{description}</p>
+          <p id={descriptionId}>{description}</p>
         </div>
       </div>
 
       <div className={styles.rowRight}>
+        {/* El estado ya lo anuncia aria-checked del interruptor. */}
         <span
           className={`${styles.status}
           ${enabled ? styles.active : styles.inactive}`}
+          aria-hidden="true"
         >
           {enabled ? t("notifications.status.active") : t("notifications.status.inactive")}
         </span>
@@ -186,6 +200,7 @@ const NotificationRow = ({ icon, title, description, enabled, disabled = false, 
           role="switch"
           aria-checked={enabled}
           aria-label={title}
+          aria-describedby={descriptionId}
           disabled={disabled}
           className={`${styles.switch}
           ${enabled ? styles.switchOn : ""}`}

@@ -21,6 +21,7 @@
   },
   "buttons": {
     "copy": "Copy access code",
+    "copied": "Code copied",
     "deleteHome": "Delete home",
     "leaveHome": "Leave home",
     "leaving": "Leaving...",

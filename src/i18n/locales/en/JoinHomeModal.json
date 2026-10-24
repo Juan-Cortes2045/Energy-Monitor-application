@@ -1,6 +1,5 @@
 {
   "title": "Join home",
-  "close": "Close",
   "description": "Enter the alphanumeric code shared by the home owner.",
   "label": "Access code",
   "placeholder": "Eg: AB12CD34",

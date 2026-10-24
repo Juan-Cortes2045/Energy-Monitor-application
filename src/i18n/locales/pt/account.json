@@ -3,14 +3,13 @@
   "photoOptions": "Opções de foto",
   "addPhoto": "Adicionar foto",
   "viewPhoto": "Ver foto",
-  "delete": "Excluir",
+  "delete": "Excluir foto",
   "name": "Nome",
   "lastName": "Sobrenome",
   "email": "Email",
   "password": "Senha",
   "deleteQuestion": "Deseja excluir sua conta?",
   "deleteAccount": "Excluir conta",
-  "edit": "Editar",
   "save": "Salvar",
   "cancel": "Cancelar",
   "saved": "Perfil atualizado.",
@@ -31,5 +30,8 @@
     "password": "Confirme sua senha"
   },
   "photoSaved": "Foto atualizada.",
-  "photoError": "Não foi possível salvar a foto. Tente novamente."
+  "photoError": "Não foi possível salvar a foto. Tente novamente.",
+  "editField": "Editar {{field}}",
+  "avatarAlt": "Sua foto de perfil",
+  "photoViewError": "Não foi possível abrir a foto. Tente novamente."
 }

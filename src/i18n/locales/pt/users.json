@@ -1,15 +1,15 @@
 {
   "header": {
     "title": "Usuários",
-    "membersCount_one": "{{count}} membro neste projeto",
-    "membersCount_other": "{{count}} membros neste projeto"
+    "membersCount_one": "{{count}} membro nesta casa",
+    "membersCount_other": "{{count}} membros nesta casa"
   },
   "roles": {
     "owner": "Responsável",
     "member": "Membro"
   },
   "members": {
-    "title": "Membros do projeto",
+    "title": "Membros da casa",
     "empty": "Nenhum membro neste lar.",
     "onlyOwnerTitle": "Ainda não há outros usuários vinculados",
     "onlyOwnerDescription": "Compartilhe o código de acesso da casa para que outras pessoas entrem."

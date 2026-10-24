@@ -69,9 +69,19 @@ export const NotificationCenterProvider = ({ children }) => {
 
   const reload = useCallback(() => setAttempt((n) => n + 1), []);
 
+  // Con la pestaña en segundo plano no se consulta; al volver a ella se pone al día enseguida.
   useEffect(() => {
-    const timer = setInterval(reload, POLL_MS);
-    return () => clearInterval(timer);
+    const timer = setInterval(() => {
+      if (!document.hidden) reload();
+    }, POLL_MS);
+    const onVisible = () => {
+      if (!document.hidden) reload();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
   }, [reload]);
 
   useEffect(() => {

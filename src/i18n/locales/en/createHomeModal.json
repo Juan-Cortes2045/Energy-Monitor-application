@@ -1,6 +1,5 @@
 {
   "title": "Create home",
-  "close": "Close",
   "fields": {
     "name": "Home name",
     "type": "Home type",

@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import ReactCountryFlag from "react-country-flag";
 import Card from "../../../../design/components/Card/Card.jsx";
 import styles from "./LanguageSettings.module.css";
-import i18n from "../../../../i18n";
 
 const LANGUAGES = [
     { id: "es", name: "Español",   locale: "es-CO", countryCode: "CO" },
@@ -13,14 +12,12 @@ const LANGUAGES = [
 ];
 
 const LanguageSettings = () => {
-  const { t } = useTranslation("settings");
+  const { t, i18n } = useTranslation("settings");
   const currentId = i18n.language;
   const currentLanguage = LANGUAGES.find((lang) => lang.id === currentId) ?? LANGUAGES[0];
 
-  const handleSelect = (code) => {
-    i18n.changeLanguage(code);
-    localStorage.setItem("lang", code);
-  };
+  // i18n ya guarda el idioma en localStorage y actualiza <html lang> al cambiarlo.
+  const handleSelect = (code) => i18n.changeLanguage(code);
 
   return (
     <Card
@@ -38,15 +35,20 @@ const LanguageSettings = () => {
               <p>{t("language.description")}</p>
             </div>
           </div>
-          <span className={styles.current}>{currentLanguage.name}</span>
+          <span className={styles.current} lang={currentLanguage.id}>
+            {currentLanguage.name}
+          </span>
         </div>
 
         <div className={styles.languages}>
           {LANGUAGES.map((lang) => (
             <button
               key={lang.id}
+              type="button"
               className={`${styles.languageCard} ${currentId === lang.id ? styles.active : ""}`}
               onClick={() => handleSelect(lang.id)}
+              aria-pressed={currentId === lang.id}
+              lang={lang.id}
             >
               {currentId === lang.id && (
                 <div className={styles.check}>
@@ -54,11 +56,17 @@ const LanguageSettings = () => {
                 </div>
               )}
 
-              <div className={styles.flag}>
+              {/* Bandera decorativa: el nombre del idioma ya está al lado. */}
+              <div className={styles.flag} aria-hidden="true">
                 <ReactCountryFlag
                   countryCode={lang.countryCode}
                   svg
-                  aria-label={lang.name}
+                  alt=""
+                  title=""
+                  width={80}
+                  height={80}
+                  loading="lazy"
+                  decoding="async"
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
               </div>

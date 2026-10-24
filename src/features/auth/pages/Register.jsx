@@ -3,11 +3,9 @@ import AuthLayout from "../components/AuthLayout/AuthLayout";
 
 const Register = () => {
   return (
-    <>
-      <AuthLayout>
-        <RegisterForm />
-      </AuthLayout>
-    </>
+    <AuthLayout>
+      <RegisterForm />
+    </AuthLayout>
   );
 };
 

@@ -41,7 +41,7 @@ describe("Account", () => {
   it("edita nombre y apellido; el correo nunca es editable", async () => {
     updateProfile.mockResolvedValue({});
     renderAccount();
-    await userEvent.click(screen.getAllByRole("button", { name: "edit" })[0]);
+    await userEvent.click(screen.getAllByRole("button", { name: "editField" })[0]);
     const name = screen.getByLabelText("name");
     await userEvent.clear(name);
     await userEvent.type(name, "Grace");
@@ -52,7 +52,35 @@ describe("Account", () => {
     expect(await screen.findByText("saved")).toBeInTheDocument();
     expect(screen.queryByLabelText("email")).not.toBeInTheDocument();
     expect(screen.getByText("a@b.co")).toBeInTheDocument();
-    expect(screen.getAllByRole("button", { name: "edit" })).toHaveLength(2);
+    expect(screen.getAllByRole("button", { name: "editField" })).toHaveLength(2);
+  });
+
+  it("es un diálogo: Escape y el botón cerrar llaman a onClose", async () => {
+    const onClose = vi.fn();
+    render(
+      <MemoryRouter>
+        <Account onClose={onClose} />
+      </MemoryRouter>,
+    );
+    expect(screen.getByRole("dialog", { name: "title" })).toBeInTheDocument();
+    await userEvent.keyboard("{Escape}");
+    expect(onClose).toHaveBeenCalledTimes(1);
+    await userEvent.click(screen.getByRole("button", { name: "close" }));
+    expect(onClose).toHaveBeenCalledTimes(2);
+  });
+
+  it("Escape con el modal de contraseña abierto solo cierra ese modal", async () => {
+    const onClose = vi.fn();
+    render(
+      <MemoryRouter>
+        <Account onClose={onClose} />
+      </MemoryRouter>,
+    );
+    await userEvent.click(screen.getByRole("button", { name: "changePassword.title" }));
+    expect(screen.getByRole("dialog", { name: "changePassword.title" })).toBeInTheDocument();
+    await userEvent.keyboard("{Escape}");
+    expect(screen.queryByRole("dialog", { name: "changePassword.title" })).not.toBeInTheDocument();
+    expect(onClose).not.toHaveBeenCalled();
   });
 
   it("pide confirmación antes de eliminar la cuenta", async () => {

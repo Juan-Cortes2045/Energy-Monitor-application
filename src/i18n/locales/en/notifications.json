@@ -23,7 +23,14 @@
     "delete": "Delete",
     "deleteAllResolved_one": "Delete {{count}} resolved or read",
     "deleteAllResolved_other": "Delete {{count}} resolved or read",
-    "failed": "The action could not be completed. Try again."
+    "failed": "The action could not be completed. Try again.",
+    "confirmClear": {
+      "title": "Delete notifications",
+      "message_one": "{{count}} resolved or read notification will be deleted. This cannot be undone.",
+      "message_other": "{{count}} resolved or read notifications will be deleted. This cannot be undone.",
+      "confirm": "Delete",
+      "cancel": "Cancel"
+    }
   },
   "threshold": {
     "dailyExceeded": {

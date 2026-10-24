@@ -95,22 +95,36 @@ describe("AdminUsers", () => {
     await waitFor(() => expect(adminApi.listUsers).toHaveBeenCalledTimes(2));
   });
 
-  it("da el rol de administrador sin confirmación y lo quita con confirmación", async () => {
+  it("dar y quitar el rol de administrador piden confirmación", async () => {
     adminApi.grantRole.mockResolvedValue();
     adminApi.revokeRole.mockResolvedValue();
     render(<AdminUsers />);
     await screen.findByText("ada@mail.co");
     fireEvent.click(within(row("ada@mail.co")).getByRole("button", { name: "actions.grantAdmin" }));
+    expect(screen.getByText("confirmGrant.title")).toBeInTheDocument();
+    expect(adminApi.grantRole).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByText("confirm.accept"));
     await waitFor(() => expect(adminApi.grantRole).toHaveBeenCalledWith("u2", "ADMIN"));
 
     adminApi.listUsers.mockResolvedValue({
       items: [me, { ...ada, roles: ["ADMIN"] }], page: 0, size: 20, totalItems: 2,
     });
     fireEvent.click(await within(row("ada@mail.co")).findByRole("button", { name: "actions.grantAdmin" }));
+    fireEvent.click(screen.getByText("confirm.accept"));
     await waitFor(() => expect(adminApi.grantRole).toHaveBeenCalledTimes(2));
     fireEvent.click(await within(row("ada@mail.co")).findByRole("button", { name: "actions.revokeAdmin" }));
+    expect(screen.getByText("confirmRevoke.title")).toBeInTheDocument();
     fireEvent.click(screen.getByText("confirm.accept"));
     await waitFor(() => expect(adminApi.revokeRole).toHaveBeenCalledWith("u2", "ADMIN"));
+  });
+
+  it("cancelar la confirmación no cambia el rol", async () => {
+    render(<AdminUsers />);
+    await screen.findByText("ada@mail.co");
+    fireEvent.click(within(row("ada@mail.co")).getByRole("button", { name: "actions.grantAdmin" }));
+    fireEvent.click(screen.getByText("confirm.cancel", { selector: "button span" }));
+    expect(screen.queryByText("confirmGrant.title")).not.toBeInTheDocument();
+    expect(adminApi.grantRole).not.toHaveBeenCalled();
   });
 
   it.each([
@@ -121,6 +135,7 @@ describe("AdminUsers", () => {
     render(<AdminUsers />);
     await screen.findByText("ada@mail.co");
     fireEvent.click(within(row("ada@mail.co")).getByRole("button", { name: "actions.grantAdmin" }));
+    fireEvent.click(screen.getByText("confirm.accept"));
     expect(await screen.findByRole("alert")).toHaveTextContent(key);
   });
 });

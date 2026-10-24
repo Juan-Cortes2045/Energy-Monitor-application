@@ -79,7 +79,7 @@
   flex-shrink: 0;
 }
 
-.rowLeft h4 {
+.rowLeft h3 {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
@@ -101,7 +101,7 @@
 }
 
 .status {
-  font-size: 10px;
+  font-size: var(--font-size-11);
   font-weight: var(--font-weight-bold);
   padding: 3px 10px;
   border-radius: 20px;
@@ -114,29 +114,9 @@
 }
 
 .inactive {
-  background-color: #f1f2f4;
-  color: var(--color-text-secondary);
-}
-
-/* ── Periodicity label ───────────────────────────────────────────── */
-.periodicityLabel {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-}
-
-/* ── Calculated badge ────────────────────────────────────────────── */
-.calculatedBadge {
-  display: inline-block;
-  margin-top: 2px;
-  font-size: 10px;
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-secondary);
-  background-color: var(--color-background);
+  background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 20px;
-  padding: 1px 8px;
-  width: fit-content;
+  color: var(--color-text-secondary);
 }
 
 /* ── Switch ───────────────────────────────────────────────────────── */
@@ -146,7 +126,8 @@
   height: 24px;
   border: none;
   border-radius: 999px;
-  background-color: #cbd5e1;
+  /* Pista apagada visible en temas claros y oscuros (contraste ≥ 3:1 con la superficie) */
+  background-color: var(--color-text-secondary);
   cursor: pointer;
   flex-shrink: 0;
   transition: background-color 0.2s ease;
@@ -208,7 +189,13 @@
 
 .errorMsg {
   font-size: var(--font-size-xs);
-  color: var(--color-danger);
+  color: var(--color-danger-text);
+}
+
+.errorNotice {
+  color: var(--color-danger-text);
+  background-color: var(--color-danger-soft);
+  border-color: var(--color-danger-text);
 }
 
 /* ── Acciones ─────────────────────────────────────────────────────── */
@@ -285,7 +272,7 @@
 }
 
 .periodOption {
-  padding: 8px 18px;
+  padding: var(--spacing-sm) 18px;
   background: transparent;
   border: none;
   color: var(--color-text-secondary);
@@ -299,5 +286,5 @@
 
 .periodOptionActive {
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-on-primary);
 }

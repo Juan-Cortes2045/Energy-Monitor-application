@@ -37,7 +37,7 @@
     "title": "You don't have any linked devices yet",
     "subtitle": "Install your first module inside an appliance's outlet to start monitoring its consumption",
     "cta": "Link device",
-    "subtitleReadOnly": "The project owner hasn't linked any devices yet."
+    "subtitleReadOnly": "The home owner hasn't linked any devices yet."
   },
   "confirmDelete": {
     "title": "Delete device?",

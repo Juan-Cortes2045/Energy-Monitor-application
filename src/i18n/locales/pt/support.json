@@ -1,17 +1,39 @@
 {
   "hero": {
-    "title": "Como podemos te ajudar?",
+    "title": "Como podemos <hl>te ajudar?</hl>",
     "subtitle": "Encontre respostas rápidas ou entre em contato com nossa equipe.",
     "searchPlaceholder": "Buscar por palavra, ex: excluir, código, limite...",
+    "searchLabel": "Buscar nas perguntas frequentes",
     "searchNoResults": "Sem resultados para \"{{query}}\"",
-    "searchResults": "{{count}} resultado{{plural}} para \"{{query}}\""
+    "searchResults_one": "{{count}} resultado para \"{{query}}\"",
+    "searchResults_other": "{{count}} resultados para \"{{query}}\""
   },
   "topics": {
     "title": "Tópicos populares",
     "items": {
       "1": {
         "title": "Primeiros passos",
-        "description": "Crie seu primeiro projeto, conecte dispositivos e comece a monitorar seu consumo."
+        "description": "Crie seu primeiro lar, conecte dispositivos e comece a monitorar seu consumo."
+      },
+      "2": {
+        "title": "Leitura de gráficos",
+        "description": "Entenda os indicadores de potência, consumo diário e distribuição por dispositivo."
+      },
+      "3": {
+        "title": "Gestão de usuários",
+        "description": "Convide membros, atribua funções e gerencie as permissões do seu lar."
+      },
+      "4": {
+        "title": "Alertas e limites",
+        "description": "Configure limites de consumo diário e mensal para receber notificações a tempo."
+      },
+      "5": {
+        "title": "Código de acesso",
+        "description": "Como compartilhar o código do seu lar para que outros usuários possam entrar."
+      },
+      "6": {
+        "title": "Configurações",
+        "description": "Edite os dados do seu lar, o tipo de imóvel e as preferências da conta."
       }
     }
   },
@@ -19,19 +41,41 @@
     "title": "Perguntas frequentes",
     "empty": "Sem resultados para \"{{query}}\"",
     "showAll": "Ver todas as perguntas",
-    "items": {}
+    "items": {
+      "1": {
+        "question": "Como crio um novo lar?",
+        "answer": "No painel principal, clique no botão \"+\" e selecione \"Criar lar\". Preencha o nome, o endereço e o tipo de imóvel."
+      },
+      "2": {
+        "question": "Qual é a diferença entre responsável e membro?",
+        "answer": "O responsável pode ver o código de acesso, convidar usuários, remover membros e excluir o lar. O membro só pode consultar as informações e sair do lar."
+      },
+      "3": {
+        "question": "Por que não vejo o código de acesso?",
+        "answer": "O código de acesso só é visível para o usuário responsável. Se você é membro, peça o código ao responsável."
+      },
+      "4": {
+        "question": "Como configuro um limite de consumo?",
+        "answer": "Abra seu lar e vá até a aba \"Limites\". Lá você define o limite diário e mensal em kWh."
+      },
+      "5": {
+        "question": "Posso excluir um lar?",
+        "answer": "Sim, mas apenas se você for o responsável. Vá até a aba \"Lar\" e use o botão \"Excluir lar\". Esta ação é irreversível."
+      }
+    }
   },
   "contact": {
     "title": "Contato direto",
-    "whatsapp": {
-      "title": "WhatsApp",
-      "description": "Resposta em menos de 2 horas em horário comercial.",
-      "button": "Escrever agora"
-    },
     "email": {
       "title": "Email",
-      "description": "Envie uma mensagem e responderemos em até 24 horas.",
-      "button": "Enviar mensagem"
+      "description": "Escreva para a equipe de administração e respondemos em até 24 horas.",
+      "button": "Enviar mensagem",
+      "subject": "Suporte EnergyMonitor",
+      "body": "Olá,\n\nPreciso de ajuda com o seguinte:\n\n- \n\nObrigado.",
+      "buttonTo": "Escrever para {{name}}",
+      "chooseLabel": "Para quem você quer escrever?",
+      "loading": "Carregando contatos…",
+      "unavailable": "No momento não há um administrador disponível para receber mensagens. Tente novamente mais tarde."
     }
   }
 }

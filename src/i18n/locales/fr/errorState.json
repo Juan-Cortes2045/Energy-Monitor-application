@@ -6,5 +6,15 @@
   "generic": {
     "title": "Impossible de charger les informations"
   },
-  "retry": "Réessayer"
+  "retry": "Réessayer",
+  "render": {
+    "title": "Un problème est survenu",
+    "description": "Une erreur inattendue s'est produite lors de l'affichage de cet écran. Rechargez la page pour réessayer."
+  },
+  "reload": "Recharger",
+  "notFound": {
+    "title": "Page introuvable",
+    "description": "L'adresse que vous cherchez n'existe pas ou a changé.",
+    "back": "Aller à l'accueil"
+  }
 }

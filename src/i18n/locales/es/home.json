@@ -21,6 +21,7 @@
   },
   "buttons": {
     "copy": "Copiar código de acceso",
+    "copied": "Código copiado",
     "deleteHome": "Eliminar hogar",
     "leaveHome": "Salirse del hogar",
     "leaving": "Saliendo...",

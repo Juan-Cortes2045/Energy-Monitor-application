@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  /* Sin min-width: 0 la tabla ancha estira la página en lugar de desplazarse dentro. */
+  min-width: 0;
   min-height: 100%;
   background-color: var(--color-background);
 }
@@ -28,6 +30,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
+  min-width: 0;
   padding: 0 var(--spacing-lg) var(--spacing-lg);
 }
 
@@ -37,9 +40,22 @@
   gap: var(--spacing-sm);
   padding: var(--spacing-xs) var(--spacing-sm);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   background: var(--color-surface);
   color: var(--color-text-secondary);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+/* El input no tiene contorno propio: el foco se ve en el recuadro del buscador. */
+.search:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
+}
+
+/* El botón del sistema de diseño ocupa el 50 % por defecto. */
+.search button {
+  width: auto;
+  flex-shrink: 0;
 }
 
 .search input {
@@ -54,7 +70,7 @@
 
 .alert {
   padding: var(--spacing-sm);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   background: var(--color-danger-soft);
   color: var(--color-danger-text);
   font-size: var(--font-size-sm);
@@ -66,7 +82,12 @@
 }
 
 .tableWrap {
+  max-width: 100%;
   overflow-x: auto;
+}
+
+.tableWrap[aria-busy="true"] {
+  opacity: 0.6;
 }
 
 .table {
@@ -107,13 +128,13 @@
   border-radius: 999px;
   background: var(--color-primary-soft);
   color: var(--color-primary);
-  font-size: 11px;
+  font-size: var(--font-size-11);
 }
 
 .select {
-  padding: 4px 8px;
+  padding: var(--spacing-xs) var(--spacing-sm);
   border: 1px solid var(--color-border);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: var(--color-surface);
   color: var(--color-text-primary);
 }
@@ -121,7 +142,7 @@
 .badge {
   padding: 2px 8px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
 }
 
 .ACTIVE {
@@ -150,14 +171,14 @@
   border-radius: 999px;
   background: var(--color-primary-soft);
   color: var(--color-primary);
-  font-size: 12px;
+  font-size: var(--font-size-xs);
 }
 
 .roleBtn {
   display: inline-flex;
-  padding: 4px;
+  padding: 6px;
   border: 1px solid var(--color-border);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: var(--color-surface);
   color: var(--color-text-secondary);
   cursor: pointer;
@@ -166,6 +187,11 @@
 .roleBtn:hover:not(:disabled) {
   color: var(--color-primary);
   border-color: var(--color-primary);
+}
+
+.roleBtn:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 .pager {
@@ -179,14 +205,26 @@
 
 .pager button {
   display: inline-flex;
-  padding: 4px;
+  padding: 6px;
   border: 1px solid var(--color-border);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: var(--color-surface);
+  color: var(--color-text-primary);
   cursor: pointer;
 }
 
 .pager button:disabled {
   opacity: 0.5;
   cursor: default;
+}
+
+/* ── Móvil ─────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .hero {
+    padding: var(--spacing-md);
+  }
+
+  .body {
+    padding: 0 var(--spacing-md) var(--spacing-md);
+  }
 }

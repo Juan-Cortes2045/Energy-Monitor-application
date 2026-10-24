@@ -65,12 +65,16 @@
 
 .searchWrapper:focus-within {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(0, 120, 215, 0.1);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 20%, transparent);
 }
 
 .searchIcon {
   color: var(--color-text-secondary);
   flex-shrink: 0;
+}
+
+.searchCount:empty {
+  display: none;
 }
 
 .searchCount {
@@ -82,7 +86,7 @@
 
 /* ── Resaltado de búsqueda ──────────────────────────────────────── */
 .highlight {
-  background-color: #fff3cd;
+  background-color: var(--color-warning-soft);
   color: var(--color-text-primary);
   border-radius: 2px;
   padding: 0 2px;
@@ -196,6 +200,11 @@
   background-color: var(--color-background);
 }
 
+.faqQuestion:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
 .faqAnswer {
   font-family: var(--font-primary);
   font-size: var(--font-size-sm);
@@ -222,11 +231,12 @@
 }
 
 /* ── Contacto directo ───────────────────────────────────────────── */
+/* Un solo canal de contacto: el correo a los administradores */
 .contactGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: var(--spacing-md);
-  max-width: 640px;
+  max-width: 420px;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
@@ -243,22 +253,64 @@
   height: 100%;
 }
 
-.waLogo {
-  width: 48px;
-  height: 48px;
-  flex-shrink: 0;
-}
-
 .contactIconCircle {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background-color: #fceaea;
-  color: var(--color-danger);
+  background-color: var(--color-danger-soft);
+  color: var(--color-danger-text);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+
+/* Botones de contacto: ocupan el ancho y quedan alineados al pie de la tarjeta.
+   Se anidan en .contactInner para ganar a las clases base del Button. */
+.contactInner .contactButton {
+  width: 100%;
+  margin-top: auto;
+}
+
+/* Con varios administradores: a quién escribir */
+.contactChoice {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  width: 100%;
+  text-align: left;
+}
+
+.contactLabel {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.contactSelect {
+  width: 100%;
+  min-height: 40px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+}
+
+.contactSelect:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.contactNotice {
+  margin: 0;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
 }
 
 .contactTitle {
@@ -298,7 +350,6 @@
     grid-template-columns: 1fr;
   }
   .contactGrid {
-    grid-template-columns: 1fr;
     max-width: 100%;
   }
 }
@@ -313,10 +364,6 @@
   }
   .topicsGrid {
     grid-template-columns: repeat(2, 1fr);
-  }
-  .contactGrid {
-    grid-template-columns: repeat(2, 1fr);
-    max-width: 100%;
   }
 }
 
@@ -372,7 +419,6 @@
   .contactDesc {
     font-size: var(--font-size-sm);
   }
-  .waLogo,
   .contactIconCircle {
     width: 56px;
     height: 56px;

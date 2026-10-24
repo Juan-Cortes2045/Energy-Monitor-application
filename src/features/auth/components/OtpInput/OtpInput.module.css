@@ -1,0 +1,46 @@
+.otpContainer {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+}
+
+.otpContainer > * {
+  width: auto;
+}
+
+.otpContainer input {
+  width: 48px;
+  height: 52px;
+  text-align: center;
+  font-size: var(--font-size-18);
+}
+
+/* El input base quita el outline: sin esto no se ve qué casilla tiene el foco. */
+.otpContainer input:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .otpContainer {
+    gap: 6px;
+  }
+
+  .otpContainer input {
+    width: 42px;
+    height: 46px;
+  }
+}
+
+/* 6 casillas + 5 huecos caben en ~300px (móvil de 360px con márgenes) */
+@media (max-width: 400px) {
+  .otpContainer {
+    gap: var(--spacing-xs);
+  }
+
+  .otpContainer input {
+    width: 38px;
+    height: 44px;
+  }
+}

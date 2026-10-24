@@ -10,5 +10,12 @@
   },
   "pendingNotifications_one": "{{count}} notificação pendente",
   "pendingNotifications_other": "{{count}} notificações pendentes",
-  "admin": "Administração"
+  "admin": "Administração",
+  "mainNav": "Navegação do aplicativo",
+  "openMenu": "Abrir menu",
+  "closeMenu": "Fechar menu",
+  "expand": "Expandir barra lateral",
+  "collapse": "Recolher barra lateral",
+  "profileMenu": "Opções da conta",
+  "noHomes": "Sem residências"
 }

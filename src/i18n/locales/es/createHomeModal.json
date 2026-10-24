@@ -1,6 +1,5 @@
 {
   "title": "Crear hogar",
-  "close": "Cerrar",
   "fields": {
     "name": "Nombre del hogar",
     "type": "Tipo de hogar",

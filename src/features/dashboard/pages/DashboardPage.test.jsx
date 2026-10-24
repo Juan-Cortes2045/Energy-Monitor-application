@@ -145,7 +145,7 @@ describe("DashboardPage (conexión al backend)", () => {
     renderPage();
 
     // Abre el menú de acciones (+) y elige "crear hogar"
-    const trigger = screen.getByRole("button", { name: "Abrir menú de acciones" });
+    const trigger = screen.getByRole("button", { name: "openActions" });
     trigger.click();
     const createOption = await screen.findByRole("button", { name: "actions.createHome" });
     createOption.click();

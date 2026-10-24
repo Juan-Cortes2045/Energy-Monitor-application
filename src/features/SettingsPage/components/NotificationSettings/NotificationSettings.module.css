@@ -91,7 +91,7 @@
 
   border-radius:12px;
 
-  background:#F8FAFC;
+  background:var(--color-background);
   color:var(--color-primary);
 }
 
@@ -139,12 +139,23 @@
   border:none;
   border-radius:999px;
 
-  background:#CBD5E1;
+  /* Apagado con contraste suficiente (3:1) sobre la superficie en todos los temas. */
+  background:var(--color-text-secondary);
 
   position:relative;
   cursor:pointer;
 
   transition:.25s;
+}
+
+.switch:focus-visible{
+  outline:2px solid var(--color-primary);
+  outline-offset:2px;
+}
+
+.switch:disabled{
+  opacity:.5;
+  cursor:not-allowed;
 }
 
 .switchOn{
@@ -161,7 +172,7 @@
   height:22px;
 
   border-radius:50%;
-  background:white;
+  background:#fff;
 
   transition:.25s;
 }
@@ -308,5 +319,11 @@
 .message {
   margin-top: 12px;
   font-size: 13px;
-  color: var(--color-danger, #dc2626);
+  color: var(--color-danger-text);
+}
+
+.loading {
+  padding-top: 12px;
+  font-size: 13px;
+  color: var(--color-text-secondary);
 }

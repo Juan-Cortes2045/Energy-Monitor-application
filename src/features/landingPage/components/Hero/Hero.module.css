@@ -23,7 +23,7 @@
 /* ── Izquierda ────────────────────────────────────────────────────── */
 .left {
   flex: 1;
-  font-size: 32px;
+  font-size: var(--font-size-xxl);
   max-width: 600px;
 }
 
@@ -36,8 +36,10 @@
   line-height: 1.2;
 }
 
+/* Verde de marca mezclado con el texto del tema: el puro da ~2:1 sobre el fondo claro
+   y el título necesita 3:1 (texto grande). */
 .highlightSecondary {
-  color: var(--color-secondary);
+  color: color-mix(in srgb, var(--color-secondary) 70%, var(--color-text-primary));
 }
 
 .highlightPrimary {
@@ -61,12 +63,26 @@
 /* ── Features ─────────────────────────────────────────────────────── */
 .features {
   display: flex;
-  gap: 16px;
+  gap: var(--spacing-md);
   flex-wrap: wrap;
   margin-top: var(--spacing-md);
+  padding: 0;
+  list-style: none;
   color: var(--color-text-secondary);
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-medium);
+}
+
+.feature {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.featureIcon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--color-primary);
 }
 
 /* ── Derecha ──────────────────────────────────────────────────────── */
@@ -116,6 +132,22 @@
   }
 }
 
+/* Sin animaciones para quien pidió reducir movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .fadeUp,
+  .fadeUpDelay {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .heroImg,
+  .heroImg:hover {
+    transition: none;
+    transform: none;
+  }
+}
+
 /* ── TABLET ───────────────────────────────────────────────────────── */
 @media (max-width: 1024px) {
   .container {
@@ -155,9 +187,15 @@
 
 /* ── MOBILE ───────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
+  /* En 360px el doble padding (contenedor + columna) dejaba el texto en ~260px */
+  .container {
+    padding: var(--spacing-lg) var(--spacing-md);
+    gap: var(--spacing-xl);
+  }
+
   .left {
-    font-size: 20px;
-    padding: 20px;
+    font-size: var(--font-size-lg);
+    padding: 0;
   }
 }
 

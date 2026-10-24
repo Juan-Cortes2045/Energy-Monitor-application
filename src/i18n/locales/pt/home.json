@@ -21,7 +21,8 @@
   },
   "buttons": {
     "copy": "Copiar código de acesso",
-    "deleteHome": "Excluir casa",
+    "copied": "Código copiado",
+    "deleteHome": "Excluir lar",
     "leaveHome": "Sair do lar",
     "leaving": "Saindo...",
     "deleting": "Excluindo..."

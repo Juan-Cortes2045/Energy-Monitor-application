@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { KeyRound } from "lucide-react";
+import { KeyRound, X } from "lucide-react";
 import { errorMessage } from "../../../../services/http/errorMessages";
 import Button from "../../../../design/components/Button/Button";
+import { useDialogA11y } from "../../../../hooks/useDialogA11y";
 import styles from "./JoinHomeModal.module.css";
 
 const CODE_LENGTH = 8;
@@ -21,6 +22,8 @@ function validate(code, t) {
  */
 const JoinHomeModal = ({ serverError = null, onClose, onSubmit }) => {
   const { t } = useTranslation("joinHomeModal");
+  const { t: tc } = useTranslation("common");
+  const dialogRef = useDialogA11y(onClose);
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -53,28 +56,30 @@ const JoinHomeModal = ({ serverError = null, onClose, onSubmit }) => {
   };
 
   return (
-    <div
-      className={styles.overlay}
-      onClick={handleOverlayClick}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="join-modal-title"
-    >
-      <div className={styles.modal}>
+    <div className={styles.overlay} onClick={handleOverlayClick}>
+      <div
+        ref={dialogRef}
+        className={styles.modal}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="join-modal-title"
+        tabIndex={-1}
+      >
         <div className={styles.header}>
           <h2 className={styles.title} id="join-modal-title">
             {t("title")}
           </h2>
           <button
+            type="button"
             className={styles.closeBtn}
             onClick={onClose}
-            aria-label={t("close")}
+            aria-label={tc("close")}
           >
-            ✕
+            <X size={18} />
           </button>
         </div>
 
-        <form className={styles.body} onSubmit={handleSubmit} noValidate>
+        <form id="join-home-form" className={styles.body} onSubmit={handleSubmit} noValidate>
           <div className={styles.iconWrapper}>
             <KeyRound size={32} />
           </div>
@@ -87,7 +92,7 @@ const JoinHomeModal = ({ serverError = null, onClose, onSubmit }) => {
 
           <div className={styles.field}>
             <label className={styles.label} htmlFor="join-code">
-              {t("label")} <span className={styles.required}>*</span>
+              {t("label")} <span className={styles.required} aria-hidden="true">*</span>
             </label>
 
             <div className={`${styles.inputWrapper} ${error ? styles.inputError : ""}`}>
@@ -102,15 +107,22 @@ const JoinHomeModal = ({ serverError = null, onClose, onSubmit }) => {
                 autoComplete="off"
                 autoFocus
                 spellCheck={false}
+                aria-required="true"
+                aria-invalid={Boolean(error)}
+                aria-describedby={error ? "join-code-error join-code-hint" : "join-code-hint"}
               />
-              <span className={styles.counter}>
+              <span className={styles.counter} aria-hidden="true">
                 {code.length}/{CODE_LENGTH}
               </span>
             </div>
 
-            {error && <span className={styles.errorMsg}>{error}</span>}
+            {error && (
+              <span id="join-code-error" className={styles.errorMsg} role="alert">
+                {error}
+              </span>
+            )}
 
-            <p className={styles.hint}>{t("hint")}</p>
+            <p id="join-code-hint" className={styles.hint}>{t("hint")}</p>
           </div>
         </form>
 
@@ -118,7 +130,14 @@ const JoinHomeModal = ({ serverError = null, onClose, onSubmit }) => {
           <Button variant="secondary" size="medium" onClick={onClose} disabled={loading}>
             {t("cancel")}
           </Button>
-          <Button variant="primary" size="medium" onClick={handleSubmit} disabled={loading || code.length < CODE_LENGTH}>
+          <Button
+            type="submit"
+            form="join-home-form"
+            variant="primary"
+            size="medium"
+            disabled={loading || code.length < CODE_LENGTH}
+            aria-busy={loading}
+          >
             {loading ? t("joining") : t("join")}
           </Button>
         </div>

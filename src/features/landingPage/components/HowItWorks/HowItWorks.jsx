@@ -1,6 +1,6 @@
 import styles from "../HowItWorks/HowItWorks.module.css";
 
-import imgLp from "../../../../assets/img_lp2.png";
+import imgLp from "../../../../assets/img_lp2.webp";
 import { useTranslation } from "react-i18next";
 
 import { User, Settings, BarChart3, AlertTriangle } from "lucide-react";
@@ -45,15 +45,16 @@ const HowItWorks = ({ id }) => {
         <ol className={styles.steps}>
           {steps.map((step) => (
             <li key={step.number} className={styles.step}>
-              <div className={styles.marker}>
+              {/* El <ol> ya numera los pasos para lectores de pantalla */}
+              <div className={styles.marker} aria-hidden="true">
                 <div className={styles.number}>{step.number}</div>
               </div>
 
               <div className={styles.stepContent}>
-                <h4 className={styles.stepTitle}>
+                <h3 className={styles.stepTitle}>
                   <span className={styles.stepIcon}>{step.icon}</span>
                   {step.title}
-                </h4>
+                </h3>
                 <p className={styles.stepDescription}>{step.description}</p>
               </div>
             </li>
@@ -61,7 +62,15 @@ const HowItWorks = ({ id }) => {
         </ol>
 
         <div className={styles.imageWrapper}>
-          <img src={imgLp} alt={t("imageAlt")} className={styles.image} />
+          <img
+            src={imgLp}
+            alt={t("imageAlt")}
+            width="510"
+            height="370"
+            loading="lazy"
+            decoding="async"
+            className={styles.image}
+          />
         </div>
       </div>
     </section>

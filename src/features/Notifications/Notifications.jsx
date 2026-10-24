@@ -17,6 +17,7 @@ import {
 import Header from "../../design/components/Header/Header";
 import Card from "../../design/components/Card/Card";
 import ErrorState from "../../components/shared/ErrorState/ErrorState";
+import ConfirmModal from "../../components/shared/ConfirmModal/ConfirmModal";
 import { useHomes } from "../../context/useHomes";
 import { useNotificationCenter } from "../../context/useNotificationCenter";
 import AdminNotifications from "../Admin/AdminNotifications";
@@ -208,6 +209,7 @@ const HomeNotifications = () => {
   const [clearing, setClearing] = useState(false);
   const [actionError, setActionError] = useState(null);
   const [activeTab, setActiveTab] = useState("all");
+  const [confirmClear, setConfirmClear] = useState(false);
 
   const loadError = homesError ?? alertsError;
   const retry = () => (homesError ? reloadHomes() : reloadAlerts());
@@ -266,7 +268,9 @@ const HomeNotifications = () => {
   const clearableRecommendations = activeTab === "alerts" ? 0 : recommendations.filter((r) => r.read).length;
   const clearable = clearableAlerts + clearableRecommendations;
 
+  // Borrado en bloque e irreversible: se confirma antes en un modal.
   const handleClear = async () => {
+    setConfirmClear(false);
     setClearing(true);
     setActionError(null);
     try {
@@ -319,6 +323,7 @@ const HomeNotifications = () => {
                   type="button"
                   className={`${styles.tab} ${activeTab === tab ? styles.tabActive : ""}`}
                   onClick={() => setActiveTab(tab)}
+                  aria-pressed={activeTab === tab}
                 >
                   {t(`tabs.${tab}`)}
                   {tab === "alerts" && activeAlertsCount > 0 && (
@@ -342,7 +347,7 @@ const HomeNotifications = () => {
                 <button
                   type="button"
                   className={styles.markAllBtn}
-                  onClick={handleClear}
+                  onClick={() => setConfirmClear(true)}
                   disabled={clearing}
                 >
                   <Trash2 size={14} />
@@ -397,6 +402,17 @@ const HomeNotifications = () => {
           </Card>
         </div>
       </div>
+
+      {confirmClear && (
+        <ConfirmModal
+          title={t("actions.confirmClear.title")}
+          message={t("actions.confirmClear.message", { count: clearable })}
+          confirmLabel={t("actions.confirmClear.confirm")}
+          cancelLabel={t("actions.confirmClear.cancel")}
+          onConfirm={handleClear}
+          onCancel={() => setConfirmClear(false)}
+        />
+      )}
     </div>
   );
 };

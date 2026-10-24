@@ -36,6 +36,10 @@
     "title": "Change the account status",
     "message": "The account {{email}} will become “{{status}}”. It will not be able to sign in and its open sessions will be closed."
   },
+  "confirmGrant": {
+    "title": "Grant the administrator role",
+    "message": "{{email}} will get access to administration: they will be able to change account statuses and other users' roles."
+  },
   "confirmRevoke": {
     "title": "Remove the administrator role",
     "message": "{{email}} will lose access to administration."

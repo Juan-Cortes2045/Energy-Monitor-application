@@ -36,6 +36,10 @@
     "title": "Alterar o status da conta",
     "message": "A conta {{email}} passará para «{{status}}». Não poderá entrar e suas sessões abertas serão encerradas."
   },
+  "confirmGrant": {
+    "title": "Conceder o papel de administrador",
+    "message": "{{email}} terá acesso à administração: poderá alterar o estado das contas e os papéis de outros usuários."
+  },
   "confirmRevoke": {
     "title": "Remover o papel de administrador",
     "message": "{{email}} perderá o acesso à administração."

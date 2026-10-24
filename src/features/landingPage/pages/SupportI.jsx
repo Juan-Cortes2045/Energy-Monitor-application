@@ -5,7 +5,9 @@ const SupportI = () => {
   return (
     <>
       <Navbar />
-      <Support />
+      <main>
+        <Support />
+      </main>
     </>
   );
 };

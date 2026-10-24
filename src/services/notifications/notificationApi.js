@@ -36,6 +36,7 @@ export async function savePushSubscription(subscription) {
   });
 }
 
-export async function removePushSubscription(endpoint) {
-  await httpClient.post("/notifications/push/subscriptions/remove", { endpoint });
+/** @param {object} [config] opciones de axios (el cierre de sesión pasa las suyas) */
+export async function removePushSubscription(endpoint, config) {
+  await httpClient.post("/notifications/push/subscriptions/remove", { endpoint }, config);
 }

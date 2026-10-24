@@ -21,7 +21,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: #E8F3FF;
+    background: var(--color-primary-soft);
     color: var(--color-primary);
     flex-shrink: 0;
 }
@@ -38,7 +38,7 @@
 .current {
     padding: 8px 12px;
     border-radius: 8px;
-    background: #E8F3FF;
+    background: var(--color-primary-soft);
     color: var(--color-primary);
     font-size: 16px;
     font-weight: 600;
@@ -93,7 +93,7 @@
 }
 .themeCard:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    box-shadow: var(--shadow-md);
 }
 .themeCard.active {
     border-color: var(--color-primary);
@@ -116,7 +116,7 @@
     height: 22px;
     border-radius: 50%;
     background: var(--color-primary);
-    color: #fff;
+    color: var(--color-on-primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -202,10 +202,12 @@
     flex-direction: column;
 }
 
+/* Las tarjetas claras tienen fondo blanco fijo (son una muestra del tema), así que su texto
+   también es fijo: con el tema oscuro activo, --color-text-primary sería casi blanco. */
 .cardName {
     font-size: 16px;
     font-weight: 600;
-    color: var(--color-text-primary);
+    color: #212529;
 }
 .darkCard .cardName {
     color: #F1F5F9;
@@ -213,7 +215,7 @@
 
 .cardSubtitle {
     font-size: 14px;
-    color: var(--color-text-secondary);
+    color: #6C757D;
     margin-top: 2px;
 }
 .darkCard .cardSubtitle {

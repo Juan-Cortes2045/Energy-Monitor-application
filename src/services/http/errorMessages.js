@@ -19,7 +19,9 @@ const OPERATIONS = {
     503: "googleLogin.unavailable",
     default: "googleLogin.failed",
   },
-  register: { 409: "register.emailTaken", 422: "password.policy" },
+  // 400: correo mal formado o cuyo dominio no existe o no recibe correo.
+  register: { 400: "register.invalidEmail", 409: "register.emailTaken", 422: "password.policy" },
+  passwordRecovery: { 404: "passwordRecovery.notRegistered", default: "passwordRecovery.failed" },
   passwordReset: { 422: "password.policy", default: "passwordReset.failed" },
   passwordChange: {
     401: "passwordChange.wrongCurrent",
