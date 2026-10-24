@@ -6,6 +6,8 @@ import styles from "./ThemeSettings.module.css";
 
 const lightThemes = (themes) => themes.filter((t) => t.mode === "light");
 const darkThemes = (themes) => themes.filter((t) => t.mode === "dark");
+// "energy-light" -> "energyLight": clave del subtítulo traducido en settings.theme.
+const subtitleKey = (id) => id.replace(/-(\w)/g, (_, c) => c.toUpperCase());
 
 const ThemeSettings = () => {
     const { t } = useTranslation("settings");
@@ -15,6 +17,9 @@ const ThemeSettings = () => {
         const isActive = themeId === theme.id;
         const isDark = theme.mode === "dark";
         const translatedName = t(`theme.${theme.id}`, { defaultValue: theme.name });
+        const translatedSubtitle = t(`theme.${subtitleKey(theme.id)}`, {
+            defaultValue: theme.subtitle,
+        });
 
         return (
             <button
@@ -24,6 +29,7 @@ const ThemeSettings = () => {
                 }`}
                 onClick={() => setThemeId(theme.id)}
                 type="button"
+                aria-pressed={isActive}
             >
                 {isActive && (
                     <div className={styles.checkBadge}>
@@ -31,7 +37,8 @@ const ThemeSettings = () => {
                     </div>
                 )}
 
-                <div className={styles.preview}>
+                {/* Vista previa decorativa: el nombre del tema ya identifica el botón. */}
+                <div className={styles.preview} aria-hidden="true">
                     <div className={styles.previewSidebar} style={{ background: theme.sidebar }}>
                         <span className={styles.sidebarLine} style={{ background: "rgba(255,255,255,0.6)", width: "70%" }} />
                         <span className={styles.sidebarLine} style={{ background: "rgba(255,255,255,0.35)", width: "50%" }} />
@@ -72,9 +79,9 @@ const ThemeSettings = () => {
                 <div className={styles.cardFooter}>
                     <div className={styles.cardInfo}>
                         <span className={styles.cardName}>{translatedName}</span>
-                        <span className={styles.cardSubtitle}>{theme.subtitle}</span>
+                        <span className={styles.cardSubtitle}>{translatedSubtitle}</span>
                     </div>
-                    <div className={styles.dots}>
+                    <div className={styles.dots} aria-hidden="true">
                         {theme.indicators.map((color, idx) => (
                             <span key={idx} className={styles.dot} style={{ background: color }} />
                         ))}
