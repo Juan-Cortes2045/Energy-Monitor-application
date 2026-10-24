@@ -5,5 +5,11 @@
     "home": "Home",
     "about": "About us",
     "support": "Support"
-  }
+  },
+  "mainNav": "Main navigation",
+  "themeToLight": "Switch to light mode",
+  "themeToDark": "Switch to dark mode",
+  "changeLanguage": "Change language",
+  "openMenu": "Open menu",
+  "closeMenu": "Close menu"
 }

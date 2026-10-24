@@ -10,5 +10,12 @@
   },
   "pendingNotifications_one": "{{count}} notification en attente",
   "pendingNotifications_other": "{{count}} notifications en attente",
-  "admin": "Administration"
+  "admin": "Administration",
+  "mainNav": "Navigation de l'application",
+  "openMenu": "Ouvrir le menu",
+  "closeMenu": "Fermer le menu",
+  "expand": "Déplier la barre latérale",
+  "collapse": "Replier la barre latérale",
+  "profileMenu": "Options du compte",
+  "noHomes": "Aucun foyer"
 }

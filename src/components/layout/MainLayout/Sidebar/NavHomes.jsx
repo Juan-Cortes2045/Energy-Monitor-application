@@ -1,11 +1,13 @@
 import { useId, useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import styles from "../Sidebar/Sidebar.module.css";
 import { useHomes } from "../../../../context/useHomes";
 
 const NavHomes = ({ icon, label, collapsed, onExpand, onNavigate }) => {
+  const { t } = useTranslation("sidebar");
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { homes } = useHomes();
@@ -30,7 +32,16 @@ const NavHomes = ({ icon, label, collapsed, onExpand, onNavigate }) => {
   };
 
   return (
-    <div>
+    <div
+      onKeyDown={(e) => {
+        // Escape cierra la lista y deja el foco en su botón.
+        if (e.key === "Escape" && open) {
+          e.stopPropagation();
+          setOpen(false);
+          e.currentTarget.querySelector("button")?.focus();
+        }
+      }}
+    >
       {/* HEADER */}
       <button
         type="button"
@@ -46,7 +57,7 @@ const NavHomes = ({ icon, label, collapsed, onExpand, onNavigate }) => {
         {!collapsed && (
           <>
             <span>{label}</span>
-            <span style={{ marginLeft: "auto" }}>
+            <span style={{ marginLeft: "auto" }} aria-hidden="true">
               {open ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
             </span>
           </>
@@ -57,10 +68,11 @@ const NavHomes = ({ icon, label, collapsed, onExpand, onNavigate }) => {
       {open && !collapsed && (
         <div id={listId} className={`${styles.homeList} ${styles.homeListOpen}`}>
           {homes.length === 0 ? (
-            <p className={styles.noHomes}>Sin hogares</p>
+            <p className={styles.noHomes}>{t("noHomes")}</p>
           ) : (
             homes.map((h) => (
-              <div
+              <button
+                type="button"
                 key={h.idHome}
                 className={styles.homeItem}
                 onClick={(e) => {
@@ -69,11 +81,11 @@ const NavHomes = ({ icon, label, collapsed, onExpand, onNavigate }) => {
                   onNavigate?.();
                 }}
               >
-                <div className={styles.homeAvatar}>
+                <span className={styles.homeAvatar} aria-hidden="true">
                   {h.name.charAt(0).toUpperCase()}
-                </div>
+                </span>
                 <span>{h.name}</span>
-              </div>
+              </button>
             ))
           )}
         </div>
