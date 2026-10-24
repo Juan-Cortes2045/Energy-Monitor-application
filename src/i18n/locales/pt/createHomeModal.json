@@ -1,6 +1,5 @@
 {
   "title": "Criar lar",
-  "close": "Fechar",
   "fields": {
     "name": "Nome do lar",
     "type": "Tipo de lar",

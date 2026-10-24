@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { X } from "lucide-react";
 import { sortHomeTypes } from "../../../shared/homeTypes";
 import { errorMessage } from "../../../../services/http/errorMessages";
 
 import Button from "../../../../design/components/Button/Button";
 import Input from "../../../../design/components/Input/Input";
 import AddressInput from "../AddressInput/AddressInput";
+import { useDialogA11y } from "../../../../hooks/useDialogA11y";
 import styles from "./CreateHomeModal.module.css";
 
 const INITIAL_FORM = {
@@ -40,11 +42,22 @@ function validate(form, t) {
  * Modal de crear hogar conectado al backend.
  * @param {Object} props
  * @param {Array<{idHomeType: string, name: string}>} props.types catálogo de GET /home-types
+ * @param {boolean} props.typesLoading el catálogo aún se está cargando
  * @param {import("../../../services/home").ApiError | null} props.serverError
  * @param {(payload: Object) => Promise<boolean>} props.onSubmit devuelve true si se creó
  */
-const CreateHomeModal = ({ types = [], serverError = null, onClose, onSubmit }) => {
+const CreateHomeModal = ({
+  types = [],
+  typesLoading = false,
+  serverError = null,
+  onClose,
+  onSubmit,
+}) => {
   const { t } = useTranslation("createHomeModal");
+  const { t: tc } = useTranslation("common");
+  const dialogRef = useDialogA11y(onClose);
+  // Sin catálogo no se puede crear; mientras carga no se muestra el error.
+  const noTypes = !typesLoading && types.length === 0;
 
   const [form, setForm] = useState(INITIAL_FORM);
   const [errors, setErrors] = useState({});
@@ -90,59 +103,76 @@ const CreateHomeModal = ({ types = [], serverError = null, onClose, onSubmit }) 
   };
 
   return (
-    <div
-      className={styles.overlay}
-      onClick={handleOverlayClick}
-      role="dialog"
-      aria-modal="true"
-    >
-      <div className={styles.modal}>
+    <div className={styles.overlay} onClick={handleOverlayClick}>
+      <div
+        ref={dialogRef}
+        className={styles.modal}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="create-modal-title"
+        tabIndex={-1}
+      >
         <div className={styles.header}>
-          <h2 className={styles.title}>{t("title")}</h2>
+          <h2 className={styles.title} id="create-modal-title">
+            {t("title")}
+          </h2>
           <button
+            type="button"
             className={styles.closeBtn}
             onClick={onClose}
-            aria-label={t("close")}
+            aria-label={tc("close")}
           >
-            x
+            <X size={18} />
           </button>
         </div>
 
-        {types.length === 0 && (
+        {noTypes && (
           <p className={styles.errorMsg} role="alert">{t("errors.noTypesAvailable")}</p>
         )}
         {serverError && (
           <p className={styles.errorMsg} role="alert">{errorMessage(t, serverError, "homeCreate")}</p>
         )}
 
-        <form className={styles.body} onSubmit={handleSubmit} noValidate>
+        <form id="create-home-form" className={styles.body} onSubmit={handleSubmit} noValidate>
           <div className={styles.field}>
             <label className={styles.label} htmlFor="create-name">
-              {t("fields.name")} <span>*</span>
+              {t("fields.name")} <span className={styles.required} aria-hidden="true">*</span>
             </label>
             <Input
               id="create-name"
               placeholder={t("placeholders.name")}
               value={form.name}
               onChange={handleChange("name")}
-              error={errors.name}
               maxLength={50}
+              autoFocus
+              aria-required="true"
+              aria-invalid={Boolean(errors.name)}
+              aria-describedby={errors.name ? "create-name-error" : undefined}
             />
-            {errors.name && <span className={styles.errorMsg}>{errors.name}</span>}
+            {errors.name && (
+              <span id="create-name-error" className={styles.errorMsg} role="alert">
+                {errors.name}
+              </span>
+            )}
           </div>
 
           <div className={styles.field}>
             <label className={styles.label} htmlFor="create-type">
-              {t("fields.type")} <span>*</span>
+              {t("fields.type")} <span className={styles.required} aria-hidden="true">*</span>
             </label>
             <select
               id="create-type"
-              className={styles.select}
+              className={`${styles.select} ${errors.homeTypeId ? styles.error : ""}`}
               value={form.homeTypeId}
               onChange={handleChange("homeTypeId")}
+              disabled={typesLoading}
+              aria-busy={typesLoading}
+              aria-required="true"
+              aria-invalid={Boolean(errors.homeTypeId)}
+              aria-describedby={errors.homeTypeId ? "create-type-error" : undefined}
             >
               <option value="" disabled>
-                {t("placeholders.type")}
+                {typesLoading ? tc("loading") : t("placeholders.type")}
               </option>
               {sortHomeTypes(types).map((type) => (
                 <option key={type.idHomeType} value={type.idHomeType}>
@@ -150,12 +180,16 @@ const CreateHomeModal = ({ types = [], serverError = null, onClose, onSubmit }) 
                 </option>
               ))}
             </select>
-            {errors.homeTypeId && <span className={styles.errorMsg}>{errors.homeTypeId}</span>}
+            {errors.homeTypeId && (
+              <span id="create-type-error" className={styles.errorMsg} role="alert">
+                {errors.homeTypeId}
+              </span>
+            )}
           </div>
 
           <div className={styles.field}>
             <label className={styles.label} htmlFor="create-address">
-              {t("fields.address")} <span>*</span>
+              {t("fields.address")} <span className={styles.required} aria-hidden="true">*</span>
             </label>
             <AddressInput
               id="create-address"
@@ -164,7 +198,6 @@ const CreateHomeModal = ({ types = [], serverError = null, onClose, onSubmit }) 
               onChange={handleChange("address")}
               error={errors.address}
             />
-            {errors.address && <span className={styles.errorMsg}>{errors.address}</span>}
           </div>
 
           <div className={styles.field}>
@@ -179,17 +212,35 @@ const CreateHomeModal = ({ types = [], serverError = null, onClose, onSubmit }) 
               value={form.description}
               onChange={handleChange("description")}
               maxLength={200}
+              aria-invalid={Boolean(errors.description)}
+              aria-describedby={
+                errors.description
+                  ? "create-description-count create-description-error"
+                  : "create-description-count"
+              }
             />
-            <span className={styles.charCount}>{form.description.length} / 200</span>
-            {errors.description && <span className={styles.errorMsg}>{errors.description}</span>}
+            <span id="create-description-count" className={styles.charCount}>
+              {form.description.length} / 200
+            </span>
+            {errors.description && (
+              <span id="create-description-error" className={styles.errorMsg} role="alert">
+                {errors.description}
+              </span>
+            )}
           </div>
         </form>
 
         <div className={styles.footer}>
-          <Button onClick={onClose} disabled={loading}>
+          <Button variant="secondary" onClick={onClose} disabled={loading}>
             {t("buttons.cancel")}
           </Button>
-          <Button onClick={handleSubmit} disabled={loading || types.length === 0}>
+          <Button
+            type="submit"
+            form="create-home-form"
+            variant="primary"
+            disabled={loading || typesLoading || noTypes}
+            aria-busy={loading}
+          >
             {loading ? t("buttons.creating") : t("buttons.create")}
           </Button>
         </div>

@@ -35,6 +35,7 @@ const getAddressError = (value, t) => {
   return null;
 };
 
+// Muestra un único mensaje de error (el de la validación al salir del campo o el del formulario).
 const AddressInput = ({ value, onChange, error: externalError, ...rest }) => {
   const { t } = useTranslation('createHomeModal');
   const [internalError, setInternalError] = useState(null);
@@ -51,6 +52,8 @@ const AddressInput = ({ value, onChange, error: externalError, ...rest }) => {
   }, [value, t]);
 
   const displayError = internalError || externalError;
+  const helperId = rest.id ? `${rest.id}-helper` : undefined;
+  const errorId = rest.id ? `${rest.id}-error` : undefined;
 
   return (
     <div className={styles.wrapper}>
@@ -60,9 +63,11 @@ const AddressInput = ({ value, onChange, error: externalError, ...rest }) => {
         onChange={handleChange}
         onBlur={handleBlur}
         maxLength={MAX_LENGTH}
-        error={displayError}
+        aria-required="true"
+        aria-invalid={Boolean(displayError)}
+        aria-describedby={displayError ? `${errorId} ${helperId}` : helperId}
       />
-      <div className={styles.helper}>
+      <div className={styles.helper} id={helperId}>
         <span className={styles.counter}>
           {value.length}/{MAX_LENGTH}
         </span>
@@ -70,8 +75,10 @@ const AddressInput = ({ value, onChange, error: externalError, ...rest }) => {
           {t('fields.addressExamples')}
         </span>
       </div>
-      {displayError && !rest.error && (
-        <span className={styles.errorMsg}>{displayError}</span>
+      {displayError && (
+        <span id={errorId} className={styles.errorMsg} role="alert">
+          {displayError}
+        </span>
       )}
     </div>
   );

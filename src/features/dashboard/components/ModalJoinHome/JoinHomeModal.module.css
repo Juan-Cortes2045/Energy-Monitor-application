@@ -134,7 +134,7 @@
 
 .inputWrapper:focus-within {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(0, 120, 215, 0.15);
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
 }
 
 .inputError {
@@ -142,7 +142,7 @@
 }
 
 .inputError:focus-within {
-  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15);
+  box-shadow: 0 0 0 3px var(--color-danger-soft);
 }
 
 .input {
@@ -159,7 +159,7 @@
 }
 
 .input::placeholder {
-  color: var(--color-border);
+  color: var(--color-text-secondary);
   font-weight: var(--font-weight-normal);
   letter-spacing: 0.05em;
 }
@@ -176,7 +176,7 @@
 .errorMsg {
   font-family: var(--font-primary);
   font-size: var(--font-size-xs);
-  color: var(--color-danger);
+  color: var(--color-danger-text);
 }
 
 /* ── Hint ─────────────────────────────────────────────────────────── */

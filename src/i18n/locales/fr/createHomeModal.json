@@ -1,6 +1,5 @@
 {
   "title": "Créer une maison",
-  "close": "Fermer",
   "fields": {
     "name": "Nom de la maison",
     "type": "Type de maison",
