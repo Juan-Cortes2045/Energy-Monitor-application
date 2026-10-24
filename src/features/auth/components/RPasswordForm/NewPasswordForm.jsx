@@ -11,12 +11,17 @@ import { newPasswordSchema } from "../../validation/resetSchema.js";
 import { resetPassword } from "../../../../services/auth/authApi";
 import { errorMessage } from "../../../../services/http/errorMessages";
 import { useResendCooldown } from "../../hooks/useResendCooldown.js";
+import FormMessage from "../FormMessage/FormMessage";
+import { errorId, fieldA11y } from "../FormMessage/fieldA11y.js";
+
+const PASSWORD_HINT_ID = "newPassword-hint";
 
 // Paso 2: contraseña nueva. Canjea correo + código + contraseña en una sola llamada.
 // `onDone` = éxito; `onCodeRejected` = el backend no aceptó el código (volver al paso 1).
 const NewPasswordForm = ({ email, code, onDone, onCodeRejected }) => {
   const { t } = useTranslation("recoverPassword");
   const { t: v } = useTranslation("validations");
+  const { t: tc } = useTranslation("common");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const block = useResendCooldown(); // espera pedida por el servidor (429)
@@ -52,50 +57,57 @@ const NewPasswordForm = ({ email, code, onDone, onCodeRejected }) => {
 
   return (
     <div className={styles.container}>
-      <Card className={styles.card} style={{ width: "400px" }}>
-        <h2 className={styles.title}>{t("newPassword")}</h2>
+      <Card style={{ width: "100%", maxWidth: "400px" }}>
+        <h1 className={styles.title}>{t("newPassword")}</h1>
         <p className={styles.description}>{t("newPasswordDescription")}</p>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-          style={{ display: "flex", flexDirection: "column", gap: "12px", textAlign: "left" }}
-        >
+        <form onSubmit={handleSubmit(onSubmit)} noValidate className={styles.form}>
+          {/* Un solo botón muestra/oculta ambas contraseñas */}
           <Input
             id="newPassword"
             type={showPassword ? "text" : "password"}
             autoComplete="new-password"
-            placeholder="*"
             icon={showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             onIconClick={() => setShowPassword(!showPassword)}
+            iconLabel={tc(showPassword ? "hidePassword" : "showPassword")}
+            {...fieldA11y("newPassword", errors.newPassword, PASSWORD_HINT_ID)}
             {...register("newPassword")}
           >
             {t("newPassword")}
           </Input>
-          {errors.newPassword && (
-            <span className={styles.error}>{errors.newPassword.message}</span>
-          )}
+          <p id={PASSWORD_HINT_ID} className={styles.hint}>
+            {t("passwordHint")}
+          </p>
+          <FormMessage id={errorId("newPassword")} message={errors.newPassword?.message} />
 
           <Input
             id="repeatPassword"
             type={showPassword ? "text" : "password"}
             autoComplete="new-password"
-            placeholder="*"
+            {...fieldA11y("repeatPassword", errors.repeatPassword)}
             {...register("repeatPassword")}
           >
             {t("repeatPassword")}
           </Input>
-          {errors.repeatPassword && (
-            <span className={styles.error}>{errors.repeatPassword.message}</span>
-          )}
+          <FormMessage
+            id={errorId("repeatPassword")}
+            message={errors.repeatPassword?.message}
+          />
 
-          {error && <p className={styles.error}>{error}</p>}
+          <FormMessage message={error} alert />
 
           <div className={styles.center}>
-            <Button type="submit" variant="primary" disabled={isSubmitting || block.isCoolingDown}>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={isSubmitting || block.isCoolingDown}
+              aria-busy={isSubmitting}
+            >
               {block.isCoolingDown
                 ? t("resendIn", { seconds: block.secondsLeft })
-                : t("resetSubmit")}
+                : isSubmitting
+                  ? tc("loading")
+                  : t("resetSubmit")}
             </Button>
           </div>
         </form>

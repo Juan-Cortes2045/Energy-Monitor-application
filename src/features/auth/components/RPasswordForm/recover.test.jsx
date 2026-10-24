@@ -17,13 +17,13 @@ const renderFlow = (start) =>
     <MemoryRouter initialEntries={[start]}>
       <Routes>
         <Route path="/recover" element={<RvPassword />} />
-        <Route path="/VerifyRecoverPassword" element={<VerifyRecoverPassword />} />
+        <Route path="/verifyRecoverPassword" element={<VerifyRecoverPassword />} />
         <Route path="/login" element={<p>login-page</p>} />
       </Routes>
     </MemoryRouter>,
   );
 
-const verifyEntry = { pathname: "/VerifyRecoverPassword", state: { email: "a@b.co" } };
+const verifyEntry = { pathname: "/verifyRecoverPassword", state: { email: "a@b.co" } };
 
 const typeCode = async () => {
   const boxes = screen.getAllByRole("textbox");
@@ -40,12 +40,22 @@ const typePasswords = async () => {
 describe("recuperar contraseña", () => {
   beforeEach(() => vi.clearAllMocks());
 
-  it("muestra el mismo mensaje neutro aunque forgot falle (no revela la cuenta)", async () => {
-    forgotPassword.mockRejectedValue(new ApiError(500, "x"));
+  it("con un correo registrado envía el código y pasa a escribirlo", async () => {
+    forgotPassword.mockResolvedValue(undefined);
     renderFlow("/recover");
     await userEvent.type(document.getElementById("email"), "a@b.co");
     await userEvent.click(screen.getByRole("button"));
-    expect(await screen.findByText("neutralSent")).toBeInTheDocument();
+    expect(await screen.findByText("codeSent")).toBeInTheDocument();
+    expect(forgotPassword).toHaveBeenCalledWith("a@b.co");
+  });
+
+  it("con un correo sin cuenta lo dice y no pasa a escribir el código", async () => {
+    forgotPassword.mockRejectedValue(new ApiError(404, "x"));
+    renderFlow("/recover");
+    await userEvent.type(document.getElementById("email"), "nadie@b.co");
+    await userEvent.click(screen.getByRole("button"));
+    expect(await screen.findByRole("alert")).toHaveTextContent("errors:passwordRecovery.notRegistered");
+    expect(screen.queryByText("codeSent")).not.toBeInTheDocument();
   });
 
   it("código → nueva contraseña → canjea con correo, código y contraseña → /login", async () => {
