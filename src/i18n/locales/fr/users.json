@@ -1,15 +1,15 @@
 {
   "header": {
     "title": "Utilisateurs",
-    "membersCount_one": "{{count}} membre dans ce projet",
-    "membersCount_other": "{{count}} membres dans ce projet"
+    "membersCount_one": "{{count}} membre dans ce foyer",
+    "membersCount_other": "{{count}} membres dans ce foyer"
   },
   "roles": {
     "owner": "Responsable",
     "member": "Membre"
   },
   "members": {
-    "title": "Membres du projet",
+    "title": "Membres du foyer",
     "empty": "Aucun membre dans cette maison.",
     "onlyOwnerTitle": "Aucun autre utilisateur n'est lié pour l'instant",
     "onlyOwnerDescription": "Partagez le code d'accès du foyer pour que d'autres personnes le rejoignent."

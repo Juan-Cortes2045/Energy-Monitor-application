@@ -1,15 +1,15 @@
 {
   "header": {
     "title": "Users",
-    "membersCount_one": "{{count}} member in this project",
-    "membersCount_other": "{{count}} members in this project"
+    "membersCount_one": "{{count}} member in this home",
+    "membersCount_other": "{{count}} members in this home"
   },
   "roles": {
     "owner": "Owner",
     "member": "Member"
   },
   "members": {
-    "title": "Project members",
+    "title": "Home members",
     "empty": "No members in this home.",
     "onlyOwnerTitle": "No other users are linked yet",
     "onlyOwnerDescription": "Share the home's access code so other people can join."
