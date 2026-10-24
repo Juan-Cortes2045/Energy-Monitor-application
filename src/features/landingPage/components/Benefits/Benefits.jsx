@@ -39,8 +39,8 @@ const Benefits = () => {
 
       {/* BENEFICIOS */}
       <div className={styles.grid}>
-        {benefits.map((benefit, index) => (
-          <div key={index}>
+        {benefits.map((benefit) => (
+          <div key={benefit.title}>
             <Card
               style={{
                 maxWidth: "300px",
@@ -51,7 +51,7 @@ const Benefits = () => {
             >
               <div className={styles.cardContent}>
                 <div className={styles.icon}>{benefit.icon}</div>
-                <h4>{benefit.title}</h4>
+                <h3>{benefit.title}</h3>
                 <p>{benefit.description}</p>
               </div>
             </Card>

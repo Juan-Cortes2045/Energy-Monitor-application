@@ -6,9 +6,10 @@
   },
   "description": "Reduza custos, evite desperdícios e tome decisões inteligentes em sua casa.",
   "cta": "Começar agora",
+  "imageAlt": "Painel de monitoramento do consumo elétrico",
   "features": {
-    "noCost": "Sem custos iniciais ✔️",
-    "easy": "Fácil de usar ⚡",
-    "realtime": "Dados em tempo real 📊"
+    "noCost": "Sem custos iniciais",
+    "easy": "Fácil de usar",
+    "realtime": "Dados em tempo real"
   }
 }
