@@ -66,18 +66,16 @@
   },
   "contact": {
     "title": "Contact direct",
-    "whatsapp": {
-      "title": "WhatsApp",
-      "description": "Réponse en moins de 2 heures pendant les heures ouvrables.",
-      "button": "Écrire maintenant",
-      "prefilledMessage": "Bonjour, j'ai besoin d'aide avec EnergyMonitor."
-    },
     "email": {
       "title": "Email",
-      "description": "Envoyez-nous un message et nous répondrons sous 24 heures.",
+      "description": "Écrivez à l'équipe d'administration, nous répondons sous 24 heures.",
       "button": "Envoyer un message",
       "subject": "Support EnergyMonitor",
-      "body": "Bonjour,\n\nJ'ai besoin d'aide pour ce qui suit :\n\n- \n\nMerci."
+      "body": "Bonjour,\n\nJ'ai besoin d'aide pour ce qui suit :\n\n- \n\nMerci.",
+      "buttonTo": "Écrire à {{name}}",
+      "chooseLabel": "À qui voulez-vous écrire ?",
+      "loading": "Chargement des contacts…",
+      "unavailable": "Aucun administrateur n'est disponible pour recevoir des messages pour le moment. Réessayez plus tard."
     }
   }
 }
