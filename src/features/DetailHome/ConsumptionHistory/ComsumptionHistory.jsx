@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useId, useMemo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -9,6 +9,7 @@ import {
   YAxis,
   Tooltip,
   Bar,
+  LabelList,
 } from "recharts";
 
 import Card from "../../../design/components/Card/Card";
@@ -22,6 +23,24 @@ import styles from "./ConsumptionHistory.module.css";
 
 const FILTERS = ["day", "week", "month", "year"];
 
+// Card aplica su padding como estilo en línea; se fija aquí uno más compacto para
+// que el gráfico gane altura (el resto del estilo de la tarjeta va en el CSS module).
+const CARD_STYLE = { padding: "var(--spacing-md)" };
+
+// En escritorio todas las barras caben en el ancho disponible (31 días ≈ 20 px por
+// barra). Solo en móvil, con muchos puntos, el gráfico se desplaza en horizontal.
+const MOBILE_MAX_POINTS = 12;
+const MOBILE_SLOT_WIDTH = 24;
+
+// Tooltip de recharts con los colores del tema (sin esto queda blanco en modo oscuro).
+const TOOLTIP_STYLE = {
+  backgroundColor: "var(--color-surface)",
+  borderRadius: "var(--radius-md)",
+  border: "1px solid var(--color-border)",
+  color: "var(--color-text-primary)",
+  fontSize: 12,
+  fontFamily: "var(--font-primary)",
+};
 
 // Los puntos llegan del backend con claves neutras: day → hora local ("0".."23"),
 // week/month → "YYYY-MM-DD", year → "YYYY-MM". Las etiquetas se generan al
@@ -84,6 +103,8 @@ const SUBFILTERS_CONFIG = {
 
 const ConsumptionHistory = ({ homeId, devices }) => {
   const { t, i18n } = useTranslation("history");
+  const { t: tc } = useTranslation("common");
+  const rankingTitleId = useId();
   const { currentTheme } = useTheme();
 
   const [activeFilter, setActiveFilter] = useState("month");
@@ -164,7 +185,7 @@ const ConsumptionHistory = ({ homeId, devices }) => {
       name: t(`applianceTypes.${type}`, { ns: "devices" }),
       total: rows.reduce((sum, row) => sum + row[type], 0),
     }));
-  }, [rows, categoryTypes, t, i18n.language]);
+  }, [rows, categoryTypes, t]);
 
   const topConsumerType = useMemo(() => {
     if (!categoryTotals.length) return null;
@@ -178,10 +199,15 @@ const ConsumptionHistory = ({ homeId, devices }) => {
   const timeSeriesData = useMemo(() => {
     if (!selectedType) return [];
     const formatter = new Intl.DateTimeFormat(i18n.language, LABEL_OPTIONS[activeFilter]);
-    return rows.map((row) => ({
+    const series = rows.map((row) => ({
       label: formatter.format(keyToDate(row.key)),
       value: Number((row[selectedType] ?? 0).toFixed(3)),
+      peakLabel: null,
     }));
+    // Solo la barra más alta lleva su valor encima: da la escala sin llenar el gráfico de números.
+    const peak = series.reduce((best, point) => (point.value > (best?.value ?? 0) ? point : best), null);
+    if (peak) peak.peakLabel = Number(peak.value.toFixed(2));
+    return series;
   }, [rows, selectedType, activeFilter, i18n.language]);
 
   // Encabezado: mes/año se calculan del primer y último punto del periodo;
@@ -199,6 +225,7 @@ const ConsumptionHistory = ({ homeId, devices }) => {
     return [...categoryTotals]
       .sort((a, b) => b.total - a.total)
       .map((entry) => ({
+        type: entry.type,
         nombre: entry.name,
         total: entry.total,
         color: getDeviceColor(entry.type, currentTheme.mode),
@@ -210,26 +237,34 @@ const ConsumptionHistory = ({ homeId, devices }) => {
   // Comparación con el periodo anterior completo (ayer, los 7 días previos, el mes
   // o el año pasado). Solo tiene sentido sobre el periodo entero, sin subfiltro.
   const previousTotal = history?.period === activeFilter ? history.previousTotal : null;
-  const comparison =
-    activeSubFilter || previousTotal == null
-      ? null
-      : previousTotal === 0
-        ? t("stats.noPrevious")
-        : (() => {
-            const pct = Math.round(((totalPeriodo - previousTotal) / previousTotal) * 100);
-            return t("stats.vsPrevious", { sign: pct > 0 ? "↑" : pct < 0 ? "↓" : "=", pct: Math.abs(pct) });
-          })();
+  // trend: "up" (consume más, en rojo), "down" (consume menos, en verde) o null (neutro).
+  const comparison = (() => {
+    if (activeSubFilter) return { text: t("stats.intervalOnly"), trend: null };
+    if (previousTotal == null) return null;
+    if (previousTotal === 0) return { text: t("stats.noPrevious"), trend: null };
+    const pct = Math.round(((totalPeriodo - previousTotal) / previousTotal) * 100);
+    return {
+      text: t("stats.vsPrevious", { sign: pct > 0 ? "↑" : pct < 0 ? "↓" : "=", pct: Math.abs(pct) }),
+      trend: pct > 0 ? "up" : pct < 0 ? "down" : null,
+    };
+  })();
 
-  const needsScroll = timeSeriesData.length > 8;
+  const chartTitle = t(`chart.title.${activeFilter}`);
+  const subFilters = SUBFILTERS_CONFIG[activeFilter];
+  const needsScroll = isMobile && timeSeriesData.length > MOBILE_MAX_POINTS;
+  // El periodo pedido aún no llega (o llega el de otro filtro): se muestra "cargando", no "sin datos".
+  const loadingHistory = !historyError && history?.period !== activeFilter;
 
   return (
     <div className={styles.page}>
-      {/* Filtros principales */}
-      <div className={styles.topBar}>
-        <div className={styles.filters}>
+      {/* Barra de filtros: periodo + intervalo en una sola fila */}
+      <div className={styles.toolbar}>
+        <div className={styles.segmented} role="group" aria-label={t("filters.label")}>
           {FILTERS.map((filter) => (
             <button
               key={filter}
+              type="button"
+              aria-pressed={activeFilter === filter}
               onClick={() => selectFilter(filter)}
               className={activeFilter === filter ? styles.active : ""}
             >
@@ -237,173 +272,222 @@ const ConsumptionHistory = ({ homeId, devices }) => {
             </button>
           ))}
         </div>
-        <p className={styles.date}>{dateRangeText}</p>
-      </div>
 
-      {SUBFILTERS_CONFIG[activeFilter] && (
-      <div className={styles.subFilters}>
-        {SUBFILTERS_CONFIG[activeFilter].map((sf) => (
-          <button
-            key={sf.key}
-            onClick={() => selectSubFilter(sf.key)}
-            className={activeSubFilter === sf.key ? styles.subActive : ""}
+        {subFilters && (
+          <div
+            className={`${styles.segmented} ${styles.subSegmented}`}
+            role="group"
+            aria-label={t("subfilters.label")}
           >
-            {t(`subfilters.${activeFilter}.${sf.key}`)}
-          </button>
-        ))}
-        {activeSubFilter && (
-          <button
-            onClick={() => selectSubFilter(null)}
-            className={styles.clearSubFilter}
-          >
-            {t("subfilters.showAll")}
-          </button>
+            {/* "Todo" siempre visible: cambiar de intervalo no mueve los botones. */}
+            <button
+              type="button"
+              aria-pressed={activeSubFilter === null}
+              onClick={() => selectSubFilter(null)}
+              className={activeSubFilter === null ? styles.subActive : ""}
+            >
+              {t("subfilters.showAll")}
+            </button>
+            {subFilters.map((sf) => (
+              <button
+                key={sf.key}
+                type="button"
+                aria-pressed={activeSubFilter === sf.key}
+                onClick={() => selectSubFilter(sf.key)}
+                className={activeSubFilter === sf.key ? styles.subActive : ""}
+              >
+                {t(`subfilters.${activeFilter}.${sf.key}`)}
+              </button>
+            ))}
+          </div>
         )}
       </div>
-    )}
 
-      {/* Gráfico */}
-      <Card className={styles.chartCard}>
-        <div className={styles.chartBlock}>
-          <p className={styles.title}>{t("chart.title")}</p>
-
-          {categoryTypes.length > 0 && (
-            <div className={styles.deviceSelector}>
-              {categoryTypes.map((type) => (
-                <button
-                  key={type}
-                  onClick={() => setManualSelectedType(type)}
-                  className={selectedType === type ? styles.deviceActive : ""}
-                >
-                  <span
-                    className={styles.deviceDot}
-                    style={{ background: getDeviceColor(type, currentTheme.mode) }}
-                  />
-                  {t(`applianceTypes.${type}`, { ns: "devices" })}
-                </button>
-              ))}
-            </div>
-          )}
-
-          {historyError ? (
-            <ErrorState error={historyError} onRetry={() => setAttempt((n) => n + 1)} />
-          ) : timeSeriesData.length === 0 ? (
-            <EmptyChart mensaje={t(devices.length ? "chart.noData" : "chart.empty")} />
-          ) : (
-            <div
-              className={styles.chartWrapper}
-              style={{ overflowX: needsScroll ? "auto" : "hidden" }}
-            >
-              <div
-                className={styles.chartInner}
-                style={{
-                  minWidth: needsScroll ? `${timeSeriesData.length * 55}px` : "100%",
-                }}
-              >
-                <ResponsiveContainer width="100%" height={isMobile ? 300 : 440}>
-                  <BarChart data={timeSeriesData}>
-                    <CartesianGrid
-                      strokeDasharray="3 3"
-                      vertical={false}
-                      stroke="var(--color-border)"
-                    />
-                    <XAxis
-                      dataKey="label"
-                      tick={{ fontSize: 11, fill: "var(--color-text-secondary)" }}
-                      axisLine={false}
-                      tickLine={false}
-                    />
-                    <YAxis
-                      tick={{ fontSize: 11, fill: "var(--color-text-secondary)" }}
-                      axisLine={false}
-                      tickLine={false}
-                      unit=" kWh"
-                    />
-                    <Tooltip
-                      contentStyle={{
-                        borderRadius: "var(--radius-md)",
-                        border: "1px solid var(--color-border)",
-                        fontSize: 12,
-                        fontFamily: "var(--font-primary)",
-                      }}
-                    />
-                    <Bar
-                      dataKey="value"
-                      fill={getDeviceColor(selectedType, currentTheme.mode)}
-                      radius={[4, 4, 0, 0]}
-                      maxBarSize={isMobile ? 18 : 28}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
+      <div className={styles.layout}>
+        {/* Gráfico: primero en el DOM y en pantalla */}
+        <Card className={styles.chartCard} style={CARD_STYLE}>
+          <div className={styles.chartBlock}>
+            <div className={styles.chartHeader}>
+              <div className={styles.chartHeading}>
+                <h2 className={styles.title}>{chartTitle}</h2>
+                <p className={styles.date}>{dateRangeText}</p>
               </div>
-            </div>
-          )}
-        </div>
-      </Card>
 
-      {/* Ranking + Stats */}
-      {categoryTotals.length > 0 && (
-      <div className={styles.bottom}>
-        <Card className={styles.rankingCard}>
-          <div className={styles.ranking}>
-            <p className={styles.title}>{t("ranking.title")}</p>
-            <div className={styles.table}>
-              <div className={styles.tableHeader}>
-                <span>#</span>
-                <span>{t("ranking.headers.device")}</span>
-                <span>{t("ranking.headers.total")}</span>
-                <span>{t("ranking.headers.percentage")}</span>
-              </div>
-              {rankingData.map((item, index) => {
-                const pct = totalPeriodo
-                  ? ((item.total / totalPeriodo) * 100).toFixed(1)
-                  : "0.0";
-                return (
-                  <div key={item.nombre} className={styles.row}>
-                    <span>{index + 1}</span>
-                    <span>{item.nombre}</span>
-                    <span>{item.total.toFixed(2)} kWh</span>
-                    <div className={styles.percent}>
-                      <div
-                        className={styles.bar}
-                        style={{ width: `${pct}%`, background: item.color }}
+              {categoryTypes.length > 0 && (
+                <div className={styles.deviceSelector} role="group" aria-label={t("chart.deviceLabel")}>
+                  {categoryTypes.map((type) => (
+                    <button
+                      key={type}
+                      type="button"
+                      aria-pressed={selectedType === type}
+                      onClick={() => setManualSelectedType(type)}
+                      className={selectedType === type ? styles.deviceActive : ""}
+                    >
+                      <span
+                        aria-hidden="true"
+                        className={styles.deviceDot}
+                        style={{ background: getDeviceColor(type, currentTheme.mode) }}
                       />
-                      <span>{pct}%</span>
-                    </div>
+                      {t(`applianceTypes.${type}`, { ns: "devices" })}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Misma altura en carga, vacío, error y gráfico: no hay saltos de diseño. */}
+            <div className={styles.chartArea}>
+              {historyError ? (
+                <ErrorState error={historyError} onRetry={() => setAttempt((n) => n + 1)} />
+              ) : loadingHistory ? (
+                <p className={styles.loading} role="status">{tc("loading")}</p>
+              ) : timeSeriesData.length === 0 ? (
+                <EmptyChart mensaje={t(devices.length ? "chart.noData" : "chart.empty")} />
+              ) : (
+                <div
+                  className={styles.chartWrapper}
+                  style={{ overflowX: needsScroll ? "auto" : "hidden" }}
+                  // Con desplazamiento horizontal el área debe poder enfocarse para moverla con el teclado.
+                  tabIndex={needsScroll ? 0 : undefined}
+                  role={needsScroll ? "region" : undefined}
+                  aria-label={needsScroll ? chartTitle : undefined}
+                >
+                  <div
+                    className={styles.chartInner}
+                    style={{
+                      minWidth: needsScroll ? `${timeSeriesData.length * MOBILE_SLOT_WIDTH}px` : "100%",
+                    }}
+                  >
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart
+                        data={timeSeriesData}
+                        margin={{ top: 20, right: 4, bottom: 0, left: 0 }}
+                        barCategoryGap="24%"
+                      >
+                        <CartesianGrid vertical={false} stroke="var(--color-border)" />
+                        <XAxis
+                          dataKey="label"
+                          tick={{ fontSize: 11, fill: "var(--color-text-secondary)" }}
+                          axisLine={{ stroke: "var(--color-border)" }}
+                          tickLine={false}
+                          tickMargin={6}
+                          height={24}
+                          interval="preserveStartEnd"
+                          minTickGap={6}
+                        />
+                        <YAxis
+                          tick={{ fontSize: 11, fill: "var(--color-text-secondary)" }}
+                          axisLine={false}
+                          tickLine={false}
+                          tickCount={5}
+                          width={64}
+                          unit=" kWh"
+                        />
+                        <Tooltip
+                          formatter={(v) => [`${v} kWh`, t(`applianceTypes.${selectedType}`, { ns: "devices" })]}
+                          contentStyle={TOOLTIP_STYLE}
+                          labelStyle={{ color: "var(--color-text-primary)" }}
+                          itemStyle={{ color: "var(--color-text-primary)" }}
+                          cursor={{ fill: "var(--color-border)", opacity: 0.4 }}
+                        />
+                        <Bar
+                          dataKey="value"
+                          fill={getDeviceColor(selectedType, currentTheme.mode)}
+                          radius={[4, 4, 0, 0]}
+                          maxBarSize={isMobile ? 20 : 32}
+                          // Sin animación de entrada (y nada que respetar en prefers-reduced-motion).
+                          isAnimationActive={false}
+                        >
+                          <LabelList
+                            dataKey="peakLabel"
+                            position="top"
+                            fill="var(--color-text-primary)"
+                            fontSize={11}
+                            fontWeight={600}
+                          />
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
                   </div>
-                );
-              })}
+                </div>
+              )}
             </div>
           </div>
         </Card>
 
-        <div className={styles.stats}>
-          <Card className={styles.statCard}>
-            <div className={styles.stat}>
-              <p>{t("stats.totalConsumption")}</p>
-              <h3>{totalPeriodo.toFixed(2)} kWh</h3>
-              <span>{comparison ?? t("stats.periodTotal")}</span>
+        {/* Resumen del periodo: totales + ranking, al lado del gráfico en pantallas anchas */}
+        {categoryTotals.length > 0 && (
+          <Card className={styles.summaryCard} style={CARD_STYLE}>
+            <div className={styles.summary}>
+              <h2 className={styles.title}>{t("summary.title")}</h2>
+
+              <div className={styles.summaryBody}>
+                <dl className={styles.stats}>
+                  <div className={styles.statMain}>
+                    <dt>{t("stats.totalConsumption")}</dt>
+                    <dd className={styles.statValue}>{totalPeriodo.toFixed(2)} kWh</dd>
+                    {comparison && (
+                      <dd
+                        className={`${styles.statNote} ${
+                          comparison.trend === "up"
+                            ? styles.trendUp
+                            : comparison.trend === "down"
+                              ? styles.trendDown
+                              : ""
+                        }`}
+                      >
+                        {comparison.text}
+                      </dd>
+                    )}
+                  </div>
+                  <div className={styles.stat}>
+                    <dt>{t("stats.periodAverage")}</dt>
+                    <dd>{(totalPeriodo / (categoryTotals.length || 1)).toFixed(2)} kWh</dd>
+                  </div>
+                  <div className={styles.stat}>
+                    <dt>{t("stats.topConsumer")}</dt>
+                    <dd>{rankingData[0]?.nombre}</dd>
+                  </div>
+                </dl>
+
+                <div className={styles.ranking}>
+                  <h3 className={styles.subtitle} id={rankingTitleId}>{t("ranking.title")}</h3>
+                  <div className={styles.table} role="table" aria-labelledby={rankingTitleId}>
+                    {/* Encabezados solo para lectores de pantalla: las celdas ya llevan kWh y %. */}
+                    <div className={`${styles.row} ${styles.visuallyHidden}`} role="row">
+                      <span role="columnheader">{t("ranking.headers.position")}</span>
+                      <span role="columnheader">{t("ranking.headers.device")}</span>
+                      <span role="columnheader">{t("ranking.headers.total")}</span>
+                      <span role="columnheader">{t("ranking.headers.percentage")}</span>
+                    </div>
+                    {rankingData.map((item, index) => {
+                      const pct = totalPeriodo
+                        ? ((item.total / totalPeriodo) * 100).toFixed(1)
+                        : "0.0";
+                      return (
+                        <div key={item.type} className={styles.row} role="row">
+                          <span role="cell" className={styles.position}>{index + 1}</span>
+                          <span role="cell" className={styles.name}>{item.nombre}</span>
+                          <span role="cell" className={styles.total}>{item.total.toFixed(2)} kWh</span>
+                          <div className={styles.percent} role="cell">
+                            <div className={styles.track} aria-hidden="true">
+                              <div
+                                className={styles.bar}
+                                style={{ width: `${pct}%`, background: item.color }}
+                              />
+                            </div>
+                            <span>{pct}%</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
             </div>
           </Card>
-          <Card className={styles.statCard}>
-            <div className={styles.stat}>
-              <p>{t("stats.average")}</p>
-              <h3>
-                {(totalPeriodo / (categoryTotals.length || 1)).toFixed(2)} kWh
-              </h3>
-              <span>{t("stats.periodAverage")}</span>
-            </div>
-          </Card>
-          <Card className={styles.statCard}>
-            <div className={styles.stat}>
-              <p>{t("stats.topConsumer")}</p>
-              <h3>{rankingData[0]?.nombre}</h3>
-              <span>{rankingData[0]?.total.toFixed(2)} kWh</span>
-            </div>
-          </Card>
-        </div>
+        )}
       </div>
-      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { X, Check } from "lucide-react";
 
@@ -7,6 +7,7 @@ import Input from "../../../../design/components/Input/Input";
 import { APPLIANCE_ICON, ROOM_KEYS, uiApplianceType } from "../../shared/deviceTypes";
 import { deviceApi } from "../../../../services/devices";
 import { errorMessage } from "../../../../services/http";
+import { useDialogA11y } from "../../../../hooks/useDialogA11y";
 // Mismo aspecto que el asistente de vinculación.
 import styles from "../LinkDeviceModal/LinkDeviceModal.module.css";
 
@@ -17,6 +18,10 @@ import styles from "../LinkDeviceModal/LinkDeviceModal.module.css";
 const EditDeviceModal = ({ homeId, device, onClose, onSaved }) => {
   const { t } = useTranslation("linkDeviceModal");
   const { t: tDevices } = useTranslation("devices");
+  const { t: tc } = useTranslation("common");
+  const titleId = useId();
+  const dialogRef = useDialogA11y(onClose);
+  const [loadingTypes, setLoadingTypes] = useState(true);
   const [applianceTypes, setApplianceTypes] = useState([]);
   const [applianceTypeId, setApplianceTypeId] = useState(device.applianceTypeId);
   const [name, setName] = useState(device.name ?? "");
@@ -34,7 +39,8 @@ const EditDeviceModal = ({ homeId, device, onClose, onSaved }) => {
         if (cancelled) return;
         setApplianceTypes(list.map((a) => ({ id: a.idApplianceType, uiType: uiApplianceType(a.name) })));
       })
-      .catch((err) => !cancelled && setError(errorMessage(t, err)));
+      .catch((err) => !cancelled && setError(errorMessage(t, err)))
+      .finally(() => !cancelled && setLoadingTypes(false));
     return () => {
       cancelled = true;
     };
@@ -63,11 +69,20 @@ const EditDeviceModal = ({ homeId, device, onClose, onSaved }) => {
   };
 
   return (
-    <div className={styles.overlay} onClick={handleOverlayClick} role="dialog" aria-modal="true">
-      <div className={styles.modal}>
+    <div className={styles.overlay} onClick={handleOverlayClick}>
+      <div
+        className={styles.modal}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        ref={dialogRef}
+      >
         <div className={styles.header}>
-          <h2 className={styles.title}>{t("edit.title")}</h2>
-          <button className={styles.closeBtn} onClick={onClose} aria-label={t("close")}>
+          <h2 className={styles.title} id={titleId}>
+            {t("edit.title")}
+          </h2>
+          <button type="button" className={styles.closeBtn} onClick={onClose} aria-label={t("close")}>
             <X size={16} />
           </button>
         </div>
@@ -77,6 +92,11 @@ const EditDeviceModal = ({ homeId, device, onClose, onSaved }) => {
             <p className={styles.stepTitle}>{t("appliance.title")}</p>
             <p className={styles.hint}>{t("edit.hint")}</p>
 
+            {loadingTypes && (
+              <p className={styles.hint} role="status">
+                {tc("loading")}
+              </p>
+            )}
             <div className={styles.applianceGrid}>
               {applianceTypes.map((appliance) => {
                 const Icon = APPLIANCE_ICON[appliance.uiType];
@@ -85,6 +105,7 @@ const EditDeviceModal = ({ homeId, device, onClose, onSaved }) => {
                   <button
                     type="button"
                     key={appliance.id}
+                    aria-pressed={isSelected}
                     className={`${styles.applianceOption} ${isSelected ? styles.applianceOptionSelected : ""}`}
                     onClick={() => setApplianceTypeId(appliance.id)}
                   >
@@ -143,7 +164,12 @@ const EditDeviceModal = ({ homeId, device, onClose, onSaved }) => {
           <Button variant="secondary" onClick={onClose}>
             {t("buttons.cancel")}
           </Button>
-          <Button variant="primary" onClick={handleSave} disabled={saving || !applianceTypeId || !name.trim()}>
+          <Button
+            variant="primary"
+            onClick={handleSave}
+            disabled={saving || !applianceTypeId || !name.trim()}
+            aria-busy={saving}
+          >
             {t("edit.save")}
           </Button>
         </div>

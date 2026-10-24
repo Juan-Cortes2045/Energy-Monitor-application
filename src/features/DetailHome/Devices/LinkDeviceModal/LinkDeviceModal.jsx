@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   X,
@@ -26,6 +26,7 @@ import {
   signalPercent,
 } from "../../../../services/devices";
 import { errorMessage } from "../../../../services/http";
+import { useDialogA11y } from "../../../../hooks/useDialogA11y";
 import styles from "./LinkDeviceModal.module.css";
 
 const LINK_STEPS = ["discover", "appliance", "network", "connecting", "done"];
@@ -42,8 +43,9 @@ const PROGRESS = {
   mqtt_ok: 3,
 };
 
-const StepDots = ({ steps, current }) => (
-  <div className={styles.stepDots}>
+// Los puntos son visuales; el lector de pantalla oye "Paso X de Y".
+const StepDots = ({ steps, current, label }) => (
+  <div className={styles.stepDots} role="img" aria-label={label}>
     {steps.map((step, i) => (
       <span
         key={step}
@@ -73,6 +75,10 @@ const LinkDeviceModal = ({ homeId, device = null, onClose, onLinked }) => {
   const reconnect = !!device;
   const steps = reconnect ? RECONNECT_STEPS : LINK_STEPS;
   const { t: tDevices } = useTranslation("devices");
+  const { t: tc } = useTranslation("common");
+  const titleId = useId();
+  const errorId = useId();
+  const dialogRef = useDialogA11y(onClose);
   const supported = isBluetoothSupported();
   const linuxFlag = needsLinuxBluetoothFlag();
 
@@ -85,6 +91,7 @@ const LinkDeviceModal = ({ homeId, device = null, onClose, onLinked }) => {
   const [connectingBle, setConnectingBle] = useState(false);
 
   // Paso 2: electrodoméstico
+  const [loadingTypes, setLoadingTypes] = useState(true);
   const [applianceTypes, setApplianceTypes] = useState([]);
   const [selectedAppliance, setSelectedAppliance] = useState(null);
   const [deviceName, setDeviceName] = useState("");
@@ -113,7 +120,8 @@ const LinkDeviceModal = ({ homeId, device = null, onClose, onLinked }) => {
           list.map((a) => ({ id: a.idApplianceType, uiType: uiApplianceType(a.name) })),
         );
       })
-      .catch((err) => !cancelled && setError(errorMessage(t, err)));
+      .catch((err) => !cancelled && setError(errorMessage(t, err)))
+      .finally(() => !cancelled && setLoadingTypes(false));
     return () => {
       cancelled = true;
     };
@@ -154,7 +162,19 @@ const LinkDeviceModal = ({ homeId, device = null, onClose, onLinked }) => {
     setScanning(true);
     setError("");
     try {
-      const list = await sessionRef.current.scanNetworks();
+      const found = await sessionRef.current.scanNetworks();
+      // Una red con varios puntos de acceso (malla, repetidor) llega repetida: se deja una sola,
+      // la de mejor señal, para no repetir la key de React ni confundir al usuario. Las ocultas
+      // (sin nombre) se escriben a mano.
+      const best = new Map();
+      found
+        .filter((n) => n.ssid)
+        .forEach((n) => {
+          if (!best.has(n.ssid) || (n.rssi ?? -Infinity) > (best.get(n.ssid).rssi ?? -Infinity)) {
+            best.set(n.ssid, n);
+          }
+        });
+      const list = [...best.values()];
       setNetworks(list);
       if (list.length === 0) setManual(true);
     } catch {
@@ -221,6 +241,9 @@ const LinkDeviceModal = ({ homeId, device = null, onClose, onLinked }) => {
       });
       const status = await result;
       if (status === "mqtt_ok") {
+        // La contraseña del Wi-Fi ya está en el módulo: no se guarda en memoria más tiempo.
+        setPassword("");
+        setShowPassword(false);
         setProgress(PROGRESS.mqtt_ok);
         setStep("done");
         return;
@@ -254,16 +277,27 @@ const LinkDeviceModal = ({ homeId, device = null, onClose, onLinked }) => {
   const connectingFailed = step === "connecting" && !!error;
 
   return (
-    <div className={styles.overlay} onClick={handleOverlayClick} role="dialog" aria-modal="true">
-      <div className={styles.modal}>
+    <div className={styles.overlay} onClick={handleOverlayClick}>
+      <div
+        className={styles.modal}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        ref={dialogRef}
+      >
         <div className={styles.header}>
           <div>
-            <h2 className={styles.title}>
+            <h2 className={styles.title} id={titleId}>
               {reconnect ? t("reconnect.title", { name: device.name }) : t("title")}
             </h2>
-            <StepDots steps={steps} current={step} />
+            <StepDots
+              steps={steps}
+              current={step}
+              label={t("stepProgress", { current: steps.indexOf(step) + 1, total: steps.length })}
+            />
           </div>
-          <button className={styles.closeBtn} onClick={onClose} aria-label={t("close")}>
+          <button type="button" className={styles.closeBtn} onClick={onClose} aria-label={t("close")}>
             <X size={16} />
           </button>
         </div>
@@ -276,7 +310,7 @@ const LinkDeviceModal = ({ homeId, device = null, onClose, onLinked }) => {
               {!supported ? (
                 <div className={styles.hint} role="alert">
                   <p>
-                    <AlertTriangle size={14} />{" "}
+                    <AlertTriangle size={14} aria-hidden="true" />{" "}
                     {linuxFlag ? t("discover.linuxFlag") : t("discover.unsupported")}
                   </p>
                   {linuxFlag && (
@@ -306,7 +340,7 @@ const LinkDeviceModal = ({ homeId, device = null, onClose, onLinked }) => {
                     </>
                   ) : (
                     connectingBle && (
-                      <div className={styles.scanningBox}>
+                      <div className={styles.scanningBox} role="status">
                         <span className={styles.pulseWrap}>
                           <span className={styles.pulseRing} />
                           <Bluetooth size={22} className={styles.scanIcon} />
@@ -335,6 +369,11 @@ const LinkDeviceModal = ({ homeId, device = null, onClose, onLinked }) => {
               <p className={styles.stepTitle}>{t("appliance.title")}</p>
               <p className={styles.hint}>{t("appliance.hint")}</p>
 
+              {loadingTypes && (
+                <p className={styles.hint} role="status">
+                  {tc("loading")}
+                </p>
+              )}
               <div className={styles.applianceGrid}>
                 {applianceTypes.map((appliance) => {
                   const Icon = APPLIANCE_ICON[appliance.uiType];
@@ -343,6 +382,7 @@ const LinkDeviceModal = ({ homeId, device = null, onClose, onLinked }) => {
                     <button
                       type="button"
                       key={appliance.id}
+                      aria-pressed={isSelected}
                       className={`${styles.applianceOption} ${
                         isSelected ? styles.applianceOptionSelected : ""
                       }`}
@@ -404,7 +444,7 @@ const LinkDeviceModal = ({ homeId, device = null, onClose, onLinked }) => {
               <p className={styles.hint}>{t("network.subtitle")}</p>
 
               {scanning ? (
-                <div className={styles.scanningBox}>
+                <div className={styles.scanningBox} role="status">
                   <span className={styles.pulseWrap}>
                     <span className={styles.pulseRing} />
                     <Wifi size={22} className={styles.scanIcon} />
@@ -421,6 +461,7 @@ const LinkDeviceModal = ({ homeId, device = null, onClose, onLinked }) => {
                           <button
                             type="button"
                             key={network.ssid}
+                            aria-pressed={isSelected}
                             className={`${styles.networkOption} ${
                               isSelected ? styles.deviceOptionSelected : ""
                             }`}
@@ -432,7 +473,12 @@ const LinkDeviceModal = ({ homeId, device = null, onClose, onLinked }) => {
                             <SignalBars signal={signalPercent(network.rssi)} />
                             <span className={styles.networkName}>{network.ssid}</span>
                             {network.secured ? (
-                              <Lock size={13} className={styles.lockIcon} />
+                              <Lock
+                                size={13}
+                                className={styles.lockIcon}
+                                aria-label={t("network.secured")}
+                                role="img"
+                              />
                             ) : (
                               <span className={styles.openTag}>{t("network.open")}</span>
                             )}
@@ -487,6 +533,11 @@ const LinkDeviceModal = ({ homeId, device = null, onClose, onLinked }) => {
                     }}
                     icon={showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                     onIconClick={() => setShowPassword((v) => !v)}
+                    iconLabel={tc(showPassword ? "hidePassword" : "showPassword")}
+                    // Es la clave del Wi-Fi, no la de esta cuenta: que el navegador no la guarde ni la autocomplete.
+                    autoComplete="off"
+                    maxLength={63}
+                    aria-describedby={error ? errorId : undefined}
                   >
                     {t("network.passwordLabel")}
                   </Input>
@@ -506,7 +557,7 @@ const LinkDeviceModal = ({ homeId, device = null, onClose, onLinked }) => {
                 )}
                 <p className={styles.stepTitle}>{t("connecting.title")}</p>
 
-                <ul className={styles.connectingList}>
+                <ul className={styles.connectingList} aria-live="polite">
                   {[
                     reconnect ? t("reconnect.step0") : t("connecting.step0"),
                     t("connecting.step1", { ssid }),
@@ -539,7 +590,7 @@ const LinkDeviceModal = ({ homeId, device = null, onClose, onLinked }) => {
           )}
 
           {error && (
-            <span className={styles.errorMsg} role="alert">
+            <span className={styles.errorMsg} role="alert" id={errorId}>
               {error}
             </span>
           )}

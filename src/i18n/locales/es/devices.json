@@ -37,7 +37,7 @@
     "title": "Aún no tienes dispositivos vinculados",
     "subtitle": "Instala tu primer módulo dentro del tomacorriente de un electrodoméstico para empezar a monitorear su consumo",
     "cta": "Vincular dispositivo",
-    "subtitleReadOnly": "El responsable del proyecto aún no ha vinculado dispositivos."
+    "subtitleReadOnly": "El responsable del hogar aún no ha vinculado dispositivos."
   },
   "confirmDelete": {
     "title": "¿Eliminar dispositivo?",

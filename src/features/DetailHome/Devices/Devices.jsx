@@ -158,7 +158,7 @@ const Devices = ({
       </div>
 
       {removeError && (
-        <p className={styles.sectionSub} role="alert">
+        <p className={styles.errorMsg} role="alert">
           {errorMessage(t, removeError, "deviceUnlink")}
         </p>
       )}

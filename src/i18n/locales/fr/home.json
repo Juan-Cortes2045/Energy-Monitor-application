@@ -21,7 +21,8 @@
   },
   "buttons": {
     "copy": "Copier le code d'accès",
-    "deleteHome": "Supprimer le foyer",
+    "copied": "Code copié",
+    "deleteHome": "Supprimer la maison",
     "leaveHome": "Quitter la maison",
     "leaving": "Départ...",
     "deleting": "Suppression..."

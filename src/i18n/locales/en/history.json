@@ -1,5 +1,6 @@
 {
   "filters": {
+    "label": "Period",
     "day": "Day",
     "week": "Week",
     "month": "Month",
@@ -10,30 +11,39 @@
     "week": "Last 7 days"
   },
   "chart": {
-    "title": "CONSUMPTION DISTRIBUTION BY DEVICE",
+    "title": {
+      "day": "Hourly consumption",
+      "week": "Daily consumption",
+      "month": "Daily consumption",
+      "year": "Monthly consumption"
+    },
     "empty": "Link a device to see its consumption history",
-    "noData": "No measurements in this period yet"
+    "noData": "No measurements in this period yet",
+    "deviceLabel": "Device type"
+  },
+  "summary": {
+    "title": "Period summary"
+  },
+  "stats": {
+    "totalConsumption": "Total consumption",
+    "topConsumer": "Top consumer",
+    "vsPrevious": "{{sign}} {{pct}}% vs previous period",
+    "periodAverage": "Average per device type",
+    "noPrevious": "No data for the previous period",
+    "intervalOnly": "Selected range only"
   },
   "ranking": {
-    "title": "CONSUMPTION RANKING",
+    "title": "Consumption ranking",
     "headers": {
       "position": "#",
-      "device": "DEVICE",
-      "total": "TOTAL",
+      "device": "Device",
+      "total": "Total",
       "percentage": "%"
     }
   },
-  "stats": {
-    "totalConsumption": "TOTAL CONSUMPTION PERIOD",
-    "average": "AVERAGE",
-    "topConsumer": "TOP CONSUMER",
-    "vsPrevious": "{{sign}} {{pct}}% vs previous period",
-    "periodAverage": "Period average",
-    "noPrevious": "No data for the previous period",
-    "periodTotal": "Period total"
-  },
   "subfilters": {
-    "showAll": "Show all",
+    "label": "Range",
+    "showAll": "All",
     "day": {
       "0-6": "0h - 6h",
       "6-12": "6h - 12h",
