@@ -13,7 +13,7 @@ const HomeNotFound = () => {
 
   return (
     <div className={styles.notFound}>
-      <Home size={40} className={styles.icon} />
+      <Home size={40} className={styles.icon} aria-hidden="true" />
       <h1 className={styles.title}>{t("title")}</h1>
       <p className={styles.description}>{t("description")}</p>
       <Button variant="primary" onClick={() => navigate("/dashboard")}>
