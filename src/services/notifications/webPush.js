@@ -64,13 +64,17 @@ export async function subscribeThisBrowser() {
   return "subscribed";
 }
 
-/** Da de baja este navegador (en el backend y en el navegador). */
-export async function unsubscribeThisBrowser() {
+/**
+ * Da de baja este navegador (en el backend y en el navegador). La baja del navegador ocurre
+ * aunque falle la del backend: este navegador deja de recibir avisos igualmente.
+ * @param {object} [config] opciones de axios para la llamada al backend
+ */
+export async function unsubscribeThisBrowser(config) {
   if (!isPushSupported()) return;
   const reg = await navigator.serviceWorker.getRegistration("/sw.js");
   const subscription = await reg?.pushManager.getSubscription();
   if (!subscription) return;
-  await removePushSubscription(subscription.endpoint).catch(() => {});
+  await removePushSubscription(subscription.endpoint, config).catch(() => {});
   await subscription.unsubscribe();
 }
 

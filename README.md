@@ -11,13 +11,12 @@ Analisis y desarrollo de software(ADSO)
 
 ## Integración con el backend
 
-1. Levanta los servicios: el servicio de seguridad (`:8082`), energy-monitor-backend (`:8083`) y delante el API gateway (`http://localhost:8080`, ver su README). La web solo habla con el gateway.
-2. En el `.env` del gateway, define `SECURITY_CORS_ALLOWED_ORIGINS` con el origen de Vite, por ejemplo `http://localhost:5173`. Sin esto el navegador bloquea las peticiones. El gateway ya expone `Retry-After`, así que el frontend lee la espera exacta del límite de intentos.
-3. Con la pila completa de Docker (`infra`) no hace falta: el nginx de la imagen sirve la web y reenvía `/api/` al gateway (mismo origen, sin CORS).
-4. Copia `.env.example` a `.env.local` si el gateway no está en el puerto por defecto (`VITE_API_BASE_URL`).
+1. Levanta los servicios: el servicio de seguridad (`:8082`), energy-monitor-backend (`:8083`), el de dispositivos (`:8084`) y delante el API gateway (`http://localhost:8080`, ver su README). La web solo habla con el gateway.
+2. La web llama siempre a `/api` en su propio origen: en desarrollo el servidor de Vite lo reenvía al gateway (`vite.config.js`) y en la pila de Docker lo hace nginx. Así no hace falta CORS y las cookies de la sesión funcionan igual en los dos modos.
+3. Copia `.env.example` a `.env.local` si el gateway no está en `http://localhost:8080` (`VITE_DEV_API_TARGET`).
    Para el botón "Continuar con Google" pon en `.env.local` `VITE_GOOGLE_CLIENT_ID` (el mismo ID de cliente que `GOOGLE_CLIENT_ID` del servicio de seguridad; ver su README, "Sign in with Google"). Sin él, el botón no se muestra.
-5. `npm install && npm run dev` → `http://localhost:5173`.
-6. Comprobación: `npm test` y `npm run build`.
+4. `npm install && npm run dev` → `http://localhost:5173`.
+5. Comprobación: `npm test` y `npm run build`.
 
 ## Vincular dispositivos (Bluetooth)
 
@@ -52,4 +51,4 @@ Todo lo que se ve sale del backend salvo las **recomendaciones** de la página d
 
 **Recuperar contraseña en local:** el backend envía el código por correo; con Mailpit (ver README del backend) los mensajes se ven en http://localhost:8025.
 
-**Tokens:** el access y el refresh token se guardan en `localStorage`. Es una limitación conocida: cualquier XSS podría leerlos.
+**Sesión:** los tokens nunca pasan por el código de la web. El servicio de seguridad los entrega en cookies HttpOnly (`X-Session-Transport: cookie`) que ningún script puede leer, así que un XSS no puede robar la sesión. `localStorage` solo guarda la cuenta, el perfil, los permisos y el id de la sesión. Toda petición lleva `X-Requested-With: XMLHttpRequest`, sin la cual el gateway no usa la cookie (protección CSRF). Al vencer el access token, `httpClient` renueva la sesión con la cookie de refresh (una sola vez a la vez, también entre pestañas). Al cerrar sesión se da de baja el push de este navegador y el backend borra las cookies.

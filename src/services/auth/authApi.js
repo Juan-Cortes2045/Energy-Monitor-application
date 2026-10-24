@@ -1,5 +1,6 @@
 import { httpClient } from "../http/httpClient";
-import { clearSession, getSession, getSessionId, saveSession } from "./session";
+import { unsubscribeThisBrowser } from "../notifications/webPush";
+import { clearSession, getSession, getSessionId, isAuthenticated, saveSession } from "./session";
 
 export async function login({ email, password }) {
   const { data } = await httpClient.post("/auth/login", { email, password });
@@ -95,22 +96,28 @@ export async function deleteAccount(password) {
 }
 
 /**
- * Cierra la sesión local primero (nada en vuelo puede revivirla) y avisa al
- * backend después, con el access token capturado antes de borrarlo.
- * El resultado del backend no importa: la sesión local ya no existe.
+ * Cierra la sesión local primero (la interfaz responde al instante y nada en vuelo puede
+ * revivirla) y después, con las cookies que siguen en el navegador:
+ * 1. da de baja el push de este navegador, para que no reciba avisos de esta cuenta;
+ * 2. cierra la sesión en el backend, que borra las cookies.
+ * Las dos llamadas pueden renovar la sesión si el access token venció (`_sessionEnding`).
+ * Si fallan, la sesión local ya no existe y el backend la expira por su cuenta.
  */
 export async function logout() {
-  const accessToken = getSession()?.accessToken;
+  const signedIn = isAuthenticated();
   const idUserSession = getSessionId();
   clearSession();
-  if (!accessToken || !idUserSession) return;
+  if (!signedIn) return;
+  const ending = { _sessionEnding: true };
   try {
-    await httpClient.post(
-      "/auth/logout",
-      { idUserSession },
-      { headers: { Authorization: `Bearer ${accessToken}` } },
-    );
+    await unsubscribeThisBrowser(ending);
   } catch {
-    // ponytail: sin reintento; el backend expira la sesión por su cuenta
+    // Sin service worker o sin red: el cierre de sesión sigue igual.
+  }
+  if (!idUserSession) return; // sesión de una versión anterior: no tiene cookies que borrar
+  try {
+    await httpClient.post("/auth/logout", { idUserSession }, ending);
+  } catch {
+    // Sin reintento: el backend expira la sesión por su cuenta.
   }
 }
