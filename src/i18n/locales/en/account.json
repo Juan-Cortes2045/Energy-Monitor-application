@@ -3,14 +3,13 @@
   "photoOptions": "Photo options",
   "addPhoto": "Add photo",
   "viewPhoto": "View photo",
-  "delete": "Delete",
+  "delete": "Delete photo",
   "name": "Name",
   "lastName": "Last name",
   "email": "Email",
   "password": "Password",
   "deleteQuestion": "Do you want to delete your account?",
   "deleteAccount": "Delete account",
-  "edit": "Edit",
   "save": "Save",
   "cancel": "Cancel",
   "saved": "Profile updated.",
@@ -31,5 +30,8 @@
     "password": "Confirm your password"
   },
   "photoSaved": "Photo updated.",
-  "photoError": "We could not save the photo. Please try again."
+  "photoError": "We could not save the photo. Please try again.",
+  "editField": "Edit {{field}}",
+  "avatarAlt": "Your profile photo",
+  "photoViewError": "We could not open the photo. Please try again."
 }

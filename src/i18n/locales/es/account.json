@@ -3,14 +3,13 @@
   "photoOptions": "Opciones de foto",
   "addPhoto": "Agregar foto",
   "viewPhoto": "Ver foto",
-  "delete": "Eliminar",
+  "delete": "Eliminar foto",
   "name": "Nombre",
   "lastName": "Apellido",
   "email": "Correo",
   "password": "Contraseña",
   "deleteQuestion": "¿Deseas eliminar tu cuenta?",
   "deleteAccount": "Eliminar cuenta",
-  "edit": "Editar",
   "save": "Guardar",
   "cancel": "Cancelar",
   "saved": "Perfil actualizado.",
@@ -31,5 +30,8 @@
     "password": "Confirma tu contraseña"
   },
   "photoSaved": "Foto actualizada.",
-  "photoError": "No pudimos guardar la foto. Intenta de nuevo."
+  "photoError": "No pudimos guardar la foto. Intenta de nuevo.",
+  "editField": "Editar {{field}}",
+  "avatarAlt": "Tu foto de perfil",
+  "photoViewError": "No pudimos abrir la foto. Intenta de nuevo."
 }
