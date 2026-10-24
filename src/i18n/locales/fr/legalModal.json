@@ -2,6 +2,7 @@
   "common": {
     "close": "Fermer"
   },
+  "tablistLabel": "Documents juridiques",
   "terms": {
     "tabLabel": "Conditions d'Utilisation",
     "title": "Conditions d'Utilisation",
