@@ -61,6 +61,18 @@ describe("verificar correo", () => {
     expect(screen.queryByText("login-page")).not.toBeInTheDocument();
   });
 
+  it("pegar el código completo llena todas las casillas", async () => {
+    verifyEmail.mockResolvedValue({});
+    renderAt(withEmail);
+    screen.getAllByRole("textbox")[0].focus();
+    await userEvent.paste("123456");
+    await userEvent.click(screen.getByText("verify.confirm"));
+
+    await waitFor(() =>
+      expect(verifyEmail).toHaveBeenCalledWith({ email: "a@b.co", code: "123456" }),
+    );
+  });
+
   it("reenviar pide un código nuevo para el mismo correo", async () => {
     resendVerification.mockResolvedValue({});
     renderAt(withEmail);

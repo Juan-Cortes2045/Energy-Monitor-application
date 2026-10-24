@@ -2,6 +2,7 @@
   "common": {
     "close": "Close"
   },
+  "tablistLabel": "Legal documents",
   "terms": {
     "tabLabel": "Terms of Use",
     "title": "Terms of Use",

@@ -1,0 +1,23 @@
+/* Los tonos -text de cada tema tienen contraste suficiente sobre la superficie
+   (--color-danger / --color-success son de relleno y no llegan a 4.5:1 en texto). */
+.error,
+.success {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  line-height: 1.4;
+}
+
+.error {
+  color: var(--color-danger-text);
+}
+
+.success {
+  color: var(--color-success-text);
+}
+
+@media (max-width: 768px) {
+  .error,
+  .success {
+    font-size: var(--font-size-13);
+  }
+}

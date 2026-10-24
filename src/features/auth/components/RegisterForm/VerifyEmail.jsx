@@ -1,46 +1,45 @@
-import { useState, useRef } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import Card from "../../../../design/components/Card/Card";
-import Input from "../../../../design/components/Input/Input";
 import Button from "../../../../design/components/Button/Button";
+import OtpInput, { OTP_LENGTH } from "../OtpInput/OtpInput";
+import FormMessage from "../FormMessage/FormMessage";
 import { useResendCooldown } from "../../hooks/useResendCooldown.js";
 import { codeSchema } from "../../validation/codeSchema.js";
 import { resendVerification, verifyEmail } from "../../../../services/auth/authApi";
 import styles from "./VerifyAccount.module.css";
 import { useTranslation } from "react-i18next";
 
+const EMPTY = Array(OTP_LENGTH).fill("");
+const CODE_ERROR_ID = "verify-code-error";
+
 const VerifyEmail = () => {
   const { t } = useTranslation("auth");
   const { t: v } = useTranslation("validations");
+  const { t: tc } = useTranslation("common");
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
   const { secondsLeft, isCoolingDown, start: startCooldown } = useResendCooldown();
-  const [code, setCode] = useState(["", "", "", "", "", ""]);
+  const [code, setCode] = useState(EMPTY);
   const inputsRef = useRef([]);
   const navigate = useNavigate();
-  // Llega desde el registro; sin correo no hay nada que verificar.
-  const email = useLocation().state?.email;
+  // Llega desde el registro, o desde el login de una cuenta sin verificar (reason "unverified",
+  // con o sin un código recién enviado); sin correo no hay nada que verificar.
+  const { email, reason, codeSent } = useLocation().state ?? {};
+  const unverifiedNotice =
+    reason === "unverified"
+      ? t(codeSent ? "verify.unverifiedSent" : "verify.unverifiedNotSent", {
+          email,
+          resend: t("verify.resend"),
+        })
+      : "";
   const [submitting, setSubmitting] = useState(false);
   const [resending, setResending] = useState(false);
 
-  const handleChange = (value, index) => {
-    if (!/^[0-9]?$/.test(value)) return;
-
-    const newCode = [...code];
-    newCode[index] = value;
-    setCode(newCode);
-
-    if (value && index < 5) {
-      inputsRef.current[index + 1].focus();
-    }
-  };
-
-  const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace" && !code[index] && index > 0) {
-      inputsRef.current[index - 1].focus();
-    }
-  };
-
+  // El login acaba de enviar un código: el reenvío espera como si se hubiera pulsado.
+  useEffect(() => {
+    if (reason === "unverified" && codeSent) startCooldown();
+  }, [reason, codeSent, startCooldown]);
 
   if (!email) return <Navigate to="/register" replace />;
 
@@ -55,7 +54,7 @@ const VerifyEmail = () => {
   };
 
   const handleResend = async () => {
-    setCode(["", "", "", "", "", ""]);
+    setCode(EMPTY);
     setError("");
     setInfo("");
     inputsRef.current[0]?.focus();
@@ -84,10 +83,10 @@ const VerifyEmail = () => {
     setSubmitting(true);
     try {
       await verifyEmail({ email, code: finalCode });
-      navigate("/login", { replace: true, state: { notice: "verified" } });
+      navigate("/login", { replace: true, state: { notice: "verified", email } });
     } catch (err) {
       showRequestError(err);
-      setCode(["", "", "", "", "", ""]);
+      setCode(EMPTY);
       inputsRef.current[0]?.focus();
     } finally {
       setSubmitting(false);
@@ -96,37 +95,38 @@ const VerifyEmail = () => {
 
   return (
     <div className={styles.container}>
-      <Card
-        className={styles.card}
-        style={{
-          width: "400px",
-        }}
-      >
+      <Card style={{ width: "100%", maxWidth: "400px" }}>
         <div className={styles.content}>
-          <h2 className={styles.title}>{t("verify.title")}</h2>
+          <h1 className={styles.title}>{t("verify.title")}</h1>
 
-          <p className={styles.description}>{t("verify.description")}</p>
+          {unverifiedNotice ? (
+            <p className={styles.description} role="status">{unverifiedNotice}</p>
+          ) : (
+            <p className={styles.description}>{t("verify.description")}</p>
+          )}
 
-          <div className={styles.otpContainer}>
-            {code.map((digit, index) => (
-              <Input
-                key={index}
-                ref={(el) => (inputsRef.current[index] = el)}
-                value={digit}
-                onChange={(e) => handleChange(e.target.value, index)}
-                onKeyDown={(e) => handleKeyDown(e, index)}
-                maxLength={1}
-                variant="otp"
-              />
-            ))}
-          </div>
+          {/* form: Enter en cualquier casilla confirma el código */}
+          <form className={styles.form} onSubmit={handleVerify} noValidate>
+            <OtpInput
+              value={code}
+              onChange={setCode}
+              inputsRef={inputsRef}
+              label={t("verify.codeLabel")}
+              errorId={error ? CODE_ERROR_ID : undefined}
+            />
 
-          {error && <p className={styles.error}>{error}</p>}
-          {info && <p className={styles.success}>{info}</p>}
+            <FormMessage id={CODE_ERROR_ID} message={error} alert />
+            <FormMessage message={info} tone="success" />
 
-          <Button variant="primary" onClick={handleVerify} disabled={submitting || resending}>
-            {t("verify.confirm")}
-          </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={submitting || resending}
+              aria-busy={submitting}
+            >
+              {submitting ? tc("loading") : t("verify.confirm")}
+            </Button>
+          </form>
 
           <span className={styles.helperText}>{t("verify.notReceived")}</span>
 
@@ -135,20 +135,17 @@ const VerifyEmail = () => {
             variant="secondary"
             onClick={handleResend}
             disabled={isCoolingDown || resending || submitting}
+            aria-busy={resending}
           >
             {isCoolingDown
               ? t("verify.resendIn", { seconds: secondsLeft })
               : t("verify.resend")}
           </Button>
           <p className={styles.register}>
-            {t("register.haveAccount")}.{" "}
-            <a
-              href="/login"
-              style={{ color: "var(--color-secondary)" }}
-              className={styles.registerLink}
-            >
+            {t("register.haveAccount")}{" "}
+            <Link to="/login" className={styles.registerLink}>
               {t("register.login")}
-            </a>
+            </Link>
           </p>
         </div>
       </Card>

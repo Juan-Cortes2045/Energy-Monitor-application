@@ -4,7 +4,7 @@ import AuthLayout from "../components/AuthLayout/AuthLayout";
 const RecoverPassword = () => {
   return (
     <AuthLayout>
-      <RvPassword></RvPassword>
+      <RvPassword />
     </AuthLayout>
   );
 };

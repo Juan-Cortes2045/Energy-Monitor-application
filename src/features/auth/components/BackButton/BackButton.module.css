@@ -8,12 +8,17 @@
   align-items: center;
   justify-content: center;
 
-  padding: 8px;
+  padding: var(--spacing-sm);
   border-radius: 50%;
 
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .backButton:hover {
   background-color: color-mix(in srgb, var(--color-text-primary) 5%, transparent);
+}
+
+.backButton:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
