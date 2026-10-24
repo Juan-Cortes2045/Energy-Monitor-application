@@ -1,17 +1,19 @@
 {
   "hero": {
-    "title": "How can we help you?",
+    "title": "How can we <hl>help you?</hl>",
     "subtitle": "Find quick answers or contact our team directly.",
     "searchPlaceholder": "Search by keyword, e.g: delete, code, limit...",
+    "searchLabel": "Search frequently asked questions",
     "searchNoResults": "No results for \"{{query}}\"",
-    "searchResults": "{{count}} result{{plural}} for \"{{query}}\""
+    "searchResults_one": "{{count}} result for \"{{query}}\"",
+    "searchResults_other": "{{count}} results for \"{{query}}\""
   },
   "topics": {
     "title": "Popular topics",
     "items": {
       "1": {
         "title": "Getting started",
-        "description": "Create your first project, connect devices, and start monitoring your consumption."
+        "description": "Create your first home, connect devices, and start monitoring your consumption."
       },
       "2": {
         "title": "Reading charts",
@@ -19,7 +21,7 @@
       },
       "3": {
         "title": "User management",
-        "description": "Invite members, assign roles, and manage permissions in your project."
+        "description": "Invite members, assign roles, and manage permissions in your home."
       },
       "4": {
         "title": "Alerts and limits",
@@ -27,11 +29,11 @@
       },
       "5": {
         "title": "Access code",
-        "description": "How to share your project code so others can join."
+        "description": "How to share your home code so others can join."
       },
       "6": {
         "title": "Settings",
-        "description": "Edit project data, property type, and account preferences."
+        "description": "Edit home data, property type, and account preferences."
       }
     }
   },
@@ -41,24 +43,24 @@
     "showAll": "View all questions",
     "items": {
       "1": {
-        "question": "How do I create a new project?",
-        "answer": "From the main dashboard click the \"+\" button and select \"Create Project\". Fill in the name, address, and property type."
+        "question": "How do I create a new home?",
+        "answer": "From the main dashboard click the \"+\" button and select \"Create home\". Fill in the name, address, and property type."
       },
       "2": {
         "question": "What is the difference between owner and member?",
-        "answer": "The owner can see the access code, invite users, remove members, and delete the project. Members can only view information and leave the project."
+        "answer": "The owner can see the access code, invite users, remove members, and delete the home. Members can only view information and leave the home."
       },
       "3": {
         "question": "Why can't I see the access code?",
-        "answer": "The access code is only visible to the project owner. If you are a member, request it from the owner."
+        "answer": "The access code is only visible to the home owner. If you are a member, request it from the owner."
       },
       "4": {
         "question": "How do I set a consumption limit?",
-        "answer": "Go to the \"Project\" section and find the limits area. There you can set daily and monthly limits in kWh."
+        "answer": "Open your home and go to the \"Thresholds\" tab. There you can set daily and monthly limits in kWh."
       },
       "5": {
-        "question": "Can I delete a project?",
-        "answer": "Yes, but only if you are the owner. Go to the \"Project\" tab and use the \"Delete project\" button. This action is irreversible."
+        "question": "Can I delete a home?",
+        "answer": "Yes, but only if you are the owner. Go to the \"Home\" tab and use the \"Delete home\" button. This action is irreversible."
       }
     }
   },
@@ -67,12 +69,15 @@
     "whatsapp": {
       "title": "WhatsApp",
       "description": "Response within 2 hours during business hours.",
-      "button": "Message now"
+      "button": "Message now",
+      "prefilledMessage": "Hi, I need help with EnergyMonitor."
     },
     "email": {
       "title": "Email",
       "description": "Send us a message and we will respond within 24 hours.",
-      "button": "Send message"
+      "button": "Send message",
+      "subject": "EnergyMonitor support",
+      "body": "Hi,\n\nI need help with the following:\n\n- \n\nThanks."
     }
   }
 }
