@@ -255,7 +255,8 @@
   align-items: center;
   text-align: center;
   gap: var(--spacing-sm);
-  padding: var(--spacing-xl) var(--spacing-lg);
+  /* Abajo menos relleno: el pie de página sigue con el mismo color y ya trae el suyo. */
+  padding: var(--spacing-xl) var(--spacing-lg) var(--spacing-md);
   background-color: var(--color-primary-dark);
 }
 
@@ -282,6 +283,32 @@
   margin-top: var(--spacing-xs);
   flex-wrap: wrap;
   justify-content: center;
+}
+
+/* El Button del sistema mide 50% de su contenedor; aquí la fila mide lo que su contenido, así
+   que el texto (más largo en inglés o francés) se salía. Cada botón mide lo que su texto, con
+   un mínimo común para que los dos queden iguales. Dos clases: gana a la regla del Button. */
+.ctaActions .ctaButton {
+  width: auto;
+  min-width: 176px;
+}
+
+/* La flecha va dentro del texto del botón: alineada al centro y no a la línea base. */
+.ctaActions .ctaButton > span {
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (max-width: 480px) {
+  .ctaActions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .ctaActions .ctaButton {
+    width: 100%;
+  }
 }
 
 /* ── Mobile  < 768px ─────────────────────────────────────────────── */
