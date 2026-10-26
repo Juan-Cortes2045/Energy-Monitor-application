@@ -1,0 +1,23 @@
+{
+  "navLabel": "Liens du pied de page",
+  "tagline": "Mesurez la consommation de chaque appareil de votre foyer et soyez prévenu avant que la facture ne vous surprenne.",
+  "explore": {
+    "title": "Explorer",
+    "home": "Accueil",
+    "howItWorks": "Comment ça marche",
+    "about": "À propos",
+    "support": "Assistance"
+  },
+  "account": {
+    "title": "Votre compte",
+    "login": "Se connecter",
+    "register": "Créer un compte"
+  },
+  "legal": {
+    "title": "Mentions légales",
+    "terms": "Conditions générales",
+    "privacy": "Politique de confidentialité"
+  },
+  "copyright": "© {{year}} EnergyMonitor",
+  "project": "Projet de formation du SENA, Analyse et développement de logiciels, groupe 3145556."
+}

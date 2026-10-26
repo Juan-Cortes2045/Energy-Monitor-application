@@ -34,6 +34,7 @@ import esNotifications from "./locales/es/notifications.json";
 import esHomeNotFound from "./locales/es/homeNotFound.json";
 import esAbout from "./locales/es/about.json";
 import esLegalModal from "./locales/es/legalModal.json";
+import esFooter from "./locales/es/footer.json";
 import esErrors from "./locales/es/errors.json";
 import esAdmin from "./locales/es/admin.json";
 
@@ -70,6 +71,7 @@ import enNotifications from "./locales/en/notifications.json";
 import enHomeNotFound from "./locales/en/homeNotFound.json";
 import enAbout from "./locales/en/about.json";
 import enLegalModal from "./locales/en/legalModal.json";
+import enFooter from "./locales/en/footer.json";
 import enErrors from "./locales/en/errors.json";
 import enAdmin from "./locales/en/admin.json";
 
@@ -106,6 +108,7 @@ import frNotifications from "./locales/fr/notifications.json";
 import frHomeNotFound from "./locales/fr/homeNotFound.json";
 import frAbout from "./locales/fr/about.json";
 import frLegalModal from "./locales/fr/legalModal.json";
+import frFooter from "./locales/fr/footer.json";
 import frErrors from "./locales/fr/errors.json";
 import frAdmin from "./locales/fr/admin.json";
 
@@ -142,6 +145,7 @@ import ptNotifications from "./locales/pt/notifications.json";
 import ptHomeNotFound from "./locales/pt/homeNotFound.json";
 import ptAbout from "./locales/pt/about.json";
 import ptLegalModal from "./locales/pt/legalModal.json"
+import ptFooter from "./locales/pt/footer.json";
 import ptErrors from "./locales/pt/errors.json";
 import ptAdmin from "./locales/pt/admin.json";
 
@@ -198,6 +202,7 @@ i18n.use(initReactI18next).init({
       homeNotFound: esHomeNotFound,
       about: esAbout,
       legalModal: esLegalModal,
+      footer: esFooter,
       errors: esErrors,
       admin: esAdmin
     },
@@ -233,6 +238,7 @@ i18n.use(initReactI18next).init({
       homeNotFound: enHomeNotFound,
       about: enAbout,
       legalModal: enLegalModal,
+      footer: enFooter,
       errors: enErrors,
       admin: enAdmin
     },
@@ -268,6 +274,7 @@ i18n.use(initReactI18next).init({
       homeNotFound: frHomeNotFound,
       about: frAbout,
       legalModal: frLegalModal,
+      footer: frFooter,
       errors: frErrors,
       admin: frAdmin
     },
@@ -303,6 +310,7 @@ i18n.use(initReactI18next).init({
       homeNotFound: ptHomeNotFound,
       about: ptAbout,
       legalModal: ptLegalModal,
+      footer: ptFooter,
       errors: ptErrors,
       admin: ptAdmin
     },

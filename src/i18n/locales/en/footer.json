@@ -1,0 +1,23 @@
+{
+  "navLabel": "Footer links",
+  "tagline": "Measure what every appliance in your home uses and get a warning before the bill catches you off guard.",
+  "explore": {
+    "title": "Explore",
+    "home": "Home",
+    "howItWorks": "How it works",
+    "about": "About us",
+    "support": "Support"
+  },
+  "account": {
+    "title": "Your account",
+    "login": "Sign in",
+    "register": "Create account"
+  },
+  "legal": {
+    "title": "Legal",
+    "terms": "Terms and conditions",
+    "privacy": "Privacy policy"
+  },
+  "copyright": "© {{year}} EnergyMonitor",
+  "project": "SENA training project, Software Analysis and Development, group 3145556."
+}
