@@ -133,6 +133,25 @@
   padding-top: 12px;
 }
 
+/* Paso de aceptación */
+.consent {
+  border-top: 1px solid var(--color-border, rgba(0, 0, 0, 0.1));
+  padding: 16px 24px;
+}
+
+.consentText {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  margin-bottom: 12px;
+}
+
+.consentActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
 /* Scrollbar */
 .body::-webkit-scrollbar {
   width: 6px;

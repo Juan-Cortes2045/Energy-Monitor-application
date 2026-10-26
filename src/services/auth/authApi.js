@@ -2,8 +2,16 @@ import { httpClient } from "../http/httpClient";
 import { unsubscribeThisBrowser } from "../notifications/webPush";
 import { clearSession, getSession, getSessionId, isAuthenticated, saveSession } from "./session";
 
-export async function login({ email, password }) {
-  const { data } = await httpClient.post("/auth/login", { email, password });
+/**
+ * `acceptTerms` solo se envía cuando la persona acaba de aceptar los términos: el backend
+ * responde 428 a una cuenta que nunca los aceptó.
+ */
+export async function login({ email, password, acceptTerms = false }) {
+  const { data } = await httpClient.post("/auth/login", {
+    email,
+    password,
+    ...(acceptTerms ? { acceptTerms: true } : {}),
+  });
   saveSession(data);
   await refreshProfile().catch(() => {}); // nombre y foto; el login ya es válido sin ellos
   return data.account;
@@ -11,10 +19,14 @@ export async function login({ email, password }) {
 
 /**
  * Inicia sesión (o crea la cuenta la primera vez) con el código de la ventana de Google.
- * El backend toma de Google nombre, apellido, foto y correo.
+ * El backend toma de Google nombre, apellido, foto y correo. Crear la cuenta exige
+ * `acceptTerms`; sin él responde 428 y hay que pedir un código nuevo a Google.
  */
-export async function loginWithGoogle(code) {
-  const { data } = await httpClient.post("/auth/google", { code });
+export async function loginWithGoogle(code, acceptTerms = false) {
+  const { data } = await httpClient.post("/auth/google", {
+    code,
+    ...(acceptTerms ? { acceptTerms: true } : {}),
+  });
   saveSession(data);
   await refreshProfile().catch(() => {});
   return data;

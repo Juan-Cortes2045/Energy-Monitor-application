@@ -19,6 +19,7 @@ import { useState } from "react";
 import { login, resendVerification } from "../../../../services/auth/authApi";
 import { errorMessage } from "../../../../services/http/errorMessages";
 import { landingPath } from "../../../../services/auth/session";
+import { useTermsConsent } from "../../hooks/useTermsConsent.jsx";
 
 const LoginForm = () => {
   const { t: v } = useTranslation("validations");
@@ -28,6 +29,7 @@ const LoginForm = () => {
   const [serverError, setServerError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const terms = useTermsConsent();
   const notice = location.state?.notice;
   // Solo avisos conocidos: un valor inesperado no debe mostrar la clave cruda.
   const noticeText = notice ? t(`login.notice.${notice}`, { defaultValue: "" }) : "";
@@ -45,7 +47,18 @@ const LoginForm = () => {
   const onSubmit = async (data) => {
     setServerError("");
     try {
-      await login(data);
+      try {
+        await login(data);
+      } catch (e) {
+        // La cuenta nunca aceptó los términos (creada con Google antes de que se pidieran):
+        // se muestran y, si los acepta, se repite el login aceptándolos.
+        if (e?.status !== 428) throw e;
+        if (!(await terms.ask())) {
+          setServerError(t("errors:terms.required"));
+          return;
+        }
+        await login({ ...data, acceptTerms: true });
+      }
       navigate(landingPath());
     } catch (e) {
       if (e.status === 403) {
@@ -145,6 +158,7 @@ const LoginForm = () => {
           </Link>
         </p>
       </form>
+      {terms.modal}
     </Card>
   );
 };

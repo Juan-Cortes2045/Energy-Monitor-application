@@ -11,16 +11,22 @@
 
 /** Claves por operación y status. `default` cubre cualquier otro status. */
 const OPERATIONS = {
-  login: { 401: "login.invalidCredentials", 403: "login.inactive" },
+  login: { 401: "login.invalidCredentials", 403: "login.inactive", 428: "terms.required" },
   googleLogin: {
     401: "googleLogin.rejected",
+    428: "terms.required",
     403: "login.inactive",
     409: "googleLogin.emailTaken",
     503: "googleLogin.unavailable",
     default: "googleLogin.failed",
   },
   // 400: correo mal formado o cuyo dominio no existe o no recibe correo.
-  register: { 400: "register.invalidEmail", 409: "register.emailTaken", 422: "password.policy" },
+  register: {
+    400: "register.invalidEmail",
+    409: "register.emailTaken",
+    422: "password.policy",
+    428: "terms.required",
+  },
   passwordRecovery: { 404: "passwordRecovery.notRegistered", default: "passwordRecovery.failed" },
   passwordReset: { 422: "password.policy", default: "passwordReset.failed" },
   passwordChange: {

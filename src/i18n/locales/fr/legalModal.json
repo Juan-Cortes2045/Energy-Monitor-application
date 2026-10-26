@@ -100,5 +100,10 @@
       }
     ],
     "footer": "Ce document a été élaboré sur la base de la Constitution colombienne, de la Loi 1581 de 2012, de ses décrets d'application et des normes internationales applicables, et est présenté à des fins académiques dans le cadre du projet EnergyMonitor."
+  },
+  "consent": {
+    "text": "Pour continuer, lisez et acceptez les conditions générales et la politique de confidentialité.",
+    "cancel": "Annuler",
+    "accept": "J'accepte les conditions"
   }
 }
