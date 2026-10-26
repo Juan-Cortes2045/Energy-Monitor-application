@@ -10,8 +10,8 @@
     var(--color-gradient) 100%
   );
   width: 100%;
-  /* min-height: con 1 columna (móvil) las tarjetas superan el alto de la pantalla */
-  min-height: 100vh;
+  /* Sin alto mínimo: con 100vh quedaba un bloque vacío bajo las tarjetas en pantallas
+     anchas. La sección mide lo que su contenido y el pie de página cierra la página. */
 }
 
 .header {
