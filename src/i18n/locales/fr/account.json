@@ -14,7 +14,7 @@
   "cancel": "Annuler",
   "saved": "Profil mis à jour.",
   "profileError": "Impossible d'enregistrer les modifications. Réessayez.",
-  "nameRequired": "Le prénom et le nom sont obligatoires.",
+  "nameRequired": "Le prénom est obligatoire.",
   "changePassword": {
     "title": "Changer le mot de passe",
     "current": "Mot de passe actuel",

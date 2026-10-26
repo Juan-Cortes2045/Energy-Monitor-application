@@ -14,7 +14,7 @@
   "cancel": "Cancelar",
   "saved": "Perfil atualizado.",
   "profileError": "Não foi possível salvar as alterações. Tente novamente.",
-  "nameRequired": "Nome e sobrenome são obrigatórios.",
+  "nameRequired": "O nome é obrigatório.",
   "changePassword": {
     "title": "Alterar senha",
     "current": "Senha atual",
