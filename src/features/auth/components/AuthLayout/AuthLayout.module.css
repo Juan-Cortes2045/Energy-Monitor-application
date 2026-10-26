@@ -149,30 +149,38 @@
 }
 
 /* ─── PANEL DERECHO ────────────────────────────────────── */
-/* Si el formulario no cabe (registro, pantallas bajas) el panel hace scroll; `safe`
+/* Columna: la barra con volver e inicio ocupa su propia fila y el formulario se centra en
+   el espacio restante. Si no cabe (registro, pantallas bajas) el panel hace scroll; `safe`
    evita que el centrado deje la parte superior fuera de alcance. */
 .right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-md) var(--spacing-xl) var(--spacing-xl);
+  overflow-y: auto;
+  background-color: var(--color-surface);
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  flex-shrink: 0;
+  /* Los dos botones tienen relleno propio: se alinean con el borde del panel. */
+  margin: 0 calc(-1 * var(--spacing-md));
+}
+
+.content {
   flex: 1;
   display: flex;
   align-items: center;
   align-items: safe center;
   justify-content: center;
-  position: relative;
-  padding: var(--spacing-xl);
-  overflow-y: auto;
-  background-color: var(--color-surface);
-}
-
-.backWrapper {
-  position: absolute;
-  top: var(--spacing-md);
-  left: var(--spacing-md);
+  padding-top: var(--spacing-md);
 }
 
 .homeLink {
-  position: absolute;
-  top: var(--spacing-md);
-  right: var(--spacing-md);
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xs);
@@ -215,7 +223,7 @@
   }
 
   .right {
-    padding: var(--spacing-lg);
+    padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
   }
 }
 
@@ -232,18 +240,11 @@
 
   .right {
     width: 100%;
-    /* Deja sitio al botón de volver, que está posicionado encima */
-    padding: 56px var(--spacing-md) var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md);
     overflow-y: visible;
   }
 
-  .backWrapper {
-    top: var(--spacing-sm);
-    left: var(--spacing-sm);
-  }
-
-  .homeLink {
-    top: var(--spacing-sm);
-    right: var(--spacing-sm);
+  .topBar {
+    margin: 0 calc(-1 * var(--spacing-sm));
   }
 }
