@@ -46,13 +46,55 @@ describe("Account", () => {
     await userEvent.clear(name);
     await userEvent.type(name, "Grace");
     await userEvent.click(screen.getByText("save"));
-    await waitFor(() =>
-      expect(updateProfile).toHaveBeenCalledWith({ name: "Grace", lastName: "Lovelace" }),
-    );
+    // Solo el campo editado: el apellido queda como estaba.
+    await waitFor(() => expect(updateProfile).toHaveBeenCalledWith({ name: "Grace" }));
     expect(await screen.findByText("saved")).toBeInTheDocument();
     expect(screen.queryByLabelText("email")).not.toBeInTheDocument();
     expect(screen.getByText("a@b.co")).toBeInTheDocument();
     expect(screen.getAllByRole("button", { name: "editField" })).toHaveLength(2);
+  });
+
+  it("edita el apellido solo, sin tocar el nombre", async () => {
+    updateProfile.mockResolvedValue({});
+    renderAccount();
+    await userEvent.click(screen.getAllByRole("button", { name: "editField" })[1]);
+    expect(screen.queryByLabelText("name", { selector: "input" })).not.toBeInTheDocument();
+    const lastName = screen.getByLabelText("lastName");
+    await userEvent.clear(lastName);
+    await userEvent.type(lastName, "King");
+    await userEvent.click(screen.getByText("save"));
+
+    await waitFor(() => expect(updateProfile).toHaveBeenCalledWith({ lastName: "King" }));
+  });
+
+  it("una cuenta sin apellido (Google) guarda el nombre", async () => {
+    saveSession({ profile: { name: "Ana", lastName: null } });
+    updateProfile.mockResolvedValue({});
+    renderAccount();
+    await userEvent.click(screen.getAllByRole("button", { name: "editField" })[0]);
+    const name = screen.getByLabelText("name");
+    await userEvent.clear(name);
+    await userEvent.type(name, "Ana María");
+    await userEvent.click(screen.getByText("save"));
+
+    await waitFor(() => expect(updateProfile).toHaveBeenCalledWith({ name: "Ana María" }));
+    expect(await screen.findByText("saved")).toBeInTheDocument();
+  });
+
+  it("el nombre vacío no se guarda; el apellido vacío se borra", async () => {
+    updateProfile.mockResolvedValue({});
+    renderAccount();
+    await userEvent.click(screen.getAllByRole("button", { name: "editField" })[0]);
+    await userEvent.clear(screen.getByLabelText("name"));
+    await userEvent.click(screen.getByText("save"));
+    expect(await screen.findByText("nameRequired")).toBeInTheDocument();
+    expect(updateProfile).not.toHaveBeenCalled();
+
+    await userEvent.click(screen.getByText("cancel"));
+    await userEvent.click(screen.getAllByRole("button", { name: "editField" })[1]);
+    await userEvent.clear(screen.getByLabelText("lastName"));
+    await userEvent.click(screen.getByText("save"));
+    await waitFor(() => expect(updateProfile).toHaveBeenCalledWith({ lastName: "" }));
   });
 
   it("es un diálogo: Escape y el botón cerrar llaman a onClose", async () => {

@@ -11,6 +11,7 @@ import { errorMessage } from "../../services/http/errorMessages";
 import { landingPath } from "../../services/auth/session";
 import { useDialogA11y } from "../../hooks/useDialogA11y";
 import { resizeImage } from "./resizeImage";
+import { dataUrlToBlob } from "./dataUrl";
 import ChangePasswordModal from "./ChangePasswordModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import styles from "./Account.module.css";
@@ -39,30 +40,32 @@ const Account = ({ onClose }) => {
     email: person?.email ?? "",
   };
   const image = SAFE_IMAGE.test(person?.profileImage ?? "") ? person.profileImage : null;
-  const [draft, setDraft] = useState(values);
-  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState("");
+  // Campo en edición ("name" | "lastName") o null: cada uno se edita, valida y guarda solo.
+  const [editing, setEditing] = useState(null);
   const [saving, setSaving] = useState(false);
   const [savingPhoto, setSavingPhoto] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
   const [modal, setModal] = useState(null); // null | "password" | "delete"
   const dialogRef = useDialogA11y(close);
 
-  const startEdit = () => {
-    setDraft(values);
+  const startEdit = (key) => {
+    setDraft(values[key]);
     setMessage({ type: "", text: "" });
-    setEditing(true);
+    setEditing(key);
   };
 
+  // El nombre es obligatorio; el apellido no (una cuenta creada con Google puede no tenerlo) y
+  // vacío lo borra. Solo se envía el campo editado: el otro queda como estaba.
   const handleSave = async () => {
-    const name = draft.name.trim();
-    const lastName = draft.lastName.trim();
-    if (!name || !lastName) {
+    const value = draft.trim();
+    if (editing === "name" && !value) {
       return setMessage({ type: "error", text: t("nameRequired") });
     }
     setSaving(true);
     try {
-      await updateProfile({ name, lastName });
-      setEditing(false);
+      await updateProfile({ [editing]: value });
+      setEditing(null);
       setMessage({ type: "ok", text: t("saved") });
     } catch {
       setMessage({ type: "error", text: t("profileError") });
@@ -105,10 +108,11 @@ const Account = ({ onClose }) => {
     }
   };
 
-  const viewPhoto = async () => {
+  const viewPhoto = () => {
     if (!image) return;
     try {
-      const blob = await (await fetch(image)).blob(); // los data-URL no abren en pestaña nueva
+      // Los data-URL no abren en pestaña nueva: se pasa a un Blob, sin fetch (la CSP lo bloquea).
+      const blob = dataUrlToBlob(image);
       if (!SAFE_IMAGE_TYPE.test(blob.type)) return;
       const url = URL.createObjectURL(blob);
       window.open(url, "_blank", "noopener");
@@ -281,15 +285,20 @@ const Account = ({ onClose }) => {
                   <label className={styles.label} htmlFor={`field-${key}`}>
                     {t(label)}
                   </label>
-                  {editing ? (
+                  {editing === key ? (
                     <input
                       id={`field-${key}`}
                       type="text"
                       className={styles.input}
-                      value={draft[key]}
+                      value={draft}
                       maxLength={100}
+                      required={key === "name"}
                       autoComplete={key === "name" ? "given-name" : "family-name"}
-                      onChange={(e) => setDraft({ ...draft, [key]: e.target.value })}
+                      onChange={(e) => setDraft(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") handleSave();
+                      }}
+                      autoFocus
                     />
                   ) : (
                     <p className={styles.value}>{values[key] || "—"}</p>
@@ -297,8 +306,8 @@ const Account = ({ onClose }) => {
                   <Button
                     variant="primary"
                     className={styles.btnEdit}
-                    onClick={startEdit}
-                    disabled={editing}
+                    onClick={() => startEdit(key)}
+                    disabled={editing !== null}
                     aria-label={t("editField", { field: t(label) })}
                   >
                     <Pencil size={18} />
@@ -330,7 +339,7 @@ const Account = ({ onClose }) => {
 
             {editing && (
               <div className={styles.editActions}>
-                <Button variant="secondary" onClick={() => setEditing(false)}>
+                <Button variant="secondary" onClick={() => setEditing(null)}>
                   {t("cancel")}
                 </Button>
                 <Button variant="primary" onClick={handleSave} disabled={saving} aria-busy={saving}>
