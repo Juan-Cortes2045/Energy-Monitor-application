@@ -81,15 +81,17 @@ const AuthLayout = ({ children }) => {
 
       {/* PANEL DERECHO */}
       <main className={styles.right}>
-        <div className={styles.backWrapper}>
+        {/* Barra propia, no superpuesta: con pantallas bajas la tarjeta empieza arriba y
+            los dos accesos quedaban encima de ella. */}
+        <div className={styles.topBar}>
           <BackButton />
+          {/* Acceso directo a la página de inicio pública desde cualquier pantalla de cuenta */}
+          <Link to="/home" className={styles.homeLink}>
+            <House size={18} aria-hidden="true" />
+            <span>{t("home")}</span>
+          </Link>
         </div>
-        {/* Acceso directo a la página de inicio pública desde cualquier pantalla de cuenta */}
-        <Link to="/home" className={styles.homeLink}>
-          <House size={18} aria-hidden="true" />
-          <span>{t("home")}</span>
-        </Link>
-        {children}
+        <div className={styles.content}>{children}</div>
       </main>
 
     </div>

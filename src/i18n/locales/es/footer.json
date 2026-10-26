@@ -1,0 +1,23 @@
+{
+  "navLabel": "Enlaces del pie de página",
+  "tagline": "Mide el consumo de cada aparato de tu hogar y recibe un aviso antes de que la factura te sorprenda.",
+  "explore": {
+    "title": "Explora",
+    "home": "Inicio",
+    "howItWorks": "Cómo funciona",
+    "about": "Sobre nosotros",
+    "support": "Soporte"
+  },
+  "account": {
+    "title": "Tu cuenta",
+    "login": "Iniciar sesión",
+    "register": "Crear cuenta"
+  },
+  "legal": {
+    "title": "Legal",
+    "terms": "Términos y condiciones",
+    "privacy": "Política de privacidad"
+  },
+  "copyright": "© {{year}} EnergyMonitor",
+  "project": "Proyecto formativo del SENA, Análisis y Desarrollo de Software, ficha 3145556."
+}
