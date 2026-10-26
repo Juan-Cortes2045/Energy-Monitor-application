@@ -96,5 +96,8 @@
   "passwordRecovery": {
     "notRegistered": "Aucun compte n'est enregistré avec cette adresse e-mail.",
     "failed": "Nous n'avons pas pu envoyer le code. Réessayez."
+  },
+  "terms": {
+    "required": "Vous devez accepter les conditions générales pour continuer."
   }
 }

@@ -100,5 +100,10 @@
       }
     ],
     "footer": "Este documento fue elaborado con base en la Constitución Política de Colombia, la Ley 1581 de 2012, sus decretos reglamentarios y los estándares internacionales aplicables, y se presenta con fines académicos como parte del proyecto EnergyMonitor."
+  },
+  "consent": {
+    "text": "Para continuar, lee y acepta los términos y condiciones y la política de privacidad.",
+    "cancel": "Cancelar",
+    "accept": "Acepto los términos"
   }
 }
