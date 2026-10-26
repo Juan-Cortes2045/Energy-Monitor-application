@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import styles from "./RegisterForm.module.css";
 import { registerSchema } from "../../validation/registerSchema.js";
@@ -34,12 +34,15 @@ const RegisterForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(registerSchema(v)),
     mode: "onChange",
   });
+
+  // El checkbox ya marcado se envía con Google, que así no vuelve a preguntar los términos.
+  const termsAccepted = useWatch({ control, name: "terms" }) === true;
 
   const navigate = useNavigate();
   const onSubmit = async (data) => {
@@ -210,7 +213,7 @@ const RegisterForm = () => {
                 <GoogleSignInButton
                   label={t("register.google")}
                   onError={setServerError}
-                  termsAccepted={watch("terms") === true}
+                  termsAccepted={termsAccepted}
                 />
               </>
             )}
