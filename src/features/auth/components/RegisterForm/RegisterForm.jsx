@@ -34,6 +34,7 @@ const RegisterForm = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(registerSchema(v)),
@@ -51,6 +52,8 @@ const RegisterForm = () => {
       lastName: lastName.trim(),
       email: email.trim(),
       password,
+      // El formulario no se envía sin el checkbox; el backend lo exige (428 sin él).
+      acceptTerms: true,
     };
 
     setServerError("");
@@ -204,7 +207,11 @@ const RegisterForm = () => {
                 </div>
 
                 {/* GOOGLE: crea la cuenta con el nombre, apellido, foto y correo de Google */}
-                <GoogleSignInButton label={t("register.google")} onError={setServerError} />
+                <GoogleSignInButton
+                  label={t("register.google")}
+                  onError={setServerError}
+                  termsAccepted={watch("terms") === true}
+                />
               </>
             )}
           </div>
