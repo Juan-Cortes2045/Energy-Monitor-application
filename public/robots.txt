@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Allow: /home
+Allow: /about
+Allow: /support
+Disallow: /admin/
+Disallow: /dashboard
+Disallow: /account
+Disallow: /homes/
+Disallow: /api/
+
+Sitemap: https://energymonitor.app/sitemap.xml

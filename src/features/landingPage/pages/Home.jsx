@@ -5,8 +5,10 @@ import Navbar from "../../../components/layout/Navbar/Navbar";
 
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useDocumentTitle } from "../../../hooks/useDocumentTitle";
 
 const Home = () => {
+  useDocumentTitle("Inicio", "Mide el consumo eléctrico de tu hogar en tiempo real, recibe alertas y recomendaciones para ahorrar energía.");
   const location = useLocation();
 
   useEffect(() => {
