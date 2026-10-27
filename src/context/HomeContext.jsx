@@ -9,13 +9,25 @@ import { getSessionUserId, subscribeSession } from "../services/auth/session";
  *
  * La lista sigue al usuario en sesión: se carga al iniciar sesión (o al cambiar de cuenta) y se
  * vacía al cerrarla, para que nadie vea los hogares de la cuenta anterior en el mismo navegador.
+ *
+ * Lo que hacen los demás miembros (expulsarte, salirse, entregarte el hogar, eliminarlo) no llega
+ * por ningún canal en vivo: la lista se vuelve a pedir cada SYNC_MS con la pestaña visible y al
+ * volver a ella. `syncCount` sube en cada vuelta para que las vistas del hogar (los miembros) se
+ * pongan al día a la vez.
  */
 const HomeContext = createContext(null);
+
+const SYNC_MS = 15000;
+
+// Misma lista que la anterior: se conserva la referencia para no repintar ni volver a pedir lo
+// que depende de `homes` (las notificaciones de cada hogar) cada 15 segundos.
+const sameHomes = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
 export const HomeProvider = ({ children }) => {
   const [homes, setHomes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [syncCount, setSyncCount] = useState(0);
 
   const loadHomes = useCallback(async () => {
     setLoading(true);
@@ -27,6 +39,21 @@ export const HomeProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
+  }, []);
+
+  /**
+   * Recarga en segundo plano: sin "cargando", que desmontaría la página del hogar, y un fallo deja
+   * la lista anterior en pantalla (la siguiente vuelta lo reintenta).
+   */
+  const syncHomes = useCallback(async () => {
+    try {
+      const next = await homeApi.homeApi.listHomes();
+      setHomes((prev) => (sameHomes(prev, next) ? prev : next));
+      setError(null);
+    } catch {
+      // Red o backend caídos: se sigue mostrando lo último que se supo.
+    }
+    setSyncCount((n) => n + 1);
   }, []);
 
   const userId = useSyncExternalStore(subscribeSession, getSessionUserId);
@@ -42,6 +69,22 @@ export const HomeProvider = ({ children }) => {
     }
     loadHomes();
   }, [userId, loadHomes]);
+
+  // Con la pestaña en segundo plano no se consulta; al volver a ella se pone al día enseguida.
+  useEffect(() => {
+    if (!userId) return undefined;
+    const timer = setInterval(() => {
+      if (!document.hidden) syncHomes();
+    }, SYNC_MS);
+    const onVisible = () => {
+      if (!document.hidden) syncHomes();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, [userId, syncHomes]);
 
   /** POST /homes — devuelve null o el ApiError */
   const addHome = useCallback(async (payload) => {
@@ -148,6 +191,7 @@ export const HomeProvider = ({ children }) => {
         setHomes,
         loading,
         error,
+        syncCount,
         reload: loadHomes,
         addHome,
         joinHome,
