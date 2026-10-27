@@ -27,11 +27,17 @@
     "title": "Supprimer le compte",
     "message": "Cette action est définitive : vous perdrez l'accès à votre compte et à vos données. Voulez-vous vraiment continuer ?",
     "confirm": "Oui, supprimer",
-    "password": "Confirmez votre mot de passe"
+    "password": "Confirmez votre mot de passe",
+    "googleMessage": "Votre compte utilise Google, il n'a donc pas de mot de passe. Pour confirmer, nous enverrons un code à {{email}}.",
+    "sendCode": "M'envoyer le code",
+    "resendCode": "Envoyer un autre code",
+    "code": "Code à 6 chiffres",
+    "codeSent": "Nous avons envoyé un code à {{email}}. Il expire dans 15 minutes."
   },
   "photoSaved": "Photo mise à jour.",
   "photoError": "Impossible d'enregistrer la photo. Réessayez.",
   "editField": "Modifier : {{field}}",
   "avatarAlt": "Votre photo de profil",
-  "photoViewError": "Impossible d'ouvrir la photo. Réessayez."
+  "photoViewError": "Impossible d'ouvrir la photo. Réessayez.",
+  "passwordGoogle": "Vous vous connectez avec Google : c'est Google qui gère votre mot de passe."
 }

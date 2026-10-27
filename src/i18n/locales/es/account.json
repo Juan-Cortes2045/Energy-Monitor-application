@@ -27,11 +27,17 @@
     "title": "Eliminar cuenta",
     "message": "Esta acción es permanente: perderás el acceso a tu cuenta y a tus datos. ¿Seguro que quieres continuar?",
     "confirm": "Sí, eliminar",
-    "password": "Confirma tu contraseña"
+    "password": "Confirma tu contraseña",
+    "googleMessage": "Tu cuenta usa Google, así que no tiene contraseña. Para confirmar, te enviaremos un código a {{email}}.",
+    "sendCode": "Enviarme el código",
+    "resendCode": "Enviar otro código",
+    "code": "Código de 6 dígitos",
+    "codeSent": "Te enviamos un código a {{email}}. Vence en 15 minutos."
   },
   "photoSaved": "Foto actualizada.",
   "photoError": "No pudimos guardar la foto. Intenta de nuevo.",
   "editField": "Editar {{field}}",
   "avatarAlt": "Tu foto de perfil",
-  "photoViewError": "No pudimos abrir la foto. Intenta de nuevo."
+  "photoViewError": "No pudimos abrir la foto. Intenta de nuevo.",
+  "passwordGoogle": "Inicias sesión con Google: tu contraseña la gestiona Google."
 }

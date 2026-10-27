@@ -27,11 +27,17 @@
     "title": "Delete account",
     "message": "This action is permanent: you will lose access to your account and your data. Are you sure you want to continue?",
     "confirm": "Yes, delete",
-    "password": "Confirm your password"
+    "password": "Confirm your password",
+    "googleMessage": "Your account uses Google, so it has no password. To confirm, we'll send a code to {{email}}.",
+    "sendCode": "Send me the code",
+    "resendCode": "Send another code",
+    "code": "6-digit code",
+    "codeSent": "We sent a code to {{email}}. It expires in 15 minutes."
   },
   "photoSaved": "Photo updated.",
   "photoError": "We could not save the photo. Please try again.",
   "editField": "Edit {{field}}",
   "avatarAlt": "Your profile photo",
-  "photoViewError": "We could not open the photo. Please try again."
+  "photoViewError": "We could not open the photo. Please try again.",
+  "passwordGoogle": "You sign in with Google: Google manages your password."
 }
