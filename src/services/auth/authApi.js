@@ -76,7 +76,13 @@ export async function getAccount() {
   const { data } = await httpClient.get("/auth/account");
   const prev = getSession();
   saveSession({
-    account: { ...prev?.account, idUser: data.idUser ?? prev?.account?.idUser, email: data.email },
+    account: {
+      ...prev?.account,
+      idUser: data.idUser ?? prev?.account?.idUser,
+      email: data.email,
+      // Creada con Google: no tiene contraseña que cambiar y su borrado se confirma con un código.
+      googleAccount: data.googleAccount === true,
+    },
     profile: {
       ...prev?.profile,
       ...(data.name != null ? { name: data.name, lastName: data.lastName ?? "" } : {}),
@@ -101,11 +107,17 @@ export async function refreshProfile() {
   await Promise.all([getAccount(), getPermissions()]);
 }
 
-/** Elimina la cuenta tras confirmar con la contraseña; cierra la sesión local. */
-export async function deleteAccount(password) {
-  await httpClient.post("/auth/account/delete", { password });
+/**
+ * Elimina la cuenta y cierra la sesión local. Se confirma con `{ password }` o, si la cuenta se
+ * creó con Google, con `{ code }` (el que envía `requestAccountDeletionCode`).
+ */
+export async function deleteAccount(confirmation) {
+  await httpClient.post("/auth/account/delete", confirmation);
   clearSession();
 }
+
+/** Envía al correo de una cuenta creada con Google el código que confirma su borrado. */
+export const requestAccountDeletionCode = () => httpClient.post("/auth/account/delete/code");
 
 /**
  * Cierra la sesión local primero (la interfaz responde al instante y nada en vuelo puede
