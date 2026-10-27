@@ -5,7 +5,13 @@ import { ApiError } from "../../services/http/errors";
 import Account from "./Account";
 import ChangePasswordModal from "./ChangePasswordModal";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { changePassword, deleteAccount, refreshProfile, updateProfile } from "../../services/auth/authApi";
+import {
+  changePassword,
+  deleteAccount,
+  refreshProfile,
+  requestAccountDeletionCode,
+  updateProfile,
+} from "../../services/auth/authApi";
 import { saveSession } from "../../services/auth/session";
 
 vi.mock("../../services/auth/authApi", () => ({
@@ -13,6 +19,7 @@ vi.mock("../../services/auth/authApi", () => ({
   updateProfile: vi.fn(),
   refreshProfile: vi.fn(),
   deleteAccount: vi.fn(),
+  requestAccountDeletionCode: vi.fn(),
 }));
 
 const renderAccount = () =>
@@ -98,7 +105,7 @@ describe("Account", () => {
     await userEvent.click(screen.getByText("deleteAccount"));
     await userEvent.type(screen.getByLabelText("deleteModal.password"), "Secret1!");
     await userEvent.click(screen.getByText("deleteModal.confirm"));
-    await waitFor(() => expect(deleteAccount).toHaveBeenCalledWith("Secret1!"));
+    await waitFor(() => expect(deleteAccount).toHaveBeenCalledWith({ password: "Secret1!" }));
     expect(await screen.findByText("login-page")).toBeInTheDocument();
   });
 
@@ -109,6 +116,46 @@ describe("Account", () => {
     await userEvent.type(screen.getByLabelText("deleteModal.password"), "bad");
     await userEvent.click(screen.getByText("deleteModal.confirm"));
     expect(await screen.findByText("errors:accountDelete.wrongPassword")).toBeInTheDocument();
+  });
+});
+
+describe("Account de una cuenta creada con Google", () => {
+  beforeEach(() => {
+    saveSession({ account: { idUser: "u", email: "ana@gmail.com", googleAccount: true } });
+  });
+
+  it("no ofrece cambiar una contraseña que no tiene", () => {
+    renderAccount();
+
+    expect(screen.getByText("passwordGoogle")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "changePassword.title" })).not.toBeInTheDocument();
+  });
+
+  it("elimina la cuenta con el código que llega al correo, sin contraseña", async () => {
+    requestAccountDeletionCode.mockResolvedValue();
+    deleteAccount.mockResolvedValue();
+    renderAccount();
+    await userEvent.click(screen.getByText("deleteAccount"));
+    expect(screen.queryByLabelText("deleteModal.password")).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByText("deleteModal.sendCode"));
+    await userEvent.type(await screen.findByLabelText("deleteModal.code"), "12a3456");
+    await userEvent.click(screen.getByText("deleteModal.confirm"));
+
+    await waitFor(() => expect(deleteAccount).toHaveBeenCalledWith({ code: "123456" }));
+    expect(await screen.findByText("login-page")).toBeInTheDocument();
+  });
+
+  it("mientras el código no se puede enviar lo dice y no deja confirmar", async () => {
+    requestAccountDeletionCode.mockRejectedValue(new ApiError(503, "x"));
+    renderAccount();
+    await userEvent.click(screen.getByText("deleteAccount"));
+    await userEvent.click(screen.getByText("deleteModal.sendCode"));
+
+    expect(await screen.findByText("errors:accountDeleteCode.unavailable")).toBeInTheDocument();
+    expect(screen.queryByLabelText("deleteModal.code")).not.toBeInTheDocument();
+    expect(screen.getByText("deleteModal.confirm").closest("button")).toBeDisabled();
+    expect(deleteAccount).not.toHaveBeenCalled();
   });
 });
 

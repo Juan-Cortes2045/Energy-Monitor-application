@@ -35,9 +35,16 @@ const OPERATIONS = {
     default: "passwordChange.failed",
   },
   accountDelete: {
+    400: "accountDelete.wrongCode",
     401: "accountDelete.wrongPassword",
     409: "accountDelete.lastOwner",
+    429: "generic.rateLimited",
     default: "accountDelete.failed",
+  },
+  // 503: el correo con el código aún no se puede enviar (lo hará el servicio de notificaciones).
+  accountDeleteCode: {
+    503: "accountDeleteCode.unavailable",
+    default: "accountDeleteCode.failed",
   },
   homeCreate: { 404: "homeCreate.typeNotFound", 409: "homeCreate.codeCollision" },
   homeJoin: { 404: "homeJoin.codeNotFound", 409: "homeJoin.alreadyMember" },

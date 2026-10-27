@@ -6,7 +6,12 @@ import { useTranslation } from "react-i18next";
 import Card from "../../design/components/Card/Card";
 import Button from "../../design/components/Button/Button";
 import { useCurrentPerson } from "../../services/auth/useCurrentPerson";
-import { deleteAccount, refreshProfile, updateProfile } from "../../services/auth/authApi";
+import {
+  deleteAccount,
+  refreshProfile,
+  requestAccountDeletionCode,
+  updateProfile,
+} from "../../services/auth/authApi";
 import { errorMessage } from "../../services/http/errorMessages";
 import { landingPath } from "../../services/auth/session";
 import { useDialogA11y } from "../../hooks/useDialogA11y";
@@ -120,14 +125,28 @@ const Account = ({ onClose }) => {
 
   const toggleMenu = () => !savingPhoto && setOpen((o) => !o);
 
-  const handleDeleteAccount = async (password) => {
+  // confirmation: { password } o, en una cuenta creada con Google, { code }.
+  const handleDeleteAccount = async (confirmation) => {
     setDeleteError("");
     try {
-      await deleteAccount(password);
+      await deleteAccount(confirmation);
       navigate("/login", { replace: true, state: { notice: "accountDeleted" } });
     } catch (e) {
-      // 401: contraseña incorrecta; 409: único propietario de un hogar con miembros.
+      // 400: código incorrecto; 401: contraseña incorrecta; 409: único propietario de un hogar
+      // con miembros.
       setDeleteError(errorMessage(t, e, "accountDelete"));
+    }
+  };
+
+  /** @returns {Promise<boolean>} si el código se envió (503: aún no se puede enviar) */
+  const handleRequestDeletionCode = async () => {
+    setDeleteError("");
+    try {
+      await requestAccountDeletionCode();
+      return true;
+    } catch (e) {
+      setDeleteError(errorMessage(t, e, "accountDeleteCode"));
+      return false;
     }
   };
 
@@ -314,17 +333,24 @@ const Account = ({ onClose }) => {
 
               <div className={styles.row}>
                 <span className={styles.label}>{t("password")}</span>
-                <p className={styles.value} aria-hidden="true">
-                  ••••••••
-                </p>
-                <Button
-                  variant="primary"
-                  className={styles.btnEdit}
-                  onClick={() => setModal("password")}
-                  aria-label={t("changePassword.title")}
-                >
-                  <Pencil size={18} />
-                </Button>
+                {person?.googleAccount ? (
+                  // Creada con Google: no hay contraseña que la persona conozca ni pueda cambiar.
+                  <p className={styles.value}>{t("passwordGoogle")}</p>
+                ) : (
+                  <>
+                    <p className={styles.value} aria-hidden="true">
+                      ••••••••
+                    </p>
+                    <Button
+                      variant="primary"
+                      className={styles.btnEdit}
+                      onClick={() => setModal("password")}
+                      aria-label={t("changePassword.title")}
+                    >
+                      <Pencil size={18} />
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
 
@@ -373,6 +399,9 @@ const Account = ({ onClose }) => {
       )}
       {modal === "delete" && (
         <ConfirmDeleteModal
+          googleAccount={person?.googleAccount === true}
+          email={values.email}
+          onRequestCode={handleRequestDeletionCode}
           error={deleteError}
           onClose={() => {
             setModal(null);
