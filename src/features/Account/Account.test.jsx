@@ -185,4 +185,24 @@ describe("ChangePasswordModal", () => {
       newPassword: "Abcdef1!",
     });
   });
+
+  it("ve la foto en un visor dentro de la página, sin fetch ni pestaña nueva", async () => {
+    saveSession({
+      accessToken: "a",
+      refreshToken: "r",
+      account: { idUser: "u", email: "a@b.co" },
+      profile: { name: "Ada", lastName: "Lovelace", profileImage: "data:image/png;base64,AAAA" },
+    });
+    const fetchSpy = vi.spyOn(globalThis, "fetch");
+    const openSpy = vi.spyOn(globalThis, "open");
+    renderAccount();
+    await userEvent.click(screen.getByRole("button", { name: "photoOptions" }));
+    await userEvent.click(screen.getByRole("button", { name: "viewPhoto" }));
+
+    expect(screen.getByRole("dialog", { name: "avatarAlt" })).toBeInTheDocument();
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(openSpy).not.toHaveBeenCalled();
+    await userEvent.click(screen.getByRole("button", { name: "closePhoto" }));
+    expect(screen.queryByRole("dialog", { name: "avatarAlt" })).not.toBeInTheDocument();
+  });
 });

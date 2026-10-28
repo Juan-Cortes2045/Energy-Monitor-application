@@ -49,6 +49,10 @@
     "critical": {
       "title": "Consommation critique",
       "message": "Un appareil de « {{home}} » consomme à un niveau critique."
+    },
+    "anomaly": {
+      "title": "Consommation inhabituelle",
+      "message": "Un appareil de « {{home}} » consomme bien plus que d'habitude."
     }
   },
   "connectivity": {

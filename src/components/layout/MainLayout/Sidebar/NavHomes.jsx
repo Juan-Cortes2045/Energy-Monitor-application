@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -12,6 +12,7 @@ const NavHomes = ({ icon, label, collapsed, onExpand, onNavigate }) => {
   const navigate = useNavigate();
   const { homes } = useHomes();
   const listId = useId();
+  const rootRef = useRef(null);
 
   // Ajuste de estado durante el render (patrón de React para reaccionar a
   // un cambio de prop sin useEffect): si el sidebar pasó a colapsado desde
@@ -21,6 +22,16 @@ const NavHomes = ({ icon, label, collapsed, onExpand, onNavigate }) => {
     setPrevCollapsed(collapsed);
     if (collapsed) setOpen(false);
   }
+
+  // La lista se cierra al tocar o hacer clic fuera de ella.
+  useEffect(() => {
+    if (!open) return undefined;
+    const onPointerDown = (e) => {
+      if (rootRef.current && !rootRef.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [open]);
 
   const handleToggle = () => {
     if (collapsed) {
@@ -33,6 +44,7 @@ const NavHomes = ({ icon, label, collapsed, onExpand, onNavigate }) => {
 
   return (
     <div
+      ref={rootRef}
       onKeyDown={(e) => {
         // Escape cierra la lista y deja el foco en su botón.
         if (e.key === "Escape" && open) {
@@ -78,6 +90,7 @@ const NavHomes = ({ icon, label, collapsed, onExpand, onNavigate }) => {
                 onClick={(e) => {
                   e.stopPropagation();
                   navigate(`/homes/${h.idHome}`);
+                  setOpen(false);
                   onNavigate?.();
                 }}
               >

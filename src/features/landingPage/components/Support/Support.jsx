@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation, Trans } from "react-i18next";
 
 import Card from "../../../../design/components/Card/Card";
@@ -18,7 +18,7 @@ import {
   Settings,
 } from "lucide-react";
 
-import { getSupportContacts } from "../../../../services/support";
+import { openSupportTicket, useSupportContacts } from "./useSupportContacts";
 import styles from "./Support.module.css";
 
 // ── Iconos por tema (no se traducen, solo se mapean por id) ──────────────────
@@ -34,9 +34,6 @@ const TOPIC_ICONS = {
 // IDs en orden fijo (el contenido real sale de support.json vía t())
 const TOPIC_IDS = [1, 2, 3, 4, 5, 6];
 const FAQ_IDS = [1, 2, 3, 4, 5];
-
-// Abre fuera de la app sin darle a la otra pestaña acceso a window.opener
-const openExternal = (url) => window.open(url, "_blank", "noopener,noreferrer");
 
 // ── Normaliza texto (quita tildes) para búsqueda más flexible ────────────────
 const normalize = (str) =>
@@ -121,33 +118,13 @@ const Support = () => {
   const { t } = useTranslation("support");
   const [search, setSearch] = useState("");
 
-  const subject = encodeURIComponent(t("contact.email.subject"));
-  const body = encodeURIComponent(t("contact.email.body"));
+  const subject = t("contact.email.subject");
+  const body = t("contact.email.body");
 
   // Los administradores son el contacto de soporte; con varios, la persona elige a quién escribir.
-  const [contacts, setContacts] = useState({ status: "loading", list: [] });
-  const [selectedEmail, setSelectedEmail] = useState("");
+  const { contacts, selectedEmail, setSelectedEmail } = useSupportContacts();
 
-  useEffect(() => {
-    let active = true;
-    getSupportContacts()
-      .then((list) => {
-        if (!active) return;
-        setContacts({ status: "ready", list });
-        setSelectedEmail(list[0]?.email ?? "");
-      })
-      .catch(() => active && setContacts({ status: "error", list: [] }));
-    return () => {
-      active = false;
-    };
-  }, []);
-
-  const handleEmail = () => {
-    if (!selectedEmail) return;
-    openExternal(
-      `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(selectedEmail)}&su=${subject}&body=${body}`,
-    );
-  };
+  const handleEmail = () => openSupportTicket(selectedEmail, subject, body);
 
   const onlyContact = contacts.list.length === 1 ? contacts.list[0] : null;
   const noContact = contacts.status === "error" || (contacts.status === "ready" && contacts.list.length === 0);

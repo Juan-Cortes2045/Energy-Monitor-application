@@ -49,6 +49,10 @@
     "critical": {
       "title": "Critical consumption",
       "message": "A device in \"{{home}}\" is using power at a critical level."
+    },
+    "anomaly": {
+      "title": "Unusual consumption",
+      "message": "A device in \"{{home}}\" is using far more than it usually does."
     }
   },
   "connectivity": {

@@ -33,7 +33,9 @@
   },
   "actions": {
     "removeUser": "Remove {{name}}",
-    "transferOwnership": "Make {{name}} the owner"
+    "transferOwnership": "Make {{name}} the owner",
+    "viewPhoto": "View {{name}}'s photo",
+    "closePhoto": "Close photo"
   },
   "state": {
     "loading": "Loading members...",

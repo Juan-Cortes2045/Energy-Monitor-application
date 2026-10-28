@@ -178,4 +178,38 @@ describe("Users (transferir el hogar)", () => {
     expect(await screen.findByRole("alert")).toHaveTextContent(key);
     expect(reload).not.toHaveBeenCalled();
   });
+
+  it("muestra la foto de cada miembro y la amplía sin salir de la página", () => {
+    useMembers.mockReturnValue({
+      ...base,
+      members: [
+        { userId: "u1", role: "OWNER" },
+        { userId: "u2", role: "MEMBER", name: "Grace", lastName: "Hopper", profileImage: "data:image/png;base64,AAAA" },
+        { userId: "u3", role: "MEMBER", name: "Alan", lastName: "Turing" },
+      ],
+    });
+    render(<Users home={home} isOwner />);
+
+    // Quien tiene foto la muestra; quien no, sus iniciales.
+    expect(screen.getAllByRole("button", { name: /actions\.viewPhoto/ })).toHaveLength(1);
+    expect(screen.getByText("AT")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: /actions\.viewPhoto/ }));
+    expect(screen.getByRole("dialog", { name: "Grace Hopper" })).toBeInTheDocument();
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(screen.queryByRole("dialog", { name: "Grace Hopper" })).not.toBeInTheDocument();
+  });
+
+  it("ignora una foto que no es un data URL de imagen", () => {
+    useMembers.mockReturnValue({
+      ...base,
+      members: [
+        { userId: "u1", role: "OWNER" },
+        { userId: "u2", role: "MEMBER", name: "Eve", lastName: "Mallory", profileImage: "https://evil.example/x.png" },
+      ],
+    });
+    render(<Users home={home} isOwner />);
+    expect(screen.queryByRole("button", { name: /actions\.viewPhoto/ })).not.toBeInTheDocument();
+    expect(screen.getByText("EM")).toBeInTheDocument();
+  });
 });

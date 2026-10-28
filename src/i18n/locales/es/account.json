@@ -38,6 +38,6 @@
   "photoError": "No pudimos guardar la foto. Intenta de nuevo.",
   "editField": "Editar {{field}}",
   "avatarAlt": "Tu foto de perfil",
-  "photoViewError": "No pudimos abrir la foto. Intenta de nuevo.",
-  "passwordGoogle": "Inicias sesión con Google: tu contraseña la gestiona Google."
+  "passwordGoogle": "Inicias sesión con Google: tu contraseña la gestiona Google.",
+  "closePhoto": "Cerrar foto"
 }

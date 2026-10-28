@@ -1,0 +1,63 @@
+{
+  "title": "Documentación",
+  "subtitle": {
+    "user": "Guía rápida para usar EnergyMonitor en tu hogar.",
+    "admin": "Guía de la administración de la plataforma."
+  },
+  "user": [
+    {
+      "title": "Crear tu cuenta",
+      "body": "Regístrate con tu correo y una contraseña, acepta los términos y escribe el código de seis dígitos que te llega al correo. También puedes entrar con Google. La cuenta se crea al verificar el correo."
+    },
+    {
+      "title": "Hogares",
+      "body": "Crea un hogar o únete con el código de acceso que te compartió su responsable. El responsable puede invitar, quitar miembros, transferir el hogar y fijar los límites diario y mensual de consumo. Marca tus hogares favoritos para encontrarlos rápido."
+    },
+    {
+      "title": "Vincular un medidor",
+      "body": "En el hogar, entra a Dispositivos y elige Vincular. Se hace por Bluetooth: el medidor recibe tu red Wi-Fi y queda conectado. Verás si está en línea y cuándo envió su última lectura."
+    },
+    {
+      "title": "Consumo e historial",
+      "body": "El panel muestra la potencia actual, el consumo del día y del mes y una gráfica de las últimas 24 horas. El historial permite elegir un rango de fechas y ver el consumo por dispositivo."
+    },
+    {
+      "title": "Alertas y recomendaciones",
+      "body": "Recibes una alerta cuando el hogar supera su límite, cuando un medidor se desconecta o cuando un aparato consume mucho más de lo habitual. Las recomendaciones de ahorro salen de tu propio consumo."
+    },
+    {
+      "title": "Notificaciones",
+      "body": "En Ajustes eliges si los avisos llegan por correo, por el navegador o por ambos. En el navegador funcionan aunque la pestaña esté cerrada; en Brave hay que activar los servicios de Google para mensajería push en brave://settings/privacy."
+    },
+    {
+      "title": "Mi cuenta",
+      "body": "Cambia tu nombre, tu apellido y tu foto, y amplía la foto sin salir de la página. Puedes cambiar la contraseña, o eliminar la cuenta: con contraseña, o con un código que llega al correo si entraste con Google."
+    },
+    {
+      "title": "Soporte técnico",
+      "body": "Si algo no funciona, abre Soporte en el menú: busca en las preguntas frecuentes o escribe a un administrador desde ahí, sin salir de la aplicación."
+    }
+  ],
+  "admin": [
+    {
+      "title": "Panel de administración",
+      "body": "Lista las cuentas de la plataforma con su estado y sus roles. Una cuenta de administración solo usa la administración, sus notificaciones y los ajustes: no tiene hogares ni dispositivos."
+    },
+    {
+      "title": "Estado de las cuentas",
+      "body": "Puedes activar, inactivar o bloquear una cuenta. Una cuenta que no está activa no puede iniciar sesión. No puedes cambiar tu propio estado ni tus propios roles."
+    },
+    {
+      "title": "Roles",
+      "body": "Asigna o retira el rol de administrador a otra cuenta. Dos administradores no pueden quitarse el rol entre sí al mismo tiempo, para que la plataforma nunca se quede sin ninguno."
+    },
+    {
+      "title": "Avisos para administradores",
+      "body": "Recibes un aviso cuando se registra una cuenta y cuando otro administrador cambia un estado o un rol. Los avisos están en Notificaciones."
+    },
+    {
+      "title": "Soporte a los usuarios",
+      "body": "Los administradores son el contacto de soporte: los usuarios te escriben desde la pantalla de Soporte de su cuenta. Responde por correo; esta cuenta no genera solicitudes de soporte."
+    }
+  ]
+}

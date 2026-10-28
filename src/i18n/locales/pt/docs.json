@@ -1,0 +1,63 @@
+{
+  "title": "Documentação",
+  "subtitle": {
+    "user": "Guia rápido para usar o EnergyMonitor em casa.",
+    "admin": "Guia de administração da plataforma."
+  },
+  "user": [
+    {
+      "title": "Criar sua conta",
+      "body": "Cadastre-se com seu e-mail e uma senha, aceite os termos e digite o código de seis dígitos enviado ao e-mail. Também é possível entrar com o Google. A conta é criada quando o e-mail é verificado."
+    },
+    {
+      "title": "Lares",
+      "body": "Crie um lar ou entre em um com o código de acesso que o responsável compartilhou. O responsável pode convidar, remover membros, transferir o lar e definir os limites diário e mensal. Marque seus lares favoritos para encontrá-los rápido."
+    },
+    {
+      "title": "Vincular um medidor",
+      "body": "No lar, abra Dispositivos e escolha Vincular. É feito por Bluetooth: o medidor recebe sua rede Wi-Fi e se conecta. Você vê se ele está online e quando enviou a última leitura."
+    },
+    {
+      "title": "Consumo e histórico",
+      "body": "O painel mostra a potência atual, o consumo do dia e do mês e um gráfico das últimas 24 horas. O histórico permite escolher um período e ver o consumo por dispositivo."
+    },
+    {
+      "title": "Alertas e recomendações",
+      "body": "Você recebe um alerta quando o lar passa do limite, quando um medidor se desconecta ou quando um aparelho consome muito mais que o habitual. As recomendações de economia vêm do seu próprio consumo."
+    },
+    {
+      "title": "Notificações",
+      "body": "Em Ajustes, escolha se os avisos chegam por e-mail, pelo navegador ou pelos dois. No navegador funcionam com a aba fechada; no Brave, ative os serviços do Google para mensagens push em brave://settings/privacy."
+    },
+    {
+      "title": "Minha conta",
+      "body": "Altere seu nome, sobrenome e foto, e amplie a foto sem sair da página. Você pode trocar a senha ou excluir a conta: com a senha, ou com um código enviado por e-mail se você entrou com o Google."
+    },
+    {
+      "title": "Suporte técnico",
+      "body": "Se algo não funcionar, abra Suporte no menu: busque nas perguntas frequentes ou escreva a um administrador dali, sem sair do aplicativo."
+    }
+  ],
+  "admin": [
+    {
+      "title": "Painel de administração",
+      "body": "Lista as contas da plataforma com seu status e papéis. Uma conta de administração só usa a administração, suas notificações e os ajustes: não tem lares nem dispositivos."
+    },
+    {
+      "title": "Status das contas",
+      "body": "Você pode ativar, inativar ou bloquear uma conta. Uma conta que não está ativa não pode entrar. Você não pode alterar seu próprio status nem seus próprios papéis."
+    },
+    {
+      "title": "Papéis",
+      "body": "Atribua ou retire o papel de administrador de outra conta. Dois administradores não podem retirar o papel um do outro ao mesmo tempo, para que a plataforma nunca fique sem nenhum."
+    },
+    {
+      "title": "Avisos para administradores",
+      "body": "Você recebe um aviso quando uma conta se cadastra e quando outro administrador altera um status ou papel. Os avisos ficam em Notificações."
+    },
+    {
+      "title": "Suporte aos usuários",
+      "body": "Os administradores são o contato de suporte: os usuários escrevem a você pela tela de Suporte da conta deles. Responda por e-mail; esta conta não gera solicitações de suporte."
+    }
+  ]
+}

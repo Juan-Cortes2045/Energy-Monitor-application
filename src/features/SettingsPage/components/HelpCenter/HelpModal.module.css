@@ -1,0 +1,8 @@
+.overlay { position: fixed; inset: 0; z-index: 1100; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.55); padding: var(--spacing-lg); box-sizing: border-box; }
+.box { display: flex; flex-direction: column; width: 100%; max-width: 680px; max-height: 88vh; border-radius: var(--radius-lg, 12px); background: var(--color-surface, #1e293b); border: 1px solid var(--color-border, rgba(128, 128, 128, 0.3)); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45); outline: none; }
+.header { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-md); padding: var(--spacing-md) var(--spacing-lg); border-bottom: 1px solid var(--color-border, rgba(128, 128, 128, 0.3)); }
+.title { margin: 0; font-family: var(--font-secondary); font-size: var(--font-size-lg); color: var(--color-text-primary); }
+.close { display: grid; place-items: center; width: 32px; height: 32px; border: none; border-radius: 50%; background: transparent; color: var(--color-text-secondary); cursor: pointer; }
+.close:hover { background: rgba(128, 128, 128, 0.2); }
+.close:focus-visible { outline: 2px solid var(--color-primary, #38aa00); outline-offset: 2px; }
+.body { overflow-y: auto; padding: var(--spacing-lg); }

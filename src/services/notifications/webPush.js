@@ -5,6 +5,10 @@ import { getPushPublicKey, removePushSubscription, savePushSubscription } from "
  *
  * Funciona en Chrome, Edge y Firefox (escritorio y Android) y en Safari 16.4+; en iPhone solo
  * si la web está instalada en la pantalla de inicio. Exige HTTPS o localhost.
+ *
+ * Brave trae la Push API pero con el servicio de mensajería de Google apagado: pedir el permiso
+ * funciona y la suscripción falla con un AbortError. No se puede arreglar desde la web; se detecta
+ * y se le indica a la persona cómo activarlo (brave://settings/privacy).
  */
 
 export function isPushSupported() {
@@ -15,6 +19,15 @@ export function isPushSupported() {
     "PushManager" in window &&
     "Notification" in window
   );
+}
+
+/** ¿Es Brave? Expone `navigator.brave.isBrave()`. */
+export async function isBraveBrowser() {
+  try {
+    return (await globalThis.navigator?.brave?.isBrave?.()) === true;
+  } catch {
+    return false;
+  }
 }
 
 /** "granted" | "denied" | "default" | "unsupported" */
@@ -40,7 +53,9 @@ export async function isThisBrowserSubscribed() {
 
 /**
  * Pide permiso, suscribe este navegador y lo registra en el backend.
- * @returns {Promise<"subscribed"|"denied"|"unsupported"|"unavailable">}
+ * @returns {Promise<"subscribed"|"denied"|"unsupported"|"unavailable"|"serviceBlocked"|"braveBlocked">}
+ *   `serviceBlocked`: el navegador no pudo registrarse en su servicio push (red, bloqueo o ajustes);
+ *   `braveBlocked`: lo mismo en Brave, que lo trae apagado por defecto.
  */
 export async function subscribeThisBrowser() {
   if (!isPushSupported()) return "unsupported";
@@ -59,7 +74,17 @@ export async function subscribeThisBrowser() {
     await subscription.unsubscribe();
     subscription = null;
   }
-  subscription ??= await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: key });
+  if (!subscription) {
+    try {
+      subscription = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: key });
+    } catch (error) {
+      // AbortError "push service error": el navegador no llegó a su servicio de mensajería.
+      if (error?.name !== "AbortError" && error?.name !== "NotAllowedError" && error?.name !== "InvalidStateError") {
+        throw error;
+      }
+      return (await isBraveBrowser()) ? "braveBlocked" : "serviceBlocked";
+    }
+  }
   await savePushSubscription(subscription.toJSON());
   return "subscribed";
 }
