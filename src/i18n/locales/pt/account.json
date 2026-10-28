@@ -38,6 +38,6 @@
   "photoError": "Não foi possível salvar a foto. Tente novamente.",
   "editField": "Editar {{field}}",
   "avatarAlt": "Sua foto de perfil",
-  "photoViewError": "Não foi possível abrir a foto. Tente novamente.",
-  "passwordGoogle": "Você entra com o Google: o Google gerencia sua senha."
+  "passwordGoogle": "Você entra com o Google: o Google gerencia sua senha.",
+  "closePhoto": "Fechar foto"
 }
