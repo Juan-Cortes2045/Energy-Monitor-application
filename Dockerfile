@@ -8,6 +8,9 @@
 FROM node:22-alpine AS build
 WORKDIR /app
 
+# git: el build arma las Novedades de la web con el historial de commits (vite.config.js).
+RUN apk add --no-cache git
+
 COPY package.json package-lock.json ./
 RUN npm ci
 
