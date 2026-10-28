@@ -1,0 +1,6 @@
+.intro { margin: 0 0 var(--spacing-sm); color: var(--color-text-primary); }
+.steps { margin: 0 0 var(--spacing-md); padding-left: var(--spacing-lg); color: var(--color-text-secondary); font-size: var(--font-size-sm); line-height: 1.6; }
+.notice { color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+.choice { display: flex; flex-direction: column; gap: var(--spacing-xs); margin-bottom: var(--spacing-md); }
+.label { font-size: var(--font-size-sm); color: var(--color-text-secondary); }
+.select { padding: var(--spacing-sm); border-radius: var(--radius-md, 8px); border: 1px solid var(--color-border, rgba(128, 128, 128, 0.4)); background: var(--color-background); color: var(--color-text-primary); }

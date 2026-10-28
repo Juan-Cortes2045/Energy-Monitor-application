@@ -37,7 +37,9 @@
       "description": "Alerts in this browser even with the tab closed",
       "unsupported": "This browser does not support push notifications. On iPhone, add the site to the home screen.",
       "unavailable": "Push notifications are not configured on the server.",
-      "denied": "You blocked notifications for this site. Allow them from the padlock in the address bar."
+      "denied": "You blocked notifications for this site. Allow them from the padlock in the address bar.",
+      "serviceBlocked": "Your browser could not register with its notification service. Check your connection, any blockers and the browser's notification settings, then try again.",
+      "braveBlocked": "Brave has push notifications turned off. Go to brave://settings/privacy, turn on “Use Google services for push messaging” and restart Brave; then enable them here again."
     },
     "combined": {
       "title": "Combined mode",
@@ -52,7 +54,7 @@
     "docs": {
       "title": "Documentation",
       "description": "User guides, feature references, and step-by-step tutorials",
-      "action": "Open documentation"
+      "action": "View documentation"
     },
     "support": {
       "title": "Technical support",
@@ -62,8 +64,16 @@
     "updates": {
       "title": "What's new",
       "description": "Latest updates, improvements, and bug fixes",
-      "action": "View changelog"
+      "action": "View what's new"
     },
-    "soon": "Coming soon"
+    "close": "Close",
+    "supportModal": {
+      "intro": "The administration team handles EnergyMonitor support.",
+      "steps": [
+        "Choose who to write to, if there are several administrators.",
+        "Press “Create ticket”: an email opens with the subject already written.",
+        "Describe the problem and send it: they will reply by email."
+      ]
+    }
   }
 }

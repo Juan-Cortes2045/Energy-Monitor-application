@@ -62,12 +62,6 @@
 
 .link:hover{ text-decoration:underline; }
 
-.soon{
-  margin-top:auto;
-  font-size:14px;
-  font-weight:600;
-  color:var(--color-text-secondary);
-}
 
 /* TABLET */
 @media (max-width:1024px){

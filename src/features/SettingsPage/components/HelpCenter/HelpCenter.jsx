@@ -1,16 +1,26 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import { BookOpen, Headphones, Sparkles, ArrowRight } from "lucide-react";
 
 import Card from "../../../../design/components/Card/Card";
+import { usePermissions } from "../../../../services/auth/usePermissions";
+import DocsModal from "./DocsModal";
+import NewsModal from "./NewsModal";
+import SupportModal from "./SupportModal";
 
 import styles from "./HelpCenter.module.css";
 import { useTranslation } from "react-i18next";
 
+const MODALS = { docs: DocsModal, support: SupportModal, updates: NewsModal };
+
+/**
+ * Ayuda de Ajustes: cada tarjeta abre su modal (documentación, soporte y novedades). El soporte
+ * solo es para usuarios: los administradores son quienes lo atienden, así que no lo ven.
+ */
 const HelpCenter = () => {
   const { t } = useTranslation("settings");
+  const { isAdmin } = usePermissions();
+  const [open, setOpen] = useState(null);
 
-  // Solo el soporte tiene página (/support). La documentación y el registro de cambios aún no
-  // existen: se indica "Próximamente" en lugar de un botón que no hace nada.
   const ITEMS = [
     {
       title: t("help.docs.title"),
@@ -25,7 +35,6 @@ const HelpCenter = () => {
       action: t("help.support.action"),
       icon: <Headphones size={20} />,
       type: "support",
-      to: "/support",
     },
     {
       title: t("help.updates.title"),
@@ -34,7 +43,10 @@ const HelpCenter = () => {
       icon: <Sparkles size={20} />,
       type: "updates",
     },
-  ];
+  ].filter((item) => !(isAdmin && item.type === "support"));
+
+  const Modal = open ? MODALS[open] : null;
+
   return (
     <Card
       maxWidth="100%"
@@ -57,17 +69,14 @@ const HelpCenter = () => {
 
             <p>{item.description}</p>
 
-            {item.to ? (
-              <Link to={item.to} className={styles.link}>
-                {item.action}
-                <ArrowRight size={14} />
-              </Link>
-            ) : (
-              <span className={styles.soon}>{t("help.soon")}</span>
-            )}
+            <button type="button" className={styles.link} onClick={() => setOpen(item.type)}>
+              {item.action}
+              <ArrowRight size={14} />
+            </button>
           </div>
         ))}
       </div>
+      {Modal && <Modal onClose={() => setOpen(null)} />}
     </Card>
   );
 };
