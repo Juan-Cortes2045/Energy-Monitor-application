@@ -16,7 +16,7 @@ export const deleteResolvedAlerts = (homeId) =>
 
 // Backend (AlertResponse) -> forma que pinta la UI. messageKey del backend:
 // alert.threshold.{high|critical}, alert.connectivity.offline, alert.device.linked,
-// alert.limit.{daily|monthly}.
+// alert.limit.{daily|monthly}, alert.anomaly.device (un aparato consume mucho más de lo habitual).
 export function toUiAlert(a, homeName) {
   const critical = a.messageKey?.endsWith("critical");
   const type =
@@ -41,9 +41,11 @@ export function toUiAlert(a, homeName) {
             ? a.messageKey === "alert.limit.monthly"
               ? "limit.monthly"
               : "limit.daily"
-            : critical
-            ? "threshold.critical"
-            : "threshold.high",
+            : a.messageKey === "alert.anomaly.device"
+              ? "threshold.anomaly"
+              : critical
+                ? "threshold.critical"
+                : "threshold.high",
     home: homeName,
     homeId: a.homeId,
     // Problemas que el sistema cierra solo (consumo normalizado, dispositivo reconectado,
