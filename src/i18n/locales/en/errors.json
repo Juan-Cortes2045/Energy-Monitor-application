@@ -30,7 +30,8 @@
   "accountDelete": {
     "wrongPassword": "The password is not correct.",
     "lastOwner": "You are the only owner of a home that still has members. Remove the members from those homes before deleting your account.",
-    "failed": "The account could not be deleted. Please try again."
+    "failed": "The account could not be deleted. Please try again.",
+    "wrongCode": "The code is wrong or has expired."
   },
   "homeCreate": {
     "typeNotFound": "The selected home type does not exist.",
@@ -96,5 +97,12 @@
   "passwordRecovery": {
     "notRegistered": "No account is registered with that email address.",
     "failed": "We couldn't send the code. Please try again."
+  },
+  "terms": {
+    "required": "You must accept the terms and conditions to continue."
+  },
+  "accountDeleteCode": {
+    "unavailable": "We can't send you the code right now. Try again later.",
+    "failed": "The code couldn't be sent. Try again."
   }
 }

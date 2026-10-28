@@ -86,6 +86,7 @@ export function getCurrentPerson() {
     lastName: s.profile?.lastName ?? "",
     email: s.account.email ?? "",
     profileImage: s.profile?.profileImage ?? null,
+    googleAccount: s.account.googleAccount === true,
   };
 }
 

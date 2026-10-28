@@ -20,11 +20,35 @@ import ErrorState from "../../components/shared/ErrorState/ErrorState";
 import ConfirmModal from "../../components/shared/ConfirmModal/ConfirmModal";
 import { useHomes } from "../../context/useHomes";
 import { useNotificationCenter } from "../../context/useNotificationCenter";
+import { ACCOUNT_SCOPE, ALL_SCOPE, inScope } from "../../context/notificationScope";
 import AdminNotifications from "../Admin/AdminNotifications";
 import { usePermissions } from "../../services/auth/usePermissions";
+import { ACTIVITY_ICONS, FALLBACK_ACTIVITY_ICON } from "./activityIcons";
+import { activityText } from "./activityText";
 import styles from "./Notifications.module.css";
 
-const TABS = ["all", "alerts", "recommendations"];
+const TABS = ["all", "alerts", "recommendations", "activity"];
+
+/** El hogar elegido en el filtro se recuerda en este navegador. */
+const SCOPE_KEY = "energymonitor.notificationsScope";
+
+function readScope() {
+  try {
+    return localStorage.getItem(SCOPE_KEY) ?? ALL_SCOPE;
+  } catch {
+    return ALL_SCOPE;
+  }
+}
+
+function writeScope(scope) {
+  try {
+    localStorage.setItem(SCOPE_KEY, scope);
+  } catch {
+    // almacenamiento no disponible: el filtro vuelve a "todos" al recargar, no es grave
+  }
+}
+
+const byDateDesc = (a, b) => new Date(b.date) - new Date(a.date);
 
 const ALERT_ICONS = {
   connectivity: WifiOff,
@@ -189,9 +213,61 @@ const RecommendationRow = ({ recommendation, t, formatDate, onMarkRead, onDelete
   </div>
 );
 
+/**
+ * Lo que pasó en la cuenta, los hogares y los dispositivos del usuario: bienvenida, hogar creado,
+ * miembros que entran o salen, umbrales, propietario, hogar eliminado, dispositivos. Se marca como
+ * leída y, leída, se puede eliminar. El texto se arma con los nombres que guardó la notificación.
+ */
+const ActivityRow = ({ item, t, formatDate, onMarkRead, onDelete, busy = false }) => {
+  const Icon = ACTIVITY_ICONS[item.key] ?? FALLBACK_ACTIVITY_ICON;
+  const { title, message } = activityText(item, t);
+  return (
+    <div className={`${styles.row} ${item.read ? styles.rowMuted : ""}`}>
+      <div className={`${styles.icon} ${styles.iconInfo}`}>
+        <Icon size={18} />
+      </div>
+
+      <div className={styles.rowBody}>
+        <div className={styles.rowTop}>
+          <p className={styles.rowTitle}>{title}</p>
+          <span className={`${styles.badge} ${item.read ? styles.badgeNeutral : styles.badgeInfo}`}>
+            {item.read ? t("status.read") : t("status.new")}
+          </span>
+        </div>
+
+        <p className={styles.rowMessage}>{message}</p>
+
+        <div className={styles.rowMeta}>
+          <span>{item.home ?? t("filter.account")}</span>
+          <span className={styles.metaDot} />
+          <span>{formatDate(item.date)}</span>
+        </div>
+      </div>
+
+      <div className={styles.rowActions}>
+        {item.read ? (
+          <RowButton
+            icon={<Trash2 size={13} />}
+            label={t("actions.delete")}
+            onClick={() => onDelete(item.id)}
+            disabled={busy}
+          />
+        ) : (
+          <RowButton
+            icon={<Check size={13} />}
+            label={t("actions.markRead")}
+            onClick={() => onMarkRead(item.id)}
+            disabled={busy}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
 const HomeNotifications = () => {
   const { t, i18n } = useTranslation("notifications");
-  const { error: homesError, reload: reloadHomes } = useHomes();
+  const { homes, error: homesError, reload: reloadHomes } = useHomes();
   const {
     alerts,
     error: alertsError,
@@ -204,12 +280,41 @@ const HomeNotifications = () => {
     markAllRecommendationsRead,
     removeRecommendation,
     removeAllReadRecommendations,
+    activity,
+    markActivityRead,
+    markAllActivityRead,
+    removeActivity,
+    removeAllReadActivity,
   } = useNotificationCenter();
   const [busyIds, setBusyIds] = useState(() => new Set());
   const [clearing, setClearing] = useState(false);
   const [actionError, setActionError] = useState(null);
   const [activeTab, setActiveTab] = useState("all");
   const [confirmClear, setConfirmClear] = useState(false);
+  const [storedScope, setStoredScope] = useState(readScope);
+
+  // Un hogar que ya no es del usuario (salió o se eliminó) vuelve el filtro a "todos".
+  const scope =
+    storedScope === ALL_SCOPE || storedScope === ACCOUNT_SCOPE || homes.some((h) => h.idHome === storedScope)
+      ? storedScope
+      : ALL_SCOPE;
+  const chooseScope = (next) => {
+    setStoredScope(next);
+    writeScope(next);
+  };
+
+  const scopedAlerts = useMemo(() => alerts.filter((a) => inScope(a, scope)), [alerts, scope]);
+  const scopedRecommendations = useMemo(
+    () => recommendations.filter((r) => inScope(r, scope)),
+    [recommendations, scope],
+  );
+  const scopedActivity = useMemo(() => (activity ?? []).filter((n) => inScope(n, scope)), [activity, scope]);
+
+  /** Sin leer de cada opción del filtro, para mostrarlo junto a su nombre. */
+  const unreadIn = (option) =>
+    alerts.filter((a) => !a.resolved && inScope(a, option)).length +
+    recommendations.filter((r) => !r.read && inScope(r, option)).length +
+    (activity ?? []).filter((n) => !n.read && inScope(n, option)).length;
 
   const loadError = homesError ?? alertsError;
   const retry = () => (homesError ? reloadHomes() : reloadAlerts());
@@ -248,35 +353,28 @@ const HomeNotifications = () => {
     }
   };
 
+  const shows = (tab) => activeTab === "all" || activeTab === tab;
+
+  const activeAlertsCount = scopedAlerts.filter((a) => !a.resolved).length;
+  const unreadRecommendationsCount = scopedRecommendations.filter((r) => !r.read).length;
+  const unreadActivityCount = scopedActivity.filter((n) => !n.read).length;
+  const tabCounts = {
+    alerts: activeAlertsCount,
+    recommendations: unreadRecommendationsCount,
+    activity: unreadActivityCount,
+  };
+
+  // "Marcar todo como leído" y "Eliminar" actúan sobre lo que se ve: la pestaña y el hogar elegidos.
+  const markableRecommendations = shows("recommendations") ? unreadRecommendationsCount : 0;
+  const markableActivity = shows("activity") ? unreadActivityCount : 0;
+
   const handleMarkAllRead = async () => {
     setClearing(true);
     setActionError(null);
     try {
-      await markAllRecommendationsRead();
-    } catch (err) {
-      setActionError(err);
-    } finally {
-      setClearing(false);
-    }
-  };
-
-  const activeAlertsCount = alerts.filter((a) => !a.resolved).length;
-  const unreadRecommendationsCount = recommendations.filter((r) => !r.read).length;
-
-  // "Eliminar resueltas" actúa sobre lo que se ve en la pestaña actual.
-  const clearableAlerts = activeTab === "recommendations" ? 0 : alerts.filter((a) => a.resolved).length;
-  const clearableRecommendations = activeTab === "alerts" ? 0 : recommendations.filter((r) => r.read).length;
-  const clearable = clearableAlerts + clearableRecommendations;
-
-  // Borrado en bloque e irreversible: se confirma antes en un modal.
-  const handleClear = async () => {
-    setConfirmClear(false);
-    setClearing(true);
-    setActionError(null);
-    try {
       await Promise.all([
-        clearableRecommendations ? removeAllReadRecommendations() : null,
-        clearableAlerts ? removeAllResolved() : null,
+        markableRecommendations ? markAllRecommendationsRead(scope) : null,
+        markableActivity ? markAllActivityRead(scope) : null,
       ]);
     } catch (err) {
       setActionError(err);
@@ -285,24 +383,46 @@ const HomeNotifications = () => {
     }
   };
 
-  const combinedList = useMemo(
-    () => [...alerts, ...recommendations].sort((a, b) => new Date(b.date) - new Date(a.date)),
-    [alerts, recommendations],
-  );
+  const clearableAlerts = shows("alerts") ? scopedAlerts.filter((a) => a.resolved).length : 0;
+  const clearableRecommendations = shows("recommendations") ? scopedRecommendations.filter((r) => r.read).length : 0;
+  const clearableActivity = shows("activity") ? scopedActivity.filter((n) => n.read).length : 0;
+  const clearable = clearableAlerts + clearableRecommendations + clearableActivity;
 
-  const listToRender =
-    activeTab === "alerts"
-      ? [...alerts].sort((a, b) => new Date(b.date) - new Date(a.date))
-      : activeTab === "recommendations"
-        ? [...recommendations].sort((a, b) => new Date(b.date) - new Date(a.date))
-        : combinedList;
+  // Borrado en bloque e irreversible: se confirma antes en un modal.
+  const handleClear = async () => {
+    setConfirmClear(false);
+    setClearing(true);
+    setActionError(null);
+    try {
+      await Promise.all([
+        clearableRecommendations ? removeAllReadRecommendations(scope) : null,
+        clearableAlerts ? removeAllResolved(scope) : null,
+        clearableActivity ? removeAllReadActivity(scope) : null,
+      ]);
+    } catch (err) {
+      setActionError(err);
+    } finally {
+      setClearing(false);
+    }
+  };
 
-  const emptyKey =
-    activeTab === "alerts"
-      ? "empty.alerts"
-      : activeTab === "recommendations"
-        ? "empty.recommendations"
-        : "empty.all";
+  const listToRender = useMemo(() => {
+    const lists = {
+      alerts: scopedAlerts,
+      recommendations: scopedRecommendations,
+      activity: scopedActivity,
+    };
+    const shown = activeTab === "all" ? Object.values(lists).flat() : lists[activeTab];
+    return [...shown].sort(byDateDesc);
+  }, [activeTab, scopedAlerts, scopedRecommendations, scopedActivity]);
+
+  const emptyKey = `empty.${activeTab}`;
+
+  const scopeOptions = [
+    { value: ALL_SCOPE, label: t("filter.all") },
+    ...homes.map((h) => ({ value: h.idHome, label: h.name })),
+    { value: ACCOUNT_SCOPE, label: t("filter.account") },
+  ];
 
   return (
     <div className={styles.content}>
@@ -326,18 +446,30 @@ const HomeNotifications = () => {
                   aria-pressed={activeTab === tab}
                 >
                   {t(`tabs.${tab}`)}
-                  {tab === "alerts" && activeAlertsCount > 0 && (
-                    <span className={styles.tabCount}>{activeAlertsCount}</span>
-                  )}
-                  {tab === "recommendations" && unreadRecommendationsCount > 0 && (
-                    <span className={styles.tabCount}>{unreadRecommendationsCount}</span>
-                  )}
+                  {tabCounts[tab] > 0 && <span className={styles.tabCount}>{tabCounts[tab]}</span>}
                 </button>
               ))}
             </div>
 
             <div className={styles.tabs}>
-              {activeTab !== "alerts" && unreadRecommendationsCount > 0 && (
+              <label className={styles.scopeFilter}>
+                <span className={styles.scopeLabel}>{t("filter.label")}</span>
+                <select
+                  className={styles.scopeSelect}
+                  value={scope}
+                  onChange={(e) => chooseScope(e.target.value)}
+                >
+                  {scopeOptions.map((option) => {
+                    const unread = unreadIn(option.value);
+                    return (
+                      <option key={option.value} value={option.value}>
+                        {unread > 0 ? `${option.label} (${unread})` : option.label}
+                      </option>
+                    );
+                  })}
+                </select>
+              </label>
+              {markableRecommendations + markableActivity > 0 && (
                 <button type="button" className={styles.markAllBtn} onClick={handleMarkAllRead} disabled={clearing}>
                   <CheckCheck size={14} />
                   {t("actions.markAllRead")}
@@ -383,6 +515,16 @@ const HomeNotifications = () => {
                       formatDate={formatDate}
                       onMarkRead={(id) => withBusy(id, markRead)}
                       onDelete={(id) => withBusy(id, remove)}
+                      busy={busyIds.has(item.id)}
+                    />
+                  ) : item.kind === "activity" ? (
+                    <ActivityRow
+                      key={item.id}
+                      item={item}
+                      t={t}
+                      formatDate={formatDate}
+                      onMarkRead={(id) => withBusy(id, markActivityRead)}
+                      onDelete={(id) => withBusy(id, removeActivity)}
                       busy={busyIds.has(item.id)}
                     />
                   ) : (

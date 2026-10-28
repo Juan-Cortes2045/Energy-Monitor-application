@@ -100,5 +100,10 @@
       }
     ],
     "footer": "This document was prepared based on the Colombian Constitution, Law 1581 of 2012, its implementing decrees, and applicable international standards, and is presented for academic purposes as part of the EnergyMonitor project."
+  },
+  "consent": {
+    "text": "To continue, read and accept the terms and conditions and the privacy policy.",
+    "cancel": "Cancel",
+    "accept": "I accept the terms"
   }
 }

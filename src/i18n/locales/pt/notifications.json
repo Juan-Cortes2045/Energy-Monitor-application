@@ -4,11 +4,12 @@
     "current": "Notificações"
   },
   "title": "Notificações",
-  "subtitle": "Alertas e recomendações gerados a partir do consumo das suas casas.",
+  "subtitle": "Alertas, recomendações e novidades da sua conta e das suas casas.",
   "tabs": {
     "all": "Todas",
     "alerts": "Alertas",
-    "recommendations": "Recomendações"
+    "recommendations": "Recomendações",
+    "activity": "Atividade"
   },
   "status": {
     "active": "Ativa",
@@ -95,6 +96,10 @@
     "recommendations": {
       "title": "Sem recomendações",
       "description": "Ainda não há recomendações geradas para as suas casas."
+    },
+    "activity": {
+      "title": "Sem atividade",
+      "description": "Aqui você verá quando alguém entrar nas suas casas, alterar os limites ou vincular um dispositivo."
     }
   },
   "device": {
@@ -119,6 +124,89 @@
     "monthly": {
       "title": "Limite mensal atingido",
       "message": "\"{{home}}\" já consumiu este mês o limite mensal que você configurou."
+    }
+  },
+  "filter": {
+    "label": "Casa",
+    "all": "Todas as casas",
+    "account": "Conta"
+  },
+  "activity": {
+    "quoted": "\"{{name}}\"",
+    "yourHome": "sua casa",
+    "someone": "Alguém",
+    "aMember": "Um membro",
+    "aDevice": "um dispositivo",
+    "generic": {
+      "title": "Novidades no Energy Monitor",
+      "message": "Há novidades em {{home}}."
+    },
+    "account": {
+      "welcome": {
+        "title": "Bem-vindo ao Energy Monitor",
+        "message": "Sua conta está pronta. Crie uma casa ou entre em uma com o código dela para começar a ver o consumo dos seus dispositivos."
+      }
+    },
+    "home": {
+      "created": {
+        "title": "Você criou uma casa",
+        "message": "Você criou {{home}}. Compartilhe o código para que outros entrem e vincule seus dispositivos."
+      },
+      "joined": {
+        "title": "Você entrou em uma casa",
+        "message": "Agora você é membro de {{home}}."
+      },
+      "member-joined": {
+        "title": "Novo membro",
+        "message": "{{actor}} entrou em {{home}}."
+      },
+      "thresholds-updated": {
+        "title": "Limites atualizados",
+        "message": "{{actor}} alterou os limites de consumo de {{home}}."
+      },
+      "removed-you": {
+        "title": "Você não é mais membro de uma casa",
+        "message": "{{actor}} removeu você de {{home}}."
+      },
+      "member-removed": {
+        "title": "Um membro saiu da casa",
+        "message": "{{subject}} não é mais membro de {{home}}."
+      },
+      "member-left": {
+        "title": "Um membro saiu da casa",
+        "message": "{{actor}} saiu de {{home}}."
+      },
+      "ownership-received": {
+        "title": "Agora você é o proprietário",
+        "message": "{{actor}} transferiu {{home}} para você. Agora você é o proprietário."
+      },
+      "ownership-given": {
+        "title": "Você transferiu uma casa",
+        "message": "{{subject}} agora é o proprietário de {{home}}."
+      },
+      "owner-changed": {
+        "title": "Novo proprietário",
+        "message": "{{subject}} agora é o proprietário de {{home}}."
+      },
+      "deleted-by-you": {
+        "title": "Você excluiu uma casa",
+        "message": "Você excluiu {{home}}. Os dispositivos dela foram desvinculados."
+      },
+      "deleted": {
+        "title": "Uma casa foi excluída",
+        "message": "{{actor}} excluiu {{home}}. Você não é mais membro."
+      }
+    },
+    "device": {
+      "linked": {
+        "title": "Dispositivo vinculado",
+        "message": "{{actor}} vinculou {{device}} a {{home}}.",
+        "messageNoActor": "{{device}} foi vinculado a {{home}}."
+      },
+      "unlinked": {
+        "title": "Dispositivo desvinculado",
+        "message": "{{device}} foi desvinculado de {{home}}."
+      }
     }
   }
 }

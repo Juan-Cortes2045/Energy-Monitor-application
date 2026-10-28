@@ -30,7 +30,8 @@
   "accountDelete": {
     "wrongPassword": "Le mot de passe est incorrect.",
     "lastOwner": "Vous êtes le seul propriétaire d'un foyer qui a encore des membres. Retirez les membres de ces foyers avant de supprimer votre compte.",
-    "failed": "Le compte n'a pas pu être supprimé. Réessayez."
+    "failed": "Le compte n'a pas pu être supprimé. Réessayez.",
+    "wrongCode": "Le code est incorrect ou a expiré."
   },
   "homeCreate": {
     "typeNotFound": "Le type de foyer sélectionné n'existe pas.",
@@ -96,5 +97,12 @@
   "passwordRecovery": {
     "notRegistered": "Aucun compte n'est enregistré avec cette adresse e-mail.",
     "failed": "Nous n'avons pas pu envoyer le code. Réessayez."
+  },
+  "terms": {
+    "required": "Vous devez accepter les conditions générales pour continuer."
+  },
+  "accountDeleteCode": {
+    "unavailable": "Nous ne pouvons pas vous envoyer le code pour le moment. Réessayez plus tard.",
+    "failed": "Le code n'a pas pu être envoyé. Réessayez."
   }
 }

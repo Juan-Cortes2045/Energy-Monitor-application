@@ -1,0 +1,23 @@
+{
+  "navLabel": "Links do rodapé",
+  "tagline": "Meça o consumo de cada aparelho da sua casa e receba um aviso antes que a conta surpreenda você.",
+  "explore": {
+    "title": "Explore",
+    "home": "Início",
+    "howItWorks": "Como funciona",
+    "about": "Sobre nós",
+    "support": "Suporte"
+  },
+  "account": {
+    "title": "Sua conta",
+    "login": "Entrar",
+    "register": "Criar conta"
+  },
+  "legal": {
+    "title": "Legal",
+    "terms": "Termos e condições",
+    "privacy": "Política de privacidade"
+  },
+  "copyright": "© {{year}} EnergyMonitor",
+  "project": "Projeto de formação do SENA, Análise e Desenvolvimento de Software, turma 3145556."
+}

@@ -19,15 +19,25 @@ import {
   listAdminNotifications,
   markAdminNotificationRead,
 } from "../services/admin/adminApi";
+import {
+  deleteActivity,
+  listActivity,
+  markActivityRead,
+  markAllActivityRead,
+  toUiActivity,
+} from "../services/notifications/notificationApi";
 import { usePermissions } from "../services/auth/usePermissions";
+import { ACCOUNT_SCOPE, ALL_SCOPE, inScope } from "./notificationScope";
 
 /**
- * Bandeja de alertas y recomendaciones de todos los hogares del usuario, compartida por la
- * barra lateral (insignia), el aviso emergente y la página de Notificaciones.
+ * Bandeja de alertas, recomendaciones y actividad (bienvenida, hogares y dispositivos) de todos
+ * los hogares del usuario, compartida por la barra lateral (insignia), el aviso emergente y la
+ * página de Notificaciones. La actividad se consulta aunque el usuario aún no tenga hogares: la
+ * bienvenida es de la cuenta.
  *
- * Se consulta cada 30 s. Una alerta pendiente o una recomendación sin leer que no se había visto
- * en este navegador dispara el aviso emergente; las vistas se recuerdan en localStorage para no
- * repetirlo al recargar.
+ * Se consulta cada 30 s. Una alerta pendiente, o una recomendación o actividad sin leer, que no se
+ * había visto en este navegador dispara el aviso emergente; las vistas se recuerdan en
+ * localStorage para no repetirlo al recargar.
  *
  * Una cuenta de administración no tiene hogares: para ella la bandeja son sus notificaciones de
  * administrador (GET /admin/notifications) y el contador cuenta las no leídas.
@@ -62,6 +72,7 @@ export const NotificationCenterProvider = ({ children }) => {
   const [adminNotifications, setAdminNotifications] = useState([]);
   const [alerts, setAlerts] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
+  const [activity, setActivity] = useState([]);
   const [error, setError] = useState(null);
   const [toasts, setToasts] = useState([]);
   const [attempt, setAttempt] = useState(0);
@@ -101,16 +112,21 @@ export const NotificationCenterProvider = ({ children }) => {
 
   useEffect(() => {
     let cancelled = false;
-    if (isAdmin || homes.length === 0) return undefined;
+    if (isAdmin) return undefined;
+    const homeNames = new Map(homes.map((h) => [h.idHome, h.name]));
     const alertsOf = (h) => listAlerts(h.idHome).then((list) => list.map((a) => toUiAlert(a, h.name)));
     const recommendationsOf = (h) =>
       listRecommendations(h.idHome).then((list) => list.map((r) => toUiRecommendation(r, h.name)));
-    Promise.all([Promise.all(homes.map(alertsOf)), Promise.all(homes.map(recommendationsOf))])
-      .then(([alertLists, recommendationLists]) => {
+    Promise.all([
+      Promise.all(homes.map(alertsOf)),
+      Promise.all(homes.map(recommendationsOf)),
+      listActivity().then((list) => list.map((n) => toUiActivity(n, homeNames))),
+    ])
+      .then(([alertLists, recommendationLists, loadedActivity]) => {
         if (cancelled) return;
         const loadedAlerts = alertLists.flat();
         const loadedRecommendations = recommendationLists.flat();
-        const all = [...loadedAlerts, ...loadedRecommendations];
+        const all = [...loadedAlerts, ...loadedRecommendations, ...loadedActivity];
         if (seenRef.current == null) {
           const stored = readSeen();
           if (stored == null) {
@@ -128,6 +144,7 @@ export const NotificationCenterProvider = ({ children }) => {
         }
         setAlerts(loadedAlerts);
         setRecommendations(loadedRecommendations);
+        setActivity(loadedActivity);
         setError(null);
       })
       .catch((err) => !cancelled && setError(err));
@@ -148,11 +165,11 @@ export const NotificationCenterProvider = ({ children }) => {
     setAlerts((prev) => prev.filter((a) => a.id !== id));
   }, []);
 
-  /** Todas las resueltas o leídas, de todos los hogares. */
-  const removeAllResolved = useCallback(async () => {
-    const homeIds = [...new Set(alerts.filter((a) => a.resolved).map((a) => a.homeId))];
+  /** Todas las resueltas o leídas, de todos los hogares o del que indique {@code scope}. */
+  const removeAllResolved = useCallback(async (scope) => {
+    const homeIds = [...new Set(alerts.filter((a) => a.resolved && inScope(a, scope)).map((a) => a.homeId))];
     await Promise.all(homeIds.map((homeId) => deleteResolvedAlerts(homeId)));
-    setAlerts((prev) => prev.filter((a) => !a.resolved));
+    setAlerts((prev) => prev.filter((a) => !a.resolved || !inScope(a, scope)));
   }, [alerts]);
 
   /** Recomendaciones: "marcar como leída". */
@@ -161,11 +178,11 @@ export const NotificationCenterProvider = ({ children }) => {
     setRecommendations((prev) => prev.map((r) => (r.id === id ? { ...r, read: true } : r)));
   }, []);
 
-  /** Todas las sin leer, de todos los hogares. */
-  const markAllRecommendationsRead = useCallback(async () => {
-    const unread = recommendations.filter((r) => !r.read);
+  /** Todas las sin leer, de todos los hogares o del que indique {@code scope}. */
+  const markAllRecommendationsRead = useCallback(async (scope) => {
+    const unread = recommendations.filter((r) => !r.read && inScope(r, scope));
     await Promise.all(unread.map((r) => markRecommendationRead(r.id)));
-    setRecommendations((prev) => prev.map((r) => ({ ...r, read: true })));
+    setRecommendations((prev) => prev.map((r) => (inScope(r, scope) ? { ...r, read: true } : r)));
   }, [recommendations]);
 
   /** Una recomendación leída. */
@@ -174,12 +191,46 @@ export const NotificationCenterProvider = ({ children }) => {
     setRecommendations((prev) => prev.filter((r) => r.id !== id));
   }, []);
 
-  /** Todas las leídas, de todos los hogares. */
-  const removeAllReadRecommendations = useCallback(async () => {
-    const homeIds = [...new Set(recommendations.filter((r) => r.read).map((r) => r.homeId))];
+  /** Todas las leídas, de todos los hogares o del que indique {@code scope}. */
+  const removeAllReadRecommendations = useCallback(async (scope) => {
+    const homeIds = [...new Set(recommendations.filter((r) => r.read && inScope(r, scope)).map((r) => r.homeId))];
     await Promise.all(homeIds.map((homeId) => deleteReadRecommendations(homeId)));
-    setRecommendations((prev) => prev.filter((r) => !r.read));
+    setRecommendations((prev) => prev.filter((r) => !r.read || !inScope(r, scope)));
   }, [recommendations]);
+
+  /** Actividad: "marcar como leída". */
+  const markActivityAsRead = useCallback(async (id) => {
+    await markActivityRead(id);
+    setActivity((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
+  }, []);
+
+  /**
+   * Toda la actividad sin leer, de todos los hogares, de uno, o de la cuenta. Las de la cuenta no
+   * tienen hogar con el que pedirlo al servidor de una vez: se marcan una por una.
+   */
+  const markAllActivityAsRead = useCallback(async (scope) => {
+    if (scope === ACCOUNT_SCOPE) {
+      const unread = activity.filter((n) => !n.read && inScope(n, scope));
+      await Promise.all(unread.map((n) => markActivityRead(n.id)));
+    } else {
+      await markAllActivityRead(scope && scope !== ALL_SCOPE ? scope : undefined);
+    }
+    setActivity((prev) => prev.map((n) => (inScope(n, scope) ? { ...n, read: true } : n)));
+  }, [activity]);
+
+  /** Una actividad leída. */
+  const removeActivity = useCallback(async (id) => {
+    await deleteActivity(id);
+    setActivity((prev) => prev.filter((n) => n.id !== id));
+  }, []);
+
+  /** Toda la actividad leída, de todos los hogares o del que indique {@code scope}. */
+  const removeAllReadActivity = useCallback(async (scope) => {
+    const read = activity.filter((n) => n.read && inScope(n, scope));
+    await Promise.all(read.map((n) => deleteActivity(n.id)));
+    const removed = new Set(read.map((n) => n.id));
+    setActivity((prev) => prev.filter((n) => !removed.has(n.id)));
+  }, [activity]);
 
   const markAdminRead = useCallback(async (id) => {
     await markAdminNotificationRead(id);
@@ -203,7 +254,9 @@ export const NotificationCenterProvider = ({ children }) => {
 
   const pendingCount = isAdmin
     ? adminNotifications.filter((n) => !n.read).length
-    : alerts.filter((a) => !a.resolved).length + recommendations.filter((r) => !r.read).length;
+    : alerts.filter((a) => !a.resolved).length +
+      recommendations.filter((r) => !r.read).length +
+      activity.filter((n) => !n.read).length;
 
   // El contador también en el título de la pestaña: se ve aunque esté en segundo plano.
   useEffect(() => {
@@ -225,6 +278,11 @@ export const NotificationCenterProvider = ({ children }) => {
         markAllRecommendationsRead,
         removeRecommendation,
         removeAllReadRecommendations,
+        activity,
+        markActivityRead: markActivityAsRead,
+        markAllActivityRead: markAllActivityAsRead,
+        removeActivity,
+        removeAllReadActivity,
         adminNotifications,
         markAdminRead,
         markAllAdminRead,

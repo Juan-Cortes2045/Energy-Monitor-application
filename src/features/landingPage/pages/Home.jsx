@@ -2,6 +2,7 @@ import Hero from "../components/Hero/Hero";
 import HowItWorks from "../components/HowItWorks/HowItWorks";
 import Benefits from "../components/Benefits/Benefits";
 import Navbar from "../../../components/layout/Navbar/Navbar";
+import Footer from "../../../components/layout/Footer/Footer";
 
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -40,6 +41,7 @@ const Home = () => {
         <HowItWorks id="HowItWorks" />
         <Benefits />
       </main>
+      <Footer />
     </>
   );
 };

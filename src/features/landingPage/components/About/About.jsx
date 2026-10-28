@@ -187,6 +187,7 @@ const About = () => {
           <Button
             variant="primary"
             size="medium"
+            className={styles.ctaButton}
             onClick={() => navigate("/register")}
           >
             {t("cta.primaryButton")}
@@ -195,6 +196,7 @@ const About = () => {
           <Button
             variant="secondary"
             size="medium"
+            className={styles.ctaButton}
             onClick={() => navigate("/login")}
           >
             {t("cta.secondaryButton")}

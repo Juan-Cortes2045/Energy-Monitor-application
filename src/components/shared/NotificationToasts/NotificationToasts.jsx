@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { AlertTriangle, Bell, CircuitBoard, Gauge, Lightbulb, WifiOff, X, Zap } from "lucide-react";
 
 import { useNotificationCenter } from "../../../context/useNotificationCenter";
+import { ACTIVITY_ICONS, FALLBACK_ACTIVITY_ICON } from "../../../features/Notifications/activityIcons";
+import { activityText } from "../../../features/Notifications/activityText";
 import styles from "./NotificationToasts.module.css";
 
 const ICONS = {
@@ -23,7 +25,21 @@ const Toast = ({ alert, onDismiss, onOpen, t }) => {
     return () => clearTimeout(timer);
   }, [alert.id, onDismiss]);
   const Icon =
-    alert.kind === "recommendation" ? Lightbulb : (ICONS[alert.type] ?? ICONS[alert.severity] ?? Bell);
+    alert.kind === "activity"
+      ? (ACTIVITY_ICONS[alert.key] ?? FALLBACK_ACTIVITY_ICON)
+      : alert.kind === "recommendation"
+        ? Lightbulb
+        : (ICONS[alert.type] ?? ICONS[alert.severity] ?? Bell);
+  const { title, message } =
+    alert.kind === "activity"
+      ? activityText(alert, t)
+      : {
+          title: t(`${alert.key}.title`, { defaultValue: t("recommendation.generic.title") }),
+          message: t(`${alert.key}.message`, {
+            home: alert.home,
+            device: alert.device ?? t("recommendation.someDevice"),
+          }),
+        };
   return (
     <div className={`${styles.toast} ${styles[alert.severity] ?? ""}`}>
       <button type="button" className={styles.body} onClick={onOpen}>
@@ -31,15 +47,8 @@ const Toast = ({ alert, onDismiss, onOpen, t }) => {
           <Icon size={18} />
         </span>
         <span>
-          <strong className={styles.title}>
-            {t(`${alert.key}.title`, { defaultValue: t("recommendation.generic.title") })}
-          </strong>
-          <span className={styles.message}>
-            {t(`${alert.key}.message`, {
-              home: alert.home,
-              device: alert.device ?? t("recommendation.someDevice"),
-            })}
-          </span>
+          <strong className={styles.title}>{title}</strong>
+          <span className={styles.message}>{message}</span>
         </span>
       </button>
       <button
@@ -54,7 +63,7 @@ const Toast = ({ alert, onDismiss, onOpen, t }) => {
   );
 };
 
-/** Avisos emergentes de las alertas y recomendaciones que llegan mientras la app está abierta. */
+/** Avisos emergentes de las alertas, recomendaciones y actividad que llegan mientras la app está abierta. */
 const NotificationToasts = () => {
   const { t } = useTranslation("notifications");
   const navigate = useNavigate();

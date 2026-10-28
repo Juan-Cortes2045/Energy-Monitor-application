@@ -4,11 +4,12 @@
     "current": "Notifications"
   },
   "title": "Notifications",
-  "subtitle": "Alertes et recommandations générées à partir de la consommation de vos foyers.",
+  "subtitle": "Alertes, recommandations et nouveautés de votre compte et de vos foyers.",
   "tabs": {
     "all": "Toutes",
     "alerts": "Alertes",
-    "recommendations": "Recommandations"
+    "recommendations": "Recommandations",
+    "activity": "Activité"
   },
   "status": {
     "active": "Active",
@@ -95,6 +96,10 @@
     "recommendations": {
       "title": "Aucune recommandation",
       "description": "Aucune recommandation n'a encore été générée pour vos foyers."
+    },
+    "activity": {
+      "title": "Aucune activité",
+      "description": "Vous verrez ici quand quelqu'un rejoint vos foyers, modifie leurs seuils ou associe un appareil."
     }
   },
   "device": {
@@ -119,6 +124,89 @@
     "monthly": {
       "title": "Limite mensuelle atteinte",
       "message": "« {{home}} » a déjà consommé ce mois-ci la limite mensuelle que vous avez définie."
+    }
+  },
+  "filter": {
+    "label": "Foyer",
+    "all": "Tous les foyers",
+    "account": "Compte"
+  },
+  "activity": {
+    "quoted": "« {{name}} »",
+    "yourHome": "votre foyer",
+    "someone": "Quelqu'un",
+    "aMember": "Un membre",
+    "aDevice": "un appareil",
+    "generic": {
+      "title": "Nouveautés dans Energy Monitor",
+      "message": "Il y a du nouveau dans {{home}}."
+    },
+    "account": {
+      "welcome": {
+        "title": "Bienvenue dans Energy Monitor",
+        "message": "Votre compte est prêt. Créez un foyer ou rejoignez-en un avec son code pour commencer à voir la consommation de vos appareils."
+      }
+    },
+    "home": {
+      "created": {
+        "title": "Vous avez créé un foyer",
+        "message": "Vous avez créé {{home}}. Partagez son code pour que d'autres le rejoignent, et associez vos appareils."
+      },
+      "joined": {
+        "title": "Vous avez rejoint un foyer",
+        "message": "Vous êtes maintenant membre de {{home}}."
+      },
+      "member-joined": {
+        "title": "Nouveau membre",
+        "message": "{{actor}} a rejoint {{home}}."
+      },
+      "thresholds-updated": {
+        "title": "Seuils mis à jour",
+        "message": "{{actor}} a modifié les seuils de consommation de {{home}}."
+      },
+      "removed-you": {
+        "title": "Vous n'êtes plus membre d'un foyer",
+        "message": "{{actor}} vous a retiré de {{home}}."
+      },
+      "member-removed": {
+        "title": "Un membre a quitté le foyer",
+        "message": "{{subject}} n'est plus membre de {{home}}."
+      },
+      "member-left": {
+        "title": "Un membre a quitté le foyer",
+        "message": "{{actor}} a quitté {{home}}."
+      },
+      "ownership-received": {
+        "title": "Vous êtes maintenant le propriétaire",
+        "message": "{{actor}} vous a transféré {{home}}. Vous en êtes maintenant le propriétaire."
+      },
+      "ownership-given": {
+        "title": "Vous avez transféré un foyer",
+        "message": "{{subject}} est maintenant le propriétaire de {{home}}."
+      },
+      "owner-changed": {
+        "title": "Nouveau propriétaire",
+        "message": "{{subject}} est maintenant le propriétaire de {{home}}."
+      },
+      "deleted-by-you": {
+        "title": "Vous avez supprimé un foyer",
+        "message": "Vous avez supprimé {{home}}. Ses appareils ont été dissociés."
+      },
+      "deleted": {
+        "title": "Un foyer a été supprimé",
+        "message": "{{actor}} a supprimé {{home}}. Vous n'en êtes plus membre."
+      }
+    },
+    "device": {
+      "linked": {
+        "title": "Appareil associé",
+        "message": "{{actor}} a associé {{device}} à {{home}}.",
+        "messageNoActor": "{{device}} a été associé à {{home}}."
+      },
+      "unlinked": {
+        "title": "Appareil dissocié",
+        "message": "{{device}} a été dissocié de {{home}}."
+      }
     }
   }
 }

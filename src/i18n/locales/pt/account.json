@@ -27,11 +27,17 @@
     "title": "Excluir conta",
     "message": "Esta ação é permanente: você perderá o acesso à sua conta e aos seus dados. Tem certeza de que deseja continuar?",
     "confirm": "Sim, excluir",
-    "password": "Confirme sua senha"
+    "password": "Confirme sua senha",
+    "googleMessage": "Sua conta usa o Google, então não tem senha. Para confirmar, enviaremos um código para {{email}}.",
+    "sendCode": "Enviar o código",
+    "resendCode": "Enviar outro código",
+    "code": "Código de 6 dígitos",
+    "codeSent": "Enviamos um código para {{email}}. Ele vence em 15 minutos."
   },
   "photoSaved": "Foto atualizada.",
   "photoError": "Não foi possível salvar a foto. Tente novamente.",
   "editField": "Editar {{field}}",
   "avatarAlt": "Sua foto de perfil",
-  "photoViewError": "Não foi possível abrir a foto. Tente novamente."
+  "photoViewError": "Não foi possível abrir a foto. Tente novamente.",
+  "passwordGoogle": "Você entra com o Google: o Google gerencia sua senha."
 }

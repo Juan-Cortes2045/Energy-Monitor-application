@@ -1,13 +1,19 @@
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { X } from "lucide-react";
+import Button from "../../../../design/components/Button/Button.jsx";
 import styles from "./LegalModal.module.css";
 
 const TABS = ["terms", "privacy"];
 const FOCUSABLE =
   'button:not([disabled]), [href], input:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-const LegalModal = ({ isOpen, activeTab = "terms", onTabChange, onClose }) => {
+/**
+ * Términos y política de privacidad. Con `onAccept` es además el paso de aceptación: muestra
+ * "Cancelar" (onClose) y "Acepto" (onAccept), y es lo que se pide antes de crear o usar una
+ * cuenta que nunca los aceptó.
+ */
+const LegalModal = ({ isOpen, activeTab = "terms", onTabChange, onClose, onAccept }) => {
   const { t } = useTranslation("legalModal");
   const cardRef = useRef(null);
   const closeRef = useRef(null);
@@ -138,6 +144,20 @@ const LegalModal = ({ isOpen, activeTab = "terms", onTabChange, onClose }) => {
 
           <p className={styles.footer}>{doc.footer}</p>
         </div>
+
+        {onAccept && (
+          <div className={styles.consent}>
+            <p className={styles.consentText}>{t("consent.text")}</p>
+            <div className={styles.consentActions}>
+              <Button type="button" variant="secondary" onClick={onClose}>
+                {t("consent.cancel")}
+              </Button>
+              <Button type="button" onClick={onAccept}>
+                {t("consent.accept")}
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -4,11 +4,12 @@
     "current": "Notifications"
   },
   "title": "Notifications",
-  "subtitle": "Alerts and recommendations generated from your homes' consumption.",
+  "subtitle": "Alerts, recommendations and news about your account and your homes.",
   "tabs": {
     "all": "All",
     "alerts": "Alerts",
-    "recommendations": "Recommendations"
+    "recommendations": "Recommendations",
+    "activity": "Activity"
   },
   "status": {
     "active": "Active",
@@ -95,6 +96,10 @@
     "recommendations": {
       "title": "No recommendations",
       "description": "There are no recommendations generated for your homes yet."
+    },
+    "activity": {
+      "title": "No activity",
+      "description": "You'll see here when someone joins your homes, changes their thresholds or links a device."
     }
   },
   "device": {
@@ -119,6 +124,89 @@
     "monthly": {
       "title": "Monthly limit reached",
       "message": "\"{{home}}\" has already used this month the monthly limit you set."
+    }
+  },
+  "filter": {
+    "label": "Home",
+    "all": "All homes",
+    "account": "Account"
+  },
+  "activity": {
+    "quoted": "\"{{name}}\"",
+    "yourHome": "your home",
+    "someone": "Someone",
+    "aMember": "A member",
+    "aDevice": "a device",
+    "generic": {
+      "title": "News in Energy Monitor",
+      "message": "There's news in {{home}}."
+    },
+    "account": {
+      "welcome": {
+        "title": "Welcome to Energy Monitor",
+        "message": "Your account is ready. Create a home or join one with its code to start seeing your devices' consumption."
+      }
+    },
+    "home": {
+      "created": {
+        "title": "You created a home",
+        "message": "You created {{home}}. Share its code so others can join, and link your devices."
+      },
+      "joined": {
+        "title": "You joined a home",
+        "message": "You're now a member of {{home}}."
+      },
+      "member-joined": {
+        "title": "New member",
+        "message": "{{actor}} joined {{home}}."
+      },
+      "thresholds-updated": {
+        "title": "Thresholds updated",
+        "message": "{{actor}} changed the consumption thresholds of {{home}}."
+      },
+      "removed-you": {
+        "title": "You're no longer a member of a home",
+        "message": "{{actor}} removed you from {{home}}."
+      },
+      "member-removed": {
+        "title": "A member left the home",
+        "message": "{{subject}} is no longer a member of {{home}}."
+      },
+      "member-left": {
+        "title": "A member left the home",
+        "message": "{{actor}} left {{home}}."
+      },
+      "ownership-received": {
+        "title": "You're now the owner",
+        "message": "{{actor}} transferred {{home}} to you. You're now its owner."
+      },
+      "ownership-given": {
+        "title": "You transferred a home",
+        "message": "{{subject}} is now the owner of {{home}}."
+      },
+      "owner-changed": {
+        "title": "New owner",
+        "message": "{{subject}} is now the owner of {{home}}."
+      },
+      "deleted-by-you": {
+        "title": "You deleted a home",
+        "message": "You deleted {{home}}. Its devices were unlinked."
+      },
+      "deleted": {
+        "title": "A home was deleted",
+        "message": "{{actor}} deleted {{home}}. You're no longer a member."
+      }
+    },
+    "device": {
+      "linked": {
+        "title": "Device linked",
+        "message": "{{actor}} linked {{device}} to {{home}}.",
+        "messageNoActor": "{{device}} was linked to {{home}}."
+      },
+      "unlinked": {
+        "title": "Device unlinked",
+        "message": "{{device}} was unlinked from {{home}}."
+      }
     }
   }
 }

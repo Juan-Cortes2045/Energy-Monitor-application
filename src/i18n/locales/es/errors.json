@@ -30,7 +30,8 @@
   "accountDelete": {
     "wrongPassword": "La contraseña no es correcta.",
     "lastOwner": "Eres el único propietario de un hogar que todavía tiene miembros. Quita a los miembros de esos hogares antes de eliminar tu cuenta.",
-    "failed": "No se pudo eliminar la cuenta. Inténtalo de nuevo."
+    "failed": "No se pudo eliminar la cuenta. Inténtalo de nuevo.",
+    "wrongCode": "El código no es correcto o ya venció."
   },
   "homeCreate": {
     "typeNotFound": "El tipo de hogar seleccionado no existe.",
@@ -96,5 +97,12 @@
   "passwordRecovery": {
     "notRegistered": "No hay ninguna cuenta registrada con ese correo.",
     "failed": "No pudimos enviar el código. Inténtalo de nuevo."
+  },
+  "terms": {
+    "required": "Debes aceptar los términos y condiciones para continuar."
+  },
+  "accountDeleteCode": {
+    "unavailable": "Por ahora no podemos enviarte el código. Inténtalo más tarde.",
+    "failed": "No se pudo enviar el código. Inténtalo de nuevo."
   }
 }

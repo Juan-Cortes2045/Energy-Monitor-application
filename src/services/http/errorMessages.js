@@ -11,16 +11,22 @@
 
 /** Claves por operación y status. `default` cubre cualquier otro status. */
 const OPERATIONS = {
-  login: { 401: "login.invalidCredentials", 403: "login.inactive" },
+  login: { 401: "login.invalidCredentials", 403: "login.inactive", 428: "terms.required" },
   googleLogin: {
     401: "googleLogin.rejected",
+    428: "terms.required",
     403: "login.inactive",
     409: "googleLogin.emailTaken",
     503: "googleLogin.unavailable",
     default: "googleLogin.failed",
   },
   // 400: correo mal formado o cuyo dominio no existe o no recibe correo.
-  register: { 400: "register.invalidEmail", 409: "register.emailTaken", 422: "password.policy" },
+  register: {
+    400: "register.invalidEmail",
+    409: "register.emailTaken",
+    422: "password.policy",
+    428: "terms.required",
+  },
   passwordRecovery: { 404: "passwordRecovery.notRegistered", default: "passwordRecovery.failed" },
   passwordReset: { 422: "password.policy", default: "passwordReset.failed" },
   passwordChange: {
@@ -29,9 +35,16 @@ const OPERATIONS = {
     default: "passwordChange.failed",
   },
   accountDelete: {
+    400: "accountDelete.wrongCode",
     401: "accountDelete.wrongPassword",
     409: "accountDelete.lastOwner",
+    429: "generic.rateLimited",
     default: "accountDelete.failed",
+  },
+  // 503: el correo con el código aún no se puede enviar (lo hará el servicio de notificaciones).
+  accountDeleteCode: {
+    503: "accountDeleteCode.unavailable",
+    default: "accountDeleteCode.failed",
   },
   homeCreate: { 404: "homeCreate.typeNotFound", 409: "homeCreate.codeCollision" },
   homeJoin: { 404: "homeJoin.codeNotFound", 409: "homeJoin.alreadyMember" },

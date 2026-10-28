@@ -110,6 +110,37 @@
   background-color: var(--color-primary);
 }
 
+/* ── Filtro por hogar ────────────────────────────────────────────── */
+.scopeFilter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 var(--spacing-xs);
+}
+
+.scopeLabel {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-secondary);
+}
+
+.scopeSelect {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 5px 8px;
+  max-width: 220px;
+  cursor: pointer;
+}
+
+.scopeSelect:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
 .markAllBtn {
   display: inline-flex;
   align-items: center;
@@ -334,6 +365,21 @@
   .gridBox {
     margin: 0 var(--spacing-md) var(--spacing-md);
   }
+
+  .tabs {
+    flex-wrap: wrap;
+    max-width: 100%;
+  }
+
+  .scopeFilter {
+    flex: 1 1 100%;
+  }
+
+  .scopeSelect {
+    flex: 1;
+    max-width: none;
+  }
+
   .row {
     display: grid;
     grid-template-columns: 36px 1fr;
