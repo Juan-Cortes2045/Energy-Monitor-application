@@ -1,0 +1,63 @@
+{
+  "title": "Documentation",
+  "subtitle": {
+    "user": "Quick guide to using EnergyMonitor at home.",
+    "admin": "Guide to administering the platform."
+  },
+  "user": [
+    {
+      "title": "Create your account",
+      "body": "Sign up with your email and a password, accept the terms and enter the six-digit code sent to your email. You can also sign in with Google. The account is created once the email is verified."
+    },
+    {
+      "title": "Homes",
+      "body": "Create a home or join one with the access code its owner shared with you. The owner can invite people, remove members, transfer the home and set the daily and monthly consumption limits. Mark homes as favorites to find them quickly."
+    },
+    {
+      "title": "Link a meter",
+      "body": "In the home, open Devices and choose Link. It is done over Bluetooth: the meter receives your Wi-Fi network and connects. You will see whether it is online and when it sent its last reading."
+    },
+    {
+      "title": "Consumption and history",
+      "body": "The dashboard shows the current power, today's and this month's consumption and a chart of the last 24 hours. The history lets you pick a date range and see consumption per device."
+    },
+    {
+      "title": "Alerts and recommendations",
+      "body": "You get an alert when the home exceeds its limit, when a meter disconnects or when an appliance uses far more than usual. Saving recommendations come from your own consumption."
+    },
+    {
+      "title": "Notifications",
+      "body": "In Settings you choose whether alerts arrive by email, in the browser or both. In the browser they work with the tab closed; in Brave you must turn on Google services for push messaging in brave://settings/privacy."
+    },
+    {
+      "title": "My account",
+      "body": "Change your first name, last name and photo, and enlarge the photo without leaving the page. You can change your password or delete the account: with your password, or with a code sent by email if you signed in with Google."
+    },
+    {
+      "title": "Technical support",
+      "body": "If something does not work, open Support in the menu: search the frequently asked questions or write to an administrator from there, without leaving the application."
+    }
+  ],
+  "admin": [
+    {
+      "title": "Administration panel",
+      "body": "It lists the platform's accounts with their status and roles. An administration account only uses administration, its notifications and settings: it has no homes or devices."
+    },
+    {
+      "title": "Account status",
+      "body": "You can activate, deactivate or block an account. An account that is not active cannot sign in. You cannot change your own status or your own roles."
+    },
+    {
+      "title": "Roles",
+      "body": "Grant or remove the administrator role of another account. Two administrators cannot remove each other's role at the same time, so the platform never ends up with none."
+    },
+    {
+      "title": "Administrator notices",
+      "body": "You get a notice when an account registers and when another administrator changes a status or a role. Notices are in Notifications."
+    },
+    {
+      "title": "Support for users",
+      "body": "Administrators are the support contact: users write to you from the Support screen of their account. Reply by email; this account does not create support requests."
+    }
+  ]
+}

@@ -38,6 +38,6 @@
   "photoError": "Impossible d'enregistrer la photo. Réessayez.",
   "editField": "Modifier : {{field}}",
   "avatarAlt": "Votre photo de profil",
-  "photoViewError": "Impossible d'ouvrir la photo. Réessayez.",
-  "passwordGoogle": "Vous vous connectez avec Google : c'est Google qui gère votre mot de passe."
+  "passwordGoogle": "Vous vous connectez avec Google : c'est Google qui gère votre mot de passe.",
+  "closePhoto": "Fermer la photo"
 }

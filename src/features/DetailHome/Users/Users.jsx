@@ -5,6 +5,8 @@ import { Crown, X } from "lucide-react";
 import Card from "../../../design/components/Card/Card";
 import styles from "./Users.module.css";
 import { useTranslation } from "react-i18next";
+import PhotoViewer from "../../../components/shared/PhotoViewer/PhotoViewer";
+import { safeImage } from "../../../components/shared/PhotoViewer/safeImage";
 
 import { useMembers } from "../hooks/useMembers";
 import { useHomes } from "../../../context/useHomes";
@@ -22,18 +24,36 @@ const fullName = (user) => [user.name, user.lastName].filter(Boolean).join(" ");
 
 const AVATAR_COLORS = ["blue", "green", "amber", "purple"];
 
-const Avatar = ({ name, lastName, index }) => (
-  <div
-    className={`${styles.avatar} ${styles[`avatar_${AVATAR_COLORS[index % AVATAR_COLORS.length]}`]}`}
-    aria-hidden="true"
-  >
-    {getInitials(name, lastName)}
-  </div>
-);
+const Avatar = ({ name, lastName, index, image, label, onView }) => {
+  const safe = safeImage(image);
+  if (safe) {
+    // Con foto, la imagen se puede ampliar sin salir de la página.
+    return (
+      <button type="button" className={styles.avatarBtn} onClick={onView} aria-label={label} title={label}>
+        <img src={safe} alt="" className={styles.avatarImg} />
+      </button>
+    );
+  }
+  return (
+    <div
+      className={`${styles.avatar} ${styles[`avatar_${AVATAR_COLORS[index % AVATAR_COLORS.length]}`]}`}
+      aria-hidden="true"
+    >
+      {getInitials(name, lastName)}
+    </div>
+  );
+};
 
-const UserRow = ({ user, index, isOwner, onRemove, onTransfer, removing = false, t }) => (
+const UserRow = ({ user, index, isOwner, onRemove, onTransfer, onViewPhoto, removing = false, t }) => (
   <div className={styles.userRow}>
-    <Avatar name={user.name} lastName={user.lastName} index={index} />
+    <Avatar
+      name={user.name}
+      lastName={user.lastName}
+      index={index}
+      image={user.profileImage}
+      label={t("actions.viewPhoto", { name: fullName(user) })}
+      onView={() => onViewPhoto(user)}
+    />
     <div className={styles.userInfo}>
       <p className={styles.userName}>{fullName(user)}</p>
       <p className={styles.userEmail}>{user.email}</p>
@@ -90,6 +110,8 @@ const toRow = (member, me) => {
     lastName: member.lastName || (isMe ? me.lastName : ""),
     email: member.email || (isMe ? me.email : ""),
     role: member.role === "OWNER" ? "owner" : "member",
+    // La foto de quien está en sesión puede ser más reciente que la de la lista.
+    profileImage: member.profileImage || (isMe ? me.profileImage : null) || null,
   };
 };
 
@@ -105,6 +127,7 @@ const Users = ({ home, isOwner = false }) => {
   const [transferring, setTransferring] = useState(false);
   const [transferError, setTransferError] = useState(null);
   const [transferredTo, setTransferredTo] = useState(null);
+  const [photoUser, setPhotoUser] = useState(null);
 
   const me = getCurrentPerson();
   const rows = members.map((m) => toRow(m, me));
@@ -177,6 +200,7 @@ const Users = ({ home, isOwner = false }) => {
                     isOwner={isOwner}
                     onRemove={setConfirmingUser}
                     onTransfer={openTransfer}
+                    onViewPhoto={setPhotoUser}
                     removing={removingId === user.id}
                     t={t}
                   />
@@ -206,6 +230,15 @@ const Users = ({ home, isOwner = false }) => {
             </div>
           </Card>
         </div>
+      )}
+
+      {photoUser && (
+        <PhotoViewer
+          src={photoUser.profileImage}
+          alt={fullName(photoUser)}
+          closeLabel={t("actions.closePhoto")}
+          onClose={() => setPhotoUser(null)}
+        />
       )}
 
       {confirmingUser && (

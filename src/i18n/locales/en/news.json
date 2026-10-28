@@ -1,0 +1,12 @@
+{
+  "title": "What's new",
+  "subtitle": "The latest additions and fixes in EnergyMonitor.",
+  "current": "Version {{version}} · released on {{date}}",
+  "empty": "There are no recorded changes for this version yet.",
+  "note": "This list updates itself with every new version of the application.",
+  "types": {
+    "new": "New",
+    "improvement": "Improvement",
+    "fix": "Fix"
+  }
+}

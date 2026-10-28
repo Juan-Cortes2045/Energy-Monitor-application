@@ -1,0 +1,63 @@
+{
+  "title": "Documentation",
+  "subtitle": {
+    "user": "Guide rapide pour utiliser EnergyMonitor chez vous.",
+    "admin": "Guide d'administration de la plateforme."
+  },
+  "user": [
+    {
+      "title": "Créer votre compte",
+      "body": "Inscrivez-vous avec votre e-mail et un mot de passe, acceptez les conditions et saisissez le code à six chiffres reçu par e-mail. Vous pouvez aussi vous connecter avec Google. Le compte est créé une fois l'e-mail vérifié."
+    },
+    {
+      "title": "Foyers",
+      "body": "Créez un foyer ou rejoignez-en un avec le code d'accès partagé par son responsable. Le responsable peut inviter, retirer des membres, transférer le foyer et fixer les limites quotidienne et mensuelle. Marquez vos foyers favoris pour les retrouver vite."
+    },
+    {
+      "title": "Associer un compteur",
+      "body": "Dans le foyer, ouvrez Appareils et choisissez Associer. Cela se fait en Bluetooth : le compteur reçoit votre réseau Wi-Fi et se connecte. Vous voyez s'il est en ligne et quand il a envoyé sa dernière mesure."
+    },
+    {
+      "title": "Consommation et historique",
+      "body": "Le tableau de bord montre la puissance actuelle, la consommation du jour et du mois et un graphique des dernières 24 heures. L'historique permet de choisir une période et de voir la consommation par appareil."
+    },
+    {
+      "title": "Alertes et recommandations",
+      "body": "Vous recevez une alerte quand le foyer dépasse sa limite, quand un compteur se déconnecte ou quand un appareil consomme bien plus que d'habitude. Les recommandations d'économie viennent de votre propre consommation."
+    },
+    {
+      "title": "Notifications",
+      "body": "Dans Réglages, choisissez si les alertes arrivent par e-mail, dans le navigateur ou les deux. Dans le navigateur elles fonctionnent onglet fermé ; sur Brave, activez les services Google pour la messagerie push dans brave://settings/privacy."
+    },
+    {
+      "title": "Mon compte",
+      "body": "Modifiez votre prénom, votre nom et votre photo, et agrandissez la photo sans quitter la page. Vous pouvez changer le mot de passe ou supprimer le compte : avec le mot de passe, ou avec un code reçu par e-mail si vous êtes connecté avec Google."
+    },
+    {
+      "title": "Assistance technique",
+      "body": "Si quelque chose ne fonctionne pas, ouvrez Assistance dans le menu : cherchez dans la FAQ ou écrivez à un administrateur depuis là, sans quitter l'application."
+    }
+  ],
+  "admin": [
+    {
+      "title": "Panneau d'administration",
+      "body": "Il liste les comptes de la plateforme avec leur statut et leurs rôles. Un compte d'administration n'utilise que l'administration, ses notifications et les réglages : il n'a ni foyers ni appareils."
+    },
+    {
+      "title": "Statut des comptes",
+      "body": "Vous pouvez activer, désactiver ou bloquer un compte. Un compte non actif ne peut pas se connecter. Vous ne pouvez pas modifier votre propre statut ni vos propres rôles."
+    },
+    {
+      "title": "Rôles",
+      "body": "Attribuez ou retirez le rôle d'administrateur d'un autre compte. Deux administrateurs ne peuvent pas se retirer le rôle en même temps, pour que la plateforme n'en reste jamais sans."
+    },
+    {
+      "title": "Avis aux administrateurs",
+      "body": "Vous recevez un avis quand un compte s'inscrit et quand un autre administrateur change un statut ou un rôle. Les avis sont dans Notifications."
+    },
+    {
+      "title": "Assistance aux utilisateurs",
+      "body": "Les administrateurs sont le contact d'assistance : les utilisateurs vous écrivent depuis l'écran Assistance de leur compte. Répondez par e-mail ; ce compte ne crée pas de demandes d'assistance."
+    }
+  ]
+}

@@ -37,7 +37,9 @@
       "description": "Alertes dans ce navigateur même onglet fermé",
       "unsupported": "Ce navigateur ne prend pas en charge les notifications push. Sur iPhone, ajoutez le site à l’écran d’accueil.",
       "unavailable": "Les notifications push ne sont pas configurées sur le serveur.",
-      "denied": "Vous avez bloqué les notifications pour ce site. Autorisez-les via le cadenas de la barre d’adresse."
+      "denied": "Vous avez bloqué les notifications pour ce site. Autorisez-les via le cadenas de la barre d’adresse.",
+      "serviceBlocked": "Votre navigateur n'a pas pu s'enregistrer auprès de son service de notifications. Vérifiez votre connexion, les bloqueurs et les réglages de notifications du navigateur, puis réessayez.",
+      "braveBlocked": "Brave désactive les notifications push par défaut. Ouvrez brave://settings/privacy, activez « Utiliser les services Google pour la messagerie push » et redémarrez Brave ; réactivez-les ensuite ici."
     },
     "combined": {
       "title": "Mode combiné",
@@ -52,7 +54,7 @@
     "docs": {
       "title": "Documentation",
       "description": "Guides d'utilisation, références et tutoriels étape par étape",
-      "action": "Ouvrir la documentation"
+      "action": "Voir la documentation"
     },
     "support": {
       "title": "Support technique",
@@ -62,8 +64,16 @@
     "updates": {
       "title": "Nouveautés",
       "description": "Dernières mises à jour, améliorations et corrections",
-      "action": "Voir le journal des modifications"
+      "action": "Voir les nouveautés"
     },
-    "soon": "Bientôt disponible"
+    "close": "Fermer",
+    "supportModal": {
+      "intro": "L'équipe d'administration assure l'assistance d'EnergyMonitor.",
+      "steps": [
+        "Choisissez à qui écrire, s'il y a plusieurs administrateurs.",
+        "Appuyez sur « Créer un ticket » : un e-mail s'ouvre avec l'objet déjà rédigé.",
+        "Décrivez le problème et envoyez-le : on vous répondra par e-mail."
+      ]
+    }
   }
 }

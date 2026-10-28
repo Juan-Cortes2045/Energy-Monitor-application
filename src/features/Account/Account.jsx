@@ -15,6 +15,8 @@ import {
 import { errorMessage } from "../../services/http/errorMessages";
 import { landingPath } from "../../services/auth/session";
 import { useDialogA11y } from "../../hooks/useDialogA11y";
+import PhotoViewer from "../../components/shared/PhotoViewer/PhotoViewer";
+import { safeImage } from "../../components/shared/PhotoViewer/safeImage";
 import { resizeImage } from "./resizeImage";
 import ChangePasswordModal from "./ChangePasswordModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
@@ -22,8 +24,6 @@ import styles from "./Account.module.css";
 
 // Solo se muestran imágenes rasterizadas: un data-URL de otro tipo (HTML, SVG con scripts)
 // abierto en una pestaña se ejecutaría con el origen de la aplicación.
-const SAFE_IMAGE = /^data:image\/(jpeg|png|webp|gif);/i;
-const SAFE_IMAGE_TYPE = /^image\/(jpeg|png|webp|gif)$/i;
 
 const Account = ({ onClose }) => {
   const { t } = useTranslation("account");
@@ -43,11 +43,12 @@ const Account = ({ onClose }) => {
     lastName: person?.lastName ?? "",
     email: person?.email ?? "",
   };
-  const image = SAFE_IMAGE.test(person?.profileImage ?? "") ? person.profileImage : null;
+  const image = safeImage(person?.profileImage);
   const [draft, setDraft] = useState(values);
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [savingPhoto, setSavingPhoto] = useState(false);
+  const [viewing, setViewing] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
   const [modal, setModal] = useState(null); // null | "password" | "delete"
   const dialogRef = useDialogA11y(close);
@@ -107,19 +108,6 @@ const Account = ({ onClose }) => {
       await savePhoto(await resizeImage(file));
     } catch {
       setMessage({ type: "error", text: t("photoError") });
-    }
-  };
-
-  const viewPhoto = async () => {
-    if (!image) return;
-    try {
-      const blob = await (await fetch(image)).blob(); // los data-URL no abren en pestaña nueva
-      if (!SAFE_IMAGE_TYPE.test(blob.type)) return;
-      const url = URL.createObjectURL(blob);
-      window.open(url, "_blank", "noopener");
-      setTimeout(() => URL.revokeObjectURL(url), 60_000); // la pestaña ya la cargó
-    } catch {
-      setMessage({ type: "error", text: t("photoViewError") });
     }
   };
 
@@ -266,7 +254,7 @@ const Account = ({ onClose }) => {
                       <button
                         type="button"
                         onClick={() => {
-                          viewPhoto();
+                          setViewing(true);
                           setOpen(false);
                         }}
                       >
@@ -408,6 +396,14 @@ const Account = ({ onClose }) => {
             setDeleteError("");
           }}
           onConfirm={handleDeleteAccount}
+        />
+      )}
+      {viewing && image && (
+        <PhotoViewer
+          src={image}
+          alt={t("avatarAlt")}
+          closeLabel={t("closePhoto")}
+          onClose={() => setViewing(false)}
         />
       )}
     </div>

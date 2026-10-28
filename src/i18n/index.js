@@ -37,6 +37,8 @@ import esLegalModal from "./locales/es/legalModal.json";
 import esFooter from "./locales/es/footer.json";
 import esErrors from "./locales/es/errors.json";
 import esAdmin from "./locales/es/admin.json";
+import esDocs from "./locales/es/docs.json";
+import esNews from "./locales/es/news.json";
 
 // Inglés
 
@@ -74,6 +76,8 @@ import enLegalModal from "./locales/en/legalModal.json";
 import enFooter from "./locales/en/footer.json";
 import enErrors from "./locales/en/errors.json";
 import enAdmin from "./locales/en/admin.json";
+import enDocs from "./locales/en/docs.json";
+import enNews from "./locales/en/news.json";
 
 // Frances
 
@@ -111,6 +115,8 @@ import frLegalModal from "./locales/fr/legalModal.json";
 import frFooter from "./locales/fr/footer.json";
 import frErrors from "./locales/fr/errors.json";
 import frAdmin from "./locales/fr/admin.json";
+import frDocs from "./locales/fr/docs.json";
+import frNews from "./locales/fr/news.json";
 
 // Portugués
 
@@ -148,6 +154,8 @@ import ptLegalModal from "./locales/pt/legalModal.json"
 import ptFooter from "./locales/pt/footer.json";
 import ptErrors from "./locales/pt/errors.json";
 import ptAdmin from "./locales/pt/admin.json";
+import ptDocs from "./locales/pt/docs.json";
+import ptNews from "./locales/pt/news.json";
 
 const SUPPORTED_LANGUAGES = ["es", "en", "fr", "pt"];
 
@@ -204,7 +212,9 @@ i18n.use(initReactI18next).init({
       legalModal: esLegalModal,
       footer: esFooter,
       errors: esErrors,
-      admin: esAdmin
+      admin: esAdmin,
+      docs: esDocs,
+      news: esNews
     },
     en: {
       account: enAccount,
@@ -240,7 +250,9 @@ i18n.use(initReactI18next).init({
       legalModal: enLegalModal,
       footer: enFooter,
       errors: enErrors,
-      admin: enAdmin
+      admin: enAdmin,
+      docs: enDocs,
+      news: enNews
     },
     fr: {
       account: frAccount,
@@ -276,7 +288,9 @@ i18n.use(initReactI18next).init({
       legalModal: frLegalModal,
       footer: frFooter,
       errors: frErrors,
-      admin: frAdmin
+      admin: frAdmin,
+      docs: frDocs,
+      news: frNews
     },
     pt: {
       account: ptAccount,
@@ -312,7 +326,9 @@ i18n.use(initReactI18next).init({
       legalModal: ptLegalModal,
       footer: ptFooter,
       errors: ptErrors,
-      admin: ptAdmin
+      admin: ptAdmin,
+      docs: ptDocs,
+      news: ptNews
     },
   },
 });
