@@ -132,8 +132,7 @@
   },
   "filter": {
     "label": "Foyer",
-    "all": "Tous les foyers",
-    "account": "Compte"
+    "all": "Tous les foyers"
   },
   "activity": {
     "quoted": "« {{name}} »",

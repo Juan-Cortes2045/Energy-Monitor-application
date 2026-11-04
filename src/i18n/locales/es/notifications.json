@@ -132,8 +132,7 @@
   },
   "filter": {
     "label": "Hogar",
-    "all": "Todos los hogares",
-    "account": "Cuenta"
+    "all": "Todos los hogares"
   },
   "activity": {
     "quoted": "\"{{name}}\"",

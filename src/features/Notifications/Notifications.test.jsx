@@ -78,10 +78,10 @@ describe("Notifications", () => {
     expect(screen.getByText("Bienvenido a Energy Monitor")).toBeInTheDocument();
   });
 
-  it("el filtro ofrece cada hogar con sus pendientes y la cuenta", () => {
+  it("el filtro ofrece cada hogar con sus pendientes", () => {
     render(<Notifications />);
     const options = within(filter()).getAllByRole("option").map((o) => o.textContent);
-    expect(options).toEqual(["Todos los hogares (3)", "Casa (2)", "Finca", "Cuenta (1)"]);
+    expect(options).toEqual(["Todos los hogares (3)", "Casa (2)", "Finca"]);
   });
 
   it("filtrar por un hogar deja solo lo de ese hogar y se recuerda", () => {
@@ -94,11 +94,10 @@ describe("Notifications", () => {
     expect(localStorage.getItem(SCOPE_KEY)).toBe(casa.idHome);
   });
 
-  it("la cuenta reúne lo que no es de ningún hogar", () => {
+  it("un alcance de cuenta heredado vuelve a todos", () => {
+    localStorage.setItem(SCOPE_KEY, "account");
     render(<Notifications />);
-    fireEvent.change(filter(), { target: { value: "account" } });
-    expect(screen.getByText("Bienvenido a Energy Monitor")).toBeInTheDocument();
-    expect(screen.queryByText("Consumo alto")).not.toBeInTheDocument();
+    expect(filter()).toHaveValue("all");
   });
 
   it("un hogar recordado que ya no es del usuario vuelve a todos", () => {

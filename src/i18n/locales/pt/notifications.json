@@ -132,8 +132,7 @@
   },
   "filter": {
     "label": "Casa",
-    "all": "Todas as casas",
-    "account": "Conta"
+    "all": "Todas as casas"
   },
   "activity": {
     "quoted": "\"{{name}}\"",

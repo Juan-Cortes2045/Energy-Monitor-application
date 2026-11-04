@@ -27,7 +27,7 @@ import {
   toUiActivity,
 } from "../services/notifications/notificationApi";
 import { usePermissions } from "../services/auth/usePermissions";
-import { ACCOUNT_SCOPE, ALL_SCOPE, inScope } from "./notificationScope";
+import { ALL_SCOPE, inScope } from "./notificationScope";
 
 /**
  * Bandeja de alertas, recomendaciones y actividad (bienvenida, hogares y dispositivos) de todos
@@ -204,19 +204,11 @@ export const NotificationCenterProvider = ({ children }) => {
     setActivity((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
   }, []);
 
-  /**
-   * Toda la actividad sin leer, de todos los hogares, de uno, o de la cuenta. Las de la cuenta no
-   * tienen hogar con el que pedirlo al servidor de una vez: se marcan una por una.
-   */
+  /** Toda la actividad sin leer, de todos los hogares o del que indique {@code scope}. */
   const markAllActivityAsRead = useCallback(async (scope) => {
-    if (scope === ACCOUNT_SCOPE) {
-      const unread = activity.filter((n) => !n.read && inScope(n, scope));
-      await Promise.all(unread.map((n) => markActivityRead(n.id)));
-    } else {
-      await markAllActivityRead(scope && scope !== ALL_SCOPE ? scope : undefined);
-    }
+    await markAllActivityRead(scope && scope !== ALL_SCOPE ? scope : undefined);
     setActivity((prev) => prev.map((n) => (inScope(n, scope) ? { ...n, read: true } : n)));
-  }, [activity]);
+  }, []);
 
   /** Una actividad leída. */
   const removeActivity = useCallback(async (id) => {
