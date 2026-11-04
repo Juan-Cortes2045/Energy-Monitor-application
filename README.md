@@ -45,6 +45,16 @@ Una cuenta con el rol global `ADMIN` solo ve la administración. Es distinto de 
 - **Correo y push:** se configuran en **Configuración → Notificaciones**. El push usa el service worker `public/sw.js` y llega aunque la pestaña esté cerrada. Necesita las claves VAPID en el `.env` del backend (`NOTIFICATION_VAPID_*`) y, como el Bluetooth, `https://` o `localhost`. En iPhone solo funciona con la web instalada en la pantalla de inicio.
 - Las alertas de consumo y de desconexión se resuelven solas cuando el sistema detecta que pasó; los avisos (dispositivo vinculado) y las recomendaciones se marcan como leídos. Lo resuelto o leído se puede eliminar.
 
+## Versión
+
+La versión de la web es el campo `version` de `package.json` (SemVer). Vite la incrusta en el build y **Configuración → Novedades** la muestra junto a la fecha del build y el commit. Antes de cada pull request de `dev` a `main` que se despliegue, súbela con:
+
+```bash
+npm version minor --no-git-tag-version   # patch: solo fixes · minor: funcionalidad nueva · major: cambio que rompe
+```
+
+Eso actualiza `package.json` y `package-lock.json`; se sube en un commit `chore(release): bump web version to X.Y.Z`.
+
 ## Datos simulados
 
 Todo lo que se ve sale del backend salvo las **recomendaciones** de la página de Notificaciones, porque el módulo `recommendation` del backend aún no existe.
