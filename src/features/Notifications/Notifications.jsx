@@ -20,7 +20,7 @@ import ErrorState from "../../components/shared/ErrorState/ErrorState";
 import ConfirmModal from "../../components/shared/ConfirmModal/ConfirmModal";
 import { useHomes } from "../../context/useHomes";
 import { useNotificationCenter } from "../../context/useNotificationCenter";
-import { ACCOUNT_SCOPE, ALL_SCOPE, inScope } from "../../context/notificationScope";
+import { ALL_SCOPE, inScope } from "../../context/notificationScope";
 import AdminNotifications from "../Admin/AdminNotifications";
 import { usePermissions } from "../../services/auth/usePermissions";
 import { ACTIVITY_ICONS, FALLBACK_ACTIVITY_ICON } from "./activityIcons";
@@ -238,8 +238,12 @@ const ActivityRow = ({ item, t, formatDate, onMarkRead, onDelete, busy = false }
         <p className={styles.rowMessage}>{message}</p>
 
         <div className={styles.rowMeta}>
-          <span>{item.home ?? t("filter.account")}</span>
-          <span className={styles.metaDot} />
+          {item.home && (
+            <>
+              <span>{item.home}</span>
+              <span className={styles.metaDot} />
+            </>
+          )}
           <span>{formatDate(item.date)}</span>
         </div>
       </div>
@@ -295,7 +299,7 @@ const HomeNotifications = () => {
 
   // Un hogar que ya no es del usuario (salió o se eliminó) vuelve el filtro a "todos".
   const scope =
-    storedScope === ALL_SCOPE || storedScope === ACCOUNT_SCOPE || homes.some((h) => h.idHome === storedScope)
+    storedScope === ALL_SCOPE || homes.some((h) => h.idHome === storedScope)
       ? storedScope
       : ALL_SCOPE;
   const chooseScope = (next) => {
@@ -421,7 +425,6 @@ const HomeNotifications = () => {
   const scopeOptions = [
     { value: ALL_SCOPE, label: t("filter.all") },
     ...homes.map((h) => ({ value: h.idHome, label: h.name })),
-    { value: ACCOUNT_SCOPE, label: t("filter.account") },
   ];
 
   return (

@@ -132,8 +132,7 @@
   },
   "filter": {
     "label": "Home",
-    "all": "All homes",
-    "account": "Account"
+    "all": "All homes"
   },
   "activity": {
     "quoted": "\"{{name}}\"",
